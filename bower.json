@@ -1,0 +1,26 @@
+{
+  "name": "CodeFriends",
+  "version": "0.0.0",
+  "homepage": "https://github.com/code-friends/CodeFriends",
+  "authors": [
+    "CodeFriends"
+  ],
+  "description": "Remote pair/group programming environment",
+  "main": "client/index.html",
+  "keywords": [
+    "programming",
+    "environment",
+    "pair",
+    "group",
+    "chat",
+    "video"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

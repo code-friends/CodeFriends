@@ -1,0 +1,30 @@
+{
+  "name": "CodeFriends",
+  "version": "1.0.0",
+  "description": "Remote pair/group programming environment",
+  "main": "server/index.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/code-friends/CodeFriends.git"
+  },
+  "keywords": [
+    "programming",
+    "environment",
+    "pair",
+    "group",
+    "chat",
+    "video"
+  ],
+  "author": "CodeFriends",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/code-friends/CodeFriends/issues"
+  },
+  "homepage": "https://github.com/code-friends/CodeFriends",
+  "devDependencies": {
+    "gulp": "^3.8.10"
+  }
+}

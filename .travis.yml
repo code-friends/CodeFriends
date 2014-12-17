@@ -1,0 +1,11 @@
+sudo: false
+language: node_js
+before_install:
+  - npm update -g npm
+before_script:
+  - npm install -g gulp
+node_js:
+  - '0.8'
+  - '0.10'
+notifications:
+  email: false

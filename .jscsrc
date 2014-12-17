@@ -1,0 +1,35 @@
+{
+  "preset": "google",
+
+  "disallowEmptyBlocks": true,
+  "disallowImplicitTypeConversion": [
+    "boolean",
+    "numeric",
+    "string"
+  ],
+  "disallowKeywords": [
+    "continue",
+    "eval",
+    "with"
+  ],
+  "disallowKeywordsOnNewLine": ["else"],
+  "disallowMultipleVarDecl": "exceptUndefined",
+  "disallowPaddingNewlinesInBlocks": true,
+  "disallowQuotedKeysInObjects": true,
+  "disallowSpaceAfterObjectKeys": true,
+  "disallowSpaceBeforePostfixUnaryOperators": true,
+  "disallowSpacesInCallExpression": true,
+  "disallowSpacesInFunction": {
+    "beforeOpeningRoundBrace": true
+  },
+  "disallowTrailingComma": true,
+  "requireCapitalizedConstructors": true,
+  "requireCommaBeforeLineBreak": true,
+  "requireCurlyBraces": true,
+  "requireDotNotation": true,
+  "requireParenthesesAroundIIFE": true,
+  "requireSpaceBeforeBlockStatements": true,
+  "requireSpaceBeforeKeywords": ["else"],
+  "requireSpaceBeforeObjectValues": true,
+  "validateParameterSeparator": ", "
+}
