@@ -8,7 +8,15 @@ var session = require('express-session');
 
 
 function appMiddleware (app){
-  //insert middlewares
+  app.use(bodyParser.urlencoded({extended: true}));
+  app.use(bodyParser.json());
+  app.use(morgan('dev'));
+  app.use(session({
+    secret: 'zfnzkwjehgweghw',
+    resave: false,
+    saveUninitialized: true
+  }));
+  app.use(express.static(__dirname + '/../client'));
 }
 
 exports.express = appMiddleware;

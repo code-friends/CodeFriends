@@ -15,7 +15,7 @@ var db = require('./db');
 var app = express();
 
 //middlewares
-router(app);
+config.express(app);
 
 var port = 8000;
 
