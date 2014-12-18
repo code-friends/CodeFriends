@@ -29,7 +29,7 @@ app
 //set routes
 app
   .use(express.static(__dirname + '/../client'))
-  .use('/api', apiRouter);
+  .use('/api', apiRouter)
   .listen(port);
 
 console.log('listening on port: ' + port);

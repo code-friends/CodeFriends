@@ -1,10 +1,10 @@
 var projectController = require('./projectController.js');
 
-module.exports = function(router){
+var projectRouter = express.Router();
 
-  router.post('/', projectController.PLACEHOLDER );   //NEED TO ADD THE NAME OF THE FUNCTION IN PROJECTCONTROLLER
-  router.get('/', projectController.PLACEHOLDER );    //NEED TO ADD THE NAME OF THE FUNCTION IN PROJECTCONTROLLER
-  router.post('/', projectController.PLACEHOLDER );   //NEED TO ADD THE NAME OF THE FUNCTION IN PROJECTCONTROLLER
-  router.delete('/', projectController.PLACEHOLDER ); //NEED TO ADD THE NAME OF THE FUNCTION IN PROJECTCONTROLLER
+  projectRouter.post('/', projectController.post);  
+  projectRouter.get('/', projectController.get);    
+  projectRouter.put('/', projectController.put);
+  projectRouter.delete('/', projectController.delete);
 
-};
+module.exports = projectRouter;
