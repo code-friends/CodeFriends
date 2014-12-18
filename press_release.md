@@ -1,4 +1,4 @@
-# Project Name #
+# Code Friends #
 
 <!-- 
 > This material was originally posted [here](http://www.quora.com/What-is-Amazons-approach-to-product-development-and-product-management). It is reproduced here for posterities sake.
@@ -16,43 +16,33 @@ Oh, and I also like to write press-releases in what I call "Oprah-speak" for mai
 Once the project moves into development, the press release can be used as a touchstone; a guiding light. The product team can ask themselves, "Are we building what is in the press release?" If they find they're spending time building things that aren't in the press release (overbuilding), they need to ask themselves why. This keeps product development focused on achieving the customer benefits and not building extraneous stuff that takes longer to build, takes resources to maintain, and doesn't provide real customer benefit (at least not enough to warrant inclusion in the press release).
  -->
  
-## Heading ##
-  A centralized platform for quantified-self data and studies
-  > Name the product in a way the reader (i.e. your target customers) will understand.
-
-## Sub-Heading ##
-  > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
-  Data for the people by the people.
+## Code Friends ##
   
+  > A collaborative text editor 
+
 ## Summary ##
-  > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
-  A central platform for people to contribute, and analyze data. Users can upload data about themselves to contribute to ongoing studies.
+  > Code Friends makes remote programming manageable for developers working on group projects by allowing them to pull projects from Github, collaborate in real-time on the same document, and then push the changes to Github 
   
 ## Problem ##
-  > Describe the problem your product solves.
-  There are hundreds of user apps for gathering data about yourself, but there is no way to make this data public to the larger research community.
+  > Programmers often need to edit code with remote partners (e.g., pair programming, code reviews, working through hard problems together, etc.). The current solutions allow one-sided screen sharing to view only one participant's files, but not concurrent editing
 
 ## Solution ##
-  > Describe how your product elegantly solves the problem.
-  SelfHub offer a centralized hub of data schemas with tools for data entry and analysis.
+  > Code Friends provides an environment for multiple people to view and edit the same document in real time via the browser
 
 ## Quote from You ##
-  > A quote from a spokesperson in your company.
-  Creating open science through collaborative c
-  We are taking science out of the lab and putting it into the hands of the people.
+  > "As developers we have constantly faced the problem of working on code with some one that is not in the office. We see Code Friends as a great way to solve this problem"
 
 ## How to Get Started ##
   > Describe how easy it is to get started.
-  1. Register
-  2. Find or create schemas to contribute to
-  3. Start tracking and upload your data
-  
+  1. Login via Github
+  1. Clone your Github repo, add collaborators, and start editing withpeers (video, chat, or just editing)
+  1. Push your edits back to Github
 
 ## Customer Quote ##
-  > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
-  'I used to just blog about my soylent use now I have deep insight into how my soylent formula compares to others' - CP
+  > "I love Code Friends. Coding is finally fun again"
+                                          - Beth Johnson (Toledo, Ohio)
+  
 
 ## Closing and Call to Action ##
-  > Wrap it up and give pointers where the reader should go next.
-  Research isn't for big business anymore it's for you and me.
+  > Sign up for Code Friends and start editing!
 
