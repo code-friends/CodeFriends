@@ -1,27 +1,44 @@
 //dependencies
-//mongoose
-//bookshelf
+var bodyParser = require('body-parser');
+var path = require('path');
+var morgan = require('morgan');
+var marked = require('marked');
+var session = require('express-session');
 var express = require('express');
 
-var config = require('./config');
-var router = require('./api');
+//set routes
+var apiRouter = require('./api');
 var db = require('./db');
 
-//connect to mongoDB
-
-//connect to MySQL
+var port = process.env.PORT || 8000;
 
 //init app
 var app = express();
 
 //middlewares
-config.express(app);
+app
+  .use(bodyParser.urlencoded({extended: true}))
+  .use(bodyParser.json())
+  .use(morgan('dev'))
+  .use(session({
+    secret: 'zfnzkwjehgweghw',
+    resave: false,
+    saveUninitialized: true
+  }));
 
-var port = 8000;
+//set routes
+app
+  .use(express.static(__dirname + '/../client'))
+  .use('/api', apiRouter)
+  .listen(port);
 
-app.listen(port);
 console.log('listening on port: ' + port);
 
 //expose app
 module.exports = app;
+
+
+
+
+
 
