@@ -26,5 +26,17 @@
   "homepage": "https://github.com/code-friends/CodeFriends",
   "devDependencies": {
     "gulp": "^3.8.10"
+  },
+  "dependencies": {
+    "body-parser": "^1.10.0",
+    "bookshelf": "^0.7.9",
+    "express": "^4.10.6",
+    "express-session": "^1.9.3",
+    "knex": "^0.7.3",
+    "marked": "^0.3.2",
+    "mongoose": "^3.8.20",
+    "morgan": "^1.5.0",
+    "mysql": "^2.5.4",
+    "path": "^0.4.9"
   }
 }
