@@ -1,25 +1,16 @@
 //mongoDB
-var mongoose = require('mongoose');
+// //folder architecture for a project
+// var projectSchema = new mongoose.Schema({
+//   projectName: String,
+//   projectFileTree: String // obj_json_str
+// });
 
-//file content
-var fileSchema = new mongoose.Schema({
-  
-  projectName: String,
-  fileName: String,
-  fileContent: String
-
-});
-
-//folder architecture for a project
-var projectSchema = new mongoose.Schema({
-
-  projectName: String,
-  projectFileTree: String
-
-});
+//mongoDB
+  //insert the straight up mongo
 
 //MySQL
 var knex = require('knex')({
+  
   client: 'mysql',
   connection: {
     host: '',
@@ -27,13 +18,16 @@ var knex = require('knex')({
     password: '',
     database: '',
     charset: ''
+  
   }
+
 });
 
 var bookshelf = require('bookshelf')(knex);
 
 var User = bookshelf.Model.extend({
   tableName: 'users'
+  hasTimestamps: true
 });
 
 var Project = bookshelf.Model.extend({
