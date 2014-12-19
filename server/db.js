@@ -22,6 +22,14 @@ var db = knex({
   }
 });
 
+if (process.env.NODE_ENV === 'test') {
+  console.log('Deleting All Tables');
+  db.schema
+    .dropTable('users')
+    .dropTable('projects')
+    .dropTable('users_projects');
+}
+
 //users schema
 db.schema.hasTable('users').then(function (exists) {
   if (!exists) {
@@ -59,20 +67,20 @@ db.schema.hasTable('projects').then(function (exists) {
 //DO WE NEED THIS?? MODELS SHOULD TAKE CARE OF IT
 //creates join table for users and projects
 
-db.schema.hasTable('projects_users').then(function(exists){
-  if(!exists){
-    db.schema.createTable('projects_users', function(projects_users){
-      projects_users.increments('id').primary();
-      projects_users.integer('user_id').unsigned().references('id').inTable('users');
-      projects_users.integer('project_id').unsigned().references('id').inTable('projects');
-      projects_users.timestamps();
-    })
-    .then(function(){
-      console.log('created table: user_projects');
-    })
-    .catch(function(error){
-      console.log('error creating user_projects: ', error);
-    })
+db.schema.hasTable('projects_users').then(function (exists) {
+  if (!exists) {
+    db.schema.createTable('projects_users', function (projectsUsers) {
+        projectsUsers.increments('id').primary();
+        projectsUsers.integer('user_id').unsigned().references('id').inTable('users');
+        projectsUsers.integer('project_id').unsigned().references('id').inTable('projects');
+        projectsUsers.timestamps();
+      })
+      .then(function () {
+        console.log('created table: user_projects');
+      })
+      .catch(function (error) {
+        console.log('error creating user_projects: ', error);
+      });
   }
 });
 

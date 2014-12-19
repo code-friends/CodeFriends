@@ -28,9 +28,15 @@
     "chai": "^1.10.0",
     "gulp": "^3.8.10",
     "should": "^4.4.1",
+<<<<<<< HEAD
     "supertest": "^0.15.0"
+=======
+    "supertest": "^0.15.0",
+    "mysql": "^2.5.4"
+>>>>>>> Add tests for DB
   },
   "dependencies": {
+    "bluebird": "^2.4.0",
     "body-parser": "^1.10.0",
     "bookshelf": "^0.7.9",
     "codemirror": "^4.8.0",
