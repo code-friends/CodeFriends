@@ -8,11 +8,11 @@ var express = require('express');
 
 // Set routes
 var apiRouter = require('./api');
-var db = require('./db');
+// var db = require('./db');
 
 var port = process.env.PORT || 8000;
 var apiRouter = require('./api');
-var auth = require('./auth');
+// var auth = require('./auth');
 
 // Init app
 var app = express();
@@ -29,8 +29,8 @@ app
     resave: false,
     saveUninitialized: true
   }))
-  .use(auth.initialize())
-  .use(auth.session());
+  // .use(auth.initialize())
+  // .use(auth.session());
 
 //set routes
 var port = process.env.PORT || 8000;
