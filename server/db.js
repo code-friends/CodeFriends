@@ -10,16 +10,28 @@
 
 //MySQL
 var knex = require('knex');
-
-//creates database
-var db = knex({
-  client: 'mysql',
-  connection: {
+var connection;
+// Use A Different Database For Testing
+if (process.env.NODE_ENV === 'test') {
+  connection = {
+    host: process.env.DB_HOST || 'localhost',
+    user: 'root',
+    password: '',
+    database: 'code_friends_test',
+  };
+} else {
+  connection = {
     host: process.env.DB_HOST || 'localhost',
     user: 'root',
     password: '',
     database: 'code_friends',
-  }
+  };
+}
+
+//creates database
+var db = knex({
+  client: 'mysql',
+  connection: connection
 });
 
 if (process.env.NODE_ENV === 'test') {
