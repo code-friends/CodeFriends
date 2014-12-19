@@ -9,13 +9,22 @@
   <h4>A collaborative text editor</h4>
 
   <a ui-sref="login">Login</a>
+  <a ui-sref="editor">go to the editor</a>
 
   <div ui-view></div>
 
   <script src="/lib/angular/angular.js"></script>
   <script src="/lib/angular-ui-router/release/angular-ui-router.js"></script>
   <script src="/app/login/login.js"></script>
+  <script src="/app/editor/editor.js"></script>
   <script src="/app/app.js"></script>
+  <script src="/assets/js/codemirror.js"></script>
+  <script src="/assets/js/share-codemirror.js"></script>
+  <script src="/assets/js/share.js"></script>
+  <script src="/assets/js/mode-javascript.js"></script>
+
+  <link rel="stylesheet" href="/assets/css/codemirror.css">
+
   <!-- // <script src="/lib/dist/oauth.js"></script> -->
 </body>
 </html>
