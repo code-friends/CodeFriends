@@ -24,54 +24,54 @@ var db = knex({
 });
 
 //users schema
-db.schema.hasTable('users').then(function(exists){
-  if(!exists){
-    db.schema.createTable('users', function(user){
-      user.increments('id').primary();
-      user.string('username', 255);
-      user.timestamps();
-    })
-    .then(function(){
-      console.log('created table: users');
-    })
-    .catch(function(error){
-      console.log('error creating users: ', error);
-    })
+db.schema.hasTable('users').then(function (exists) {
+  if (!exists) {
+    db.schema.createTable('users', function (user) {
+        user.increments('id').primary();
+        user.string('username', 255);
+        user.timestamps();
+      })
+      .then(function () {
+        console.log('created table: users');
+      })
+      .catch(function (error) {
+        console.log('error creating users: ', error);
+      });
   }
 });
 
 //projects schema
-db.schema.hasTable('projects').then(function(exists){
-  if(!exists){
-    db.schema.createTable('projects', function(project){
-      project.increments('id').primary();
-      project.string('project_name', 255);
-      project.timestamps();
-    })
-    .then(function(){
-      console.log('created table: projects');
-    })
-    .catch(function(error){
-      console.log('error creating projects: ', error);
-    })
+db.schema.hasTable('projects').then(function (exists) {
+  if (!exists) {
+    db.schema.createTable('projects', function (project) {
+        project.increments('id').primary();
+        project.string('project_name', 255);
+        project.timestamps();
+      })
+      .then(function () {
+        console.log('created table: projects');
+      })
+      .catch(function (error) {
+        console.log('error creating projects: ', error);
+      });
   }
 });
 
 //creates join table for users and projects
-db.schema.hasTable('users_projects').then(function(exists){
-  if(!exists){
-    db.schema.createTable('users_projects', function(users_projects){
-      users_projects.increments('id').primary();
-      users_projects.integer('user_id').unsigned().references('id').inTable('users');
-      users_projects.integer('project_id').unsigned().references('id').inTable('projects');
-      users_projects.timestamps();
-    })
-    .then(function(){
-      console.log('created table: user_projects');
-    })
-    .catch(function(error){
-      console.log('error creating user_projects: ', error);
-    })
+db.schema.hasTable('users_projects').then(function (exists) {
+  if (!exists) {
+    db.schema.createTable('users_projects', function (userProjects) {
+        userProjects.increments('id').primary();
+        userProjects.integer('user_id').unsigned().references('id').inTable('users');
+        userProjects.integer('project_id').unsigned().references('id').inTable('projects');
+        userProjects.timestamps();
+      })
+      .then(function () {
+        console.log('created table: user_projects');
+      })
+      .catch(function (error) {
+        console.log('error creating user_projects: ', error);
+      });
   }
 });
 
@@ -80,6 +80,6 @@ module.exports = bookshelf;
 
 
 //to create database at beginning of project
-  //go to terminal
-  //mysql -u root
-  //create database 'name of database'
+//go to terminal
+//mysql -u root
+//create database 'name of database'
