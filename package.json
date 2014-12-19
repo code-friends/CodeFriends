@@ -25,7 +25,10 @@
   },
   "homepage": "https://github.com/code-friends/CodeFriends",
   "devDependencies": {
-    "gulp": "^3.8.10"
+    "chai": "^1.10.0",
+    "gulp": "^3.8.10",
+    "should": "^4.4.1",
+    "supertest": "^0.15.0"
   },
   "dependencies": {
     "body-parser": "^1.10.0",
@@ -33,6 +36,7 @@
     "express": "^4.10.6",
     "express-session": "^1.9.3",
     "knex": "^0.7.3",
+    "lodash": "^2.4.1",
     "marked": "^0.3.2",
     "moment": "^2.8.4",
     "mongoose": "^3.8.20",
