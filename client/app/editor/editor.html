@@ -1,0 +1,29 @@
+<style>
+  #pad {
+    width: 100%;
+    height: 100%;
+    font-size: 20px;
+    font-family: monaco;
+    background: -webkit-canvas(cursors);
+    background-repeat: no-repeat;
+  }
+</style>
+<script src="/assets/js/codemirror.js"></script>
+<script src="/assets/js/share-codemirror.js"></script>
+<script src="/assets/js/share.js"></script>
+<script src="/assets/js/mode-javascript.js"></script>
+
+<link rel="stylesheet" href="/assets/css/codemirror.css">
+
+<textarea id='pad' autofocus>Connecting...</textarea>
+
+<script>
+CodeMirror.fromTextArea( document.getElementById('pad'), {
+  value: "function myScript(){return 100;}\n",
+  mode:  "javascript", 
+  lineNumbers: true
+}); 
+
+</script> 
+
+
