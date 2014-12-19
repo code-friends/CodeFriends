@@ -1,16 +1,16 @@
-(function(){
+/*global angular:true */
+(function () {
   console.log('app initializing');
-
   angular.module('code', [
-    'ui.router',
-    'code.login',
-    'code.editor',
-    'code.projects',
-    'code.services'
+      'ui.router',
+      'code.login',
+      'code.editor',
+      'code.projects',
+      'code.services'
     ])
-    .config(function($stateProvider, $urlRouterProvider, $httpProvider) {
+    .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
+      console.log('App Config');
       $urlRouterProvider.otherwise('/');
-
       $stateProvider
         .state('login', {
           templateUrl: '/app/login/login.html',
@@ -27,9 +27,9 @@
           url: '/projects'
         })
         .state('editor', {
-          url: "/editor", 
-          controller: "editorController",
-          templateUrl: "/app/editor/editor.html"
+          url: '/editor',
+          controller: 'editorController',
+          templateUrl: '/app/editor/editor.html'
         });
     });
 })();
