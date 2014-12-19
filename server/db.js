@@ -56,6 +56,7 @@ db.schema.hasTable('projects').then(function (exists) {
   }
 });
 
+//DO WE NEED THIS?? MODELS SHOULD TAKE CARE OF IT
 //creates join table for users and projects
 
 db.schema.hasTable('projects_users').then(function(exists){
