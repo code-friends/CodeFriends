@@ -6,39 +6,37 @@ var marked = require('marked');
 var session = require('express-session');
 var express = require('express');
 
-//set routes
+// Set routes
 var apiRouter = require('./api');
 var db = require('./db');
 
 var port = process.env.PORT || 8000;
+var apiRouter = require('./api');
+var auth = require('./auth');
 
-//init app
+// Init app
 var app = express();
 
-//middlewares
+// Middlewares
 app
-  .use(bodyParser.urlencoded({extended: true}))
+  .use(bodyParser.urlencoded({
+    extended: true
+  }))
   .use(bodyParser.json())
   .use(morgan('dev'))
   .use(session({
     secret: 'zfnzkwjehgweghw',
     resave: false,
     saveUninitialized: true
-  }));
+  }))
+  .use(auth.initialize())
+  .use(auth.session());
 
 //set routes
+var port = process.env.PORT || 8000;
 app
   .use(express.static(__dirname + '/../client'))
   .use('/api', apiRouter)
   .listen(port);
 
-console.log('listening on port: ' + port);
-
-//expose app
 module.exports = app;
-
-
-
-
-
-
