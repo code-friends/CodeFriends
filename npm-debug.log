@@ -1,0 +1,160 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   '--save',
+1 verbose cli   'connect,',
+1 verbose cli   'http' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.33
+4 warn package.json path@0.4.9 path is also the name of a node core module.
+5 warn package.json path@0.4.9 No README data
+6 verbose readDependencies using package.json deps
+7 verbose cache add [ 'connect,', null ]
+8 verbose cache add name=undefined spec="connect," args=["connect,",null]
+9 verbose parsed url { protocol: null,
+9 verbose parsed url   slashes: null,
+9 verbose parsed url   auth: null,
+9 verbose parsed url   host: null,
+9 verbose parsed url   port: null,
+9 verbose parsed url   hostname: null,
+9 verbose parsed url   hash: null,
+9 verbose parsed url   search: null,
+9 verbose parsed url   query: null,
+9 verbose parsed url   pathname: 'connect,',
+9 verbose parsed url   path: 'connect,',
+9 verbose parsed url   href: 'connect,' }
+10 verbose cache add [ 'http', null ]
+11 verbose cache add name=undefined spec="http" args=["http",null]
+12 verbose parsed url { protocol: null,
+12 verbose parsed url   slashes: null,
+12 verbose parsed url   auth: null,
+12 verbose parsed url   host: null,
+12 verbose parsed url   port: null,
+12 verbose parsed url   hostname: null,
+12 verbose parsed url   hash: null,
+12 verbose parsed url   search: null,
+12 verbose parsed url   query: null,
+12 verbose parsed url   pathname: 'http',
+12 verbose parsed url   path: 'http',
+12 verbose parsed url   href: 'http' }
+13 silly lockFile c3bed63d-connect connect,
+14 verbose lock connect, /Users/Dphung/.npm/c3bed63d-connect.lock
+15 silly lockFile 77b5f8e3-http http
+16 verbose lock http /Users/Dphung/.npm/77b5f8e3-http.lock
+17 silly lockFile 77b5f8e3-http http
+18 silly lockFile 77b5f8e3-http http
+19 silly lockFile c3bed63d-connect connect,
+20 silly lockFile c3bed63d-connect connect,
+21 verbose addNamed [ 'http', '' ]
+22 verbose addNamed [ null, '*' ]
+23 silly lockFile c1086ff9-http http@
+24 verbose lock http@ /Users/Dphung/.npm/c1086ff9-http.lock
+25 verbose addNamed [ 'connect,', '' ]
+26 verbose addNamed [ null, '*' ]
+27 silly lockFile fc8512e7-connect connect,@
+28 verbose lock connect,@ /Users/Dphung/.npm/fc8512e7-connect.lock
+29 silly addNameRange { name: 'http', range: '*', hasData: false }
+30 silly addNameRange { name: 'connect,', range: '*', hasData: false }
+31 verbose request where is /http
+32 verbose request registry https://registry.npmjs.org/
+33 verbose request id 2ea30978e705c836
+34 verbose url raw /http
+35 verbose url resolving [ 'https://registry.npmjs.org/', './http' ]
+36 verbose url resolved https://registry.npmjs.org/http
+37 verbose request where is https://registry.npmjs.org/http
+38 info trying registry request attempt 1 at 11:02:42
+39 http GET https://registry.npmjs.org/http
+40 verbose request where is /connect,
+41 verbose request registry https://registry.npmjs.org/
+42 verbose url raw /connect,
+43 verbose url resolving [ 'https://registry.npmjs.org/', './connect%2C' ]
+44 verbose url resolved https://registry.npmjs.org/connect%2C
+45 verbose request where is https://registry.npmjs.org/connect%2C
+46 info trying registry request attempt 1 at 11:02:42
+47 http GET https://registry.npmjs.org/connect%2C
+48 http 404 https://registry.npmjs.org/connect%2C
+49 verbose headers { date: 'Fri, 19 Dec 2014 19:02:43 GMT',
+49 verbose headers   server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+49 verbose headers   'content-type': 'application/json',
+49 verbose headers   'cache-control': 'max-age=0',
+49 verbose headers   'content-length': '52',
+49 verbose headers   'accept-ranges': 'bytes',
+49 verbose headers   via: '1.1 varnish',
+49 verbose headers   age: '0',
+49 verbose headers   'x-served-by': 'cache-lax1424-LAX',
+49 verbose headers   'x-cache': 'MISS',
+49 verbose headers   'x-cache-hits': '0',
+49 verbose headers   'x-timer': 'S1419015763.704661,VS0,VE75',
+49 verbose headers   'keep-alive': 'timeout=10, max=50',
+49 verbose headers   connection: 'Keep-Alive' }
+50 silly registry.get cb [ 404,
+50 silly registry.get   { date: 'Fri, 19 Dec 2014 19:02:43 GMT',
+50 silly registry.get     server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+50 silly registry.get     'content-type': 'application/json',
+50 silly registry.get     'cache-control': 'max-age=0',
+50 silly registry.get     'content-length': '52',
+50 silly registry.get     'accept-ranges': 'bytes',
+50 silly registry.get     via: '1.1 varnish',
+50 silly registry.get     age: '0',
+50 silly registry.get     'x-served-by': 'cache-lax1424-LAX',
+50 silly registry.get     'x-cache': 'MISS',
+50 silly registry.get     'x-cache-hits': '0',
+50 silly registry.get     'x-timer': 'S1419015763.704661,VS0,VE75',
+50 silly registry.get     'keep-alive': 'timeout=10, max=50',
+50 silly registry.get     connection: 'Keep-Alive' } ]
+51 silly lockFile fc8512e7-connect connect,@
+52 silly lockFile fc8512e7-connect connect,@
+53 http 200 https://registry.npmjs.org/http
+54 silly registry.get cb [ 200,
+54 silly registry.get   { date: 'Fri, 19 Dec 2014 19:02:43 GMT',
+54 silly registry.get     server: 'CouchDB/1.5.0 (Erlang OTP/R14B04)',
+54 silly registry.get     etag: '"3RCYO05IYVNA6RS7FVYXTKVJ6"',
+54 silly registry.get     'content-type': 'application/json',
+54 silly registry.get     'cache-control': 'max-age=60',
+54 silly registry.get     'content-length': '950',
+54 silly registry.get     'accept-ranges': 'bytes',
+54 silly registry.get     via: '1.1 varnish',
+54 silly registry.get     age: '0',
+54 silly registry.get     'x-served-by': 'cache-lax1430-LAX',
+54 silly registry.get     'x-cache': 'MISS',
+54 silly registry.get     'x-cache-hits': '0',
+54 silly registry.get     'x-timer': 'S1419015763.720420,VS0,VE180',
+54 silly registry.get     vary: 'Accept',
+54 silly registry.get     'keep-alive': 'timeout=10, max=50',
+54 silly registry.get     connection: 'Keep-Alive' } ]
+55 silly addNameRange number 2 { name: 'http', range: '*', hasData: true }
+56 silly addNameRange versions [ 'http', [ '0.0.0' ] ]
+57 verbose addNamed [ 'http', '0.0.0' ]
+58 verbose addNamed [ '0.0.0', '0.0.0' ]
+59 silly lockFile 5c64bf45-http-0-0-0 http@0.0.0
+60 verbose lock http@0.0.0 /Users/Dphung/.npm/5c64bf45-http-0-0-0.lock
+61 silly lockFile a092f7e2-ry-npmjs-org-http-http-0-0-0-tgz https://registry.npmjs.org/http/-/http-0.0.0.tgz
+62 verbose lock https://registry.npmjs.org/http/-/http-0.0.0.tgz /Users/Dphung/.npm/a092f7e2-ry-npmjs-org-http-http-0-0-0-tgz.lock
+63 verbose addRemoteTarball [ 'https://registry.npmjs.org/http/-/http-0.0.0.tgz',
+63 verbose addRemoteTarball   '86e6326d29c5d039de9fac584a45689f929f4f72' ]
+64 info retry fetch attempt 1 at 11:02:43
+65 verbose fetch to= /var/folders/l3/p9_htd2552s0202ssbwq1m040000gn/T/npm-79595-NDU4nHHH/registry.npmjs.org/http/-/http-0.0.0.tgz
+66 http GET https://registry.npmjs.org/http/-/http-0.0.0.tgz
+67 http 200 https://registry.npmjs.org/http/-/http-0.0.0.tgz
+68 silly lockFile a092f7e2-ry-npmjs-org-http-http-0-0-0-tgz https://registry.npmjs.org/http/-/http-0.0.0.tgz
+69 silly lockFile a092f7e2-ry-npmjs-org-http-http-0-0-0-tgz https://registry.npmjs.org/http/-/http-0.0.0.tgz
+70 silly lockFile 5c64bf45-http-0-0-0 http@0.0.0
+71 silly lockFile 5c64bf45-http-0-0-0 http@0.0.0
+72 silly lockFile c1086ff9-http http@
+73 silly lockFile c1086ff9-http http@
+74 error 404 404 Not Found: connect%2C
+74 error 404
+74 error 404 'connect%2C' is not in the npm registry.
+74 error 404 You should bug the author to publish it
+74 error 404 It was specified as a dependency of 'CodeFriends'
+74 error 404
+74 error 404 Note that you can also install from a
+74 error 404 tarball, folder, or http url, or git url.
+75 error System Darwin 13.4.0
+76 error command "node" "/usr/local/bin/npm" "install" "--save" "connect," "http"
+77 error cwd /Users/Dphung/HackReactor/codeFriends
+78 error node -v v0.10.33
+79 error npm -v 1.4.28
+80 error code E404
+81 verbose exit [ 1, true ]
