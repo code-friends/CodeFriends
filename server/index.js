@@ -100,7 +100,9 @@ var port = process.env.PORT || 8000;
 app
   .use(express.static(__dirname + '/../client'))
   .use('/api', apiRouter)
-  .listen(port);
+  .listen(port, function(){
+    console.log('listening on port: ', port);
+  });
 
 module.exports = app;
 

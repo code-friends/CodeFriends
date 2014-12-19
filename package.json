@@ -25,7 +25,10 @@
   },
   "homepage": "https://github.com/code-friends/CodeFriends",
   "devDependencies": {
-    "gulp": "^3.8.10"
+    "chai": "^1.10.0",
+    "gulp": "^3.8.10",
+    "should": "^4.4.1",
+    "supertest": "^0.15.0"
   },
   "dependencies": {
     "body-parser": "^1.10.0",
@@ -35,8 +38,13 @@
     "express": "^4.10.6",
     "express-session": "^1.9.3",
     "knex": "^0.7.3",
+<<<<<<< HEAD
     "livedb": "^0.4.11",
+=======
+    "lodash": "^2.4.1",
+>>>>>>> 71ae7ef8465df06086bc8a739c3883f8d9642851
     "marked": "^0.3.2",
+    "moment": "^2.8.4",
     "mongoose": "^3.8.20",
     "morgan": "^1.5.0",
     "mysql": "^2.5.4",
