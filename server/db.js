@@ -9,7 +9,11 @@
   //insert the straight up mongo
 
 //MySQL
-var knex = require('knex')({
+
+var knex = require('knex');
+
+//creates database
+var db = knex({
   client: 'mysql',
   connection: {
     host: process.env.DB_HOST || 'localhost',
@@ -19,50 +23,37 @@ var knex = require('knex')({
   }
 });
 
-// Table: Users
-db.schema.hasTable('users').then(function (exists) {
-  if (!exists) {
-    db.schema.createTable('users', function (user) {
+//users schema
+db.schema.hasTable('users').then(function(exists){
+  if(!exists){
+    db.schema.createTable('users', function(user){
       user.increments('id').primary();
-      user.string('email', 255); // Not sure if we'll need this
-      user.string('token', 255); // Not sure if we'll need this
-      user.timestamps();
-    }).then(function (table) {
-      console.log('Created Table `users`');
-    }).catch(function (table) {
-      console.log('Cannot Create Table `users`');      
+      user.string('username', 255);
+      user.timeStamps();
+    })
+    .then(function(table){
+      console.log('created table: users');
     })
   }
-});
+})
 
-// Table: Users
-db.schema.hasTable('users').then(function (exists) {
-  if (!exists) {
-    db.schema.createTable('users', function (user) {
-      user.increments('id').primary();
-      user.string('email', 255); // Not sure if we'll need this
-      user.string('token', 255); // Not sure if we'll need this
-      user.timestamps();
-    }).then(function (table) {
-      console.log('Created Table `users`');
-    }).catch(function (table) {
-      console.log('Cannot Create Table `users`');      
+//projects schema
+db.schema.hasTable('projects').then(function(exists){
+  if(!exists){
+    db.schema.createTable('projects', function(project){
+      project.increments('id').primary();
+      project.string('projectname', 255);
+      project.timeStamps();
+    })
+    .then(function(table){
+      console.log('created table: projects');
     })
   }
-});
+})
 
+var bookshelf = require('bookshelf')(db);
+module.exports = bookshelf
 
-var bookshelf = require('bookshelf')(knex);
-
-var User = bookshelf.Model.extend({
-  tableName: 'users'
-  hasTimestamps: true
-});
-
-var Project = bookshelf.Model.extend({
-  tableName: 'projects',
-  hasTimestamps: true
-});
 
 
 
