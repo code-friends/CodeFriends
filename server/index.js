@@ -75,9 +75,6 @@ wss.on('connection', function(client) {
 // Set routes
 var apiRouter = require('./api');
 var db = require('./db');
-
-var port = process.env.PORT || 8000;
-var apiRouter = require('./api');
 var auth = require('./auth');
 
 // Init app
