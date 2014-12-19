@@ -17,9 +17,9 @@ var db = knex({
   client: 'mysql',
   connection: {
     host: process.env.DB_HOST || 'localhost',
-    user: 'admin',
+    user: 'root',
     password: '',
-    database: '',
+    database: 'code_friends',
   }
 });
 
