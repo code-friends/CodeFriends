@@ -78,7 +78,6 @@ db.schema.hasTable('users_projects').then(function (exists) {
 var bookshelf = require('bookshelf')(db);
 module.exports = bookshelf;
 
-
 //to create database at beginning of project
 //go to terminal
 //mysql -u root
