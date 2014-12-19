@@ -1,7 +1,7 @@
 /*global describe:true, it:true */
 var supertest = require('supertest');
 var should = require('should');
-var expect = require('expect');
+var expect = require('chai').expect;
 
 describe('Auth', function () {
 
