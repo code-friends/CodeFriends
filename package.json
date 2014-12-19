@@ -31,15 +31,22 @@
     "body-parser": "^1.10.0",
     "bookshelf": "^0.7.9",
     "codemirror": "^4.8.0",
+    "connect": "^3.3.3",
     "express": "^4.10.6",
     "express-session": "^1.9.3",
     "knex": "^0.7.3",
+    "livedb": "^0.4.11",
     "marked": "^0.3.2",
     "mongoose": "^3.8.20",
     "morgan": "^1.5.0",
     "mysql": "^2.5.4",
+    "optimist": "^0.6.1",
     "passport": "^0.2.1",
     "passport-github": "^0.1.5",
-    "path": "^0.4.9"
+    "path": "^0.4.9",
+    "share": "^0.7.3",
+    "share-codemirror": "^0.1.0",
+    "stream": "0.0.2",
+    "ws": "^0.6.3"
   }
 }
