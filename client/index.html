@@ -4,12 +4,18 @@
   <meta charset="UTF-8">
   <title>Code Friends</title>
 </head>
-<body>
+<body ng-app="code">
   <h1>Code Friends</h1>
-  
+  <h4>A collaborative text editor</h4>
+
+  <a ui-sref="login">Login</a>
+
   <div ui-view></div>
 
   <script src="/lib/angular/angular.js"></script>
   <script src="/lib/angular-ui-router/release/angular-ui-router.js"></script>
+  <script src="/app/login/login.js"></script>
+  <script src="/app/app.js"></script>
+  <!-- // <script src="/lib/dist/oauth.js"></script> -->
 </body>
 </html>
