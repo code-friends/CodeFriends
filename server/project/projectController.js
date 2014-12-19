@@ -1,4 +1,4 @@
-var projectModel = require('./projectModel.js');
+// var projectModel = require('./projectModel.js');
 
 var projectController = {};
 
@@ -7,7 +7,24 @@ projectController.post = function(req, res){
 };
 
 projectController.get = function(req, res){
-  res.status(200).end();
+  //dummy data, currently an array of projects as objects
+  res.json([
+    {
+      name: 'Whatever',
+      createdAt: 'Fri, 19 Dec 2014 00:58:17 GMT'
+    },
+    {
+      name: 'Whatever2',
+      createdAt: 'Tue, 16 Dec 2014 00:58:17 GMT'
+    }
+  ]);
+};
+
+projectController.getProject = function (req, res) {
+  //dummy data
+  res.json({
+    indexhtml: 'htmlcodehtmlcode'
+  });
 };
 
 projectController.put = function(req, res){
