@@ -9,7 +9,6 @@
 //insert the straight up mongo
 
 //MySQL
-
 var knex = require('knex');
 
 //creates database
@@ -58,20 +57,21 @@ db.schema.hasTable('projects').then(function (exists) {
 });
 
 //creates join table for users and projects
-db.schema.hasTable('users_projects').then(function (exists) {
-  if (!exists) {
-    db.schema.createTable('users_projects', function (userProjects) {
-        userProjects.increments('id').primary();
-        userProjects.integer('user_id').unsigned().references('id').inTable('users');
-        userProjects.integer('project_id').unsigned().references('id').inTable('projects');
-        userProjects.timestamps();
-      })
-      .then(function () {
-        console.log('created table: user_projects');
-      })
-      .catch(function (error) {
-        console.log('error creating user_projects: ', error);
-      });
+
+db.schema.hasTable('projects_users').then(function(exists){
+  if(!exists){
+    db.schema.createTable('projects_users', function(projects_users){
+      projects_users.increments('id').primary();
+      projects_users.integer('user_id').unsigned().references('id').inTable('users');
+      projects_users.integer('project_id').unsigned().references('id').inTable('projects');
+      projects_users.timestamps();
+    })
+    .then(function(){
+      console.log('created table: user_projects');
+    })
+    .catch(function(error){
+      console.log('error creating user_projects: ', error);
+    })
   }
 });
 
