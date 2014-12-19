@@ -92,8 +92,8 @@ app
     resave: false,
     saveUninitialized: true
   }))
-  .use(auth.initialize())
-  .use(auth.session());
+  // .use(auth.initialize())
+  // .use(auth.session());
 
 //set routes
 var port = process.env.PORT || 8000;
