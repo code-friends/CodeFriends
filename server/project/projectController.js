@@ -6,8 +6,21 @@ var collections = require('../models.js').collections;
 var projectController = {};
 
 projectController.post = function (req, res) {
-  res.status(201).end();
+
+  var project_name = req.body.project_name;
+
+  if (!project_name) {
+    res.status(400).end();
+  }
+  var newProject = new models.Project({
+      project_name: project_name
+    })
+    .save()
+    .then(function (model) {
+      res.json(model.toJSON());
+    })
 };
+
 
 projectController.getAllProjects = function (req, res) {
   models.Project
@@ -19,9 +32,10 @@ projectController.getAllProjects = function (req, res) {
     });
 };
 
+//MAKE SEARCHABLE BY EITHER ID OR NAME
 projectController.getSpecificProject = function (req, res) {
   models.Project
-    .query('where', 'id', '=', req.params.id)
+    .query('where', 'project_name', '=', req.params.project_name)
     .fetch({
       withRelated: ['user']
     })
@@ -30,13 +44,7 @@ projectController.getSpecificProject = function (req, res) {
     });
 };
 
-// projectController.getProject = function (req, res) {
-//   //dummy data
-//   res.json({
-//     indexhtml: 'htmlcodehtmlcode'
-//   });
-// };
-
+//NOT DONE YET
 projectController.put = function (req, res) {
   //add users
   //add files
