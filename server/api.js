@@ -2,14 +2,9 @@ var projectRouter = require('./project/projectRoutes.js');
 var userRouter = require('./user/userRoutes.js');
 var express = require('express');
 
-module.exports = function router(app){
-  // app.use('/auth', authRouter);
-  app.use('/project', projectRouter);
-  app.use('/user', userRouter);
-  //all other routes go to index.html
+var apiRouter = express.Router();
 
-  app.route('/*')
-    .get(function(req, res){
-      res.sendfile('client/index.html');
-    });
-};
+apiRouter.use('/project', projectRouter);
+apiRouter.use('/user', userRouter);
+
+module.exports = apiRouter;
