@@ -7,8 +7,6 @@ var projectController = {};
 
 projectController.post = function (req, res) {
 
-  // console.log('REQ !!!!!!!!!!!!!!!!!', req.body.project_name);
-  // console.log('RES !!!!!!!!!!!!!!!!!', res);
   var project_name = req.body.project_name;
 
   if (!project_name) {
@@ -19,10 +17,10 @@ projectController.post = function (req, res) {
     })
     .save()
     .then(function (model) {
-      // console.log(json(model.toJSON()));
       res.json(model.toJSON());
     })
 };
+
 
 projectController.getAllProjects = function (req, res) {
   models.Project
@@ -34,6 +32,7 @@ projectController.getAllProjects = function (req, res) {
     });
 };
 
+//MAKE SEARCHABLE BY EITHER ID OR NAME
 projectController.getSpecificProject = function (req, res) {
   models.Project
     .query('where', 'project_name', '=', req.params.project_name)
@@ -45,7 +44,7 @@ projectController.getSpecificProject = function (req, res) {
     });
 };
 
-
+//NOT DONE YET
 projectController.put = function (req, res) {
   //add users
   //add files
