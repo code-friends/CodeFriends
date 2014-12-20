@@ -92,6 +92,8 @@ describe('API', function () {
             .expect(200)
             .end(function (err, res) {
               console.log('RES.BODY !!!!!!!!!!!!!!!!!!', res.body);
+              var project = res.body;
+              project.project_name.should.be.equal.to(_project.project_name);
               done();
             });
         });
