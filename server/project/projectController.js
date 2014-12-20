@@ -5,16 +5,14 @@ var collections = require('../models.js').collections;
 
 var projectController = {};
 
-console.log('got to projectController');
-
 projectController.getAllProjects = function (req, res) {
-  console.log('got into getAllProjects');
   models.Project
     .fetchAll({
       withRelated: ['user']
     })
     .then(function (coll) {
-      res.json(coll.toJSON()).end();
+      console.log(coll.toJSON());
+      res.send(coll.toJSON());
     })
 };
 
@@ -35,7 +33,7 @@ projectController.get = function (req, res) {
   }]);
 };
 
-projectController.getProject = function (req, res) {
+projectController.getSpecificProject = function (req, res) {
   //dummy data
   res.json({
     indexhtml: 'htmlcodehtmlcode'
