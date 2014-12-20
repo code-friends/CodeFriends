@@ -45,6 +45,7 @@ describe('API', function () {
         .get('/api/project')
         .expect(200)
         .end(function (err, res) {
+          // console.log(res.body);
           var projects = res.body;
           projects.should.be.instanceof(Array);
           projects[0].should.have.property('id');
@@ -58,12 +59,13 @@ describe('API', function () {
 
     //SHOULD THIS BE AN OBJECT OR IS THERE A SITUATION WHERE THERE COULD BE MORE THAN ONE????
     //CHANGE SO THAT IT'S /project/:project_name IN ALL THE STUFF. PEOPLE AREN'T GOING TO SEARCH BY ID
-    it('should get a specific project on GET /project/:id', function (done) {
+    it('should get a specific project on GET /project/:project_name', function (done) {
       request(app)
-        .get('/api/project/' + project.get('id'))
+        .get('/api/project/' + project.get('project_name'))
         .expect(200)
         .end(function (err, res) {
           var project = res.body;
+          // console.log('PROJECT !!!!!!!!!!!!!!!', project);
           project.should.be.instanceof(Object);
           project.should.have.property('id');
           project.should.have.property('project_name');
@@ -75,7 +77,7 @@ describe('API', function () {
         });
     });
 
-    it('should create a new project on POST /project', function () {
+    it('should create a new project on POST /project', function (done) {
       request(app)
         .post('/api/project')
         .send({
@@ -83,10 +85,18 @@ describe('API', function () {
         })
         .expect(200)
         .end(function (err, res) {
-          done();
+          console.log('RES !!!!!!!!!!!!!!!!!!!!!!!!', res);
+          var _project = res.body;
+          request(app)
+            .get('/api/project/' + _project.project_name)
+            .expect(200)
+            .end(function (err, res) {
+              console.log('RES.BODY !!!!!!!!!!!!!!!!!!', res.body);
+              done();
+            });
         });
-
     });
+
 
   });
 
