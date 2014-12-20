@@ -9,7 +9,6 @@ before_script:
   - mysql -e 'create database code_friends;'
   - mysql -e 'create database code_friends_test;'
 node_js:
-  - '0.8'
   - '0.10'
 notifications:
   email: false
