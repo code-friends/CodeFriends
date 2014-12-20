@@ -27,10 +27,11 @@ passport.use(new GitHubStrategy({
         .query('where', 'githubAccessToken', '=', accessToken)
         .fetchOne()
         .then(function (user) {
-          if (user) {
-            done(null, user);
-            return user;
-          }
+          if (!user) throw new Error('No User Found');
+          done(null, user);
+          return user;
+        })
+        .catch(function () {
           return new UserCollection()
             .create({
               username: profile._json.login,
@@ -42,13 +43,12 @@ passport.use(new GitHubStrategy({
               githubAvatarUrl: profile._json.avatar_url
             })
             .then(function (user) {
-              if (user) {
-                return done(null, user);
-              }
-              return done(null, null);
+              if (!user) throw new Error('No User Found');
+              return done(null, user);
             });
         })
         .catch(function (err) {
+          console.log('Error:', err);
           return done(null, false);
         });
     }

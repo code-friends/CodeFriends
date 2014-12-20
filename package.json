@@ -32,7 +32,8 @@
     "gulp-uglify": "^1.0.2",
     "gulp-watch": "^3.0.0",
     "should": "^4.4.1",
-    "supertest": "^0.15.0"
+    "supertest": "^0.15.0",
+    "mysql": "^2.5.4"
   },
   "dependencies": {
     "bluebird": "^2.4.0",
