@@ -75,7 +75,16 @@ describe('API', function () {
         });
     });
 
-    xit('should create a new project on POST /project', function () {
+    it('should create a new project on POST /project', function () {
+      request(app)
+        .post('/api/project')
+        .send({
+          project_name: 'basketball'
+        })
+        .expect(200)
+        .end(function (err, res) {
+          done();
+        });
 
     });
 
