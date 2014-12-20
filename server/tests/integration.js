@@ -99,6 +99,7 @@ describe('API', function () {
     });
 
     // CHANGE THIS TO GITHUB HANDLE INSTEAD OF ID!! CHANGE IT IN PROJECT CONTROLLER AND ROUTERS TOO!!!!!
+    // CHANGE THE POST REQUESTS TO ADD ALL THE GITHUB STUFF TOO!!!!!!
     it('should get a specific user on GET /user/:id', function (done) {
       request(app)
         .get('/api/user/2')
