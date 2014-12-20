@@ -1,12 +1,4 @@
-//mongoDB
-// //folder architecture for a project
-// var projectSchema = new mongoose.Schema({
-//   projectName: String,
-//   projectFileTree: String // obj_json_str
-// });
-
-//mongoDB
-//insert the straight up mongo
+var Promise = require('bluebird');
 
 //MySQL
 var knex = require('knex');
@@ -35,11 +27,17 @@ var db = knex({
 });
 
 if (process.env.NODE_ENV === 'test') {
-  console.log('Deleting All Tables');
-  db.schema
-    .dropTable('users')
-    .dropTable('projects')
-    .dropTable('users_projects');
+  Promise.all([
+      db.schema.dropTable('users'),
+      db.schema.dropTable('projects'),
+      db.schema.dropTable('user_projects'),
+    ])
+    .then(function () {
+      console.log('Deleting All Tables');
+    })
+    .catch(function (err) {
+      console.log('Didnt delete talbes:', err);
+    });
 }
 
 //users schema
