@@ -3,10 +3,16 @@
   <h2>Home</h2>
 
   <h3>Projects</h3>
+
+  <form ng-submit='createProject()'>
+    <input type='text' ng-model='newProjectName' name="text" placeholder='New Project'>
+    <input type='submit' id='submit' value='submit'>
+  </form>
+
   <div ui-view="projects"></div>
 
   <h3>Friends</h3>
   <div ui-view="friends"></div>
-  
+
   </div>
 </div>
