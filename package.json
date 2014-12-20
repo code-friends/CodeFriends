@@ -4,7 +4,7 @@
   "description": "Remote pair/group programming environment",
   "main": "server/index.js",
   "scripts": {
-    "test": "gulp test"
+    "test": "export NODE_ENV='test'; mocha server/tests/index"
   },
   "repository": {
     "type": "git",
@@ -28,12 +28,8 @@
     "chai": "^1.10.0",
     "gulp": "^3.8.10",
     "should": "^4.4.1",
-<<<<<<< HEAD
-    "supertest": "^0.15.0"
-=======
     "supertest": "^0.15.0",
     "mysql": "^2.5.4"
->>>>>>> Add tests for DB
   },
   "dependencies": {
     "bluebird": "^2.4.0",
