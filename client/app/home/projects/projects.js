@@ -1,6 +1,5 @@
-angular.module("code.projects", ['ui.router'])
-
-  .controller("projectsController", function ($scope, $state, Projects) {
+angular.module('code.projects', ['ui.router'])
+  .controller('projectsController', function ($scope, $state, Projects) {
     $scope.projects = {};
 
     // on project state initialize, get projects

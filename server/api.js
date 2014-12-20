@@ -3,7 +3,7 @@ var userRouter = require('./user/userRoutes.js');
 var express = require('express');
 
 module.exports = function router(app){
-  app.use('/auth', authRouter);
+  // app.use('/auth', authRouter);
   app.use('/project', projectRouter);
   app.use('/user', userRouter);
   //all other routes go to index.html
@@ -12,4 +12,4 @@ module.exports = function router(app){
     .get(function(req, res){
       res.sendfile('client/index.html');
     });
-}
+};
