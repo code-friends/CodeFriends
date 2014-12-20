@@ -1,19 +1,17 @@
 var authController = {};
 
-authController.login = function (req, res) {
+authController.getUser = function (req, res) {
+  var userId = null;
+  if (req.user && req.user.get('id') && typeof req.user.get('id') === 'number') {
+    userId = req.user.get('id');
+  }
   res.json({
-    userId: 1,
-  });
-};
-
-authController.signup = function (req, res) {
-  res.json({
-    userId: 1,
+    userId: userId,
   });
 };
 
 authController.logout = function (req, res) {
-  console.log('LOGOUT');
+  res.logout();
   res.status(200).end();
 };
 
