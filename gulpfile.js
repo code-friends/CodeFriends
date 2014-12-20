@@ -28,7 +28,7 @@ gulp.task('js', function () {
       './client/app/login/login.js',
       './client/app/projectEditor/editor/editor.js',
       './client/app/projectEditor/editor/editor.js',
-      './client//app/app.js'
+      './client/app/app.js'
     ])
     .pipe(gulpConcat('main.js'))
     // .pipe(uglify())
