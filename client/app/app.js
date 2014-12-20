@@ -21,7 +21,7 @@
           url: '/home',
           views: {
             '': { templateUrl: '/app/home/home.html' },
-            'projects@home': { 
+            'projects@home': {
               templateUrl: '/app/home/projects/projects.html',
               controller: 'projectsController'
             },
@@ -33,10 +33,20 @@
             }
           }
         })
-        .state('editor', {
+        .state('projectEditor', {
           url: '/editor',
-          controller: 'editorController',
-          templateUrl: '/app/editor/editor.html'
+          views: {
+            '': { templateUrl: '/app/projectEditor/projectEditor.html'},
+            'chat@projectEditor': {
+              // templateUrl: '/app/projectEditor/chat/chat.html'
+              template: '<p>chat</p>'
+              // controller: '/app/projectEditor/chat/chat.js'
+            },
+            'editor@projectEditor': {
+              templateUrl: '/app/projectEditor/editor/editor.html',
+              controller: 'editorController'
+            }
+          }
         });
     });
 })();

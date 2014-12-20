@@ -1,17 +1,17 @@
 //dependencies
 var bodyParser = require('body-parser'),
- 	path = require('path'),
- 	morgan = require('morgan'),
- 	marked = require('marked'),
- 	session = require('express-session'),
- 	express = require('express');
+	path = require('path'),
+	morgan = require('morgan'),
+	marked = require('marked'),
+	session = require('express-session'),
+	express = require('express');
 
 
 // shareJS and codemirror dependencies
 var connect = require( 'connect' ),
     http    = require( 'http' ),
     argv    = require( 'optimist' ).argv,
-    // serveStatic = require( 'serve-static' ), not sure if we need this. 
+    // serveStatic = require( 'serve-static' ), not sure if we need this.
     shareCodeMirror = require( 'share-codemirror' ),
     Duplex = require( 'stream' ).Duplex,
     livedb = require( 'livedb' ),
@@ -22,48 +22,48 @@ var connect = require( 'connect' ),
     // store sharejs documents in memory
     backend = livedb.client( livedb.memory() ),
     share = sharejs.server.createClient({
-      backend: backend
+     backend: backend
     }),
     WebSocketServer = require( 'ws' ).Server,
     wss = new WebSocketServer({
       server: server
     });
 
-server.listen( shareJSport ); 
-console.log( "editor listening on http://localhost:" + shareJSport + "/" ); 
+server.listen( shareJSport );
+console.log( "editor listening on http://localhost:" + shareJSport + "/" );
 
 //create editor ws connection
 
 wss.on('connection', function(client) {
-  var stream = new Duplex({ objectMode: true })
+  var stream = new Duplex({ objectMode: true });
 
   stream._write = function(chunk, encoding, callback) {
-    console.log( 's->c ', chunk )
-    client.send( JSON.stringify(chunk) )
-    return callback()
-  }
+    console.log( 's->c ', chunk );
+    client.send( JSON.stringify(chunk) );
+    return callback();
+  };
 
-  stream._read = function() {}
+  stream._read = function() {};
 
-  stream.headers = client.upgradeReq.headers
+  stream.headers = client.upgradeReq.headers;
 
-  stream.remoteAddress = client.upgradeReq.connection.remoteAddress
+  stream.remoteAddress = client.upgradeReq.connection.remoteAddress;
 
   client.on( 'message', function( data ) {
     console.log( 'c->s ', data );
-    return stream.push( JSON.parse(data) )
-  })
+    return stream.push( JSON.parse(data) );
+  });
 
   stream.on( 'error', function(msg) {
     return client.close( msg )
-  })
+  });
 
   client.on( 'close', function(reason) {
     stream.push( null )
     stream.emit( 'close' )
     console.log( 'client went away' )
     return client.close( reason )
-  })
+  });
 
   stream.on( 'end', function() {
     return client.close()
