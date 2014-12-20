@@ -14,7 +14,7 @@ angular.module('code.editor', ['ui.router'])
     var ws = new WebSocket('ws://localhost:8007');
     var sjs = new window.sharejs.Connection(ws);
     var collectionName = 'documents';
-    var documentName = 'doc4';
+    var documentName = 'doc3';
     var doc = sjs.get(collectionName, documentName);
     // console.log(doc);
     doc.subscribe();
