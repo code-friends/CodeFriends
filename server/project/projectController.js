@@ -20,15 +20,12 @@ projectController.getAllProjects = function (req, res) {
 };
 
 projectController.getSpecificProject = function (req, res) {
-  // console.log('REQ PARAMS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', req.params.id);
   models.Project
     .query('where', 'id', '=', req.params.id)
     .fetch({
       withRelated: ['user']
     })
     .then(function (coll) {
-      // console.log('RES !!!!!!!!!!!', res);
-      // console.log('COLl !!!!!!!!!!!!!!!!!!!!!', coll);
       res.send(coll);
     });
 };
