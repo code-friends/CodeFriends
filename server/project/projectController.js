@@ -18,7 +18,7 @@ projectController.post = function (req, res) {
     .save()
     .then(function (model) {
       res.json(model.toJSON());
-    })
+    });
 };
 
 
