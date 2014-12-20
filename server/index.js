@@ -12,7 +12,7 @@ var liveDB = require('livedb-mongo');
 var connect = require('connect'),
   http = require('http'),
   argv = require('optimist').argv,
-  // serveStatic = require( 'serve-static' ), not sure if we need this.
+  // serveStatic = require( 'serve-static' ), not sure if we need this. 
   shareCodeMirror = require('share-codemirror'),
   Duplex = require('stream').Duplex,
   livedb = require('livedb'),
@@ -70,6 +70,9 @@ wss.on('connection', function (client) {
   return share.listen(stream);
 });
 
+server.listen(shareJSport);
+console.log("editor listening on http://localhost:" + shareJSport + "/");
+
 // Set routes
 var auth = require('./auth');
 var db = require('./db');
@@ -101,6 +104,7 @@ app
 
 //set routes
 var port = process.env.PORT || 8000;
+console.log('got to router in index.js')
 app
   .use(express.static(__dirname + '/../client'))
   .use('/auth', authRouter)
