@@ -11,7 +11,6 @@ projectController.getAllProjects = function (req, res) {
       withRelated: ['user']
     })
     .then(function (coll) {
-      console.log(coll.toJSON());
       res.send(coll.toJSON());
     })
 };
@@ -34,10 +33,20 @@ projectController.get = function (req, res) {
 };
 
 projectController.getSpecificProject = function (req, res) {
-  //dummy data
-  res.json({
-    indexhtml: 'htmlcodehtmlcode'
-  });
+  /////////    dummy data below   ///////
+  // req.id = '10';
+  /////////    dummy data above   ///////
+  console.log(req.params.id);
+  models.Project
+    .query('where', 'id', '=', req.params.id)
+    .fetchOne({
+      withRelated: ['user']
+    })
+    .then(function (coll) {
+      console.log('RES !!!!!!!!!!!', res);
+      console.log('COLl !!!!!!!!!!!!!!!!!!!!!', coll);
+      res.send(coll);
+    })
 };
 
 projectController.put = function (req, res) {
