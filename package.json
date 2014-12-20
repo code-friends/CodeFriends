@@ -38,7 +38,8 @@
     "karma-jasmine": "^0.3.2",
     "mysql": "^2.5.4",
     "should": "^4.4.1",
-    "supertest": "^0.15.0"
+    "supertest": "^0.15.0",
+    "mysql": "^2.5.4"
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",

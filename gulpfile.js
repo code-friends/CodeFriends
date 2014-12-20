@@ -44,6 +44,16 @@ gulp.task('js', function () {
     .pipe(gulp.dest('./client/dist/'));
 });
 
+gulp.task('sass', function () {
+  gulp.src('./client/assets/scss/*.scss')
+    .pipe(sass())
+    .pipe(gulp.dest('./css'));
+});
+
+gulp.task('default', function () {
+  // place code for your default task here
+});
+
 
 gulp.task('watch', ['js', 'sass'], function () {
   gulp.watch('./client/assets/scss/*.scss', ['sass']);
