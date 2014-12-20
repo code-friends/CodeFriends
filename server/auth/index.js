@@ -2,6 +2,8 @@ var passport = require('passport');
 var GitHubStrategy = require('passport-github').Strategy;
 var UserCollection = require('../models').collections.UserCollection;
 
+console.log('Hello from Auth');
+
 passport.serializeUser(function (user, done) {
   return done(null, user.get('id'));
 });
@@ -56,6 +58,7 @@ passport.use(new GitHubStrategy({
 ));
 
 passport.checkIfLoggedIn = function (req, res, next) {
+  console.log('checkIfLoggedIn');
   if (req.user) {
     return next();
   }
