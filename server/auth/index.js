@@ -22,15 +22,18 @@ passport.use(new GitHubStrategy({
   },
   function (accessToken, refreshToken, profile, done) {
     // I'm not exactly sure when we use an accessToken and a refreshToken
+    console.log('GitHub: ', accessToken, refreshToken);
     if (accessToken !== null) {
       new UserCollection()
         .query('where', 'githubAccessToken', '=', accessToken)
         .fetchOne()
         .then(function (user) {
-          if (user) {
-            done(null, user);
-            return user;
-          }
+          if (!user) throw new Error('No User Found');
+          done(null, user);
+          return user;
+        })
+        .catch(function () {
+          console.log('No User Found: ', profile._json);
           return new UserCollection()
             .create({
               username: profile._json.login,
@@ -42,6 +45,7 @@ passport.use(new GitHubStrategy({
               githubAvatarUrl: profile._json.avatar_url
             })
             .then(function (user) {
+              console.log('New User Created');
               if (user) {
                 return done(null, user);
               }
@@ -49,6 +53,7 @@ passport.use(new GitHubStrategy({
             });
         })
         .catch(function (err) {
+          console.log('Error:', err);
           return done(null, false);
         });
     }
