@@ -66,19 +66,24 @@ wss.on('connection', function (client) {
 // Set routes
 var auth = require('./auth');
 var db = require('./db');
-var apiRouter = require('./api');
+
+var port = process.env.PORT || 8000;
+var auth = require('./auth');
 var authRouter = require('./auth/authRouter');
+var apiRouter = require('./api');
 
 // Init app
 var app = express();
 
 // Middlewares
 app
+// .use(cookieParser)
   .use(bodyParser.urlencoded({
     extended: true
   }))
   .use(bodyParser.json())
   .use(morgan('dev'))
+  // .use(expressMethodOverride)
   .use(session({
     secret: 'zfnzkwjehgweghw',
     resave: false,
@@ -94,7 +99,7 @@ app
   .use('/auth', authRouter)
   .use('/api', apiRouter)
   .listen(port, function () {
-    console.log('listening on port: ', port);
+    console.log('Server listening on port: ', port);
   });
 
 module.exports = app;
