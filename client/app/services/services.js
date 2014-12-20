@@ -1,6 +1,5 @@
 // factory for Projects
 angular.module('code.services', [])
-
   .factory('Projects', function ($http) {
     var projects = {};
 
@@ -14,4 +13,4 @@ angular.module('code.services', [])
     };
 
     return projects;
-  })
+  });
