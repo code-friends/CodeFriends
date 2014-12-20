@@ -18,13 +18,20 @@
           url: '/login'
         })
         .state('home', {
-          templateUrl: '/app/home/home.html',
-          url: '/home'
-        })
-        .state('home.projectsView', {
-          templateUrl: '/app/home/projects/projects.html',
-          controller: 'projectsController',
-          url: '/projects'
+          url: '/home',
+          views: {
+            '': { templateUrl: '/app/home/home.html' },
+            'projects@home': { 
+              templateUrl: '/app/home/projects/projects.html',
+              controller: 'projectsController'
+            },
+            'friends@home': {
+              template: '<p>Friends data here<p>'
+              // these files do not exist yet
+              // templateUrl: '/app/home/friends/friends.html',
+              // controller: '/app/home/friends/friends.js'
+            }
+          }
         })
         .state('editor', {
           url: '/editor',
