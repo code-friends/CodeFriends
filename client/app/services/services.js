@@ -1,3 +1,4 @@
+/*global angular:true */
 // factory for Projects
 angular.module('code.services', [])
   .factory('Projects', function ($http) {
@@ -13,4 +14,19 @@ angular.module('code.services', [])
     };
 
     return projects;
+  })
+  .factory('Auth', function ($http, $state) {
+    var Auth = {
+      isLoggedIn: function () {
+        return $http.get('/auth/user')
+          .then(function (res) {
+            Auth.userId = res.data.userId;
+            if (res.data.userId === null) {
+              $state.go('login');
+            }
+          });
+      },
+      userId: null
+    };
+    return Auth;
   });

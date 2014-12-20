@@ -1,17 +1,22 @@
 /*global angular:true */
 (function () {
-  console.log('app initializing');
   angular.module('code', [
       'ui.router',
+      'code.userBox',
+      'code.landing',
       'code.login',
       'code.editor',
       'code.projects',
       'code.services'
     ])
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
-      console.log('App Config');
       $urlRouterProvider.otherwise('/');
       $stateProvider
+        .state('landing', {
+          templateUrl: '/app/landing/landing.html',
+          controller: 'landingController',
+          url: '/'
+        })
         .state('login', {
           templateUrl: '/app/login/login.html',
           controller: 'loginController',
