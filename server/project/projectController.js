@@ -6,9 +6,8 @@ var collections = require('../models.js').collections;
 var projectController = {};
 
 projectController.post = function (req, res) {
-  res.status(200).end();
+  res.status(201).end();
 };
-
 
 projectController.getAllProjects = function (req, res) {
   models.Project
@@ -17,25 +16,18 @@ projectController.getAllProjects = function (req, res) {
     })
     .then(function (coll) {
       res.send(coll.toJSON());
-    })
+    });
 };
 
 projectController.getSpecificProject = function (req, res) {
-  // console.log('REQ PARAMS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', req.params.id);
   models.Project
     .query('where', 'id', '=', req.params.id)
     .fetch({
       withRelated: ['user']
     })
     .then(function (coll) {
-      // console.log('RES !!!!!!!!!!!', res);
-      // console.log('COLl !!!!!!!!!!!!!!!!!!!!!', coll);
       res.send(coll);
-    })
-};
-
-projectController.put = function (req, res) {
-  res.status(200).end();
+    });
 };
 
 // projectController.getProject = function (req, res) {
