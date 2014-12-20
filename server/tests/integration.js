@@ -140,11 +140,12 @@ describe('API', function () {
 
     // CHANGE THIS TO GITHUB HANDLE INSTEAD OF ID!! CHANGE IT IN PROJECT CONTROLLER AND ROUTERS TOO!!!!!
     // CHANGE THE POST REQUESTS TO ADD ALL THE GITHUB STUFF TOO!!!!!!
-    it('should get a specific user on GET /user/:id', function (done) {
+    it('should get a specific user on GET /user/:username', function (done) {
       request(app)
-        .get('/api/user/' + user.get('id'))
+        .get('/api/user/' + user.get('username'))
         .expect(200)
         .end(function (err, res) {
+          console.log(res.body);
           var user = res.body;
           user.should.be.instanceof(Object);
           user.should.have.property('id');
@@ -163,9 +164,50 @@ describe('API', function () {
         });
     });
 
-    xit('should get all user info on GET /user/:github_handle', function () {
-
+    it('should create a new user on POST /user', function (done) {
+      request(app)
+        .post('/api/user')
+        .send({
+          username: 'chaseme3',
+          githubId: 'thisIsMyGithubId',
+          githubName: 'thisIsMyGithubName',
+          githubEmail: 'thisIsMyGithubEmail',
+          githubLocation: 'thisIsMyGithubLocation',
+          githubAccessToken: 'thisIsMyGithubAccessToken',
+          githubAvatarUrl: 'thisIsMyGithubAvatarUrl'
+        })
+        .expect(200)
+        .end(function (err, res) {
+          var _user = res.body;
+          request(app)
+            .get('/api/user/' + _user.username)
+            .expect(200)
+            .end(function (err, res) {
+              // console.log('RES.BODY !!!!!!!!!!!!!!!!!!!!', res.body);
+              var user = res.body;
+              // console.log('USER !!!!!!!!!!!!!!!!!!!!', user);
+              user.should.have.property('id');
+              user.should.have.property('username');
+              user.username.should.equal(_user.username);
+              user.should.have.property('githubId');
+              user.should.have.property('githubName');
+              user.should.have.property('githubEmail');
+              user.should.have.property('githubLocation');
+              user.should.have.property('githubAccessToken');
+              user.should.have.property('githubAvatarUrl');
+              user.should.have.property('created_at');
+              user.should.have.property('updated_at');
+              user.should.have.property('project');
+              user.project.should.be.instanceof(Array);
+              done();
+            });
+        });
     });
+
+
+    // xit('should get all user info on GET /user/:github_handle', function () {
+
+    // });
 
   });
 
