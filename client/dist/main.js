@@ -41613,6 +41613,18 @@ angular.module('code.landing', ['ui.router'])
     // Silence is Beautiful
   });
 /*global angular:true */
+angular.module('code.landing', ['ui.router'])
+  .controller('homeController', function ($scope, $state, Auth, $http) {
+    Auth.isLoggedIn();
+    $scope.createProject = function () {
+      return $http.post('/api/project', {
+        project_name: $scope.newProjectName
+      }).then(function (res) {
+        return res.data;
+      });
+    };
+  });
+/*global angular:true */
 angular.module('code.userBox', ['ui.router'])
   .controller('userBox', function ($scope, Auth) {
     Auth.isLoggedIn()
@@ -41686,7 +41698,8 @@ angular.module('code.editor', ['ui.router'])
           url: '/home',
           views: {
             '': {
-              templateUrl: '/app/home/home.html'
+              templateUrl: '/app/home/home.html',
+              controller: 'homeController',
             },
             'projects@home': {
               templateUrl: '/app/home/projects/projects.html',
