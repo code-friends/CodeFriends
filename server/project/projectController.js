@@ -33,18 +33,16 @@ projectController.get = function (req, res) {
 };
 
 projectController.getSpecificProject = function (req, res) {
-  /////////    dummy data below   ///////
-  // req.id = '10';
-  /////////    dummy data above   ///////
+
   console.log(req.params.id);
   models.Project
     .query('where', 'id', '=', req.params.id)
-    .fetchOne({
+    .fetch({
       withRelated: ['user']
     })
     .then(function (coll) {
-      console.log('RES !!!!!!!!!!!', res);
-      console.log('COLl !!!!!!!!!!!!!!!!!!!!!', coll);
+      // console.log('RES !!!!!!!!!!!', res);
+      // console.log('COLl !!!!!!!!!!!!!!!!!!!!!', coll);
       res.send(coll);
     })
 };
