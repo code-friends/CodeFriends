@@ -20,27 +20,31 @@
         .state('home', {
           url: '/home',
           views: {
-            '': { templateUrl: '/app/home/home.html' },
+            '': {
+              templateUrl: '/app/home/home.html'
+            },
             'projects@home': {
               templateUrl: '/app/home/projects/projects.html',
               controller: 'projectsController'
             },
             'friends@home': {
               template: '<p>Friends data here<p>'
-              // these files do not exist yet
-              // templateUrl: '/app/home/friends/friends.html',
-              // controller: '/app/home/friends/friends.js'
+                // these files do not exist yet
+                // templateUrl: '/app/home/friends/friends.html',
+                // controller: '/app/home/friends/friends.js'
             }
           }
         })
         .state('projectEditor', {
           url: '/editor',
           views: {
-            '': { templateUrl: '/app/projectEditor/projectEditor.html'},
+            '': {
+              templateUrl: '/app/projectEditor/projectEditor.html'
+            },
             'chat@projectEditor': {
               // templateUrl: '/app/projectEditor/chat/chat.html'
               template: '<p>chat</p>'
-              // controller: '/app/projectEditor/chat/chat.js'
+                // controller: '/app/projectEditor/chat/chat.js'
             },
             'editor@projectEditor': {
               templateUrl: '/app/projectEditor/editor/editor.html',
