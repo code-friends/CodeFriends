@@ -1,4 +1,4 @@
-/*global describe:true, it:true */
+/*global describe:true, it:true, before: true, after: true */
 var models = require('../models.js').models;
 var UserCollection = require('../models.js').collections.UserCollection;
 var ProjectCollection = require('../models.js').collections.ProjectCollection;
@@ -6,6 +6,14 @@ var should = require('should');
 var expect = require('chai').expect;
 var _ = require('lodash');
 var Promise = require('bluebird');
+var db = require('../db');
+
+before(function (done) {
+  // createAllTables is promise
+  db.createAllTables.then(function () {
+    done();
+  });
+});
 
 //tests adding a new user and creating a collection
 describe('User', function () {
@@ -88,6 +96,18 @@ describe('User/Project', function () {
   });
 });
 
-
-//create model for project with tied user
-//query database
+// Delete All Test Tables
+after(function (done) {
+  Promise.all([
+      db.schema.dropTable('projects_users'),
+      db.schema.dropTable('users'),
+      db.schema.dropTable('projects'),
+    ])
+    .then(function () {
+      console.log('Deleting All Tables');
+      done();
+    })
+    .catch(function (err) {
+      console.log('Didn\'t delete talbes:', err);
+    });
+});

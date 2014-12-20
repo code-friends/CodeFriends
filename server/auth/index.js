@@ -2,8 +2,6 @@ var passport = require('passport');
 var GitHubStrategy = require('passport-github').Strategy;
 var UserCollection = require('../models').collections.UserCollection;
 
-console.log('Hello from Auth');
-
 passport.serializeUser(function (user, done) {
   return done(null, user.get('id'));
 });
