@@ -1,12 +1,15 @@
-/*global describe:true, it:true */
+/*global describe:true, xdescribe:true, it:true, xit:true, before: true */
+
 var request = require('supertest');
 var should = require('should');
 var expect = require('chai').expect;
+var ProjectCollection = require('../models').collections.ProjectCollection;
+var UserCollection = require('../models').collections.UserCollection;
 var app = require('../index');
 
 var _ = require('lodash');
 
-describe('Auth', function () {
+xdescribe('Auth', function () {
 
   it('should sign up the user', function () {
 
@@ -23,19 +26,26 @@ describe('Auth', function () {
 });
 
 describe('API', function () {
-
+  var project, user;
   //this depends on database insertions from db.tests
   describe('Project', function () {
+
+    before(function (done) {
+      return new ProjectCollection()
+        .create({
+          'project_name': 'car'
+        }).then(function (_project) {
+          project = _project;
+          done();
+        });
+    });
 
     it('should get all of the user\'s projects on GET /project', function (done) {
       request(app)
         .get('/api/project')
         .expect(200)
         .end(function (err, res) {
-          // console.log('below is body');
-          // console.log(res.body);
           var projects = res.body;
-          // console.log('projects', projects);
           projects.should.be.instanceof(Array);
           projects[0].should.have.property('id');
           projects[0].should.have.property('project_name');
@@ -50,11 +60,10 @@ describe('API', function () {
     //CHANGE SO THAT IT'S /project/:project_name IN ALL THE STUFF. PEOPLE AREN'T GOING TO SEARCH BY ID
     it('should get a specific project on GET /project/:id', function (done) {
       request(app)
-        .get('/api/project/2')
+        .get('/api/project/' + project.get('id'))
         .expect(200)
         .end(function (err, res) {
           var project = res.body;
-          console.log('project', project);
           project.should.be.instanceof(Object);
           project.should.have.property('id');
           project.should.have.property('project_name');
@@ -66,7 +75,7 @@ describe('API', function () {
         });
     });
 
-    it('should create a new project on POST /project', function () {
+    xit('should create a new project on POST /project', function () {
 
     });
 
@@ -74,15 +83,22 @@ describe('API', function () {
 
   describe('User', function () {
 
+    before(function (done) {
+      return new UserCollection()
+        .create({
+          'username': 'door'
+        }).then(function (_user) {
+          user = _user;
+          done();
+        });
+    });
+
     it('should get all of the users and their projects on GET /user', function (done) {
       request(app)
         .get('/api/user')
         .expect(200)
         .end(function (err, res) {
-          // console.log('below is body');
-          // console.log(res.body);
           var users = res.body;
-          console.log('users', users);
           users.should.be.instanceof(Array);
           users[0].should.have.property('id');
           users[0].should.have.property('username');
@@ -103,11 +119,10 @@ describe('API', function () {
     // CHANGE THE POST REQUESTS TO ADD ALL THE GITHUB STUFF TOO!!!!!!
     it('should get a specific user on GET /user/:id', function (done) {
       request(app)
-        .get('/api/user/2')
+        .get('/api/user/' + user.get('id'))
         .expect(200)
         .end(function (err, res) {
           var user = res.body;
-          console.log('user', user);
           user.should.be.instanceof(Object);
           user.should.have.property('id');
           user.should.have.property('username');
@@ -125,7 +140,7 @@ describe('API', function () {
         });
     });
 
-    it('should get all user info on GET /user/:github_handle', function () {
+    xit('should get all user info on GET /user/:github_handle', function () {
 
     });
 
