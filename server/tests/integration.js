@@ -31,12 +31,17 @@ describe('API', function () {
       request(app)
         .get('/api/project')
         .expect(200)
-        .end(function (err, res, body) {
-          console.log(body);
-          var json = JSON.parse(body);
-          console.log(json);
-
-          // expect(_.last(json.all).id).to.equal();
+        .end(function (err, res) {
+          // console.log('below is body');
+          // console.log(res.body);
+          var projects = res.body;
+          console.log('projects', projects);
+          projects.should.be.instanceof(Array);
+          projects[0].should.have.property('id');
+          projects[0].should.have.property('project_name');
+          projects[0].should.have.property('created_at');
+          projects[0].should.have.property('updated_at');
+          projects[0].should.have.property('user');
           done();
         });
     });
