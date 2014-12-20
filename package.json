@@ -28,8 +28,7 @@
     "chai": "^1.10.0",
     "gulp": "^3.8.10",
     "should": "^4.4.1",
-    "supertest": "^0.15.0",
-    "mysql": "^2.5.4"
+    "supertest": "^0.15.0"
   },
   "dependencies": {
     "bluebird": "^2.4.0",
