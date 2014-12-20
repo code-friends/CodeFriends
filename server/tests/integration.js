@@ -31,11 +31,12 @@ describe('API', function () {
       request(app)
         .get('/api/project')
         .expect(200)
-        .end(function () {
+        .end(function (err, res, body) {
+          console.log(body);
           var json = JSON.parse(body);
           console.log(json);
-          json.
-            // expect(_.last(json.all).id).to.equal();
+
+          // expect(_.last(json.all).id).to.equal();
           done();
         });
     });

@@ -1,10 +1,21 @@
-// var projectModel = require('./projectModel.js');
+var express = require('express');
+var models = require('../models.js').models;
+var collections = require('../models.js').collections;
 
 
 var projectController = {};
 
-projectController.post = function (req, res) {
-  res.status(200).end();
+console.log('got to projectController');
+
+projectController.getAllProjects = function (req, res) {
+  console.log('got into getAllProjects');
+  models.Project
+    .fetchAll({
+      withRelated: ['user']
+    })
+    .then(function (coll) {
+      res.json(coll.toJSON()).end();
+    })
 };
 
 projectController.get = function (req, res) {
