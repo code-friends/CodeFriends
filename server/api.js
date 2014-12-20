@@ -1,3 +1,4 @@
+var authRouter = require('./auth/authRouter.js');
 var projectRouter = require('./project/projectRoutes.js');
 var userRouter = require('./user/userRoutes.js');
 var express = require('express');
