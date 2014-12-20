@@ -31,7 +31,8 @@ var connect = require('connect'),
 server.listen(shareJSport);
 console.log('editor listening on http://localhost:' + shareJSport + '/');
 
-// Create editor ws connection
+//create editor ws connection
+
 wss.on('connection', function (client) {
   var stream = new Duplex({
     objectMode: true
