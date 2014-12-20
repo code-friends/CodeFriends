@@ -35,6 +35,20 @@ projectController.put = function (req, res) {
   res.status(200).end();
 };
 
+// projectController.getProject = function (req, res) {
+//   //dummy data
+//   res.json({
+//     indexhtml: 'htmlcodehtmlcode'
+//   });
+// };
+
+projectController.put = function (req, res) {
+  //add users
+  //add files
+  //remove users
+  res.status(200).end();
+};
+
 projectController.delete = function (req, res) {
   res.status(200).end();
 };
