@@ -49,6 +49,7 @@
     "express-session": "^1.9.3",
     "knex": "^0.7.3",
     "livedb": "^0.4.11",
+    "livedb-mongo": "^0.4.1",
     "lodash": "^2.4.1",
     "marked": "^0.3.2",
     "moment": "^2.8.4",

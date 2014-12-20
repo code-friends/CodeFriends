@@ -6,6 +6,8 @@ var bodyParser = require('body-parser'),
   session = require('express-session'),
   express = require('express');
 
+var liveDB = require('livedb-mongo');
+
 // shareJS and codemirror dependencies
 var connect = require('connect'),
   http = require('http'),
@@ -18,8 +20,12 @@ var connect = require('connect'),
   shareJSport = argv.p || 8007,
   shareJSapp = connect(),
   server = http.createServer(shareJSapp),
-  // store sharejs documents in memory
-  backend = livedb.client(livedb.memory()),
+  // No credentials passed on to MongoDB (might need to change)
+  db = liveDB('mongodb://localhost:27017/codeFriends?auto_reconnect', {
+    safe: true
+  }),
+  // For memory-stored livedb, use livedb.memory()
+  backend = livedb.client(db),
   share = sharejs.server.createClient({
     backend: backend
   }),
