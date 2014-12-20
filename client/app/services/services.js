@@ -4,7 +4,7 @@ angular.module('code.services', [])
     var projects = {};
 
     // gets projects from server, caches projects in factory and allows cb in controller to access projects
-    projects.getProjects = function(cb) {
+    projects.getProjects = function (cb) {
       $http.get('api/project/')
         .then(function (res) {
           projects.userProjects = res.data;
