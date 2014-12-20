@@ -1,10 +1,11 @@
 var db = require('./db.js');
+var bookshelf = require('bookshelf')(db);
 var moment = require('moment');
 
 //define models
 var models = {};
 
-models.User = db.Model.extend({
+models.User = bookshelf.Model.extend({
   tableName: 'users',
   hasTimestamps: true,
   project: function () {
@@ -12,7 +13,7 @@ models.User = db.Model.extend({
   }
 });
 
-models.Project = db.Model.extend({
+models.Project = bookshelf.Model.extend({
   tableName: 'projects',
   hasTimestamps: true,
   user: function () {
@@ -23,10 +24,10 @@ models.Project = db.Model.extend({
 //define collections
 var collections = {};
 
-collections.UserCollection = db.Collection.extend({
+collections.UserCollection = bookshelf.Collection.extend({
   model: models.User
 });
-collections.ProjectCollection = db.Collection.extend({
+collections.ProjectCollection = bookshelf.Collection.extend({
   model: models.Project
 });
 
