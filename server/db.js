@@ -36,6 +36,12 @@ db.schema.hasTable('users').then(function (exists) {
     db.schema.createTable('users', function (user) {
         user.increments('id').primary();
         user.string('username', 255);
+        user.string('githubId', 255);
+        user.string('githubName', 255);
+        user.string('githubEmail', 255);
+        user.string('githubLocation', 255);
+        user.string('githubAccessToken', 255);
+        user.string('githubAvatarUrl', 255);
         user.timestamps();
       })
       .then(function () {
