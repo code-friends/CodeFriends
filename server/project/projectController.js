@@ -6,7 +6,20 @@ var collections = require('../models.js').collections;
 var projectController = {};
 
 projectController.post = function (req, res) {
-  res.status(201).end();
+
+  console.log('REQ !!!!!!!!!!!!!!!!!', req.body);
+  // var content = req.body.project_name;
+
+  if (!content) {
+    res.status(400).end();
+  }
+  var newProject = new models.Project({
+      content: content
+    })
+    .save()
+    .then(function (model) {
+      res.json(model.toJSON());
+    })
 };
 
 projectController.getAllProjects = function (req, res) {
@@ -30,12 +43,6 @@ projectController.getSpecificProject = function (req, res) {
     });
 };
 
-// projectController.getProject = function (req, res) {
-//   //dummy data
-//   res.json({
-//     indexhtml: 'htmlcodehtmlcode'
-//   });
-// };
 
 projectController.put = function (req, res) {
   //add users
