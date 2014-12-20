@@ -45,6 +45,7 @@ describe('API', function () {
         .get('/api/project')
         .expect(200)
         .end(function (err, res) {
+          // console.log(res.body);
           var projects = res.body;
           projects.should.be.instanceof(Array);
           projects[0].should.have.property('id');
@@ -57,10 +58,9 @@ describe('API', function () {
     });
 
     //SHOULD THIS BE AN OBJECT OR IS THERE A SITUATION WHERE THERE COULD BE MORE THAN ONE????
-    //CHANGE SO THAT IT'S /project/:project_name IN ALL THE STUFF. PEOPLE AREN'T GOING TO SEARCH BY ID
-    it('should get a specific project on GET /project/:id', function (done) {
+    it('should get a specific project on GET /project/:project_name', function (done) {
       request(app)
-        .get('/api/project/' + project.get('id'))
+        .get('/api/project/' + project.get('project_name'))
         .expect(200)
         .end(function (err, res) {
           var project = res.body;
@@ -75,9 +75,32 @@ describe('API', function () {
         });
     });
 
-    xit('should create a new project on POST /project', function () {
-
+    it('should create a new project on POST /project', function (done) {
+      request(app)
+        .post('/api/project')
+        .send({
+          project_name: 'basketball'
+        })
+        .expect(200)
+        .end(function (err, res) {
+          var _project = res.body;
+          request(app)
+            .get('/api/project/' + _project.project_name)
+            .expect(200)
+            .end(function (err, res) {
+              var project = res.body;
+              project.should.have.property('id');
+              project.should.have.property('project_name');
+              project.project_name.should.equal(_project.project_name);
+              project.should.have.property('created_at');
+              project.should.have.property('updated_at');
+              project.should.have.property('user');
+              project.user.should.be.instanceof(Array);
+              done();
+            });
+        });
     });
+
 
   });
 
