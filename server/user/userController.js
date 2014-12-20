@@ -10,7 +10,6 @@ userController.post = function (req, res) {
 };
 
 userController.getAllUsers = function (req, res) {
-  console.log('got into getAllUsers');
   models.User
     .fetchAll({
       withRelated: ['project']
@@ -21,17 +20,14 @@ userController.getAllUsers = function (req, res) {
 };
 
 userController.getSpecificUser = function (req, res) {
-	console.log('got into getSpecificUser');
-	models.User
-		.query('where', 'id', '=', req.params.id)
-		.fetch({
-			withRelated: ['project']
-		})
-		.then(function (coll) {
-			// console.log('RES !!!!!!!!!!!', res);
-			// console.log('COLl !!!!!!!!!!!!!!!!!!!!!', coll);
-			res.send(coll);
-		})
+  models.User
+    .query('where', 'id', '=', req.params.id)
+    .fetch({
+      withRelated: ['project']
+    })
+    .then(function (coll) {
+      res.send(coll);
+    });
 };
 
 
