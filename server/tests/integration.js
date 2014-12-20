@@ -47,6 +47,7 @@ describe('API', function () {
     });
 
     //SHOULD THIS BE AN OBJECT OR IS THERE A SITUATION WHERE THERE COULD BE MORE THAN ONE????
+    //CHANGE SO THAT IT'S /project/:project_name IN ALL THE STUFF. PEOPLE AREN'T GOING TO SEARCH BY ID
     it('should get a specific project on GET /project/:id', function (done) {
       request(app)
         .get('/api/project/2')
