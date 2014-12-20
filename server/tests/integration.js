@@ -73,6 +73,56 @@ describe('API', function () {
 
   describe('User', function () {
 
+    it('should get all of the users and their projects on GET /user', function (done) {
+      request(app)
+        .get('/api/user')
+        .expect(200)
+        .end(function (err, res) {
+          // console.log('below is body');
+          // console.log(res.body);
+          var users = res.body;
+          console.log('users', users);
+          users.should.be.instanceof(Array);
+          users[0].should.have.property('id');
+          users[0].should.have.property('username');
+          users[0].should.have.property('githubId');
+          users[0].should.have.property('githubName');
+          users[0].should.have.property('githubEmail');
+          users[0].should.have.property('githubLocation');
+          users[0].should.have.property('githubAccessToken');
+          users[0].should.have.property('githubAvatarUrl');
+          users[0].should.have.property('created_at');
+          users[0].should.have.property('updated_at');
+          users[0].should.have.property('project');
+          done();
+        });
+    });
+
+    // CHANGE THIS TO GITHUB HANDLE INSTEAD OF ID!! CHANGE IT IN PROJECT CONTROLLER AND ROUTERS TOO!!!!!
+    it('should get a specific user on GET /user/:id', function (done) {
+      request(app)
+        .get('/api/user/2')
+        .expect(200)
+        .end(function (err, res) {
+          var user = res.body;
+          console.log('user', user);
+          user.should.be.instanceof(Object);
+          user.should.have.property('id');
+          user.should.have.property('username');
+          user.should.have.property('githubId');
+          user.should.have.property('githubName');
+          user.should.have.property('githubEmail');
+          user.should.have.property('githubLocation');
+          user.should.have.property('githubAccessToken');
+          user.should.have.property('githubAvatarUrl');
+          user.should.have.property('created_at');
+          user.should.have.property('updated_at');
+          user.should.have.property('project');
+          user.project.should.be.instanceof(Array);
+          done();
+        });
+    });
+
     it('should get all user info on GET /user/:github_handle', function () {
 
     });

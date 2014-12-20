@@ -5,6 +5,7 @@ var userRouter = express.Router();
 
 userRouter.post('/', userController.post);
 userRouter.get('/', userController.getAllUsers);
+userRouter.get('/:id', userController.getSpecificUser);
 userRouter.put('/', userController.put);
 userRouter.delete('/', userController.delete);
 
