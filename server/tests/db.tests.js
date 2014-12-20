@@ -1,6 +1,7 @@
 /*global describe:true, it:true */
 var models = require('../models.js').models;
-var collections = require('../models.js').collections;
+var UserCollection = require('../models.js').collections.UserCollection;
+var ProjectCollection = require('../models.js').collections.ProjectCollection;
 var should = require('should');
 var expect = require('chai').expect;
 var _ = require('lodash');
@@ -9,13 +10,12 @@ var Promise = require('bluebird');
 //tests adding a new user and creating a collection
 describe('User', function () {
   it('should create a new user', function (done) {
-    var coll = new collections.UserCollection();
-    coll
+    new UserCollection()
       .create({
         'username': 'door'
       })
       .then(function (model) {
-        return collections.UserCollection
+        return UserCollection
           .query('where', 'username', '=', 'door')
           .fetch();
       })
@@ -33,13 +33,12 @@ describe('User', function () {
 //tests adding a new project and creating a collection
 describe('Project', function () {
   it('should create a new project', function (done) {
-    var coll = new collections.ProjectCollection();
-    coll
+    new ProjectCollection()
       .create({
         'project_name': 'car'
       })
       .then(function (model) {
-        return collections.ProjectCollection
+        return ProjectCollection
           .query('where', 'project_name', '=', 'car')
           .fetch();
       })
@@ -60,14 +59,12 @@ describe('Project', function () {
 describe('User/Project', function () {
   it('should attach user to a project', function (done) {
     var project, user;
-    var projects = new collections.ProjectCollection();
-    var users = new collections.UserCollection();
-    projects
+    new ProjectCollection()
       .query('where', 'project_name', '=', 'car')
       .fetchOne()
       .then(function (_project) {
         project = _project;
-        return users.query('where', 'username', '=', 'door').fetchOne();
+        return new UserCollection().query('where', 'username', '=', 'door').fetchOne();
       })
       .then(function (_user) {
         user = _user;
@@ -77,7 +74,7 @@ describe('User/Project', function () {
         ]);
       })
       .then(function () {
-        return users.query('where', 'username', '=', 'door').fetchOne({
+        return UserCollection.query('where', 'username', '=', 'door').fetchOne({
           withRelated: ['project']
         });
       })
