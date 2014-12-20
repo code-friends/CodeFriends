@@ -42,7 +42,7 @@
           }
         })
         .state('projectEditor', {
-          url: '/editor',
+          url: '/editor/:docID',
           views: {
             '': {
               templateUrl: '/app/projectEditor/projectEditor.html'

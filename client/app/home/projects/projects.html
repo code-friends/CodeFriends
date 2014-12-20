@@ -1,4 +1,7 @@
 <div>
+    <a ui-sref="projectEditor({docID: 'doc1'})">this should link with value doc1</a> <br> 
+    <a ui-sref="projectEditor({docID: 'doc2'})">this should link with value doc2</a> <br> 
+    <a ui-sref="projectEditor({docID: 'doc3'})">this should link with value doc3</a> 
   <div ng-repeat="project in projects.projects">
     <p>{{ project.name }}</p>
     <p>{{ project.createdAt }}</p>

@@ -1,7 +1,8 @@
 /*global angular:true, CodeMirror:true */
 /*jshint browser:true */
 angular.module('code.editor', ['ui.router'])
-  .controller('editorController', function ($scope, $state) {
+  .controller('editorController', function ($scope, $state, $stateParams) {
+    console.log($stateParams.docID);
     $scope.goToHome = function () {
       $state.go('home');
     };
@@ -14,8 +15,7 @@ angular.module('code.editor', ['ui.router'])
     var ws = new WebSocket('ws://localhost:8007');
     var sjs = new window.sharejs.Connection(ws);
     var collectionName = 'documents';
-    var documentName = 'doc3';
-    var doc = sjs.get(collectionName, documentName);
+    var doc = sjs.get(collectionName, $stateParams.docID);
     // console.log(doc);
     doc.subscribe();
     doc.whenReady(function () {
