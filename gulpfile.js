@@ -26,6 +26,7 @@ gulp.task('js', function () {
       './client/app/services/services.js',
       './client/app/home/projects/projects.js',
       './client/app/landing/landing.js',
+      './client/app/home/home.js',
       './client/app/userBox.js',
       './client/app/login/login.js',
       './client/app/projectEditor/editor/editor.js',
