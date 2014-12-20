@@ -5,6 +5,11 @@ var collections = require('../models.js').collections;
 
 var projectController = {};
 
+projectController.post = function (req, res) {
+  res.status(200).end();
+};
+
+
 projectController.getAllProjects = function (req, res) {
   models.Project
     .fetchAll({
@@ -16,6 +21,7 @@ projectController.getAllProjects = function (req, res) {
 };
 
 projectController.getSpecificProject = function (req, res) {
+  // console.log('REQ PARAMS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', req.params.id);
   models.Project
     .query('where', 'id', '=', req.params.id)
     .fetch({
