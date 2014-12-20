@@ -4,7 +4,7 @@ var express = require('express');
 var userRouter = express.Router();
 
 userRouter.post('/', userController.post);
-userRouter.get('/', userController.get);
+userRouter.get('/', userController.getAllUsers);
 userRouter.put('/', userController.put);
 userRouter.delete('/', userController.delete);
 
