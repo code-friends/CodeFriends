@@ -41559,6 +41559,7 @@ CodeMirror.defineMIME("application/typescript", { name: "javascript", typescript
 
 });
 
+/*global angular:true */
 // factory for Projects
 angular.module('code.services', [])
   .factory('Projects', function ($http) {
@@ -41574,6 +41575,21 @@ angular.module('code.services', [])
     };
 
     return projects;
+  })
+  .factory('Auth', function ($http, $state) {
+    var Auth = {
+      isLoggedIn: function () {
+        return $http.get('/auth/user')
+          .then(function (res) {
+            Auth.userId = res.data.userId;
+            if (res.data.userId === null) {
+              $state.go('login');
+            }
+          });
+      },
+      userId: null
+    };
+    return Auth;
   });
 angular.module('code.projects', ['ui.router'])
   .controller('projectsController', function ($scope, $state, Projects) {
@@ -41591,16 +41607,26 @@ angular.module('code.projects', ['ui.router'])
 
   });
 /*global angular:true */
-
-// OAuth.initialize('ZN6SO1Y6vAJpwkzvr1xK294arr8');
-// https://oauth.io/docs/api-reference/client/javascript
-
+angular.module('code.landing', ['ui.router'])
+  .controller('landingController', function ($scope, $state, Auth) {
+    console.log('Showing landingController.js!');
+    // Silence is Beautiful
+  });
+/*global angular:true */
+angular.module('code.userBox', ['ui.router'])
+  .controller('userBox', function ($scope, Auth) {
+    Auth.isLoggedIn()
+      .then(function () {
+        $scope.userLoggedIn = (Auth.userId !== null);
+        $scope.userName = Auth.userId;
+      });
+  });
+/*global angular:true */
 angular.module('code.login', ['ui.router'])
-  .controller('loginController', function ($scope, $state) {
-    console.log('Login Controller');
-    $scope.goToHome = function () {
-      $state.go('home');
-    };
+  .controller('loginController', function ($scope, $state, Auth) {
+    console.log('Showing Login.js');
+    Auth.isLoggedIn();
+    // Silence is Beautiful
   });
 /*global angular:true, CodeMirror:true */
 /*jshint browser:true */
@@ -41634,18 +41660,23 @@ angular.module('code.editor', ['ui.router'])
   });
 /*global angular:true */
 (function () {
-  console.log('app initializing');
   angular.module('code', [
       'ui.router',
+      'code.userBox',
+      'code.landing',
       'code.login',
       'code.editor',
       'code.projects',
       'code.services'
     ])
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
-      console.log('App Config');
       $urlRouterProvider.otherwise('/');
       $stateProvider
+        .state('landing', {
+          templateUrl: '/app/landing/landing.html',
+          controller: 'landingController',
+          url: '/'
+        })
         .state('login', {
           templateUrl: '/app/login/login.html',
           controller: 'loginController',

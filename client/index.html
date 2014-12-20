@@ -8,10 +8,10 @@
 <body ng-app="code">
   <h1>Code Friends</h1>
   <h4>A collaborative text editor</h4>
-
-  <a ui-sref="login">Login</a>
-  <a ui-sref="projectEditor">go to the editor</a>
-
+  <div class='user-box' ng-controller='userBox'>
+    <a ng-show='!userLoggedIn' ui-sref="login">Login</a>
+    <span ng-show='userLoggedIn' class='userName'>Hello <span ng-model='userName'></span></span>
+  </div>
   <div ui-view></div>
   <script src="/dist/main.js"></script>
 </body>
