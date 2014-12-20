@@ -3,8 +3,8 @@ angular.module('code.projects', ['ui.router'])
     $scope.projects = {};
 
     // on project state initialize, get projects
-    $scope.init = function() {
-      Projects.getProjects(function(res) {
+    $scope.init = function () {
+      Projects.getProjects(function (res) {
         $scope.projects.projects = res;
         console.log('users projects in controller', res);
       });

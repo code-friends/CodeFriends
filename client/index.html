@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Code Friends</title>
+  <link rel="stylesheet" href="/assets/css/codemirror.css">
 </head>
 <body ng-app="code">
   <h1>Code Friends</h1>
@@ -12,21 +13,17 @@
   <a ui-sref="projectEditor">go to the editor</a>
 
   <div ui-view></div>
-
-  <script src="/app/services/services.js"></script>
-  <script src="/app/home/projects/projects.js"></script>
   <script src="/lib/angular/angular.js"></script>
   <script src="/lib/angular-ui-router/release/angular-ui-router.js"></script>
-  <script src="/app/login/login.js"></script>
-  <script src="/app/projectEditor/editor/editor.js"></script>
-  <script src="/app/app.js"></script>
   <script src="/assets/js/share.js"></script>
   <script src="/assets/js/codemirror.js"></script>
   <script src="/assets/js/share-codemirror.js"></script>
   <script src="/assets/js/mode-javascript.js"></script>
-
-  <link rel="stylesheet" href="/assets/css/codemirror.css">
-
+  <script src="/app/services/services.js"></script>
+  <script src="/app/home/projects/projects.js"></script>
+  <script src="/app/login/login.js"></script>
+  <script src="/app/projectEditor/editor/editor.js"></script>
+  <script src="/app/app.js"></script>
   <!-- // <script src="/lib/dist/oauth.js"></script> -->
 </body>
 </html>
