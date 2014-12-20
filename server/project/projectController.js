@@ -2,7 +2,6 @@ var express = require('express');
 var models = require('../models.js').models;
 var collections = require('../models.js').collections;
 
-
 var projectController = {};
 
 projectController.post = function (req, res) {
@@ -20,7 +19,6 @@ projectController.post = function (req, res) {
       res.json(model.toJSON());
     });
 };
-
 
 projectController.getAllProjects = function (req, res) {
   models.Project
@@ -44,11 +42,23 @@ projectController.getSpecificProject = function (req, res) {
     });
 };
 
-//NOT DONE YET
+
+//HOW WILL WE FIND OUT find out if they have permission?
+//ALWAYS USER THE PROJECT / USER IDs?
+//GET
+////get specific users or projects by the name OR the id
+////
+////
+//PUT
+////add user to a project
+////add project to a user
+////remove users from a project
+////remove project from a user
+//DELETE
+//delete a user
+//delete a project
+
 projectController.put = function (req, res) {
-  //add users
-  //add files
-  //remove users
   res.status(200).end();
 };
 
