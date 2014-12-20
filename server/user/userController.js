@@ -20,6 +20,21 @@ userController.getAllUsers = function (req, res) {
 		})
 };
 
+userController.getSpecificUser = function (req, res) {
+	console.log('got into getSpecificUser');
+	models.User
+		.query('where', 'id', '=', req.params.id)
+		.fetch({
+			withRelated: ['project']
+		})
+		.then(function (coll) {
+			// console.log('RES !!!!!!!!!!!', res);
+			// console.log('COLl !!!!!!!!!!!!!!!!!!!!!', coll);
+			res.send(coll);
+		})
+};
+
+
 userController.put = function (req, res) {
 	res.status(200).end();
 };
