@@ -58,14 +58,12 @@ describe('API', function () {
     });
 
     //SHOULD THIS BE AN OBJECT OR IS THERE A SITUATION WHERE THERE COULD BE MORE THAN ONE????
-    //CHANGE SO THAT IT'S /project/:project_name IN ALL THE STUFF. PEOPLE AREN'T GOING TO SEARCH BY ID
     it('should get a specific project on GET /project/:project_name', function (done) {
       request(app)
         .get('/api/project/' + project.get('project_name'))
         .expect(200)
         .end(function (err, res) {
           var project = res.body;
-          // console.log('PROJECT !!!!!!!!!!!!!!!', project);
           project.should.be.instanceof(Object);
           project.should.have.property('id');
           project.should.have.property('project_name');
@@ -85,15 +83,19 @@ describe('API', function () {
         })
         .expect(200)
         .end(function (err, res) {
-          console.log('RES !!!!!!!!!!!!!!!!!!!!!!!!', res);
           var _project = res.body;
           request(app)
             .get('/api/project/' + _project.project_name)
             .expect(200)
             .end(function (err, res) {
-              console.log('RES.BODY !!!!!!!!!!!!!!!!!!', res.body);
               var project = res.body;
-              project.project_name.should.be.equal.to(_project.project_name);
+              project.should.have.property('id');
+              project.should.have.property('project_name');
+              project.project_name.should.equal(_project.project_name);
+              project.should.have.property('created_at');
+              project.should.have.property('updated_at');
+              project.should.have.property('user');
+              project.user.should.be.instanceof(Array);
               done();
             });
         });
