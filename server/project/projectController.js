@@ -15,26 +15,7 @@ projectController.getAllProjects = function (req, res) {
     })
 };
 
-projectController.get = function (req, res) {
-  //dummy data, currently an array of projects as objects
-  res.json([{
-    name: 'doc1',
-    createdAt: 'Fri, 19 Dec 2014 00:58:17 GMT'
-  }, {
-    name: 'doc2',
-    createdAt: 'Tue, 16 Dec 2014 00:58:17 GMT'
-  }, {
-    name: 'doc3',
-    createdAt: 'Tue, 16 Dec 2014 00:58:17 GMT'
-  }, {
-    name: 'doc4',
-    createdAt: 'Tue, 16 Dec 2014 00:58:17 GMT'
-  }]);
-};
-
 projectController.getSpecificProject = function (req, res) {
-
-  console.log(req.params.id);
   models.Project
     .query('where', 'id', '=', req.params.id)
     .fetch({
