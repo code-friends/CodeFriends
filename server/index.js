@@ -12,12 +12,12 @@ var liveDB = require('livedb-mongo');
 var connect = require('connect'),
   http = require('http'),
   argv = require('optimist').argv,
-  // serveStatic = require( 'serve-static' ), not sure if we need this. 
+  // serveStatic = require( 'serve-static' ), not sure if we need this.
   shareCodeMirror = require('share-codemirror'),
   Duplex = require('stream').Duplex,
   livedb = require('livedb'),
   sharejs = require('share'),
-  shareJSport = argv.p || 8007,
+  shareJSPort = argv.p || 8007,
   shareJSapp = connect(),
   server = http.createServer(shareJSapp),
   // No credentials passed on to MongoDB (might need to change)
@@ -34,44 +34,8 @@ var connect = require('connect'),
     server: server
   });
 
-server.listen(shareJSport);
-console.log('editor listening on http://localhost:' + shareJSport + '/');
-
-//create editor ws connection
-
-wss.on('connection', function (client) {
-  var stream = new Duplex({
-    objectMode: true
-  });
-  stream._write = function (chunk, encoding, callback) {
-    console.log('s->c ', chunk);
-    client.send(JSON.stringify(chunk));
-    return callback();
-  };
-  stream._read = function () {};
-  stream.headers = client.upgradeReq.headers;
-  stream.remoteAddress = client.upgradeReq.connection.remoteAddress;
-  client.on('message', function (data) {
-    console.log('c->s ', data);
-    return stream.push(JSON.parse(data));
-  });
-  stream.on('error', function (msg) {
-    return client.close(msg);
-  });
-  client.on('close', function (reason) {
-    stream.push(null);
-    stream.emit('close');
-    console.log('client went away');
-    return client.close(reason);
-  });
-  stream.on('end', function () {
-    return client.close();
-  });
-  return share.listen(stream);
-});
-
-server.listen(shareJSport);
-console.log("editor listening on http://localhost:" + shareJSport + "/");
+server.listen(shareJSPort);
+console.log('Sockets listening on http://localhost:' + shareJSPort + '/');
 
 // Set routes
 var auth = require('./auth');
@@ -92,7 +56,7 @@ app
     extended: true
   }))
   .use(bodyParser.json())
-  .use(morgan('dev'))
+  // .use(morgan('dev'))
   // .use(expressMethodOverride)
   .use(session({
     secret: 'zfnzkwjehgweghw',
@@ -104,7 +68,6 @@ app
 
 //set routes
 var port = process.env.PORT || 8000;
-console.log('got to router in index.js')
 app
   .use(express.static(__dirname + '/../client'))
   .use('/auth', authRouter)

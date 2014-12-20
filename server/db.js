@@ -3,6 +3,7 @@ var Promise = require('bluebird');
 //MySQL
 var knex = require('knex');
 var connection;
+
 // Use A Different Database For Testing
 if (process.env.NODE_ENV === 'test') {
   connection = {
@@ -26,24 +27,10 @@ var db = knex({
   connection: connection
 });
 
-if (process.env.NODE_ENV === 'test') {
-  Promise.all([
-      db.schema.dropTable('users'),
-      db.schema.dropTable('projects'),
-      db.schema.dropTable('user_projects'),
-    ])
-    .then(function () {
-      console.log('Deleting All Tables');
-    })
-    .catch(function (err) {
-      console.log('Didnt delete talbes:', err);
-    });
-}
-
 //users schema
-db.schema.hasTable('users').then(function (exists) {
+db.createAllTables = db.schema.hasTable('users').then(function (exists) {
   if (!exists) {
-    db.schema.createTable('users', function (user) {
+    return db.schema.createTable('users', function (user) {
         user.increments('id').primary();
         user.string('username', 255);
         user.string('githubId', 255);
@@ -61,49 +48,42 @@ db.schema.hasTable('users').then(function (exists) {
         console.log('error creating users: ', error);
       });
   }
+}).then(function () {
+  //projects schema
+  return db.schema.hasTable('projects').then(function (exists) {
+    if (!exists) {
+      return db.schema.createTable('projects', function (project) {
+          project.increments('id').primary();
+          project.string('project_name', 255);
+          project.timestamps();
+        })
+        .then(function () {
+          console.log('created table: projects');
+        })
+        .catch(function (error) {
+          console.log('error creating projects: ', error);
+        });
+    }
+  });
+}).then(function () {
+  //DO WE NEED THIS?? MODELS SHOULD TAKE CARE OF IT
+  //creates join table for users and projects
+  return db.schema.hasTable('projects_users').then(function (exists) {
+    if (!exists) {
+      return db.schema.createTable('projects_users', function (projectsUsers) {
+          projectsUsers.increments('id').primary();
+          projectsUsers.integer('user_id').unsigned().references('id').inTable('users');
+          projectsUsers.integer('project_id').unsigned().references('id').inTable('projects');
+          projectsUsers.timestamps();
+        })
+        .then(function () {
+          console.log('created table: user_projects');
+        })
+        .catch(function (error) {
+          console.log('error creating user_projects: ', error);
+        });
+    }
+  });
 });
 
-//projects schema
-db.schema.hasTable('projects').then(function (exists) {
-  if (!exists) {
-    db.schema.createTable('projects', function (project) {
-        project.increments('id').primary();
-        project.string('project_name', 255);
-        project.timestamps();
-      })
-      .then(function () {
-        console.log('created table: projects');
-      })
-      .catch(function (error) {
-        console.log('error creating projects: ', error);
-      });
-  }
-});
-
-//DO WE NEED THIS?? MODELS SHOULD TAKE CARE OF IT
-//creates join table for users and projects
-
-db.schema.hasTable('projects_users').then(function (exists) {
-  if (!exists) {
-    db.schema.createTable('projects_users', function (projectsUsers) {
-        projectsUsers.increments('id').primary();
-        projectsUsers.integer('user_id').unsigned().references('id').inTable('users');
-        projectsUsers.integer('project_id').unsigned().references('id').inTable('projects');
-        projectsUsers.timestamps();
-      })
-      .then(function () {
-        console.log('created table: user_projects');
-      })
-      .catch(function (error) {
-        console.log('error creating user_projects: ', error);
-      });
-  }
-});
-
-var bookshelf = require('bookshelf')(db);
-module.exports = bookshelf;
-
-//to create database at beginning of project
-//go to terminal
-//mysql -u root
-//create database 'name of database'
+module.exports = db;
