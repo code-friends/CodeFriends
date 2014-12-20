@@ -1,5 +1,4 @@
 var express = require('express');
-var userModel = require('./userModel.js');
 var models = require('../models.js').models;
 var collections = require('../models.js').collections;
 
