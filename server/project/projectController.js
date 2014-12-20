@@ -7,17 +7,19 @@ var projectController = {};
 
 projectController.post = function (req, res) {
 
-  console.log('REQ !!!!!!!!!!!!!!!!!', req.body);
-  // var content = req.body.project_name;
+  // console.log('REQ !!!!!!!!!!!!!!!!!', req.body.project_name);
+  // console.log('RES !!!!!!!!!!!!!!!!!', res);
+  var project_name = req.body.project_name;
 
-  if (!content) {
+  if (!project_name) {
     res.status(400).end();
   }
   var newProject = new models.Project({
-      content: content
+      project_name: project_name
     })
     .save()
     .then(function (model) {
+      // console.log(json(model.toJSON()));
       res.json(model.toJSON());
     })
 };
@@ -34,7 +36,7 @@ projectController.getAllProjects = function (req, res) {
 
 projectController.getSpecificProject = function (req, res) {
   models.Project
-    .query('where', 'id', '=', req.params.id)
+    .query('where', 'project_name', '=', req.params.project_name)
     .fetch({
       withRelated: ['user']
     })
