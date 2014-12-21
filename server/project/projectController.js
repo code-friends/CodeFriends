@@ -1,11 +1,12 @@
 var express = require('express');
 var models = require('../models.js').models;
 var collections = require('../models.js').collections;
+var Promise = require('bluebird');
+
 
 var projectController = {};
 
 projectController.post = function (req, res) {
-
   //// THIS IS THE RIGHT ONE ONCE AUTH IS ATTACHED. DUMMY DATA BELOW ////////////////
   // var userId = req.user.get('id');
   var userId = {
@@ -21,20 +22,15 @@ projectController.post = function (req, res) {
   var newProject = new models.Project({
       project_name: project_name
     })
-    .fetch()
-    .then(function (project) {
-      return project.related('user').create(userId).yield(project)
+    .save()
+    .then(function (model) {
+      console.log('MODEL1 !!!!!!!!!!!!!!!!', model);
+      return model.related('user').create(userId).yield(model);
     })
-    .then(function (project) {
-      res.json(project.toJSON());
+    .then(function (model) {
+      console.log('model2 !!!!!!!!!!!!!!!!', model);
+      res.json(model.toJSON());
     })
-    // .save()
-    // .then(function (project) {
-    //   return newProject.save()
-    // })
-    // .then(function (model) {
-    //   res.json(model.toJSON());
-    // });
 };
 
 projectController.getAllProjects = function (req, res) {
