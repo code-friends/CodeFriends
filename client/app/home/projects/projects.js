@@ -17,8 +17,6 @@ angular.module('code.projects', ['ui.router'])
         return res.data;
       }).then(function () {
         return Projects.getProjects(function (res) {
-          console.log('res');
-          console.log(res);
           $scope.projects = res;
           console.log($scope.projects);
         });

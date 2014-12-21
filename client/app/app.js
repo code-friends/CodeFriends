@@ -2,12 +2,14 @@
 (function () {
   angular.module('code', [
       'ui.router',
+      'ui.keypress',
       'code.userBox',
       'code.landing',
       'code.login',
       'code.editor',
       'code.projects',
-      'code.services'
+      'code.services',
+      'code.chat'
     ])
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
       $urlRouterProvider.otherwise('/');
@@ -48,9 +50,8 @@
               templateUrl: '/app/projectEditor/projectEditor.html'
             },
             'chat@projectEditor': {
-              // templateUrl: '/app/projectEditor/chat/chat.html'
-              template: '<p>chat</p>'
-                // controller: '/app/projectEditor/chat/chat.js'
+              templateUrl: '/app/projectEditor/chat/chat.html',
+              controller: 'chatController'
             },
             'editor@projectEditor': {
               templateUrl: '/app/projectEditor/editor/editor.html',
