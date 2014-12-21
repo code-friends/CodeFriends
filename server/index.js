@@ -1,8 +1,6 @@
+'use strict';
 //dependencies
 var bodyParser = require('body-parser'),
-  path = require('path'),
-  morgan = require('morgan'),
-  marked = require('marked'),
   session = require('express-session'),
   express = require('express'),
   chatServer = require('./chatServer.js'),
@@ -10,7 +8,6 @@ var bodyParser = require('body-parser'),
 
 // Set routes
 var auth = require('./auth');
-var db = require('./db');
 var auth = require('./auth');
 var authRouter = require('./auth/authRouter');
 var apiRouter = require('./api');
