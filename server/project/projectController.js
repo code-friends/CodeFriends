@@ -8,20 +8,33 @@ projectController.post = function (req, res) {
 
   //// THIS IS THE RIGHT ONE ONCE AUTH IS ATTACHED. DUMMY DATA BELOW ////////////////
   // var userId = req.user.get('id');
-  var userId = 2;
+  var userId = {
+    id: 2
+  };
+
   var project_name = req.body.project_name;
 
   if (!project_name) {
     res.status(400).end();
   }
-  var newProject = new models.Project({
-      project_name: project_name,
 
+  var newProject = new models.Project({
+      project_name: project_name
     })
-    .save()
-    .then(function (model) {
-      res.json(model.toJSON());
-    });
+    .fetch()
+    .then(function (project) {
+      return project.related('user').create(userId).yield(project)
+    })
+    .then(function (project) {
+      res.json(project.toJSON());
+    })
+    // .save()
+    // .then(function (project) {
+    //   return newProject.save()
+    // })
+    // .then(function (model) {
+    //   res.json(model.toJSON());
+    // });
 };
 
 projectController.getAllProjects = function (req, res) {
