@@ -96,11 +96,11 @@ describe('API', function () {
               project.should.have.property('updated_at');
               project.should.have.property('user');
               project.user.should.be.instanceof(Array);
+              // project.user.length.should.equal(1);
               done();
             });
         });
     });
-
 
   });
 
