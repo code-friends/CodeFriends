@@ -8,14 +8,18 @@
     background-repeat: no-repeat;
   }
 </style>
+<!-- New File -->
+<form ng-submit='addNewFile()'>
+  <input type='text' ng-model='newFileName' name="text" placeholder='New File Name'>
+  <input type='submit' id='submit' value='Create'>
+</form>
+<!-- Editor -->
 <textarea id='pad' autofocus>Connecting...</textarea>
-
 <script>
+/*jshint browser:true */
+/*global CodeMirror: true */
 CodeMirror.fromTextArea( document.getElementById('pad'), {
-  mode:  "javascript", 
+  mode:  'javascript',
   lineNumbers: true
-}); 
-
+});
 </script>
-
-
