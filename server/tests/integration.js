@@ -45,7 +45,6 @@ describe('API', function () {
         .get('/api/project')
         .expect(200)
         .end(function (err, res) {
-          // console.log(res.body);
           var projects = res.body;
           projects.should.be.instanceof(Array);
           projects[0].should.have.property('id');
@@ -89,6 +88,7 @@ describe('API', function () {
             .expect(200)
             .end(function (err, res) {
               var project = res.body;
+              console.log('PROJECT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!', project);
               project.should.have.property('id');
               project.should.have.property('project_name');
               project.project_name.should.equal(_project.project_name);
@@ -145,7 +145,6 @@ describe('API', function () {
         .get('/api/user/' + user.get('username'))
         .expect(200)
         .end(function (err, res) {
-          console.log(res.body);
           var user = res.body;
           user.should.be.instanceof(Object);
           user.should.have.property('id');
@@ -183,9 +182,7 @@ describe('API', function () {
             .get('/api/user/' + _user.username)
             .expect(200)
             .end(function (err, res) {
-              // console.log('RES.BODY !!!!!!!!!!!!!!!!!!!!', res.body);
               var user = res.body;
-              // console.log('USER !!!!!!!!!!!!!!!!!!!!', user);
               user.should.have.property('id');
               user.should.have.property('username');
               user.username.should.equal(_user.username);

@@ -6,13 +6,17 @@ var projectController = {};
 
 projectController.post = function (req, res) {
 
+  //// THIS IS THE RIGHT ONE ONCE AUTH IS ATTACHED. DUMMY DATA BELOW ////////////////
+  // var userId = req.user.get('id');
+  var userId = 2;
   var project_name = req.body.project_name;
 
   if (!project_name) {
     res.status(400).end();
   }
   var newProject = new models.Project({
-      project_name: project_name
+      project_name: project_name,
+
     })
     .save()
     .then(function (model) {
@@ -47,6 +51,7 @@ projectController.getSpecificProject = function (req, res) {
 //ALWAYS USER THE PROJECT / USER IDs?
 //GET
 ////get specific users or projects by the name OR the id
+////req.user is an express way of saying who did the request. so the userid of the person to add upon creation is
 ////
 ////
 //PUT
