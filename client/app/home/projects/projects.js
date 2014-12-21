@@ -1,3 +1,4 @@
+/*global angular:true */
 angular.module('code.projects', ['ui.router'])
   .controller('projectsController', function ($scope, $state, $http, Projects) {
     $scope.projects = {};
@@ -17,12 +18,9 @@ angular.module('code.projects', ['ui.router'])
         return res.data;
       }).then(function () {
         return Projects.getProjects(function (res) {
-          console.log('res');
-          console.log(res);
           $scope.projects = res;
-          console.log($scope.projects);
         });
-      })
+      });
     };
 
     $scope.init();
