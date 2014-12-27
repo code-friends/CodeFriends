@@ -1,0 +1,19 @@
+db:
+  image: tutum/mysql:5.5
+  ports:
+   - "3306:3306"
+  environment:
+    MYSQL_PASS: "6gdP7R3adDYNehj"
+server:
+  build: .
+  ports:
+   - "8005:80"
+  expose:
+   - "80"
+  links:
+   - "db:db"
+  environment:
+    NODE_ENV: staging
+    gitHubClientId: '8e5597f8b7b57782b00d'
+    gitHubClientSecret: '49fa37c2a46d3e03af3a74a7ed715fc72e12e05d'
+    PORT: 80
