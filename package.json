@@ -52,6 +52,7 @@
     "mocha": "^2.0.1",
     "moment": "^2.8.4",
     "mongo-client": "^0.2.1",
+    "mongodb": "^1.4.26",
     "mongoose": "^3.8.20",
     "morgan": "^1.5.0",
     "mysql": "^2.5.4",
