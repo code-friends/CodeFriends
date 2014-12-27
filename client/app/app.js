@@ -1,15 +1,16 @@
-/*global angular:true */
+/*global angular:false */
 (function () {
   angular.module('code', [
       'ui.router',
-      'ui.keypress',
+      // 'ui.keypress',
       'code.userBox',
       'code.landing',
       'code.login',
       'code.editor',
       'code.projects',
       'code.services',
-      'code.chat'
+      'code.chat',
+      'ngSocket'
     ])
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
       $urlRouterProvider.otherwise('/');
