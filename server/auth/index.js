@@ -16,9 +16,9 @@ passport.deserializeUser(function (id, done) {
 });
 
 passport.use(new GitHubStrategy({
-    clientID: '364ea3bc2b086177fd27',
-    clientSecret: '2dce4e81ad618474f5c822b4567200b941a6c1b1',
-    callbackURL: 'http://127.0.0.1:8000/auth/login/callback'
+    clientID: process.env.gitHubClientId || '364ea3bc2b086177fd27',
+    clientSecret: process.env.gitHubClientSecret || '2dce4e81ad618474f5c822b4567200b941a6c1b1',
+    callbackURL: (process.env.url || 'http://127.0.0.1:8000') + '/auth/login/callback'
   },
   function (accessToken, refreshToken, profile, done) {
     // I'm not exactly sure when we use an accessToken and a refreshToken
