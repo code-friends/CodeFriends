@@ -1,20 +1,22 @@
 angular.module('code.chat', ['ui.router'])
   .controller('chatController', function ($scope, $state, ngSocket) {
     var ws = ngSocket('ws://localhost:8001');
+    $scope.messages = [];
     ws.onMessage(function (msg) {
+      msg = JSON.parse(msg.data);
       console.log('message received', msg);
+      $scope.messages.push(msg);
     });
     ws.send({
       foo: 'bar'
     });
 
     $scope.doSomething = function () {
+      console.log($scope.chatMessage);
       ws.send({
-        foo: 'LOLOLOL'
+        foo: $scope.chatMessage
       });
-      ws.send({
-        message: 'WHAT'
-      });
+      $scope.chatMessage = '';
     };
 
   })

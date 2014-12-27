@@ -44,9 +44,17 @@ var chatPort = 8001,
 chatWS.on('connection', function (ws) {
   ws.on('message', function (msg) {
     console.log(msg);
+    chatWS.broadcast(msg);
   });
   ws.send('something from the server');
 });
+
+chatWS.broadcast = function broadcast(data) {
+  for (var i in this.clients) {
+    this.clients[i].send(data);
+  }
+};
+
 chatServer.listen(chatPort);
 
 
