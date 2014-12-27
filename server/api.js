@@ -6,7 +6,7 @@ var express = require('express');
 
 var apiRouter = express.Router();
 
-apiRouter.use('/file', projectRouter);
+apiRouter.use('/file', fileRouter);
 apiRouter.use('/project', projectRouter);
 apiRouter.use('/user', userRouter);
 
