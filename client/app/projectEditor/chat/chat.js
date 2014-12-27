@@ -1,12 +1,22 @@
-angular.module('code.chat', ['ui.router', 'ui.keypress'])
-  .controller('chatController', function ($scope, $state) {
+angular.module('code.chat', ['ui.router'])
+  .controller('chatController', function ($scope, $state, ngSocket) {
+    var ws = ngSocket('ws://localhost:8001');
+    ws.onMessage(function (msg) {
+      console.log('message received', msg);
+    });
+    ws.send({
+      foo: 'bar'
+    });
+
     $scope.doSomething = function () {
-      alert("WORK PLZ");
-    }
-    $scope.keypressCallback = function ($event) {
-      alert('Voila!');
-      $event.preventDefault();
+      ws.send({
+        foo: 'LOLOLOL'
+      });
+      ws.send({
+        message: 'WHAT'
+      });
     };
+
   })
   .directive('ngEnter', function () {
     return function (scope, element, attrs) {
