@@ -34,6 +34,23 @@ var connect = require('connect'),
     server: server
   });
 
+var chatPort = 8001,
+  chatApp = connect(),
+  chatServer = http.createServer(chatApp),
+  chatWS = new WebSocketServer({
+    server: chatServer
+  })
+
+chatWS.on('connection', function (ws) {
+  ws.on('message', function (msg) {
+    console.log(msg);
+  });
+  ws.send('something from the server');
+});
+chatServer.listen(chatPort);
+
+
+
 server.listen(shareJSPort);
 console.log('editor listening on http://localhost:' + shareJSPort + '/');
 
@@ -72,8 +89,6 @@ wss.on('connection', function (client) {
 // Set routes
 var auth = require('./auth');
 var db = require('./db');
-
-var port = process.env.PORT || 8000;
 var auth = require('./auth');
 var authRouter = require('./auth/authRouter');
 var apiRouter = require('./api');
