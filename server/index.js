@@ -34,9 +34,6 @@ var connect = require('connect'),
     server: server
   });
 
-console.log('process.env');
-console.log(process.env);
-
 server.listen(shareJSPort);
 console.log('editor listening on http://localhost:' + shareJSPort + '/');
 
