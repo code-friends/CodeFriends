@@ -6,7 +6,7 @@ var connection;
 
 
 // Use A Different Database For Testing
-if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'staging' || process.env.NODE_ENV === 'production') {
   connection = {
     host: process.env.DB_PORT_3306_TCP_ADDR,
     user: process.env.DB_ENV_MYSQL_USER,
