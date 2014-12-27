@@ -16,4 +16,5 @@ server:
     NODE_ENV: staging
     gitHubClientId: '8e5597f8b7b57782b00d'
     gitHubClientSecret: '49fa37c2a46d3e03af3a74a7ed715fc72e12e05d'
+    url: 'http://codefriends.thejsj.com/'
     PORT: 80
