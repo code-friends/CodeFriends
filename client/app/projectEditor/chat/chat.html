@@ -1,8 +1,7 @@
 <div ng-controller="chatController"> 
 <div>
-  <ul> 
-    <li>chat content will go here </li> 
-    {{chatMessage}}
+  <ul id="chatContent" ng-repeat="message in messages"> 
+    <li>{{message.message.foo}}</li> 
   </ul> 
 </div> 
 <div>
