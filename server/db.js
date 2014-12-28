@@ -34,8 +34,6 @@ var db = knex({
   connection: connection
 });
 
-conssole.log('CONNECTION:', connection);
-
 //users schema
 db.createAllTables = db.schema.hasTable('users').then(function (exists) {
   if (!exists) {
