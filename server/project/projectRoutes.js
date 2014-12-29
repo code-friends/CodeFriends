@@ -5,7 +5,9 @@ var projectRouter = express.Router();
 
 projectRouter.post('/', projectController.post);
 projectRouter.get('/', projectController.getAllProjects);
-projectRouter.get('/:project_name', projectController.getSpecificProject);
+projectRouter.get('/projectname:project_name', projectController.getSpecificProjectByName);
+projectRouter.get('/id/:id', projectController.getSpecificProjectById);
+projectRouter.put('/addUser:newUser', projectController.addUser);
 projectRouter.put('/', projectController.put);
 projectRouter.delete('/', projectController.delete);
 
