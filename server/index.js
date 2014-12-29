@@ -34,11 +34,8 @@ var connect = require('connect'),
     server: server
   });
 
-console.log('process.env');
-console.log(process.env);
-
 server.listen(shareJSPort);
-console.log('editor listening on http://localhost:' + shareJSPort + '/');
+console.log('Editor listening on port:', shareJSPort);
 
 // Create editor ws connection
 wss.on('connection', function (client) {
@@ -108,7 +105,7 @@ app
   .use('/auth', authRouter)
   .use('/api', apiRouter)
   .listen(port, function () {
-    console.log('Server listening on port: ', port);
+    console.log('Server listening on port:', port);
   });
 
 module.exports = app;
