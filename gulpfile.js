@@ -30,8 +30,9 @@ gulp.task('js', function () {
       './client/app/userBox.js',
       './client/app/login/login.js',
       './client/app/projectEditor/editor/editor.js',
-      './client/app/projectEditor/editor/editor.js',
-      './client/app/app.js'
+      './client/app/projectEditor/chat/chat.js',
+      './client/app/app.js',
+      './client/lib/ngSocket/dist/ngSocket.js'
     ])
     .pipe(gulpConcat('main.js'))
     // .pipe(uglify())
