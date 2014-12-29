@@ -41,6 +41,8 @@ db.createAllTables = db.schema.hasTable('users').then(function (exists) {
     return db.schema.createTable('users', function (user) {
         user.increments('id').primary();
         user.string('username', 255);
+        user.string('email', 255);
+        user.string('password', 255);
         user.string('githubId', 255);
         user.string('githubName', 255);
         user.string('githubEmail', 255);
