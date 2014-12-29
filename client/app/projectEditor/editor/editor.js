@@ -7,9 +7,9 @@ angular.module('code.editor', ['ui.router'])
       $state.go('home');
     };
     $scope.addNewFile = function () {
-      return $http.post('/api/project/file', {
+      return $http.post('/api/file', {
         file_name: $scope.newFileName,
-        project_name: $scope.projectName, // Where can we get this from?
+        project_name: $stateParams.docID, // Where can we get this from?
         parent_file: null
       });
     };
@@ -21,9 +21,9 @@ angular.module('code.editor', ['ui.router'])
       theme: 'paraiso-dark'
     });
     var elem = document.getElementById('pad');
-    var ws = new WebSocket('ws://localhost:8007');
+    var ws = new WebSocket('ws://localhost:8007'); // This should be dynamic
     var sjs = new window.sharejs.Connection(ws);
-    var collectionName = 'documents';
+    var collectionName = 'documents'; // project name? This should not be static
     var doc = sjs.get(collectionName, $stateParams.docID);
     doc.subscribe();
     doc.whenReady(function () {
