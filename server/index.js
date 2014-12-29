@@ -42,7 +42,7 @@ app
   .use('/auth', authRouter)
   .use('/api', apiRouter)
   .listen(port, function () {
-    console.log('Server listening on port: ', port);
+    console.log('Server listening on port:', port);
   });
 
 chatServer.listen(chatPort);
