@@ -1,4 +1,5 @@
 'use strict';
+
 //dependencies
 var bodyParser = require('body-parser'),
   session = require('express-session'),

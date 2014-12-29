@@ -1,12 +1,14 @@
-'use strict';
 /*global describe:true, xdescribe:true, it:true, xit:true, before: true */
+'use strict';
 
 var request = require('supertest');
-var should = require('should');
-var expect = require('chai').expect;
+// var should = require('should');
+// var expect = require('chai').expect;
 var ProjectCollection = require('../models').collections.ProjectCollection;
 var UserCollection = require('../models').collections.UserCollection;
 var app = require('../index');
+
+// var _ = require('lodash');
 
 xdescribe('Auth', function () {
 
@@ -98,7 +100,8 @@ describe('API', function () {
             });
         });
     });
-  });
+
+  }); // End Project Describe
 
   /////////////////////////////////////////    USER TESTS    /////////////////////////////////////////
   describe('User', function () {
@@ -300,6 +303,44 @@ describe('API', function () {
           .send({
             project_name: 'basketball'
           });
+    // agent persists cookies and sessions
+    var agent = request.agent(app);
+    before(function (done) {
+      agent
+        .post('/auth/signup')
+        .send({
+          email: 'jorge.silva@thejsj.com',
+          password: 'basketball'
+        })
+        .end(function () {
+          agent
+            .post('/auth/login')
+            .send({
+              email: 'jorge.silva@thejsj.com',
+              password: 'basketball'
+            })
+            .end(function () {
+              agent
+                .get('/auth/user')
+                .end(function () {
+                  done();
+                });
+            });
+        });
+    });
+
+    it('should create a new file structure for a project with no file structure', function (done) {
+      agent
+        .post('/api/file')
+        .send({
+          project_name: 'basketball',
+          file_name: 'main.js',
+        })
+        .end(function (err, res) {
+          console.log('res.text');
+          console.log(res.text);
+          done();
+        });
     });
 
     it('should add a user to a project on PUT /project/addUser', function (done) {

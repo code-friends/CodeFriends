@@ -1,3 +1,5 @@
+'use strict';
+
 var express = require('express');
 var authControllers = require('./authController');
 
@@ -8,6 +10,7 @@ authRouter.use('/login/callback', auth.authenticate('github'), function (req, re
   res.redirect('/#/home');
 });
 authRouter.post('/login', auth.authenticate('local'), authControllers.login);
+authRouter.get('/login', auth.authenticate('github'));
 authRouter.post('/signup', authControllers.signup);
 authRouter.use('/user', authControllers.getUser);
 authRouter.use('/logout', authControllers.logout);
