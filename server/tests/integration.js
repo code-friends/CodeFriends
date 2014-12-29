@@ -123,11 +123,11 @@ describe('API', function () {
 
     it('should add a user to a project on PUT /project/addUser', function (done) {
       request(app)
-        .put('/api/project/addUser2')
+        .put('/api/project/addUser1')
         // .expect(200)
         .end(function (err, res) {
           var project = res.body;
-          console.log('ADDUSER !!!!!!!!!!!!!!!!!!!!!!!', project)
+        console.log('ADDUSER !!!!!!!!!!!!!!!!!!!!!!!', project)
           project.should.be.instanceof(Object);
           project.should.have.property('id');
           project.should.have.property('project_name');

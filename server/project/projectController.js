@@ -33,7 +33,6 @@ projectController.post = function (req, res) {
 
 projectController.getAllProjects = function (req, res) {
   // var userId = req.user.get('id');
-
   //only allow access to the file for projects associated with this current user (they only have permission for those)
 
   models.Project
@@ -63,7 +62,6 @@ projectController.getSpecificProjectByName = function (req, res) {
       res.send(coll);
     });
 };
-// .query('where', 'project_name', '=', req.params.project_name)
 
 projectController.getSpecificProjectById = function (req, res) {
   // var userId = req.user.get('id');
@@ -85,36 +83,31 @@ projectController.getSpecificProjectById = function (req, res) {
     });
 };
 
-//HOW WILL WE FIND OUT find out if they have permission?, //ALWAYS USER THE PROJECT / USER IDs?
-//GET
-////get specific users or projects by the name OR the id
-////req.user is an express way of saying who did the request. so the userid of the person to add upon creation is
-////add project to a user
-////remove project from a user
-//DELETE
-//delete a user
-
-
 ////ADD USER TO A PROJECT
 projectController.addUser = function (req, res) {
   // var userId = req.user.get('id');
-  var project = req.body.project_name;
   var newUser = req.params.newUser;
-  console.log('NEW USERS !!!!!!!!!!!', newUser);
-  console.log('REQ IN THE ADDUSER!!!!!!!!!!!!!!!!!!', req)
+  var userId = {
+      id: newUser
+    }
+    // console.log('REQ IN THE ADDUSER!!!!!!!!!!!!!!!!!!', req)
 
   models.Project
     .query({
       where: {
-        project_name: req.body.project_name
+        project_name: 'basketball'
       }
     })
     .fetch({
       withRelated: ['user']
     })
-    .then(function (coll) {
-      res.send(coll);
-    });
+    .then(function (model) {
+      return model.related('user').create(userId).yield(model);
+    })
+    .then(function (model) {
+      console.log('MODEL !!!!!!!!', model)
+      res.json(model.toJSON());
+    })
 };
 
 ////REMOVE USERS FROM A PROJECT
