@@ -1,5 +1,6 @@
 var passport = require('passport');
 var GitHubStrategy = require('passport-github').Strategy;
+var LocalStrategy = require('passport-local').Strategy;
 var UserCollection = require('../models').collections.UserCollection;
 
 passport.serializeUser(function (user, done) {
@@ -52,6 +53,26 @@ passport.use(new GitHubStrategy({
           return done(null, false);
         });
     }
+  }
+));
+
+passport.use(new LocalStrategy({
+    usernameField: 'email',
+  },
+  function (email, password, done) {
+    UserCollection
+      .query('where', 'email', '=', email)
+      .fetchOne()
+      .then(function (user) {
+        return user.checkPassword(password)
+          .then(function (isMatch) {
+            if (!isMatch) return done(null, false);
+            return done(null, user);
+          });
+      })
+      .catch(function (err) {
+        return done(null, false);
+      });
   }
 ));
 
