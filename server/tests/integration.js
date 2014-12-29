@@ -57,12 +57,31 @@ describe('API', function () {
     });
 
     //SHOULD THIS BE AN OBJECT OR IS THERE A SITUATION WHERE THERE COULD BE MORE THAN ONE????
-    it('should get a specific project on GET /project/:project_name', function (done) {
+    it('should get a specific project on GET /project/projectname:project_name', function (done) {
       request(app)
-        .get('/api/project/' + project.get('project_name'))
+        .get('/api/project/projectname' + project.get('project_name'))
         .expect(200)
         .end(function (err, res) {
           var project = res.body;
+          project.should.be.instanceof(Object);
+          project.should.have.property('id');
+          project.should.have.property('project_name');
+          project.should.have.property('created_at');
+          project.should.have.property('updated_at');
+          project.should.have.property('user');
+          project.user.should.be.instanceof(Array);
+          done();
+        });
+    });
+
+    it('should get a specific project on GET /project/id/:id', function (done) {
+      request(app)
+        //the project id '2' is hard-coded for now
+        .get('/api/project/id/2')
+        .expect(200)
+        .end(function (err, res) {
+          var project = res.body;
+          console.log('GOT BY ID !!!!!!!!!!!!!!!!!!!!!!!', project)
           project.should.be.instanceof(Object);
           project.should.have.property('id');
           project.should.have.property('project_name');
@@ -84,7 +103,7 @@ describe('API', function () {
         .end(function (err, res) {
           var _project = res.body;
           request(app)
-            .get('/api/project/' + _project.project_name)
+            .get('/api/project/projectname' + _project.project_name)
             .expect(200)
             .end(function (err, res) {
               var project = res.body;
@@ -99,6 +118,24 @@ describe('API', function () {
               // project.user.length.should.equal(1);
               done();
             });
+        });
+    });
+
+    it('should add a user to a project on PUT /project/addUser', function (done) {
+      request(app)
+        .put('/api/project/addUser2')
+        // .expect(200)
+        .end(function (err, res) {
+          var project = res.body;
+          console.log('ADDUSER !!!!!!!!!!!!!!!!!!!!!!!', project)
+          project.should.be.instanceof(Object);
+          project.should.have.property('id');
+          project.should.have.property('project_name');
+          project.should.have.property('created_at');
+          project.should.have.property('updated_at');
+          project.should.have.property('user');
+          project.user.should.be.instanceof(Array);
+          done();
         });
     });
 

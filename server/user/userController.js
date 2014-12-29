@@ -55,10 +55,28 @@ userController.getSpecificUser = function (req, res) {
 		});
 };
 
+//CHANGE TO GET BY USERNAME OR ID
+userController.getSpecificUserById = function (req, res) {
+	// models.User
+	// 	.query('where', 'username', '=', req.params.username)
+	// 	.fetch({
+	// 		withRelated: ['project']
+	// 	})
+	// 	.then(function (coll) {
+	// 		res.send(coll);
+	// 	});
+};
 
+//Add project to user, might not need this because the put request in the product controller should already take care of it
 userController.put = function (req, res) {
 	res.status(200).end();
 };
+
+//Add project to user, might not need this because the put request in the product controller should already take care of it
+userController.put = function (req, res) {
+	res.status(200).end();
+};
+
 
 userController.delete = function (req, res) {
 	res.status(200).end();
