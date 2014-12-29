@@ -22,7 +22,6 @@ gulp.task('js', function () {
       './client/assets/js/codemirror.js',
       './client/assets/js/share-codemirror.js',
       './client/assets/js/mode-javascript.js',
-      './client/assets/js/mode-javascript.js',
       './client/app/services/services.js',
       './client/app/home/projects/projects.js',
       './client/app/landing/landing.js',
