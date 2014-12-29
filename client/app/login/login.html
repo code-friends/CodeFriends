@@ -1,6 +1,17 @@
 <div>
-  <form>
-    <h3>fake login</h3>
-    <a href='/auth/login'>Login With Github</a>
+  <h3>Login</h3>
+  <a href='/auth/login'>Login With Github</a>
+
+  <form action='auth/login' method='POST'>
+    <input type='text' name='email' placeholder='Email'>
+    <input type='password' name='password' placeholder='Password'>
+    <input type='submit' val='Submit' />
+  </form>
+
+  <h3>Sign Up</h3>
+  <form action='auth/signup' method='POST'>
+    <input type='text' name='email' placeholder='Email'>
+    <input type='password' name='password' placeholder='Password'>
+    <input type='submit' val='Submit' />
   </form>
 </div>
