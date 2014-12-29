@@ -1,8 +1,7 @@
-/*global angular:false */
+/*global angular:true */
 (function () {
   angular.module('code', [
       'ui.router',
-      // 'ui.keypress',
       'code.userBox',
       'code.landing',
       'code.login',
