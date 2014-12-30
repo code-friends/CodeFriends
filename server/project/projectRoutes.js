@@ -7,7 +7,7 @@ projectRouter.post('/', projectController.post);
 projectRouter.get('/', projectController.getAllProjects);
 projectRouter.get('/projectname:project_name', projectController.getSpecificProjectByName);
 projectRouter.get('/id/:id', projectController.getSpecificProjectById);
-projectRouter.put('/addUser:newUser', projectController.addUser);
+projectRouter.put('/addUser/', projectController.addUser);
 projectRouter.put('/', projectController.put);
 projectRouter.delete('/', projectController.delete);
 
