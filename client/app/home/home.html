@@ -1,12 +1,18 @@
-<!-- Nested states on home page: project state, friends/online friends state -->
-<div>
-  <h2>Home</h2>
+<div class="header">
+  <div class="logo-region">
+    <a href="/">
+      <div id="logo-image"></div>
+      <div id="logo-text">code friends</div>
+    </a>
+  </div>
+  <div class='user-box-region' ng-controller='userBox'>
+    <span ng-show='userLoggedIn' class='userName'>Hello {{userName}}</span>
+  </div>
+</div>
+<div class="viewport header-space">
+  <div>Home</div>
 
   <h3>Projects</h3>
   <div ui-view="projects"></div>
-
-<!--   <h3>Friends</h3>
-  <div ui-view="friends"></div>
- -->
   </div>
 </div>
