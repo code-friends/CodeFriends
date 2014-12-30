@@ -368,8 +368,13 @@ a {
   height: 100vh; }
 
 .header-space {
-  position: relative;
+  position: absolute;
   top: 70px; }
+
+.body {
+  position: absolute;
+  left: 5%;
+  top: 5%; }
 
 .initial-landing-view {
   background-color: #86CCCC; }
