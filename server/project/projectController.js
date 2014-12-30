@@ -1,8 +1,6 @@
 'use strict';
 
 var models = require('../models.js').models;
-<<<<<<< HEAD
-var collections = require('../models.js').collections;
 var Promise = require('bluebird');
 var db = require('../db');
 
@@ -53,29 +51,9 @@ projectController.getAllProjects = function (req, res) {
 };
 
 ///   var userId = req.user.get('id');   ///   if user is one of the users in if the project   ///   then execute the code below
-projectController.getSpecificProjectByName = function (req, res) {
+projectController.getSpecificProject = function (req, res) {
   models.Project
-    .query({
-      where: {
-        project_name: req.params.project_name
-      }
-    })
-    .fetch({
-      withRelated: ['user']
-    })
-    .then(function (coll) {
-      res.json(coll.toJSON());
-    });
-};
-
-///   var userId = req.user.get('id');   ///   if user is one of the users in if the project   ///   then execute the code below
-projectController.getSpecificProjectById = function (req, res) {
-  models.Project
-    .query({
-      where: {
-        id: req.params.id
-      }
-    })
+    .query({where: { project_name: req.params.project_name_or_id}, orWhere: {id: req.params.project_name_or_id}})
     .fetch({
       withRelated: ['user']
     })
@@ -84,7 +62,7 @@ projectController.getSpecificProjectById = function (req, res) {
         .then(function (fileStructure) {
           var project_json = project.toJSON();
           project_json.files = fileStructure.files;
-          res.json(project.toJSON());
+          res.json(project_json);
         });
     });
 };
@@ -117,7 +95,7 @@ projectController.addUser = function (req, res) {
     })
     .then(function (model) {
       res.json(model.toJSON());
-    })
+    });
 };
 
 //REMOVE USERS FROM A PROJECT   ///   if user is one of the users in if the project   ///   then execute the code below
@@ -150,7 +128,6 @@ projectController.delete = function (req, res) {
     .then(function () {
       res.status(200).end();
     });
-
 };
 
 module.exports = projectController;
