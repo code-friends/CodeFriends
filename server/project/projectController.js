@@ -9,8 +9,13 @@ var getFileStructure = require('../file/fileController').getFileStructure;
 var projectController = {};
 
 /////////////////////////////////////////    POST    /////////////////////////////////////////
-//ADDS A NEW PROJECT AND ADDS THE CREATOR TO THE 'USER' PROPERTY   ///   var userId = req.user.get('id');   ///   ABOVE IS THE RIGHT ONE ONCE AUTH IS ATTACHED. DUMMY DATA BELOW
+//ADDS A NEW PROJECT AND ADDS THE CREATOR TO THE 'USER' PROPERTY   
 projectController.post = function (req, res) {
+
+  console.log('THIS IS REQ IN PROJECT.CONTROLLER.POST !!!!', req);
+
+  var userId = req.user.get('id');
+
   var project_name = req.body.project_name;
 
   if (!project_name) {

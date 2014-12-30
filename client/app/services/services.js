@@ -14,6 +14,7 @@ angular.module('code.services', [])
       console.log('ENTERED GET PROJECTS !!!!!!!!');
       $http.get('api/project/')
         .then(function (res) {
+          console.log(res.data);
           this.userProjects = res.data;
           cb(res.data);
         });
