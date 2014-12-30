@@ -5,7 +5,7 @@
   angular.module('code', [
       'ui.router',
       'code.userBox',
-      // 'code.landing',
+      'code.landing',
       'code.home',
       'code.login',
       'code.project',
@@ -21,7 +21,7 @@
       $stateProvider
         .state('landing', {
           templateUrl: '/app/landing/landing.html',
-          // controller: 'landingController',
+          controller: 'landingController',
           url: '/'
         })
         .state('login', {

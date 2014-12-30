@@ -24,6 +24,7 @@ passport.use(new GitHubStrategy({
     callbackURL: (process.env.url || 'http://127.0.0.1:8000') + '/auth/login/callback'
   },
   function (accessToken, refreshToken, profile, done) {
+    console.log(profile);
     // I'm not exactly sure when we use an accessToken and a refreshToken
     if (accessToken !== null) {
       new UserCollection()
