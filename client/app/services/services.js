@@ -17,11 +17,11 @@ angular.module('code.services', [])
   })
   .factory('Auth', function ($http, $state) {
     var Auth = {
-      isLoggedIn: function () {
+      isLoggedIn: function (redirectToLogin) {
         return $http.get('/auth/user')
           .then(function (res) {
             Auth.userId = res.data.userId;
-            if (res.data.userId === null) {
+            if (res.data.userId === null && redirectToLogin !== false) {
               $state.go('login');
             }
           });
