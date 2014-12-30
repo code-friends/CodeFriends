@@ -1,8 +1,11 @@
+/*global angular:true */
+'use strict';
+
 angular.module('code.chat', ['ui.router'])
   .controller('chatController', function ($scope, $state, ngSocket, $stateParams) {
     var roomID = $stateParams.docID;
     $scope.roomID = roomID;
-    var ws = ngSocket('ws://localhost:8001');
+    var ws = ngSocket('ws://' + window.location.hostname + ':8001');
     $scope.messages = [];
     ws.onMessage(function (msg) {
       console.log(msg);
