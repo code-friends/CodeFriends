@@ -5,6 +5,7 @@ angular.module('code.chat', ['ui.router'])
     var ws = ngSocket('ws://localhost:8001');
     $scope.messages = [];
     ws.onMessage(function (msg) {
+      console.log(msg);
       msg = JSON.parse(msg.data);
       if (msg.message.hasOwnProperty(roomID)) {
         $scope.messages.push(msg);
