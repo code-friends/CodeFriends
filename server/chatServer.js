@@ -12,8 +12,8 @@ var chatApp = connect(),
 chatWS.on('connection', function (ws) {
   ws.send('a user has connected');
   ws.on('message', function (msg) {
-    console.log(msg);
-    var chatRoomName = Object.keys(msg.message)[0];
+    var parsedMsg = JSON.parse(msg);
+    var chatRoomName = Object.keys(parsedMsg.message)[0];
     //save message to the database.
     chatWS.broadcast(msg);
   });
