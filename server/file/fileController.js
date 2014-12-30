@@ -9,13 +9,11 @@ var ProjectCollection = require('../models').collections.ProjectCollection;
 
 var fileController = {
   createNewFile: function (req, res) {
-    console.log('CREATE NEW FILE');
     var userId = req.user.get('id');
     var projectName = req.body.project_name || req.param('project_name');
     var fileName = req.body.file_name || req.param('file_name');
     var projectId = req.body.project_id || req.param('project_id') || null;
     // path: req.body.path || req.param('path') || ''
-    console.log('UserId:', userId, 'ProjectName:', projectName, 'ProjectId:', projectId, 'FileName:', fileName);
 
     // Check if name is valid (no white space)
     if (/\s/g.test(fileName)) {
@@ -23,8 +21,6 @@ var fileController = {
     }
     return fileController.getFileStructure(projectId, projectName)
       .then(function (fileStructure) {
-        console.log('File Structure');
-        console.log(fileStructure);
         // TODO: If path is not empty
           // Check if path exists
         return mongoClient.connectAsync('mongodb://localhost:27017/codeFriends?auto_reconnect')
@@ -34,7 +30,7 @@ var fileController = {
             var files = fileStructure.files;
             if (fileStructure.files[fileName] === undefined) {
               var mysqlFormat = 'YYYY-MM-DD HH:MM:SS';
-              files[fileName] = {
+              files[fileName.replace('.', '')] = {
                 name: fileName,
                 created: moment().format(mysqlFormat),
                 author: req.user.get('id')
@@ -54,6 +50,13 @@ var fileController = {
       .catch(function (error) {
         console.log('Error:', error);
         res.status(400).end();
+      });
+  },
+  get: function (req, res) {
+    var project_name = req.body.project_name;
+    return fileController.getFileStructure(null, project_name)
+      .then(function (fileStructure) {
+        return res.json(fileStructure);
       });
   },
   getFileStructure: function (projectId, projectName) {
@@ -82,12 +85,14 @@ var fileController = {
             .then(function (projectFileStructure) {
               // Create empty project if nothing is found
               if (projectFileStructure === null) {
-                return projectCollection.insertAsync({project_id: project.get('id'), files: []});
+                return projectCollection.insertAsync({project_id: project.get('id'), files: {}})
+                  .then(function (projectFileStructure) {
+                    return projectFileStructure[0];
+                  });
               }
               return projectFileStructure;
             })
             .then(function (projectFileStructure) {
-              console.log('projectFileStructure:', projectFileStructure);
               db.close();
               return projectFileStructure;
             });

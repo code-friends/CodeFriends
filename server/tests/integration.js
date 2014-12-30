@@ -328,7 +328,20 @@ describe('API', function () {
         });
     });
 
-    it('should create a new file structure for a project with no file structure', function (done) {
+    it('should get the file structure for a project', function (done) {
+      agent
+        .get('/api/file/')
+        .send({
+          project_name: 'basketball',
+        })
+        .end(function (err, res) {
+          var fileStructure = res.body;
+          expect(fileStructure.files).to.be.a('object');
+          done();
+        });
+    });
+
+    it('should add a new file when POSTed', function (done) {
       agent
         .post('/api/file')
         .send({
@@ -337,10 +350,10 @@ describe('API', function () {
         })
         .end(function (err, res) {
           var fileStructure = res.body;
+          var fileKey = 'main.js'.replace('.', '');
           expect(fileStructure.files).to.be.a('object');
-          console.log(fileStructure.files);
-          expect(fileStructure.files['main.js']).to.be.a('object');
-          console.log(res.body);
+          expect(fileStructure.files[fileKey]).to.be.a('object');
+          expect(fileStructure.files[fileKey].name).to.equal('main.js');
           done();
         });
     });
