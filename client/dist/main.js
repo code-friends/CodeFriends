@@ -41591,6 +41591,7 @@ angular.module('code.services', [])
     };
     return Auth;
   });
+/*global angular:true */
 angular.module('code.projects', ['ui.router'])
   .controller('projectsController', function ($scope, $state, $http, Projects) {
     $scope.projects = {};
@@ -41611,7 +41612,6 @@ angular.module('code.projects', ['ui.router'])
       }).then(function () {
         return Projects.getProjects(function (res) {
           $scope.projects = res;
-          console.log($scope.projects);
         });
       });
     };
@@ -41648,11 +41648,19 @@ angular.module('code.login', ['ui.router'])
   });
 /*global angular:true, CodeMirror:true */
 /*jshint browser:true */
+'use strict';
 angular.module('code.editor', ['ui.router'])
-  .controller('editorController', function ($scope, $state, $stateParams) {
+  .controller('editorController', function ($scope, $state, $stateParams, $http) {
     console.log($stateParams.docID);
     $scope.goToHome = function () {
       $state.go('home');
+    };
+    $scope.addNewFile = function () {
+      return $http.post('/api/file', {
+        file_name: $scope.newFileName,
+        project_name: $stateParams.docID, // Where can we get this from?
+        parent_file: null
+      });
     };
     var cm = CodeMirror.fromTextArea(document.getElementById('pad'), {
       mode: 'javascript',
@@ -41662,11 +41670,10 @@ angular.module('code.editor', ['ui.router'])
       theme: 'paraiso-dark'
     });
     var elem = document.getElementById('pad');
-    var ws = new WebSocket('ws://localhost:8007');
+    var ws = new WebSocket('ws://' + window.location.hostname + ':8007'); // This should be dynamic
     var sjs = new window.sharejs.Connection(ws);
-    var collectionName = 'documents';
+    var collectionName = 'documents'; // project name? This should not be static
     var doc = sjs.get(collectionName, $stateParams.docID);
-    // console.log(doc);
     doc.subscribe();
     doc.whenReady(function () {
       console.log(doc);
@@ -41678,11 +41685,14 @@ angular.module('code.editor', ['ui.router'])
       }
     });
   });
+/*global angular:true */
+'use strict';
+
 angular.module('code.chat', ['ui.router'])
   .controller('chatController', function ($scope, $state, ngSocket, $stateParams) {
     var roomID = $stateParams.docID;
     $scope.roomID = roomID;
-    var ws = ngSocket('ws://localhost:8001');
+    var ws = ngSocket('ws://' + window.location.hostname + ':8001');
     $scope.messages = [];
     ws.onMessage(function (msg) {
       console.log(msg);
