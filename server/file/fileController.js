@@ -27,25 +27,25 @@ var fileController = {
         console.log(fileStructure);
         // TODO: If path is not empty
           // Check if path exists
-
         return mongoClient.connectAsync('mongodb://localhost:27017/codeFriends?auto_reconnect')
           .then(function (db) {
             var projectCollection = Promise.promisifyAll(db.collection('project_file_structre'));
             // Create Object with author, timeCreated
             var files = fileStructure.files;
-            if (fileStructure.files.indexOf(fileName) === -1) {
+            if (fileStructure.files[fileName] === undefined) {
               var mysqlFormat = 'YYYY-MM-DD HH:MM:SS';
-              files.push({
+              files[fileName] = {
                 name: fileName,
                 created: moment().format(mysqlFormat),
                 author: req.user.get('id')
-              });
+              };
               // Update file structure for whole project in mongo
               return projectCollection.updateAsync({_id: fileStructure._id }, {$set: {files: files}}, {w: 1})
                 .then(function () {
                   return projectCollection.findOneAsync({_id: fileStructure._id});
                 });
             }
+            return fileStructure;
           })
           .then(function (fileStructure) {
             return res.json(fileStructure).end();
@@ -89,7 +89,7 @@ var fileController = {
             .then(function (projectFileStructure) {
               console.log('projectFileStructure:', projectFileStructure);
               db.close();
-              return projectFileStructure[0];
+              return projectFileStructure;
             });
         })
         .catch(function (error) {
