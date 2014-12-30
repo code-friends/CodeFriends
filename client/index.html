@@ -3,17 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <title>Code Friends</title>
+  <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/dist/main.css">
   <link rel="stylesheet" href="/assets/css/codemirror.css">
 </head>
 <body ng-app="code">
-  <h1>Code Friends</h1>
-  <h4>A collaborative text editor</h4>
-  <div class='user-box' ng-controller='userBox'>
-    <a ng-show='!userLoggedIn' ui-sref="login">Login</a>
-    <span ng-show='userLoggedIn' class='userName'>Hello <span ng-model='userName'></span></span>
-  </div>
   <div ui-view></div>
+  
   <script src="/dist/main.js"></script>
-  <!-- // <script src="/lib/dist/oauth.js"></script> -->
 </body>
 </html>

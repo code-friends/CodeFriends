@@ -41578,11 +41578,11 @@ angular.module('code.services', [])
   })
   .factory('Auth', function ($http, $state) {
     var Auth = {
-      isLoggedIn: function () {
+      isLoggedIn: function (redirectToLogin) {
         return $http.get('/auth/user')
           .then(function (res) {
             Auth.userId = res.data.userId;
-            if (res.data.userId === null) {
+            if (res.data.userId === null && redirectToLogin !== false) {
               $state.go('login');
             }
           });
@@ -41613,22 +41613,27 @@ angular.module('code.projects', ['ui.router'])
           $scope.projects = res;
           console.log($scope.projects);
         });
-      })
+      });
     };
 
     $scope.init();
 
   });
-'use strict';
 /*global angular:true */
 angular.module('code.landing', ['ui.router'])
+	.controller('landingController', function ($scope, $state, $http) {
+		console.log('landing controller');
+	});
+'use strict';
+/*global angular:true */
+angular.module('code.home', ['ui.router'])
   .controller('homeController', function ($scope, $state, Auth, $http) {
     Auth.isLoggedIn();
   });
 /*global angular:true */
 angular.module('code.userBox', ['ui.router'])
   .controller('userBox', function ($scope, Auth) {
-    Auth.isLoggedIn()
+    Auth.isLoggedIn(false)
       .then(function () {
         $scope.userLoggedIn = (Auth.userId !== null);
         $scope.userName = Auth.userId;
@@ -41704,13 +41709,13 @@ angular.module('code.chat', ['ui.router'])
       });
     };
   });
-/*global angular:false */
+/*global angular:true */
 (function () {
   angular.module('code', [
       'ui.router',
-      // 'ui.keypress',
       'code.userBox',
-      'code.landing',
+      // 'code.landing',
+      'code.home',
       'code.login',
       'code.editor',
       'code.projects',
@@ -41723,7 +41728,7 @@ angular.module('code.chat', ['ui.router'])
       $stateProvider
         .state('landing', {
           templateUrl: '/app/landing/landing.html',
-          controller: 'landingController',
+          // controller: 'landingController',
           url: '/'
         })
         .state('login', {
@@ -41741,13 +41746,13 @@ angular.module('code.chat', ['ui.router'])
             'projects@home': {
               templateUrl: '/app/home/projects/projects.html',
               controller: 'projectsController'
-            },
-            'friends@home': {
-              template: '<p>Friends data here<p>'
-                // these files do not exist yet
-                // templateUrl: '/app/home/friends/friends.html',
-                // controller: '/app/home/friends/friends.js'
             }
+            // 'friends@home': {
+            //   template: '<p>Friends data here<p>'
+            //     // these files do not exist yet
+            //     // templateUrl: '/app/home/friends/friends.html',
+            //     // controller: '/app/home/friends/friends.js'
+            // }
           }
         })
         .state('projectEditor', {
