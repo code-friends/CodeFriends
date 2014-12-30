@@ -2,6 +2,7 @@
 node_modules
 client/lib
 client/dist
+client/dist/*
 
 ### OSX ###
 .DS_Store
