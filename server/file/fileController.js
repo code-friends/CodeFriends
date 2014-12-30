@@ -21,8 +21,7 @@ var fileController = {
     if (/\s/g.test(fileName)) {
       return res.status(400).send('Invalid File Name').end();
     }
-
-    fileController.getFileStructure(projectId, projectName)
+    return fileController.getFileStructure(projectId, projectName)
       .then(function (fileStructure) {
         console.log('File Structure');
         console.log(fileStructure);
@@ -90,7 +89,7 @@ var fileController = {
             .then(function (projectFileStructure) {
               console.log('projectFileStructure:', projectFileStructure);
               db.close();
-              return projectFileStructure;
+              return projectFileStructure[0];
             });
         })
         .catch(function (error) {
