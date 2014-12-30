@@ -1,5 +1,6 @@
 /*global angular:true, CodeMirror:true */
 /*jshint browser:true */
+'use strict';
 angular.module('code.editor', ['ui.router'])
   .controller('editorController', function ($scope, $state, $stateParams, $http) {
     console.log($stateParams.docID);
@@ -21,7 +22,7 @@ angular.module('code.editor', ['ui.router'])
       theme: 'paraiso-dark'
     });
     var elem = document.getElementById('pad');
-    var ws = new WebSocket('ws://localhost:8007'); // This should be dynamic
+    var ws = new WebSocket('ws://' + window.location.hostname + ':8007'); // This should be dynamic
     var sjs = new window.sharejs.Connection(ws);
     var collectionName = 'documents'; // project name? This should not be static
     var doc = sjs.get(collectionName, $stateParams.docID);
