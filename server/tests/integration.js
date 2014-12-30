@@ -1,9 +1,8 @@
-/*global describe:true, xdescribe:true, it:true, xit:true, before: true */
 'use strict';
+/*global describe:true, xdescribe:true, it:true, before: true */
 
 var request = require('supertest');
-// var should = require('should');
-// var expect = require('chai').expect;
+var expect = require('chai').expect;
 var ProjectCollection = require('../models').collections.ProjectCollection;
 var UserCollection = require('../models').collections.UserCollection;
 var app = require('../index');
@@ -337,8 +336,11 @@ describe('API', function () {
           file_name: 'main.js',
         })
         .end(function (err, res) {
-          console.log('res.text');
-          console.log(res.text);
+          var fileStructure = res.body;
+          expect(fileStructure.files).to.be.a('object');
+          console.log(fileStructure.files);
+          expect(fileStructure.files['main.js']).to.be.a('object');
+          console.log(res.body);
           done();
         });
     });
