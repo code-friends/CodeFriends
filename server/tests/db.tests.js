@@ -98,11 +98,13 @@ describe('User/Project', function () {
 
 // Delete All Test Tables
 after(function (done) {
-  Promise.all([
-      db.schema.dropTable('projects_users'),
-      db.schema.dropTable('users'),
-      db.schema.dropTable('projects'),
-    ])
+  db.schema.dropTable('projects_users')
+    .then(function () {
+      return Promise.all([
+        db.schema.dropTable('users'),
+        db.schema.dropTable('projects'),
+      ]);
+    })
     .then(function () {
       console.log('Deleting All Tables');
       done();
