@@ -3,7 +3,10 @@ $turqoise-green: rgba(47,174,143,0.8);
 $sage-green: rgba(175,180,43,0.8);
 $bright-green: #CDDC39;
 $orange: #FF9800;
+$dark-blue: rgb(30, 76, 97);
 
+
+// elements
 html {
   font-family: $font-stack;
   font-size: 62.5%;
@@ -13,6 +16,10 @@ a {
   text-decoration: none;
   color: inherit;
 }
+
+
+
+// header and logo
 .header {
   height: 70px;
   width: 100%;
@@ -24,39 +31,76 @@ a {
   font-size: 2.6em;
   position: fixed;
   z-index: 99;
-  .logo, .user-box {
+  .logo-region, .user-box-region {
     display: inline-block;
     margin-top: 15px;
   }
-  .logo {
+  .logo-region {
     float: left;
     margin-left: 5%;
   }
-  .user-box {
+  .user-box-region {
     float: right;
     margin-right: 5%;
   }
 }
-.landing {
+.logo-region {
+  display: inline-block;
+}
+#logo-image {
+  background: url('../assets/img/logo.png') no-repeat center center;
+  background-size: contain;
+  width: 30px;
+  height: 36px;
+  display: inline-block;
+}
+#logo-text {
+  display: inline-block;
+  position: relative;
+  bottom: 12px;
+}
+
+
+
+// .view {
+//   height: 100%;
+//   height: 100%;
+// }
+.viewport {
+  width: 100vw;
+  height: 100vh;
+}
+.header-space {
+  position: absolute;
+  top: 70px;
+}
+.body {
+  position: absolute;
+  left: 5%;
+  top: 5%;
+}
+
+
+// landing styling
+.initial-landing-view {
   background-color: #86CCCC;
 }
 .landing-one {
-  color: white;
+  color: $dark-blue;
   text-align: center;
-  width: 100vw;
-  height: 100vh;
   #greeting-image {
     background-image: url('../assets/img/programming.jpg');
     background-size: cover;
     height: 100%;
     width: 100%;
     background-repeat: no-repeat;
-    background-position: center top;
+    background-position: 50% 55%;
+    background-size: 65%;
     position: relative;
     top: 10%;
     #greeting-image-text {
       position: relative;
-      top: 2%;
+      top: 5%;
     }
   }
   h1 {
