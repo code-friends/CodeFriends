@@ -9,7 +9,9 @@ angular.module('code.editor', ['ui.router'])
     var cm = CodeMirror.fromTextArea(document.getElementById('pad'), {
       mode: 'javascript',
       value: 'alert(\'hello world\')',
-      lineNumbers: true
+      lineNumbers: true,
+      matchBrackets: true,
+      theme: 'paraiso-dark'
     });
     var elem = document.getElementById('pad');
     var ws = new WebSocket('ws://localhost:8007');
