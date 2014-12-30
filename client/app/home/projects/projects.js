@@ -20,7 +20,7 @@ angular.module('code.projects', ['ui.router'])
           $scope.projects = res;
           console.log($scope.projects);
         });
-      })
+      });
     };
 
     $scope.init();
