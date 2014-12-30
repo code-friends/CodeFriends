@@ -1,3 +1,5 @@
+'use strict';
+
 var authController = {};
 var UserCollection = require('../models').collections.UserCollection;
 var User = require('../models').models.User;
@@ -9,6 +11,8 @@ authController.getUser = function (req, res) {
   }
   res.json({
     userId: userId,
+    userName: req.user.get('username'),
+    email: req.user.get('email'),
   });
 };
 
@@ -37,11 +41,11 @@ authController.signup = function (req, res) {
         res.redirect('/#/home');
         return;
       }
-      var user = new User({
+      new User({
           email: email,
           password: password
         }).save()
-        .then(function (userModel) {
+        .then(function () {
           res.redirect('/#/home');
         });
     });
