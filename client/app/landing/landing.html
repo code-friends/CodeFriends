@@ -1,0 +1,22 @@
+<div class="landing">
+  <div class="header">
+    <div class="logo">
+      <a href="/">
+        <div id="logo-image"></div>
+        <div id="logo-text">code friends</div>
+      </a>
+    </div>
+    <div class='user-box' ng-controller='userBox'>
+      <a ng-show='!userLoggedIn' href='/auth/login'>Login</a>
+      <span ng-show='userLoggedIn' class='userName'>Hello {{userName}}</span>
+    </div>
+  </div>
+  <div class="landing-one">
+      <div id="greeting-image">
+        <div id="greeting-image-text">
+          <h1>Start Coding With Your Friends Today</h1>
+          <p>Collaborate with friends and co-workers on your coding projects in real time over video chat.</p>
+        </div>
+      </div>
+  </div>
+</div>

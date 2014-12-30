@@ -1,1 +1,69 @@
-// get sassy here
+$font-stack: 'Lato', Helvetica, sans-serif;
+$turqoise-green: rgba(47,174,143,0.8);
+$sage-green: rgba(175,180,43,0.8);
+$bright-green: #CDDC39;
+$orange: #FF9800;
+
+html {
+  font-family: $font-stack;
+  font-size: 62.5%;
+  height: 100%;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+.header {
+  height: 70px;
+  width: 100%;
+  // background: linear-gradient(-180deg, rgba(47,174,143,0.8) 0%, rgba(47,174,143,0.8) 100%);
+  // background: linear-gradient(-180deg, rgba(175,180,43,0.8) 0%, rgba(175,180,43,0.8) 100%);
+  background: $turqoise-green;
+  color: white;
+  font-weight: 300;
+  font-size: 2.6em;
+  position: fixed;
+  z-index: 99;
+  .logo, .user-box {
+    display: inline-block;
+    margin-top: 15px;
+  }
+  .logo {
+    float: left;
+    margin-left: 5%;
+  }
+  .user-box {
+    float: right;
+    margin-right: 5%;
+  }
+}
+.landing {
+  background-color: #86CCCC;
+}
+.landing-one {
+  color: white;
+  text-align: center;
+  width: 100vw;
+  height: 100vh;
+  #greeting-image {
+    background-image: url('../assets/img/programming.jpg');
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center top;
+    position: relative;
+    top: 10%;
+    #greeting-image-text {
+      position: relative;
+      top: 5%;
+    }
+  }
+  h1 {
+    font-size: 4em;
+    margin: 0;
+  }
+  p {
+  font-size: 2em;
+  }
+}

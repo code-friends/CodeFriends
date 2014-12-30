@@ -3,7 +3,8 @@
   angular.module('code', [
       'ui.router',
       'code.userBox',
-      'code.landing',
+      // 'code.landing',
+      'code.home',
       'code.login',
       'code.editor',
       'code.projects',
@@ -16,7 +17,7 @@
       $stateProvider
         .state('landing', {
           templateUrl: '/app/landing/landing.html',
-          controller: 'landingController',
+          // controller: 'landingController',
           url: '/'
         })
         .state('login', {
@@ -34,13 +35,13 @@
             'projects@home': {
               templateUrl: '/app/home/projects/projects.html',
               controller: 'projectsController'
-            },
-            'friends@home': {
-              template: '<p>Friends data here<p>'
-                // these files do not exist yet
-                // templateUrl: '/app/home/friends/friends.html',
-                // controller: '/app/home/friends/friends.js'
             }
+            // 'friends@home': {
+            //   template: '<p>Friends data here<p>'
+            //     // these files do not exist yet
+            //     // templateUrl: '/app/home/friends/friends.html',
+            //     // controller: '/app/home/friends/friends.js'
+            // }
           }
         })
         .state('projectEditor', {

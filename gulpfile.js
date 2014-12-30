@@ -1,14 +1,18 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
-var gulpConcat = require('gulp-concat');
+var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var watch = require('gulp-watch');
 
 gulp.task('sass', function () {
-  gulp.src('./client/assets/scss/*.scss')
+  gulp.src([
+      './client/lib/normalize.css/*.css',
+      './client/assets/scss/*.scss'
+    ])
     .pipe(sass({
       errLogToConsole: true
     }))
+    .pipe(concat('main.css'))
     .pipe(gulp.dest('./client/dist/'));
 });
 
@@ -33,7 +37,7 @@ gulp.task('js', function () {
       './client/app/app.js',
       './client/lib/ngSocket/dist/ngSocket.js'
     ])
-    .pipe(gulpConcat('main.js'))
+    .pipe(concat('main.js'))
     // .pipe(uglify())
     .pipe(gulp.dest('./client/dist/'));
 });
