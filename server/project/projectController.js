@@ -6,9 +6,8 @@ var db = require('../db');
 
 var projectController = {};
 
-//ADDS A NEW PROJECT AND ADDS THE CREATOR TO THE 'USER' PROPERTY
-//////////////////    var userId = req.user.get('id');
-//////////////////    ABOVE IS THE RIGHT ONE ONCE AUTH IS ATTACHED. DUMMY DATA BELOW
+/////////////////////////////////////////    POST    /////////////////////////////////////////
+//ADDS A NEW PROJECT AND ADDS THE CREATOR TO THE 'USER' PROPERTY   ///   var userId = req.user.get('id');   ///   ABOVE IS THE RIGHT ONE ONCE AUTH IS ATTACHED. DUMMY DATA BELOW
 projectController.post = function (req, res) {
   var userId = {
     id: 1
@@ -38,8 +37,8 @@ projectController.post = function (req, res) {
     })
 };
 
-//////////////////    var userId = req.user.get('id');
-//////////////////    only allow access to the file for projects associated with this current user (they only have permission for those)
+/////////////////////////////////////////    GET    /////////////////////////////////////////
+///   var userId = req.user.get('id');   ///   only allow access to the file for projects associated with this current user (they only have permission for those)
 projectController.getAllProjects = function (req, res) {
   models.Project
     .fetchAll({
@@ -50,9 +49,7 @@ projectController.getAllProjects = function (req, res) {
     });
 };
 
-//////////////////    var userId = req.user.get('id');
-//////////////////    if user is one of the users in if the project
-//////////////////    then execute the code below
+///   var userId = req.user.get('id');   ///   if user is one of the users in if the project   ///   then execute the code below
 projectController.getSpecificProjectByName = function (req, res) {
   models.Project
     .query({
@@ -68,9 +65,7 @@ projectController.getSpecificProjectByName = function (req, res) {
     });
 };
 
-//////////////////    var userId = req.user.get('id');
-//////////////////    if user is one of the users in if the project
-//////////////////    then execute the code below
+///   var userId = req.user.get('id');   ///   if user is one of the users in if the project   ///   then execute the code below
 projectController.getSpecificProjectById = function (req, res) {
   models.Project
     .query({
@@ -86,9 +81,8 @@ projectController.getSpecificProjectById = function (req, res) {
     });
 };
 
-////ADD USER TO A PROJECT
-//////////////////    var userId = req.user.get('id');
-//////////////////    BELOW IS HARD CODED. NEED TO CHANGE
+/////////////////////////////////////////    PUT    /////////////////////////////////////////
+//ADD USER TO A PROJECT   ///   var userId = req.user.get('id');   ///   BELOW IS HARD CODED. NEED TO CHANGE
 projectController.addUser = function (req, res) {
   var project_name = req.body.project_name;
   var user = {
@@ -118,12 +112,13 @@ projectController.addUser = function (req, res) {
     })
 };
 
-////REMOVE USERS FROM A PROJECT
+//REMOVE USERS FROM A PROJECT   ///   if user is one of the users in if the project   ///   then execute the code below
 projectController.put = function (req, res) {
   // var userId = req.user.get('id');
   res.status(200).end();
 };
 
+/////////////////////////////////////////    DELETE    /////////////////////////////////////////
 //DELETE A PROJECT
 projectController.delete = function (req, res) {
   models.Project
@@ -148,8 +143,6 @@ projectController.delete = function (req, res) {
       res.status(200).end();
     });
 
-  //////////////////    if user is one of the users in if the project
-  //////////////////    then execute the code below
 };
 
 module.exports = projectController;

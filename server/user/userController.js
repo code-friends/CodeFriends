@@ -4,6 +4,7 @@ var collections = require('../models.js').collections;
 
 var userController = {};
 
+/////////////////////////////////////////    POST    /////////////////////////////////////////
 userController.post = function (req, res) {
 
 	// console.log(req.body);
@@ -33,6 +34,7 @@ userController.post = function (req, res) {
 		})
 };
 
+/////////////////////////////////////////    GET    /////////////////////////////////////////
 userController.getAllUsers = function (req, res) {
 	models.User
 		.fetchAll({
@@ -67,17 +69,12 @@ userController.getSpecificUserById = function (req, res) {
 	// 	});
 };
 
-//Add project to user, might not need this because the put request in the product controller should already take care of it
+/////////////////////////////////////////    PUT    /////////////////////////////////////////
 userController.put = function (req, res) {
 	res.status(200).end();
 };
 
-//Add project to user, might not need this because the put request in the product controller should already take care of it
-userController.put = function (req, res) {
-	res.status(200).end();
-};
-
-
+/////////////////////////////////////////    DELETE    /////////////////////////////////////////
 userController.delete = function (req, res) {
 	res.status(200).end();
 };

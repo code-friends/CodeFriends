@@ -29,6 +29,7 @@ describe('API', function () {
   var project, user;
   //this depends on database insertions from db.tests
 
+  /////////////////////////////////////////    USER TESTS    /////////////////////////////////////////
   describe('User', function () {
 
     before(function (done) {
@@ -126,7 +127,7 @@ describe('API', function () {
         });
     });
 
-
+    /////////////////////////////////////////    PROJECT TESTS    /////////////////////////////////////////
     describe('Project', function () {
 
       before(function (done) {
@@ -266,7 +267,6 @@ describe('API', function () {
       });
 
     });
-
 
     // it('should get all user info on GET /user/:github_handle', function () {})
   });
