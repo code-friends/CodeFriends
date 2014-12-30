@@ -1,8 +1,10 @@
-var express = require('express');
+'use strict';
+
 var models = require('../models.js').models;
-var collections = require('../models.js').collections;
 var Promise = require('bluebird');
 var db = require('../db');
+
+var getFileStructure = require('../file/fileController').getFileStructure;
 
 var projectController = {};
 
@@ -18,9 +20,8 @@ projectController.post = function (req, res) {
   if (!project_name) {
     res.status(400).end();
   }
-
-  var newProject = new models.Project({
-      project_name: project_name
+  new models.Project({
+      project_name: project_name,
     })
     .save()
     .then(function (model) {
@@ -30,11 +31,11 @@ projectController.post = function (req, res) {
         .yield(model)
         .catch(function (err) {
           console.log('Error Attaching User:', err);
-        })
+        });
     })
     .then(function (model) {
       res.json(model.toJSON());
-    })
+    });
 };
 
 /////////////////////////////////////////    GET    /////////////////////////////////////////
@@ -50,34 +51,19 @@ projectController.getAllProjects = function (req, res) {
 };
 
 ///   var userId = req.user.get('id');   ///   if user is one of the users in if the project   ///   then execute the code below
-projectController.getSpecificProjectByName = function (req, res) {
+projectController.getSpecificProject = function (req, res) {
   models.Project
-    .query({
-      where: {
-        project_name: req.params.project_name
-      }
-    })
+    .query({where: { project_name: req.params.project_name_or_id}, orWhere: {id: req.params.project_name_or_id}})
     .fetch({
       withRelated: ['user']
     })
-    .then(function (coll) {
-      res.json(coll.toJSON());
-    });
-};
-
-///   var userId = req.user.get('id');   ///   if user is one of the users in if the project   ///   then execute the code below
-projectController.getSpecificProjectById = function (req, res) {
-  models.Project
-    .query({
-      where: {
-        id: req.params.id
-      }
-    })
-    .fetch({
-      withRelated: ['user']
-    })
-    .then(function (coll) {
-      res.json(coll.toJSON());
+    .then(function (project) {
+      return getFileStructure(project.get('id'))
+        .then(function (fileStructure) {
+          var project_json = project.toJSON();
+          project_json.files = fileStructure.files;
+          res.json(project_json);
+        });
     });
 };
 
@@ -109,7 +95,7 @@ projectController.addUser = function (req, res) {
     })
     .then(function (model) {
       res.json(model.toJSON());
-    })
+    });
 };
 
 //REMOVE USERS FROM A PROJECT   ///   if user is one of the users in if the project   ///   then execute the code below
@@ -139,10 +125,9 @@ projectController.delete = function (req, res) {
     .then(function (model) {
       return model.destroy();
     })
-    .then(function (model) {
+    .then(function () {
       res.status(200).end();
     });
-
 };
 
 module.exports = projectController;

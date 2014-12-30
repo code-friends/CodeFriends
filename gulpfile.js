@@ -1,3 +1,5 @@
+'use strict';
+
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var concat = require('gulp-concat');
@@ -47,3 +49,5 @@ gulp.task('watch', ['js', 'sass'], function () {
   gulp.watch('./client/assets/scss/*.scss', ['sass']);
   gulp.watch('./client/**/*.js', ['js']);
 });
+
+gulp.task('default', ['js', 'sass']);
