@@ -1,6 +1,6 @@
 <div class="header">
   <div class="logo-region">
-    <a href="/">
+    <a ui-sref="home">
       <div id="logo-image"></div>
       <div id="logo-text">code friends</div>
     </a>
@@ -10,9 +10,10 @@
   </div>
 </div>
 <div class="viewport header-space">
-  <div>Home</div>
-
-  <h3>Projects</h3>
-  <div ui-view="projects"></div>
-  </div>
+  <main class="body">    
+    <h1>Home</h1>
+    <!-- <div>Home</div> -->
+    <h2>Projects</h2>
+    <div ui-view="projects"></div>
+  </main>
 </div>
