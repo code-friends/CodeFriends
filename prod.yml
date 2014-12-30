@@ -1,0 +1,17 @@
+db:
+  image: tutum/mysql:5.5
+  ports:
+   - "3306:3306"
+  environment:
+    MYSQL_PASS: "6gdP7R3adDYNehj"
+server:
+  build: .
+  ports:
+   - "8005:80"
+  expose:
+   - "80"
+  links:
+   - "db:db"
+  environment:
+    NODE_ENV: production
+    PORT: 80
