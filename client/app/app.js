@@ -1,4 +1,6 @@
 /*global angular:true */
+'use strict';
+
 (function () {
   angular.module('code', [
       'ui.router',
@@ -6,13 +8,14 @@
       // 'code.landing',
       'code.home',
       'code.login',
-      'code.editor',
+      'code.project',
       'code.projects',
+      'code.document',
       'code.services',
       'code.chat',
       'ngSocket'
     ])
-    .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
+    .config(function ($stateProvider, $urlRouterProvider) {
       $urlRouterProvider.otherwise('/');
       $stateProvider
         .state('landing', {
@@ -44,21 +47,24 @@
             // }
           }
         })
-        .state('projectEditor', {
-          url: '/editor/:docID',
+        .state('project', {
+          url: '/project/:projectName/',
           views: {
             '': {
-              templateUrl: '/app/projectEditor/projectEditor.html'
+              templateUrl: '/app/project/project.html',
+              controller: 'projectController'
             },
-            'chat@projectEditor': {
-              templateUrl: '/app/projectEditor/chat/chat.html',
+            'chat@project': {
+              templateUrl: '/app/project/chat/chat.html',
               controller: 'chatController'
-            },
-            'editor@projectEditor': {
-              templateUrl: '/app/projectEditor/editor/editor.html',
-              controller: 'editorController'
             }
           }
+        })
+        .state('document', {
+          parent: 'project',
+          url: 'document/:documentName',
+          templateUrl: '/app/project/document/document.html',
+          controller: 'documentController'
         });
     });
 })();

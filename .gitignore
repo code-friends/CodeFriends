@@ -1,6 +1,10 @@
 # Dependency directory
 node_modules
-lib
+client/lib
+client/dist
+client/dist/*
+client/dist/main.js
+client/dist/main.css
 
 ### OSX ###
 .DS_Store

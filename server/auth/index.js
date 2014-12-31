@@ -1,5 +1,8 @@
+'use strict';
+
 var passport = require('passport');
 var GitHubStrategy = require('passport-github').Strategy;
+var LocalStrategy = require('passport-local').Strategy;
 var UserCollection = require('../models').collections.UserCollection;
 
 passport.serializeUser(function (user, done) {
@@ -16,9 +19,9 @@ passport.deserializeUser(function (id, done) {
 });
 
 passport.use(new GitHubStrategy({
-    clientID: '364ea3bc2b086177fd27',
-    clientSecret: '2dce4e81ad618474f5c822b4567200b941a6c1b1',
-    callbackURL: 'http://127.0.0.1:8000/auth/login/callback'
+    clientID: process.env.gitHubClientId || '364ea3bc2b086177fd27',
+    clientSecret: process.env.gitHubClientSecret || '2dce4e81ad618474f5c822b4567200b941a6c1b1',
+    callbackURL: (process.env.url || 'http://127.0.0.1:8000') + '/auth/login/callback'
   },
   function (accessToken, refreshToken, profile, done) {
     // I'm not exactly sure when we use an accessToken and a refreshToken
@@ -55,8 +58,29 @@ passport.use(new GitHubStrategy({
   }
 ));
 
+passport.use(new LocalStrategy({
+    usernameField: 'email',
+  },
+  function (email, password, done) {
+    UserCollection
+      .query('where', 'email', '=', email)
+      .fetchOne()
+      .then(function (user) {
+        return user.checkPassword(password)
+          .then(function (isMatch) {
+            if (!isMatch) {
+              return done(null, false);
+            }
+            return done(null, user);
+          });
+      })
+      .catch(function () {
+        return done(null, false);
+      });
+  }
+));
+
 passport.checkIfLoggedIn = function (req, res, next) {
-  console.log('checkIfLoggedIn');
   if (req.user) {
     return next();
   }

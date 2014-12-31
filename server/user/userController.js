@@ -4,6 +4,7 @@ var collections = require('../models.js').collections;
 
 var userController = {};
 
+/////////////////////////////////////////    POST    /////////////////////////////////////////
 userController.post = function (req, res) {
 
 	// console.log(req.body);
@@ -33,6 +34,7 @@ userController.post = function (req, res) {
 		})
 };
 
+/////////////////////////////////////////    GET    /////////////////////////////////////////
 userController.getAllUsers = function (req, res) {
 	models.User
 		.fetchAll({
@@ -55,11 +57,24 @@ userController.getSpecificUser = function (req, res) {
 		});
 };
 
+//CHANGE TO GET BY USERNAME OR ID
+userController.getSpecificUserById = function (req, res) {
+	// models.User
+	// 	.query('where', 'username', '=', req.params.username)
+	// 	.fetch({
+	// 		withRelated: ['project']
+	// 	})
+	// 	.then(function (coll) {
+	// 		res.send(coll);
+	// 	});
+};
 
+/////////////////////////////////////////    PUT    /////////////////////////////////////////
 userController.put = function (req, res) {
 	res.status(200).end();
 };
 
+/////////////////////////////////////////    DELETE    /////////////////////////////////////////
 userController.delete = function (req, res) {
 	res.status(200).end();
 };

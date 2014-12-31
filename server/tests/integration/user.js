@@ -1,123 +1,26 @@
-/*global describe:true, xdescribe:true, it:true, xit:true, before: true */
+/*global describe:true, it:true, before: true */
+'use strict';
 
 var request = require('supertest');
-var should = require('should');
-var expect = require('chai').expect;
-var ProjectCollection = require('../models').collections.ProjectCollection;
-var UserCollection = require('../models').collections.UserCollection;
-var app = require('../index');
+var UserCollection = require('../../models').collections.UserCollection;
+var app = require('../../index');
+var agent = request.agent(app);
+var login = require('./login')(agent);
 
-var _ = require('lodash');
-
-xdescribe('Auth', function () {
-
-  it('should sign up the user', function () {
-
-  });
-
-  it('should authenticate the user', function () {
-
-  });
-
-  it('should logout the user', function () {
-
-  });
-
-});
-
-describe('API', function () {
-  var project, user;
-  //this depends on database insertions from db.tests
-  describe('Project', function () {
-
-    before(function (done) {
-      return new ProjectCollection()
-        .create({
-          'project_name': 'car'
-        }).then(function (_project) {
-          project = _project;
-          done();
-        });
-    });
-
-    it('should get all of the user\'s projects on GET /project', function (done) {
-      request(app)
-        .get('/api/project')
-        .expect(200)
-        .end(function (err, res) {
-          var projects = res.body;
-          projects.should.be.instanceof(Array);
-          projects[0].should.have.property('id');
-          projects[0].should.have.property('project_name');
-          projects[0].should.have.property('created_at');
-          projects[0].should.have.property('updated_at');
-          projects[0].should.have.property('user');
-          done();
-        });
-    });
-
-    //SHOULD THIS BE AN OBJECT OR IS THERE A SITUATION WHERE THERE COULD BE MORE THAN ONE????
-    it('should get a specific project on GET /project/:project_name', function (done) {
-      request(app)
-        .get('/api/project/' + project.get('project_name'))
-        .expect(200)
-        .end(function (err, res) {
-          var project = res.body;
-          project.should.be.instanceof(Object);
-          project.should.have.property('id');
-          project.should.have.property('project_name');
-          project.should.have.property('created_at');
-          project.should.have.property('updated_at');
-          project.should.have.property('user');
-          project.user.should.be.instanceof(Array);
-          done();
-        });
-    });
-
-    it('should create a new project on POST /project', function (done) {
-      request(app)
-        .post('/api/project')
-        .send({
-          project_name: 'basketball'
-        })
-        .expect(200)
-        .end(function (err, res) {
-          var _project = res.body;
-          request(app)
-            .get('/api/project/' + _project.project_name)
-            .expect(200)
-            .end(function (err, res) {
-              var project = res.body;
-              console.log('PROJECT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!', project);
-              project.should.have.property('id');
-              project.should.have.property('project_name');
-              project.project_name.should.equal(_project.project_name);
-              project.should.have.property('created_at');
-              project.should.have.property('updated_at');
-              project.should.have.property('user');
-              project.user.should.be.instanceof(Array);
-              done();
-            });
-        });
-    });
-
-
-  });
-
-  describe('User', function () {
+describe('User', function () {
 
     before(function (done) {
       return new UserCollection()
         .create({
           'username': 'door'
         }).then(function (_user) {
-          user = _user;
-          done();
+          global.user = _user;
+          login(done);
         });
     });
 
     it('should get all of the users and their projects on GET /user', function (done) {
-      request(app)
+      agent
         .get('/api/user')
         .expect(200)
         .end(function (err, res) {
@@ -141,8 +44,8 @@ describe('API', function () {
     // CHANGE THIS TO GITHUB HANDLE INSTEAD OF ID!! CHANGE IT IN PROJECT CONTROLLER AND ROUTERS TOO!!!!!
     // CHANGE THE POST REQUESTS TO ADD ALL THE GITHUB STUFF TOO!!!!!!
     it('should get a specific user on GET /user/:username', function (done) {
-      request(app)
-        .get('/api/user/' + user.get('username'))
+      agent
+        .get('/api/user/' + global.user.get('username'))
         .expect(200)
         .end(function (err, res) {
           var user = res.body;
@@ -164,7 +67,7 @@ describe('API', function () {
     });
 
     it('should create a new user on POST /user', function (done) {
-      request(app)
+      agent
         .post('/api/user')
         .send({
           username: 'chaseme3',
@@ -178,7 +81,7 @@ describe('API', function () {
         .expect(200)
         .end(function (err, res) {
           var _user = res.body;
-          request(app)
+          agent
             .get('/api/user/' + _user.username)
             .expect(200)
             .end(function (err, res) {
@@ -201,11 +104,7 @@ describe('API', function () {
         });
     });
 
-
     // xit('should get all user info on GET /user/:github_handle', function () {
 
     // });
-
-  });
-
 });

@@ -1,5 +1,7 @@
 /*global angular:true */
-// factory for Projects
+'use strict';
+
+// factory for Projects, Auth
 angular.module('code.services', [])
   .factory('Projects', function ($http) {
     var projects = {};
