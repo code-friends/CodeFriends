@@ -1,17 +1,17 @@
-<div class="landing">
+<div class="initial-landing-view">
   <div class="header">
-    <div class="logo">
-      <a href="/">
+    <div class="logo-region">
+      <a ui-sref="home">
         <div id="logo-image"></div>
         <div id="logo-text">code friends</div>
       </a>
     </div>
-    <div class='user-box' ng-controller='userBox'>
+    <div class='user-box-region' ng-controller='userBox'>
       <a ng-show='!userLoggedIn' href='/auth/login'>Login</a>
       <span ng-show='userLoggedIn' class='userName'>Hello {{userName}}</span>
     </div>
   </div>
-  <div class="landing-one">
+  <div class="viewport landing-one">
       <div id="greeting-image">
         <div id="greeting-image-text">
           <h1>Start Coding With Your Friends Today</h1>
@@ -19,4 +19,7 @@
         </div>
       </div>
   </div>
+</div>
+<div class="viewport landing-two">
+  <h2>another image here, landing continued, cool stuff about code friends, the faces of our team maybe and stuffs and lots of fun</h2>
 </div>

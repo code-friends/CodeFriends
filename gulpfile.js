@@ -21,7 +21,7 @@ gulp.task('sass', function () {
 //concats js, uglifying commented out currently
 gulp.task('js', function () {
   gulp.src([
-      './client/lib/underscore/underscore-min.js',
+          './client/lib/underscore/underscore-min.js',
       './client/lib/angular/angular.js',
       './client/lib/angular-ui-router/release/angular-ui-router.js',
       './client/assets/js/share.js',
@@ -43,7 +43,6 @@ gulp.task('js', function () {
     // .pipe(uglify())
     .pipe(gulp.dest('./client/dist/'));
 });
-
 
 gulp.task('watch', ['js', 'sass'], function () {
   gulp.watch('./client/assets/scss/*.scss', ['sass']);

@@ -6,13 +6,18 @@ var User = require('../models').models.User;
 
 authController.getUser = function (req, res) {
   var userId = null;
+  var userName = null;
+  var email = null;
   if (req.user && req.user.get('id') && typeof req.user.get('id') === 'number') {
     userId = req.user.get('id');
+    userName = req.user.get('username');
+    email = req.user.get('email');
   }
   res.json({
     userId: userId,
-    userName: req.user.get('username'),
-    email: req.user.get('email'),
+    // userName: req.user.get('username'),
+    userName: userName,
+    email: email,
   });
 };
 

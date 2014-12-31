@@ -325,6 +325,9 @@ html {
   font-size: 62.5%;
   height: 100%; }
 
+body {
+  font-size: 1.2em; }
+
 a {
   text-decoration: none;
   color: inherit; }
@@ -335,41 +338,68 @@ a {
   background: rgba(47, 174, 143, 0.8);
   color: white;
   font-weight: 300;
-  font-size: 2.6em;
+  font-size: 2em;
   position: fixed;
   z-index: 99; }
-  .header .logo, .header .user-box {
+  .header .logo-region, .header .user-box-region {
     display: inline-block;
     margin-top: 15px; }
-  .header .logo {
+  .header .logo-region {
     float: left;
     margin-left: 5%; }
-  .header .user-box {
+  .header .user-box-region {
     float: right;
     margin-right: 5%; }
 
-.landing {
+.logo-region {
+  display: inline-block; }
+
+#logo-image {
+  background: url('../assets/img/logo.png') no-repeat center center;
+  background-size: contain;
+  width: 30px;
+  height: 36px;
+  display: inline-block; }
+
+#logo-text {
+  display: inline-block;
+  position: relative;
+  bottom: 12px; }
+
+.viewport {
+  width: 100vw;
+  height: 100vh; }
+
+.header-space {
+  position: absolute;
+  top: 70px; }
+
+.body {
+  position: absolute;
+  left: 5%;
+  top: 5%; }
+
+.initial-landing-view {
   background-color: #86CCCC; }
 
 .landing-one {
-  color: white;
-  text-align: center;
-  width: 100vw;
-  height: 100vh; }
+  color: #1e4c61;
+  text-align: center; }
   .landing-one #greeting-image {
     background-image: url('../assets/img/programming.jpg');
     background-size: cover;
     height: 100%;
     width: 100%;
     background-repeat: no-repeat;
-    background-position: center top;
+    background-position: 50% 55%;
+    background-size: 65%;
     position: relative;
     top: 10%; }
     .landing-one #greeting-image #greeting-image-text {
       position: relative;
-      top: 2%; }
+      top: 5%; }
   .landing-one h1 {
-    font-size: 4em;
+    font-size: 3em;
     margin: 0; }
   .landing-one p {
-    font-size: 2em; }
+    font-size: 1.4em; }
