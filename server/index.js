@@ -41,7 +41,7 @@ var chatPort = 8001;
 app
   .use(express.static(__dirname + '/../client'))
   .use('/auth', authRouter)
-  .use('/api', apiRouter)
+  .use('/api', auth.checkIfLoggedIn, apiRouter)
   .listen(port, function () {
     console.log('Server listening on port:', port);
   });

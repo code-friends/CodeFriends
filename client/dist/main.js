@@ -41646,79 +41646,9 @@ angular.module('code.login', ['ui.router'])
     Auth.isLoggedIn();
     // Silence is Beautiful
   });
-/*global angular:true, CodeMirror:true */
-/*jshint browser:true */
-angular.module('code.editor', ['ui.router'])
-  .controller('editorController', function ($scope, $state, $stateParams, $http) {
-    console.log($stateParams.docID);
-    $scope.goToHome = function () {
-      $state.go('home');
-    };
-    $scope.addNewFile = function () {
-      return $http.post('/api/file', {
-        file_name: $scope.newFileName,
-        project_name: $stateParams.docID, // Where can we get this from?
-        parent_file: null
-      });
-    };
-    var cm = CodeMirror.fromTextArea(document.getElementById('pad'), {
-      mode: 'javascript',
-      value: 'alert(\'hello world\')',
-      lineNumbers: true,
-      matchBrackets: true,
-      theme: 'paraiso-dark'
-    });
-    var elem = document.getElementById('pad');
-    var ws = new WebSocket('ws://localhost:8007'); // This should be dynamic
-    var sjs = new window.sharejs.Connection(ws);
-    var collectionName = 'documents'; // project name? This should not be static
-    var doc = sjs.get(collectionName, $stateParams.docID);
-    doc.subscribe();
-    doc.whenReady(function () {
-      console.log(doc);
-      if (!doc.type) {
-        doc.create('text');
-      }
-      if (doc.type && doc.type.name === 'text') {
-        doc.attachCodeMirror(cm);
-      }
-    });
-  });
-angular.module('code.chat', ['ui.router'])
-  .controller('chatController', function ($scope, $state, ngSocket, $stateParams) {
-    var roomID = $stateParams.docID;
-    $scope.roomID = roomID;
-    var ws = ngSocket('ws://localhost:8001');
-    $scope.messages = [];
-    ws.onMessage(function (msg) {
-      console.log(msg);
-      msg = JSON.parse(msg.data);
-      if (msg.message.hasOwnProperty(roomID)) {
-        $scope.messages.push(msg);
-      }
-    });
-    $scope.doSomething = function () {
-      var params = {};
-      params[roomID] = $scope.chatMessage;
-      ws.send(params);
-      $scope.chatMessage = '';
-    };
-
-  })
-  .directive('ngEnter', function () {
-    return function (scope, element, attrs) {
-      element.bind("keydown keypress", function (event) {
-        if (event.which === 13) {
-          scope.$apply(function () {
-            scope.$eval(attrs.ngEnter);
-          });
-
-          event.preventDefault();
-        }
-      });
-    };
-  });
 /*global angular:true */
+'use strict';
+
 (function () {
   angular.module('code', [
       'ui.router',
@@ -41726,13 +41656,14 @@ angular.module('code.chat', ['ui.router'])
       // 'code.landing',
       'code.home',
       'code.login',
-      'code.editor',
+      'code.project',
+      'code.document',
       'code.projects',
       'code.services',
       'code.chat',
       'ngSocket'
     ])
-    .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
+    .config(function ($stateProvider, $urlRouterProvider) {
       $urlRouterProvider.otherwise('/');
       $stateProvider
         .state('landing', {
@@ -41764,19 +41695,20 @@ angular.module('code.chat', ['ui.router'])
             // }
           }
         })
-        .state('projectEditor', {
-          url: '/editor/:docID',
+        .state('project', {
+          url: '/project/:projectName',
           views: {
             '': {
-              templateUrl: '/app/projectEditor/projectEditor.html'
+              templateUrl: '/app/project/project.html',
+              controller: 'projectController'
             },
-            'chat@projectEditor': {
-              templateUrl: '/app/projectEditor/chat/chat.html',
+            'chat@project': {
+              templateUrl: '/app/project/chat/chat.html',
               controller: 'chatController'
             },
-            'editor@projectEditor': {
-              templateUrl: '/app/projectEditor/editor/editor.html',
-              controller: 'editorController'
+            'document@project': {
+              templateUrl: '/app/project/document/document.html',
+              controller: 'documentController'
             }
           }
         });

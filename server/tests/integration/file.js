@@ -64,13 +64,14 @@ describe('File', function () {
       });
   });
 
-  it('should get the file structure when requesting a project', function (done) {
+  it('should get the file structure when requesting a project through GET', function (done) {
     request(app)
       .get('/api/project/' + project_name)
       .expect(200)
       .end(function (err, res) {
         var project = res.body;
         var fileKey = 'main.js'.replace('.', '');
+        console.log(project);
         project.should.have.property('id');
         project.should.have.property('files');
         project.files.should.be.instanceof(Object);

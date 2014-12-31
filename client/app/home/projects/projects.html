@@ -5,7 +5,7 @@
 
 <div>
   <div ng-repeat="project in projects">
-    <p><a ui-sref="projectEditor({docID: project.project_name})">{{ project.project_name }}</a></p>
+    <p><a ui-sref="project({projectName: project.project_name})">{{ project.project_name }}</a></p>
     <p>{{ project.created_at }}</p>
   </div>
 </div>
