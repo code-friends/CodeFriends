@@ -36,16 +36,10 @@
               templateUrl: '/app/home/projects/projects.html',
               controller: 'projectsController'
             }
-            // 'friends@home': {
-            //   template: '<p>Friends data here<p>'
-            //     // these files do not exist yet
-            //     // templateUrl: '/app/home/friends/friends.html',
-            //     // controller: '/app/home/friends/friends.js'
-            // }
           }
         })
         .state('projectEditor', {
-          url: '/editor/:docID',
+          url: '/editor/:projectName',
           views: {
             '': {
               templateUrl: '/app/projectEditor/projectEditor.html'
