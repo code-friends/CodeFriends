@@ -4,8 +4,16 @@ var Promise = require('bluebird');
 var knex = require('knex');
 var connection;
 
+
 // Use A Different Database For Testing
-if (process.env.NODE_ENV === 'test') {
+if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'staging' || process.env.NODE_ENV === 'production') {
+  connection = {
+    host: process.env.DB_PORT_3306_TCP_ADDR,
+    user: process.env.DB_ENV_MYSQL_USER,
+    password: process.env.DB_ENV_MYSQL_PASS,
+    database: 'code_friends',
+  };
+} else if (process.env.NODE_ENV === 'test') {
   connection = {
     host: process.env.DB_HOST || 'localhost',
     user: 'root',
@@ -33,6 +41,8 @@ db.createAllTables = db.schema.hasTable('users').then(function (exists) {
     return db.schema.createTable('users', function (user) {
         user.increments('id').primary();
         user.string('username', 255);
+        user.string('email', 255);
+        user.string('password', 255);
         user.string('githubId', 255);
         user.string('githubName', 255);
         user.string('githubEmail', 255);
@@ -84,6 +94,8 @@ db.createAllTables = db.schema.hasTable('users').then(function (exists) {
         });
     }
   });
+}).catch(function (err) {
+  console.log('Error Creating Tables: ', err);
 });
 
 module.exports = db;
