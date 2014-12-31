@@ -41560,7 +41560,9 @@ CodeMirror.defineMIME("application/typescript", { name: "javascript", typescript
 });
 
 /*global angular:true */
-// factory for Projects
+'use strict';
+
+// factory for Projects, Auth
 angular.module('code.services', [])
   .factory('Projects', function ($http) {
     var projects = {};
@@ -41645,6 +41647,82 @@ angular.module('code.login', ['ui.router'])
     console.log('Showing Login.js');
     Auth.isLoggedIn();
     // Silence is Beautiful
+  });
+/*global angular:true, CodeMirror:true */
+/*jshint browser:true */
+'use strict';
+angular.module('code.editor', ['ui.router'])
+  .controller('editorController', function ($scope, $state, $stateParams, $http) {
+    console.log($stateParams.docID);
+    $scope.goToHome = function () {
+      $state.go('home');
+    };
+    $scope.addNewFile = function () {
+      return $http.post('/api/file', {
+        file_name: $scope.newFileName,
+        project_name: $stateParams.docID, // Where can we get this from?
+        parent_file: null
+      });
+    };
+    var cm = CodeMirror.fromTextArea(document.getElementById('pad'), {
+      mode: 'javascript',
+      value: 'alert(\'hello world\')',
+      lineNumbers: true,
+      matchBrackets: true,
+      theme: 'paraiso-dark'
+    });
+    var elem = document.getElementById('pad');
+    var ws = new WebSocket('ws://' + window.location.hostname + ':8007'); // This should be dynamic
+    var sjs = new window.sharejs.Connection(ws);
+    var collectionName = 'documents'; // project name? This should not be static
+    var doc = sjs.get(collectionName, $stateParams.docID);
+    doc.subscribe();
+    doc.whenReady(function () {
+      console.log(doc);
+      if (!doc.type) {
+        doc.create('text');
+      }
+      if (doc.type && doc.type.name === 'text') {
+        doc.attachCodeMirror(cm);
+      }
+    });
+  });
+/*global angular:true */
+'use strict';
+
+angular.module('code.chat', ['ui.router'])
+  .controller('chatController', function ($scope, $state, ngSocket, $stateParams) {
+    var roomID = $stateParams.docID;
+    $scope.roomID = roomID;
+    var ws = ngSocket('ws://' + window.location.hostname + ':8001');
+    $scope.messages = [];
+    ws.onMessage(function (msg) {
+      console.log(msg);
+      msg = JSON.parse(msg.data);
+      if (msg.message.hasOwnProperty(roomID)) {
+        $scope.messages.push(msg);
+      }
+    });
+    $scope.doSomething = function () {
+      var params = {};
+      params[roomID] = $scope.chatMessage;
+      ws.send(params);
+      $scope.chatMessage = '';
+    };
+
+  })
+  .directive('ngEnter', function () {
+    return function (scope, element, attrs) {
+      element.bind("keydown keypress", function (event) {
+        if (event.which === 13) {
+          scope.$apply(function () {
+            scope.$eval(attrs.ngEnter);
+          });
+
+          event.preventDefault();
+        }
+      });
+    };
   });
 /*global angular:true */
 'use strict';
