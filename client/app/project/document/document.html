@@ -1,13 +1,8 @@
 
 <!-- Editor -->
-{{ documentName }}
-<textarea id='pad' autofocus></textarea>
-
-<script>
-/*jshint browser:true */
-/*global CodeMirror: true */
-CodeMirror.fromTextArea( document.getElementById('pad'), {
-  mode:  'javascript',
-  lineNumbers: true
-});
-</script>
+<div class="editorContainer">
+  <div class="editorHeader">
+   {{ documentName }}
+  </div> 
+<textarea id='pad' autofocus>Connecting...</textarea>
+</div>

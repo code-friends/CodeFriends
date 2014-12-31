@@ -10,6 +10,6 @@
     <p ng-repeat="file in files"><a ui-sref='document({documentName: file.name})'>File: {{ file.name }}</a></p>
   </div>
 
-  <div class="padContainer col-md-8" style="padding-right: 0px" ui-view></div>
+  <div class="padContainer col-md-8" ui-view></div>
 	<div class="col-md-2 nopadding" ui-view="chat"></div>
 </div>
