@@ -3,7 +3,7 @@
 
 angular.module('code.chat', ['ui.router'])
   .controller('chatController', function ($scope, $state, ngSocket, $stateParams, Auth) {
-    var roomID = $stateParams.docID;
+    var roomID = $stateParams.projectName;
     var userName = Auth.userName;
     var ws = ngSocket('ws://localhost:8001');
 
