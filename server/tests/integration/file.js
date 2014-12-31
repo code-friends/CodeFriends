@@ -4,35 +4,15 @@
 var request = require('supertest');
 var expect = require('chai').expect;
 var app = require('../../index');
+var agent = request.agent(app);
+var login = require('./login')(agent);
 
 describe('File', function () {
 
   // agent persists cookies and sessions
-  var agent = request.agent(app);
+
   var project_name = 'basketball';
-  before(function (done) {
-    agent
-      .post('/auth/signup')
-      .send({
-        email: 'jorge.silva@thejsj.com',
-        password: 'basketball'
-      })
-      .end(function () {
-        agent
-          .post('/auth/login')
-          .send({
-            email: 'jorge.silva@thejsj.com',
-            password: 'basketball'
-          })
-          .end(function () {
-            agent
-              .get('/auth/user')
-              .end(function () {
-                done();
-              });
-          });
-      });
-  });
+  before(login);
 
   it('should get the file structure for a project', function (done) {
     agent
@@ -65,13 +45,12 @@ describe('File', function () {
   });
 
   it('should get the file structure when requesting a project through GET', function (done) {
-    request(app)
+    agent
       .get('/api/project/' + project_name)
       .expect(200)
       .end(function (err, res) {
         var project = res.body;
         var fileKey = 'main.js'.replace('.', '');
-        console.log(project);
         project.should.have.property('id');
         project.should.have.property('files');
         project.files.should.be.instanceof(Object);

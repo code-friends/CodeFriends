@@ -1,5 +1,5 @@
+/*global describe:true, xdescribe:true, it:true */
 'use strict';
-/*global describe:true, xdescribe:true, it:true, before: true */
 
 // var _ = require('lodash');
 
