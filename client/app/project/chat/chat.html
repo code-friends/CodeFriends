@@ -1,11 +1,11 @@
-<div ng-controller="chatController">
+<div class="chatContainer" ng-controller="chatController">
 <div>
-  <ul id="chatContent" ng-repeat="message in messages">
-    <li>{{message.username}}: {{message.message}}</li>
-  </ul> 
+  <div id="chatContent">
+    <p ng-repeat="message in messages">{{message.username}}: {{message.message}}</p>
+  </div> 
 </div> 
-<div>
-    <input type="text" ng-model="chatMessage" ng-enter="doSomething()">
+<div class="chatInputForm">
+    <input placeholder="Say Something!" type="text" ng-model="chatMessage" ng-enter="doSomething()">
 </div>
 
 </div> 

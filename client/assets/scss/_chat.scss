@@ -1,0 +1,27 @@
+.chatContainer{
+  height:100vh; 
+}
+
+#chatContent{
+  height: 95vh;
+  overflow-y: scroll;
+  display: block;
+  width: 100%;
+  overflow-x: hidden;
+  padding-left: 10px; 
+}
+
+.chatInputForm{
+  width: 100%;
+  position: absolute;
+  bottom:0px;
+
+  input{
+    width: 100%;
+  }
+}
+
+.nopadding {
+   padding: 0px; 
+   margin: 0px;
+}

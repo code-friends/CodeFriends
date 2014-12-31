@@ -17,13 +17,13 @@ angular.module('code.project', ['ui.router'])
     };
     $scope.addNewFile = function () {
       return $http.post('/api/file', {
-        file_name: $scope.newFileName,
-        project_name: $stateParams.projectName, // Where can we get this from?
-        parent_file: null
-      })
-      .then(function () {
-        return $scope.getAllFiles();
-      });
+          file_name: $scope.newFileName,
+          project_name: $stateParams.projectName,
+          parent_file: null
+        })
+        .then(function () {
+          return $scope.getAllFiles();
+        });
     };
     $scope.getAllFiles();
   });

@@ -5,7 +5,6 @@ $bright-green: #CDDC39;
 $orange: #FF9800;
 $dark-blue: rgb(30, 76, 97);
 
-
 // elements
 html {
   font-family: $font-stack;
@@ -19,8 +18,6 @@ a {
   text-decoration: none;
   color: inherit;
 }
-
-
 
 // header and logo
 .header {
@@ -114,3 +111,11 @@ a {
   font-size: 1.4em;
   }
 }
+
+
+
+@import '../../lib/bootstrap-sass-official/assets/stylesheets/_bootstrap.scss';
+@import '../../lib/normalize.css/*.css';
+@import '_codemirror.scss';
+@import '_pastel-on-dark.scss';
+@import '_chat.scss';
