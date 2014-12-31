@@ -6,7 +6,6 @@ var concat = require('gulp-concat');
 
 gulp.task('sass', function () {
   gulp.src([
-      './client/lib/normalize.css/*.css',
       './client/assets/scss/main.scss'
     ])
     .pipe(sass({

@@ -2,13 +2,12 @@
   <!-- New File -->
  
   <!-- Files -->
-  <div class="col-md-2" ng-repeat="file in files">
+  <div class="col-md-2">
     <form ng-submit='addNewFile()'>
       <input type='text' ng-model='newFileName' name="text" placeholder='New File Name'>
       <input type='submit' id='submit' value='Create'>
     </form>
-
-    <p><a ui-sref='document({documentName: file.name})'>File: {{ file.name }}</a></p>
+    <p ng-repeat="file in files"><a ui-sref='document({documentName: file.name})'>File: {{ file.name }}</a></p>
   </div>
 
   <div class="padContainer col-md-8" style="padding-right: 0px" ui-view></div>
