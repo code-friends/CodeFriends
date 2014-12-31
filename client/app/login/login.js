@@ -1,7 +1,7 @@
 /*global angular:true */
 angular.module('code.login', ['ui.router'])
-	.controller('loginController', function ($scope, $state, AuthFactory) {
+	.controller('loginController', function ($scope, $state, Auth) {
 		console.log('Showing Login.js');
-		AuthFactory.isLoggedIn();
+		Auth.isLoggedIn();
 		// Silence is Beautiful
 	});
