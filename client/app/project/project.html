@@ -1,15 +1,15 @@
 <div>
   <!-- New File -->
-  <form ng-submit='addNewFile()'>
-    <input type='text' ng-model='newFileName' name="text" placeholder='New File Name'>
-    <input type='submit' id='submit' value='Create'>
-  </form>
-
+ 
   <!-- Files -->
-  <div ng-repeat="file in files">
-    <p><a ui-sref='document({documentName: file.name})'>File: {{ file.name }}</a></p>
+  <div class="col-md-2">
+    <form ng-submit='addNewFile()'>
+      <input type='text' ng-model='newFileName' name="text" placeholder='New File Name'>
+      <input type='submit' id='submit' value='Create'>
+    </form>
+    <p ng-repeat="file in files"><a ui-sref='document({documentName: file.name})'>File: {{ file.name }}</a></p>
   </div>
 
-  <div ui-view></div>
-	<div ui-view="chat"></div>
+  <div class="padContainer col-md-8" ui-view></div>
+	<div class="col-md-2 nopadding" ui-view="chat"></div>
 </div>

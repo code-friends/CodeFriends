@@ -1,9 +1,38 @@
 /* BASICS */
 
+
+#pad {
+  display: inline-block;
+  width: auto;
+  height: 100%;
+  font-size: 20px;
+  font-family: monaco;
+  background: -webkit-canvas(cursors);
+  background-repeat: no-repeat;
+}
+
+.padContainer{
+  display: inline-block;
+  padding-right: 0px;
+  height: 100vh;
+}
+
+.editorContainer{
+  height: 90vh;
+  padding-right: 0px;
+  display: block;
+}
+
+.editorHeader{
+  height: auto;
+  display: block;
+}
+
+
 .CodeMirror {
   /* Set height, width, borders, and global font properties here */
   font-family: monospace;
-  height: 300px;
+  height: 100vh;
 }
 .CodeMirror-scroll {
   /* Set scrolling behaviour here */
