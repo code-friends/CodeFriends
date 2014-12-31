@@ -35,6 +35,7 @@ gulp.task('js', function () {
       './client/app/project/project.js',
       './client/app/project/document/document.js',
       './client/app/project/chat/chat.js',
+      './client/app/project/toolbar/toolbar.js',
       './client/app/app.js',
       './client/lib/ngSocket/dist/ngSocket.js',
       './client/lib/moment/moment.js'
