@@ -22,12 +22,8 @@ angular.module('code.project', ['ui.router'])
         parent_file: null
       })
       .then(function () {
-        console.log('Created New File');
         return $scope.getAllFiles();
       });
     };
-    $scope.getAllFiles()
-      .then(function (files) {
-        console.log('Files: ', files);
-      });
+    $scope.getAllFiles();
   });

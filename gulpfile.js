@@ -22,7 +22,7 @@ gulp.task('js', function () {
       './client/lib/underscore/underscore-min.js',
       './client/lib/angular/angular.js',
       './client/lib/angular-ui-router/release/angular-ui-router.js',
-      './client/lib/bcrypt/bcrypt.js',
+      './client/lib/jshashes/hashes.js',
       './client/assets/js/share.js',
       './client/assets/js/codemirror.js',
       './client/assets/js/share-codemirror.js',
