@@ -11,10 +11,6 @@ var projectController = {};
 /////////////////////////////////////////    POST    /////////////////////////////////////////
 //ADDS A NEW PROJECT AND ADDS THE CREATOR TO THE 'USER' PROPERTY   ///   var userId = req.user.get('id');   ///   ABOVE IS THE RIGHT ONE ONCE AUTH IS ATTACHED. DUMMY DATA BELOW
 projectController.post = function (req, res) {
-  var userId = {
-    id: 1
-  };
-
   var project_name = req.body.project_name;
 
   if (!project_name) {
@@ -53,7 +49,14 @@ projectController.getAllProjects = function (req, res) {
 ///   var userId = req.user.get('id');   ///   if user is one of the users in if the project   ///   then execute the code below
 projectController.getSpecificProject = function (req, res) {
   models.Project
-    .query({where: { project_name: req.params.project_name_or_id}, orWhere: {id: req.params.project_name_or_id}})
+    .query({
+      where: {
+        project_name: req.params.project_name_or_id
+      },
+      orWhere: {
+        id: req.params.project_name_or_id
+      }
+    })
     .fetch({
       withRelated: ['user']
     })
@@ -70,9 +73,31 @@ projectController.getSpecificProject = function (req, res) {
 /////////////////////////////////////////    PUT    /////////////////////////////////////////
 //ADD USER TO A PROJECT   ///   var userId = req.user.get('id');   ///   BELOW IS HARD CODED. NEED TO CHANGE
 projectController.addUser = function (req, res) {
+  console.log('REQ !!!!!!!!!', req.body);
   var project_name = req.body.project_name;
+  var newUserName = req.body.newUserName;
+  var newUser = models.User
+    .query({
+      where: {
+        username: newUserName
+      }
+    })
+    .fetch({
+      withRelated: ['project']
+    })
+    .then(function (model) {
+      if (!model) {
+        console.log('DUDE, THERE IS NO MODEL WITH THAT NAME !!!!!!!!');
+      }
+      console.log('ID !!!!', model.get('id'));
+    })
+    .catch(function (err) {
+      console.log('Error adding user', err);
+    });
+
+
   var user = {
-    id: req.body.userId
+    id: newUser
   };
 
   models.Project
