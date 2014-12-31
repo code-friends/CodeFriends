@@ -12,11 +12,9 @@ var chatApp = connect(),
   });
 
 chatWS.on('connection', function (ws) {
-  ws.send("a user connected");
   ws.on('message', function (msg) {
     var parsedMsg = JSON.parse(msg);
     var chatRoomName = parsedMsg.message.roomID;
-    console.log(parsedMsg);
     if (parsedMsg.message.type === 'message') {
       var message = parsedMsg.message.message;
       var username = parsedMsg.message.username;
@@ -35,21 +33,17 @@ chatWS.on('connection', function (ws) {
     }
 
     if (parsedMsg.message.type === 'joinRoom') {
-      console.log('this is when we return the messages');
       mongoClient.connectAsync('mongodb://localhost:27017/codeFriends?auto_reconnect')
         .then(function (db) {
-        console.log('chatRoomName');
-          console.log(chatRoomName);
           var chatCollection = Promise.promisifyAll(db.collection(chatRoomName));
           chatCollection.find().toArray(function (err, results) {
-            console.dir(results);
             ws.send(JSON.stringify({
               roomID: chatRoomName,
-              type: "msgHistory",
+              type: 'msgHistory',
               messages: results
-            }))
-          })
-        })
+            }));
+          });
+        });
     }
 
   });
