@@ -9,8 +9,8 @@
       'code.home',
       'code.login',
       'code.project',
-      'code.document',
       'code.projects',
+      'code.document',
       'code.services',
       'code.chat',
       'ngSocket'
@@ -48,7 +48,7 @@
           }
         })
         .state('project', {
-          url: '/project/:projectName',
+          url: '/project/:projectName/',
           views: {
             '': {
               templateUrl: '/app/project/project.html',
@@ -57,12 +57,14 @@
             'chat@project': {
               templateUrl: '/app/project/chat/chat.html',
               controller: 'chatController'
-            },
-            'document@project': {
-              templateUrl: '/app/project/document/document.html',
-              controller: 'documentController'
             }
           }
+        })
+        .state('document', {
+          parent: 'project',
+          url: 'document/:documentName',
+          templateUrl: '/app/project/document/document.html',
+          controller: 'documentController'
         });
     });
 })();

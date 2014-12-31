@@ -1,8 +1,6 @@
 /*global describe:true, xdescribe:true, it:true */
 'use strict';
 
-// var _ = require('lodash');
-
 xdescribe('Auth', function () {
 
   it('should sign up the user', function () {
