@@ -2,14 +2,18 @@
 angular.module('code.toolbar', [])
   .controller('toolbarController', function ($scope, $state, $stateParams, $http) {
     console.log('toolbar controller initialized!');
+
     $scope.addUser = function () {
       console.log('called addUser()');
-      return $http.put('/api/project/addUser/', { //correct path?
-          file_name: $scope.newUser,
-          project_name: $stateParams.projectName, // Where can we get this from?
+      console.log('$scope.newUser !!!!!!!!!', $scope.newUser);
+      console.log('$stateParams.projectName !!!!!!!!!!', $stateParams.projectName);
+      return $http.put('api/project/addUser', {
+          newUserName: $scope.newUser,
+          project_name: $stateParams.projectName
         })
-        .then(function () {
-          console.log('Added User');
+        .catch(function (error) {
+          console.log('error!!!!', error);
+          // console.log('Added User');
         });
     };
   });
