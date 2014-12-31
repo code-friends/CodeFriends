@@ -4,7 +4,6 @@
 #pad {
   display: inline-block;
   width: auto;
-  height: 100%;
   font-size: 20px;
   font-family: monaco;
   background: -webkit-canvas(cursors);
@@ -15,16 +14,19 @@
   display: inline-block;
   padding-right: 0px;
   height: 100vh;
+  display: block; 
 }
 
 .editorContainer{
-  height: 90vh;
+  height: 100%; 
   padding-right: 0px;
   display: block;
+  position: 10vh; 
 }
 
 .editorHeader{
-  height: auto;
+  height: 0vh;
+  position: 10vh; 
   display: block;
 }
 
@@ -32,7 +34,7 @@
 .CodeMirror {
   /* Set height, width, borders, and global font properties here */
   font-family: monospace;
-  height: 100vh;
+  height: 100%;
 }
 .CodeMirror-scroll {
   /* Set scrolling behaviour here */
