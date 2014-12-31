@@ -9,7 +9,6 @@ var ProjectCollection = require('../models').collections.ProjectCollection;
 
 var fileController = {
   createNewFile: function (req, res) {
-    var userId = req.user.get('id');
     var projectName = req.body.project_name || req.param('project_name');
     var fileName = req.body.file_name || req.param('file_name');
     var projectId = req.body.project_id || req.param('project_id') || null;
