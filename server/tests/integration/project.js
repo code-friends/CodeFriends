@@ -1,9 +1,11 @@
+/*global describe:true, it:true, before: true */
 'use strict';
-/*global describe:true, xdescribe:true, it:true, before: true */
 
 var request = require('supertest');
 var ProjectCollection = require('../../models').collections.ProjectCollection;
 var app = require('../../index');
+var agent = request.agent(app);
+var login = require('./login')(agent);
 
 describe('Project', function () {
 
@@ -13,12 +15,12 @@ describe('Project', function () {
         'project_name': 'car'
       }).then(function (_project) {
         global.project = _project;
-        done();
+        login(done);
       });
   });
 
   it('should get all of the user\'s projects on GET /project', function (done) {
-    request(app)
+    agent
       .get('/api/project')
       .expect(200)
       .end(function (err, res) {
@@ -35,7 +37,7 @@ describe('Project', function () {
 
   //SHOULD THIS BE AN OBJECT OR IS THERE A SITUATION WHERE THERE COULD BE MORE THAN ONE????
   it('should get a specific project on GET /project/:project_name', function (done) {
-    request(app)
+    agent
       .get('/api/project/' + global.project.get('project_name'))
       .expect(200)
       .end(function (err, res) {
@@ -53,7 +55,7 @@ describe('Project', function () {
       });
   });
   it('should get a specific project on GET /project/:id', function (done) {
-    request(app)
+    agent
       .get('/api/project/' + global.project.get('id'))
       .expect(200)
       .end(function (err, res) {
@@ -71,7 +73,7 @@ describe('Project', function () {
   });
 
   it('should create a new project on POST /project', function (done) {
-    request(app)
+    agent
       .post('/api/project')
       .send({
         project_name: 'basketball'
@@ -79,7 +81,7 @@ describe('Project', function () {
       .expect(200)
       .end(function (err, res) {
         var _project = res.body;
-        request(app)
+        agent
           .get('/api/project/' + _project.project_name)
           .expect(200)
           .end(function (err, res) {
@@ -97,7 +99,7 @@ describe('Project', function () {
   });
 
   it('should add a user to a project on PUT /project/addUser', function (done) {
-    request(app)
+    agent
       .put('/api/project/addUser')
       .send({
         userId: 2,
@@ -119,13 +121,13 @@ describe('Project', function () {
   });
 
   it('should delete a project on DELETE /project/projectId', function (done) {
-    request(app)
+    agent
       .delete('/api/project/')
       .send({
         id: 1
       })
       .end(function () {
-        request(app)
+        agent
           .get('/api/project')
           .expect(200)
           .end(function (err, res) {

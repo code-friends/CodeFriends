@@ -30,6 +30,7 @@
     "oauth-js": "~0.3.0",
     "angular-ui-utils": "bower-keypress",
     "ngSocket": "~0.2.1",
-    "normalize.css": "~3.0.2"
+    "normalize.css": "~3.0.2",
+    "bcrypt": "*"
   }
 }
