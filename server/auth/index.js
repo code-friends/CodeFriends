@@ -1,3 +1,5 @@
+'use strict';
+
 var passport = require('passport');
 var GitHubStrategy = require('passport-github').Strategy;
 var LocalStrategy = require('passport-local').Strategy;
@@ -66,18 +68,19 @@ passport.use(new LocalStrategy({
       .then(function (user) {
         return user.checkPassword(password)
           .then(function (isMatch) {
-            if (!isMatch) return done(null, false);
+            if (!isMatch) {
+              return done(null, false);
+            }
             return done(null, user);
           });
       })
-      .catch(function (err) {
+      .catch(function () {
         return done(null, false);
       });
   }
 ));
 
 passport.checkIfLoggedIn = function (req, res, next) {
-  console.log('checkIfLoggedIn');
   if (req.user) {
     return next();
   }

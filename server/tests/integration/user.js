@@ -1,9 +1,11 @@
+/*global describe:true, it:true, before: true */
 'use strict';
-/*global describe:true, xdescribe:true, it:true, before: true */
 
 var request = require('supertest');
 var UserCollection = require('../../models').collections.UserCollection;
 var app = require('../../index');
+var agent = request.agent(app);
+var login = require('./login')(agent);
 
 describe('User', function () {
 
@@ -13,12 +15,12 @@ describe('User', function () {
           'username': 'door'
         }).then(function (_user) {
           global.user = _user;
-          done();
+          login(done);
         });
     });
 
     it('should get all of the users and their projects on GET /user', function (done) {
-      request(app)
+      agent
         .get('/api/user')
         .expect(200)
         .end(function (err, res) {
@@ -42,7 +44,7 @@ describe('User', function () {
     // CHANGE THIS TO GITHUB HANDLE INSTEAD OF ID!! CHANGE IT IN PROJECT CONTROLLER AND ROUTERS TOO!!!!!
     // CHANGE THE POST REQUESTS TO ADD ALL THE GITHUB STUFF TOO!!!!!!
     it('should get a specific user on GET /user/:username', function (done) {
-      request(app)
+      agent
         .get('/api/user/' + global.user.get('username'))
         .expect(200)
         .end(function (err, res) {
@@ -65,7 +67,7 @@ describe('User', function () {
     });
 
     it('should create a new user on POST /user', function (done) {
-      request(app)
+      agent
         .post('/api/user')
         .send({
           username: 'chaseme3',
@@ -79,7 +81,7 @@ describe('User', function () {
         .expect(200)
         .end(function (err, res) {
           var _user = res.body;
-          request(app)
+          agent
             .get('/api/user/' + _user.username)
             .expect(200)
             .end(function (err, res) {
