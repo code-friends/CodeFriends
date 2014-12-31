@@ -38,6 +38,8 @@ chatWS.on('connection', function (ws) {
       console.log('this is when we return the messages');
       mongoClient.connectAsync('mongodb://localhost:27017/codeFriends?auto_reconnect')
         .then(function (db) {
+        console.log('chatRoomName');
+          console.log(chatRoomName);
           var chatCollection = Promise.promisifyAll(db.collection(chatRoomName));
           chatCollection.find().toArray(function (err, results) {
             console.dir(results);
