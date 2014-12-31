@@ -5,6 +5,12 @@ $bright-green: #CDDC39;
 $orange: #FF9800;
 $dark-blue: rgb(30, 76, 97);
 
+@import '../../lib/bootstrap-sass-official/assets/stylesheets/_bootstrap.scss';
+@import '../../lib/normalize.css/*.css';
+@import '_codemirror.scss';
+@import '_pastel-on-dark.scss';
+@import '_chat.scss';
+
 // elements
 html {
   font-family: $font-stack;
@@ -114,8 +120,3 @@ a {
 
 
 
-@import '../../lib/bootstrap-sass-official/assets/stylesheets/_bootstrap.scss';
-@import '../../lib/normalize.css/*.css';
-@import '_codemirror.scss';
-@import '_pastel-on-dark.scss';
-@import '_chat.scss';
