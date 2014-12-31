@@ -20,7 +20,9 @@ angular.module('code.services', [])
       isLoggedIn: function (redirectToLogin) {
         return $http.get('/auth/user')
           .then(function (res) {
+            console.log(res);
             Auth.userId = res.data.userId;
+            Auth.userName = res.data.userName;
             if (res.data.userId === null && redirectToLogin !== false) {
               $state.go('login');
             }
