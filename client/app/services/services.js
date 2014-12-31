@@ -3,7 +3,7 @@
 
 // factory for Projects, Auth
 angular.module('code.services', [])
-  .factory('ProjectsFactory', function ($http) {
+  .factory('Projects', function ($http) {
 
     // gets projects from server, caches projects in factory and allows cb in controller to access projects
     var projects = {};
@@ -20,7 +20,7 @@ angular.module('code.services', [])
         });
     };
     return projects;
-  });
+  })
 
 //factory for Authentication
 .factory('Auth', function ($http, $state) {
