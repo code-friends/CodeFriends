@@ -4,6 +4,7 @@ $sage-green: rgba(175,180,43,0.8);
 $bright-green: #CDDC39;
 $orange: #FF9800;
 $dark-blue: rgb(30, 76, 97);
+$blue-grey: #607D8B;
 
 @import '../../lib/bootstrap-sass-official/assets/stylesheets/_bootstrap.scss';
 @import '../../lib/normalize.css/normalize.css';
@@ -12,6 +13,9 @@ $dark-blue: rgb(30, 76, 97);
 @import '_chat.scss';
 
 // elements
+* {
+  box-sizing: border-box;
+}
 html {
   font-family: $font-stack;
   font-size: 62.5%;
@@ -24,30 +28,26 @@ a {
   text-decoration: none;
   color: inherit;
 }
+ul {
+  list-style: none;
+}
 
 // header and logo
 .header {
-  height: 70px;
   width: 100%;
   // background: linear-gradient(-180deg, rgba(47,174,143,0.8) 0%, rgba(47,174,143,0.8) 100%);
   // background: linear-gradient(-180deg, rgba(175,180,43,0.8) 0%, rgba(175,180,43,0.8) 100%);
   background: $turqoise-green;
   color: white;
   font-weight: 300;
-  font-size: 2em;
+  font-size: 1.6em;
   position: fixed;
   z-index: 99;
-  .logo-region, .user-box-region {
-    display: inline-block;
-    margin-top: 15px;
-  }
-  .logo-region {
-    float: left;
-    margin-left: 5%;
+  .container {
+    padding: 11px 60px 7px;
   }
   .user-box-region {
     float: right;
-    margin-right: 5%;
   }
 }
 .logo-region {
@@ -57,7 +57,7 @@ a {
   background: url('../assets/img/logo.png') no-repeat center center;
   background-size: contain;
   width: 30px;
-  height: 36px;
+  height: 20px;
   display: inline-block;
 }
 #logo-text {
@@ -78,7 +78,7 @@ a {
 }
 .header-space {
   position: absolute;
-  top: 70px;
+  top: 58px;
 }
 .body {
   position: absolute;
@@ -119,4 +119,52 @@ a {
 }
 
 
-
+#toolbar {
+  background-color: $blue-grey;
+  color: white;
+  font-size: 1.2em;
+  .container {
+    padding: 15px;
+  }
+  ul {
+    display: inline;
+    text-align: left;
+    padding: 0;
+  }
+  ul li {
+    display: inline-block;
+  }
+  ul li ul {
+    padding: 0;
+    position: absolute;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transiton: opacity 0.2s;
+    -moz-transition: opacity 0.2s;
+    -ms-transition: opacity 0.2s;
+    -o-transition: opacity 0.2s;
+    -transition: opacity 0.2s;
+  }
+  ul li ul li { 
+    background: $blue-grey; 
+    display: block;
+  }
+  ul li ul li:hover {
+    background: #666;
+  }
+  ul li:hover ul {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+  }
+}
+#toolbar-user {
+  float: right;
+  ul {
+    float: right;
+  }
+}

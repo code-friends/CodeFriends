@@ -1,6 +1,28 @@
 <div id="toolbar">
-  <form ng-submit='addUser()'>
-    <input type='text' ng-model='newUser' name="text" placeholder='Add User'>
-    <input type='submit' id='submit' value='Add'>
-  </form>
+  <div class="container">
+    <ul>
+      <li id="logo-image"></li>
+      <li>File</li>
+      <li>Git</li>
+      <li>
+        Friends
+        <ul>
+          <li>Add Friend to Project</li>
+          <li>     
+            <form ng-submit='addUser()'>
+              <input type='text' ng-model='newUser' name="text" placeholder="Friend's Github username">
+              <input type='submit' id='submit' value='Add'>
+            </form>
+          </li>
+        </ul>
+      </li>
+      <li id="toolbar-user">
+        User
+        <ul>
+          <li>Home</li>
+          <li>Log Out</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
 </div>

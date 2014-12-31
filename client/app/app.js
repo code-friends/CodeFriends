@@ -14,6 +14,7 @@
       'code.document',
       'code.services',
       'code.chat',
+      'code.mainHeaderDirective',
       'ngSocket'
     ])
     .config(function ($stateProvider, $urlRouterProvider) {
