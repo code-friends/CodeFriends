@@ -19,6 +19,7 @@ passport.deserializeUser(function (id, done) {
     });
 });
 
+console.log('Callback URL:', 'http://' + config.get('url') + ':' + config.get('ports').http + '/auth/login/callback');
 passport.use(new GitHubStrategy({
     clientID: config.get('github').clientID,
     clientSecret: config.get('github').clientSecret,
