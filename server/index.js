@@ -1,5 +1,8 @@
 'use strict';
 
+var config = require('config');
+console.log(config);
+
 //dependencies
 var bodyParser = require('body-parser'),
   session = require('express-session'),
@@ -18,13 +21,11 @@ var app = express();
 
 // Middlewares
 app
-// .use(cookieParser)
   .use(bodyParser.urlencoded({
     extended: true
   }))
   .use(bodyParser.json())
   // .use(morgan('dev'))
-  // .use(expressMethodOverride)
   .use(session({
     secret: 'zfnzkwjehgweghw',
     resave: false,
@@ -33,23 +34,20 @@ app
   .use(auth.initialize())
   .use(auth.session());
 
-//set routes
-var port = process.env.PORT || 8000;
-var shareJSPort = 8007;
-var chatPort = 8001;
-
+// Set Routes
 app
   .use(express.static(__dirname + '/../client'))
   .use('/auth', authRouter)
   .use('/api', apiRouter)
-  .listen(port, function () {
-    console.log('Server listening on port:', port);
+  .use('/api', auth.checkIfLoggedIn, apiRouter)
+  .listen(config.get('ports').http, function () {
+    console.log('Server listening on port:', config.get('ports').http);
   });
 
-chatServer.listen(chatPort);
-shareJSServer.listen(shareJSPort);
+chatServer.listen(config.get('ports').chat);
+shareJSServer.listen(config.get('ports').editor);
 
-console.log('Chat listening on port:', chatPort);
-console.log('Editor listening on port:', shareJSPort);
+console.log('Chat listening on port:', config.get('ports').chat);
+console.log('Editor listening on port:', config.get('ports').editor);
 
 module.exports = app;

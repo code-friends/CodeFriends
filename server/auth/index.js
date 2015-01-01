@@ -1,5 +1,6 @@
 'use strict';
 
+var config = require('config');
 var passport = require('passport');
 var GitHubStrategy = require('passport-github').Strategy;
 var LocalStrategy = require('passport-local').Strategy;
@@ -19,9 +20,9 @@ passport.deserializeUser(function (id, done) {
 });
 
 passport.use(new GitHubStrategy({
-    clientID: process.env.gitHubClientId || '364ea3bc2b086177fd27',
-    clientSecret: process.env.gitHubClientSecret || '2dce4e81ad618474f5c822b4567200b941a6c1b1',
-    callbackURL: (process.env.url || 'http://127.0.0.1:8000') + '/auth/login/callback'
+    clientID: config.get('github').clientID,
+    clientSecret: config.get('github').clientSecret,
+    callbackURL: 'http://' + config.get('url') + ':' + config.get('ports').http + '/auth/login/callback'
   },
   function (accessToken, refreshToken, profile, done) {
     console.log(profile);
