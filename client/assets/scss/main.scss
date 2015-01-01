@@ -17,17 +17,20 @@ $blue-grey: #607D8B;
   box-sizing: border-box;
 }
 html {
-  font-family: $font-stack;
   font-size: 62.5%;
   height: 100%;
 }
 body {
+  font-family: $font-stack;
   font-size: 1.2em;
 }
 a {
   text-decoration: none;
   color: inherit;
 }
+a:hover {
+    text-decoration: none;
+  }
 ul {
   list-style: none;
 }
@@ -43,7 +46,7 @@ ul {
   font-size: 1.6em;
   position: fixed;
   z-index: 99;
-  .container {
+  .wrapper {
     padding: 11px 60px 7px;
   }
   .user-box-region {
@@ -123,7 +126,7 @@ ul {
   background-color: $blue-grey;
   color: white;
   font-size: 1.2em;
-  .container {
+  .wrapper {
     padding: 15px;
   }
   ul {
