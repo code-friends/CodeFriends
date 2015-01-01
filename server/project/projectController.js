@@ -95,8 +95,6 @@ projectController.getAllProjects = function (req, res) {
 // console.log('USERID !!!!!', userId);
 // console.log('USERID !!!!!', req.user.id);
 
-
-///   var userId = req.user.get('id');   ///   if user is one of the users in if the project   ///   then execute the code below
 projectController.getSpecificProject = function (req, res) {
   models.Project
     .query({
@@ -124,11 +122,12 @@ projectController.getSpecificProject = function (req, res) {
 };
 
 /////////////////////////////////////////    PUT    /////////////////////////////////////////
-//ADD USER TO A PROJECT   ///   var userId = req.user.get('id');   ///   BELOW IS HARD CODED. NEED TO CHANGE
 projectController.addUser = function (req, res) {
   var project_name = req.body.project_name;
   var newUserName = req.body.newUserName;
   var newUserId = null;
+  console.log('PROJECT_NAME', project_name);
+  console.log('NEWUSERNAME', newUserName);
 
   models.User
     .query({
@@ -140,46 +139,40 @@ projectController.addUser = function (req, res) {
       withRelated: ['project']
     })
     .then(function (user) {
-      console.log('THE NEW USER', user);
       if (!user) throw new Error('There is not model with this name');
       return user;
     })
-    .then(function (user) {
-      newUserId = user.get('id');
-    })
-    .then(function () {
-      console.log('NEWUSERID', newUserId);
+    .then(function (queriedUser) {
+      console.log('QUERIEDUSER.ATTRIBUTES', queriedUser.attributes);
+      console.log('ID FOR QUERIEDUSER', queriedUser.get('id'));
+      return models.Project
+        .query({
+          where: {
+            project_name: project_name
+          }
+        })
+        .fetch({
+          withRelated: ['user']
+        })
+        .then(function (model) {
+          console.log('model', model);
+          return model
+            .related('user')
+            .create({
+              id: queriedUser.get('id')
+            })
+            .yield(model)
+            .then(function (model) {
+              res.json(model.toJSON());
+            })
+            .catch(function (err) {
+              console.log('Error adding user', err);
+            });
+        });
+
     })
     .catch(function (err) {
       console.log('Error getting newUserId', err);
-    });
-
-
-  models.Project
-    .query({
-      where: {
-        project_name: project_name
-      }
-    })
-    .fetch({
-      withRelated: ['user']
-    })
-    .then(function (model) {
-      return model
-        .related('user')
-        .create({
-          id: newUserId
-        })
-        .yield(model)
-        .catch(function (err) {
-          console.log('Error adding user', err);
-        });
-    })
-    .then(function (model) {
-      res.json(model.toJSON());
-    })
-    .catch(function (err) {
-      console.log('Error adding user', err);
     });
 };
 

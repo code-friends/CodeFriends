@@ -10,7 +10,7 @@ var login = require('./login')(agent);
 describe('User', function () {
 
   before(function (done) {
-    return new UserCollection()
+    new UserCollection()
       .create({
         'username': 'Catherine'
       })
@@ -21,23 +21,14 @@ describe('User', function () {
       .then(function () {
         return new UserCollection()
           .create({
-            'username': 'Doug'
-          });
-      })
-      .then(function () {
-        return new UserCollection()
-          .create({
-            'username': 'Jorge'
-          });
-      })
-      .then(function () {
-        return new UserCollection()
-          .create({
             'username': 'Chase'
           });
       })
       .then(function () {
         done();
+      })
+      .catch(function (err) {
+        console.log('Problem Creating Stuff:', err);
       });
   });
 
