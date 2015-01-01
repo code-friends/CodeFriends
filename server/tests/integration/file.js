@@ -12,7 +12,12 @@ describe('File', function () {
   // agent persists cookies and sessions
 
   var project_name = 'basketball';
-  before(login);
+  before(function (done) {
+    login()
+      .then(function () {
+        done();
+      });
+  });
 
   it('should get the file structure for a project', function (done) {
     agent
