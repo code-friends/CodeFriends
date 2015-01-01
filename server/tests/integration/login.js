@@ -13,8 +13,16 @@ module.exports = function (agent) {
         return agent
           .post('/auth/login')
           .send({
-            email: 'manning@manning.com',
-            password: 'football'
+            email: 'brady@brady.com',
+            password: 'basketball'
+          });
+      })
+      .then(function () {
+        return agent
+          .post('/auth/signup')
+          .send({
+            email: 'brees@brees.com',
+            password: 'soccer'
           });
       })
       .then(function () {

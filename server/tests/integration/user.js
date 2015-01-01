@@ -46,8 +46,10 @@ describe('User', function () {
       .get('/api/user')
       .expect(200)
       .end(function (err, res) {
-        console.log('RES.BODY !!!', res.body);
+        // console.log('RES.BODY IN USER TESTS !!!', res.body);
         var users = res.body;
+        // console.log('users');
+        // console.log(users);
         users.should.be.instanceof(Array);
         users[0].should.have.property('id');
         users[0].should.have.property('username');
@@ -64,8 +66,6 @@ describe('User', function () {
       });
   });
 
-  // CHANGE THIS TO GITHUB HANDLE INSTEAD OF ID!! CHANGE IT IN PROJECT CONTROLLER AND ROUTERS TOO!!!!!
-  // CHANGE THE POST REQUESTS TO ADD ALL THE GITHUB STUFF TOO!!!!!!
   it('should get a specific user on GET /user/:username', function (done) {
     agent
       .get('/api/user/' + global.user.get('username'))
@@ -127,7 +127,4 @@ describe('User', function () {
       });
   });
 
-  // xit('should get all user info on GET /user/:github_handle', function () {
-
-  // });
 });

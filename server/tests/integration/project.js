@@ -48,10 +48,10 @@ describe('Project', function () {
       .end(function (err, res) {
         // console.log('RES !!!', res);
         var projects = res.body;
-        console.log('projects');
-        console.log(projects);
-        console.log(projects[0].user);
-        console.log(projects[1].user);
+        // console.log('projects');
+        // console.log(projects);
+        // console.log(projects[0].user);
+        // console.log(projects[1].user);
         projects.should.be.instanceof(Array);
         projects[0].should.have.property('id');
         projects[0].should.have.property('project_name');
@@ -69,8 +69,8 @@ describe('Project', function () {
       .expect(200)
       .end(function (err, res) {
         var projectResponse = res.body;
-        console.log('projectResponse');
-        console.log(projectResponse);
+        // console.log('projectResponse');
+        // console.log(projectResponse);
         projectResponse.should.be.instanceof(Object);
         projectResponse.should.have.property('id');
         projectResponse.should.have.property('project_name');
@@ -131,7 +131,7 @@ describe('Project', function () {
     agent
       .put('/api/project/addUser')
       .send({
-        userId: 2,
+        newUserName: 'Chase',
         project_name: 'basketball'
       })
       .expect(200)
