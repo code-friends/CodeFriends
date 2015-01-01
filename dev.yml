@@ -13,5 +13,5 @@ server:
   links:
    - "db:db"
   environment:
-    NODE_ENV: development
+    NODE_ENV: dev
     PORT: 80
