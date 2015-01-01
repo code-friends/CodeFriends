@@ -1,7 +1,7 @@
 /*global describe:true, it:true, before: true */
 'use strict';
 
-var request = require('supertest');
+var request = require('supertest-as-promised');
 var ProjectCollection = require('../../models').collections.ProjectCollection;
 var app = require('../../index');
 var agent = request.agent(app);
@@ -13,9 +13,31 @@ describe('Project', function () {
     return new ProjectCollection()
       .create({
         'project_name': 'car'
-      }).then(function (_project) {
+      })
+      .then(function (_project) {
         global.project = _project;
-        login(done);
+        return login();
+      })
+      .then(function () {
+        return new ProjectCollection()
+          .create({
+            'project_name': 'motorcycle'
+          });
+      })
+      .then(function () {
+        return new ProjectCollection()
+          .create({
+            'project_name': 'plane'
+          });
+      })
+      .then(function () {
+        return new ProjectCollection()
+          .create({
+            'project_name': 'train'
+          });
+      })
+      .then(function () {
+        done();
       });
   });
 
@@ -24,7 +46,12 @@ describe('Project', function () {
       .get('/api/project')
       .expect(200)
       .end(function (err, res) {
+        // console.log('RES !!!', res);
         var projects = res.body;
+        console.log('projects');
+        console.log(projects);
+        console.log(projects[0].user);
+        console.log(projects[1].user);
         projects.should.be.instanceof(Array);
         projects[0].should.have.property('id');
         projects[0].should.have.property('project_name');
@@ -42,6 +69,8 @@ describe('Project', function () {
       .expect(200)
       .end(function (err, res) {
         var projectResponse = res.body;
+        console.log('projectResponse');
+        console.log(projectResponse);
         projectResponse.should.be.instanceof(Object);
         projectResponse.should.have.property('id');
         projectResponse.should.have.property('project_name');
@@ -76,7 +105,7 @@ describe('Project', function () {
     agent
       .post('/api/project')
       .send({
-        project_name: 'basketball'
+        project_name: 'tennis'
       })
       .expect(200)
       .end(function (err, res) {

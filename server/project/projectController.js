@@ -12,16 +12,11 @@ var projectController = {};
 //ADDS A NEW PROJECT AND ADDS THE CREATOR TO THE 'USER' PROPERTY   
 projectController.post = function (req, res) {
 
-  console.log('THIS IS REQ IN PROJECT.CONTROLLER.POST !!!!');
-
   var userId = {
     id: req.user.get('id')
   };
 
   var project_name = req.body.project_name;
-
-  console.log('THIS IS USERID !!!!', userId);
-  console.log('THIS IS PROJECT_NAME !!!!', project_name);
 
   if (!project_name || !userId) {
     res.status(400).end();
@@ -40,26 +35,69 @@ projectController.post = function (req, res) {
         });
     })
     .then(function (model) {
+      console.log('model !!!!', model);
       res.json(model.toJSON());
     });
 };
 
 /////////////////////////////////////////    GET    /////////////////////////////////////////
-///   var userId = req.user.get('id');   ///   only allow access to the file for projects associated with this current user (they only have permission for those)
 projectController.getAllProjects = function (req, res) {
+  console.log('HELLO');
+  console.log('USER ID :', req.user.get('id'));
   var userId = req.user.get('id');
-  models.Project.query({
-      where: {
-        id: req.user.id
-      }
-    })
+
+  // .query({
+  //   where: {
+  //     user: req.user
+  //   }
+  // })
+
+  models.Project
     .fetchAll({
       withRelated: ['user']
     })
     .then(function (coll) {
+      console.log('HELLO !!!', coll.toJSON());
       res.json(coll.toJSON());
     });
 };
+// .catch(function (err) {
+//   console.log('Error Querying Projects:', err);
+// });
+// var allTheUsersProjectsById = [];
+// var userProjects = models.User
+//   .query({
+//     where: {
+//       id: userId
+//     }
+//   })
+//   .fetch({
+//     withRelated: ['project']
+//   })
+//   .then(function (model) {
+//     if (!model) {
+//       console.log('DUDE, THERE IS NO MODEL WITH THAT NAME !!!!!!!!');
+//     }
+// var door = model.get('project').at(0).get('id');
+// console.log('DOOR !!!!', door);
+// var allTheUsersProjects = model.relations.project.models;
+// for (var key in allTheUsersProjects) {
+//   var projectId = allTheUsersProjects[key].attributes.id;
+//   allTheUsersProjectsById.push(projectId);
+// };
+
+// console.log('all the project ids !!!!', allTheUsersProjectsById);
+// console.log('model !!!!', model.relations.project.models[0].attributes.id);
+// console.log('model !!!!', model);
+
+// })
+// .catch(function (err) {
+//   console.log('Error adding user', err);
+// });
+
+// console.log('USERID !!!!!', userId);
+// console.log('USERID !!!!!', req.user.id);
+
 
 ///   var userId = req.user.get('id');   ///   if user is one of the users in if the project   ///   then execute the code below
 projectController.getSpecificProject = function (req, res) {
@@ -109,17 +147,6 @@ projectController.addUser = function (req, res) {
     .catch(function (err) {
       console.log('Error adding user', err);
     });
-};
-
-
-/////////////////////////////////////////    PUT    /////////////////////////////////////////
-//ADD USER TO A PROJECT   ///   var userId = req.user.get('id');  
-projectController.addUser = function (req, res) {
-  var project_name = req.body.project_name;
-  var userId = req.user.get('id');
-  // var userId = {
-  //   id: req.body.userId
-  // };
 
   models.Project
     .query({
@@ -133,7 +160,7 @@ projectController.addUser = function (req, res) {
     .then(function (model) {
       return model
         .related('user')
-        .create(userId)
+        .create(newUser.id) //I think this is right
         .yield(model)
         .catch(function (err) {
           console.log('Error adding user', err);

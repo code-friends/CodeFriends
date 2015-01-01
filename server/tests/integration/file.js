@@ -1,7 +1,7 @@
 'use strict';
 /*global describe:true, xdescribe:true, it:true, before: true */
 
-var request = require('supertest');
+var request = require('supertest-as-promised');
 var expect = require('chai').expect;
 var app = require('../../index');
 var agent = request.agent(app);
