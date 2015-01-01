@@ -33,11 +33,14 @@ RUN bower install --allow-root
 
 ADD client /app/client
 ADD server /app/server
+ADD config /app/config
 ADD run.sh /run.sh
 RUN chmod -R 777 /run.sh
 RUN chmod +x /run.sh
 ADD gulpfile.js /app/gulpfile.js
 RUN gulp
+
+RUN mkdir -p /data/db
 
 EXPOSE 80
 WORKDIR /
