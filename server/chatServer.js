@@ -18,6 +18,7 @@ chatWS.on('connection', function (ws) {
     if (parsedMsg.message.type === 'message') {
       var message = parsedMsg.message.message;
       var username = parsedMsg.message.username;
+      var createDate = parsedMsg.message.createdAt;
       mongoClient.connectAsync('mongodb://localhost:27017/codeFriends?auto_reconnect')
         .then(function (db) {
           var chatCollection = Promise.promisifyAll(db.collection(chatRoomName));
@@ -25,7 +26,7 @@ chatWS.on('connection', function (ws) {
             roomID: chatRoomName,
             message: message,
             username: username,
-            createdAt: Date.now()
+            createdAt: createDate
           });
         });
       //save message to the database.
