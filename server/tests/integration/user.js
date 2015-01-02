@@ -28,7 +28,7 @@ describe('User', function () {
         done();
       })
       .catch(function (err) {
-        console.log('Problem Creating Stuff:', err);
+        console.log('Problem Creating Test Users:', err);
       });
   });
 
@@ -37,10 +37,7 @@ describe('User', function () {
       .get('/api/user')
       .expect(200)
       .end(function (err, res) {
-        // console.log('RES.BODY IN USER TESTS !!!', res.body);
         var users = res.body;
-        // console.log('users');
-        // console.log(users);
         users.should.be.instanceof(Array);
         users[0].should.have.property('id');
         users[0].should.have.property('username');

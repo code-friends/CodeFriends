@@ -1,7 +1,7 @@
 /*global angular:true */
 'use strict';
 
-// factory for Projects, Auth
+// factory for Projects, Auth, Toolbar
 angular.module('code.services', [])
   .factory('Projects', function ($http) {
 
@@ -21,27 +21,34 @@ angular.module('code.services', [])
     };
     return projects;
   })
+  .factory('Auth', function ($http, $state) {
+    var Auth = {
+      isLoggedIn: function (redirectToLogin) {
+        return $http.get('/auth/user')
+          .then(function (res) {
+            console.log(res);
+            Auth.userId = res.data.userId;
+            Auth.userName = res.data.userName;
+            if (res.data.userId === null && redirectToLogin !== false) {
+              $state.go('login');
+            }
+          });
+      },
+      logOut: function () {
 
-//factory for Authentication
-.factory('Auth', function ($http, $state) {
-  var Auth = {
-
-    isLoggedIn: function (redirectToLogin) {
-      return $http.get('/auth/user')
-        .then(function (res) {
-          console.log(res);
-          Auth.userId = res.data.userId;
-          Auth.userName = res.data.userName;
-          if (res.data.userId === null && redirectToLogin !== false) {
-            $state.go('login');
-          }
-        });
-    },
-
-    userId: null
-
-  };
-
-  return Auth;
-
-});
+      },
+      userId: null
+    };
+    return Auth;
+  })
+  .factory('ToolbarDocument', function ($rootScope) {
+    var ToolbarDocument = {
+      changeTheme: function (theme) {
+        ToolbarDocument.theme = theme;
+        $rootScope.$broadcast('theme:changed', theme);
+        $rootScope.$emit('theme:changed', theme);
+      },
+      theme: 'default'
+    };
+    return ToolbarDocument;
+  });
