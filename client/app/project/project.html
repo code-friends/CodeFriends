@@ -1,9 +1,9 @@
 <div>
   <div ui-view="toolbar"></div>
   <!-- New File -->
- 
+
   <!-- Files -->
-  <div class="col-md-2">
+  <div class="col-md-2 col-sm-3">
     <form ng-submit='addNewFile()'>
       <input type='text' ng-model='newFileName' name="text" placeholder='New File Name'>
       <input type='submit' id='submit' value='Create'>
@@ -11,6 +11,6 @@
     <p ng-repeat="file in files"><a ui-sref='document({documentName: file.name})'>File: {{ file.name }}</a></p>
   </div>
 
-  <div class="padContainer col-md-8" ui-view></div>
-	<div class="col-md-2 nopadding" ui-view="chat"></div>
+  <div class="padContainer col-md-8 col-sm-6" ui-view></div>
+	<div class="col-md-2 col-sm-3 nopadding" ui-view="chat"></div>
 </div>
