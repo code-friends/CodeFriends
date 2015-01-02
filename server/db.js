@@ -1,38 +1,14 @@
+'use strict';
 var Promise = require('bluebird');
+var config = require('config');
 
 //MySQL
 var knex = require('knex');
-var connection;
-
-
-// Use A Different Database For Testing
-if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'staging' || process.env.NODE_ENV === 'production') {
-  connection = {
-    host: process.env.DB_PORT_3306_TCP_ADDR,
-    user: process.env.DB_ENV_MYSQL_USER,
-    password: process.env.DB_ENV_MYSQL_PASS,
-    database: 'code_friends',
-  };
-} else if (process.env.NODE_ENV === 'test') {
-  connection = {
-    host: process.env.DB_HOST || 'localhost',
-    user: 'root',
-    password: '',
-    database: 'code_friends_test',
-  };
-} else {
-  connection = {
-    host: process.env.DB_HOST || 'localhost',
-    user: 'root',
-    password: '',
-    database: 'code_friends',
-  };
-}
 
 //creates database
 var db = knex({
   client: 'mysql',
-  connection: connection
+  connection: config.get('mysql')
 });
 
 //users schema

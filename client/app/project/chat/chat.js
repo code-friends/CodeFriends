@@ -5,7 +5,7 @@ angular.module('code.chat', ['ui.router', 'ngSanitize'])
   .controller('chatController', function ($scope, $state, ngSocket, $stateParams, Auth, $interval) {
     var roomID = $stateParams.projectName;
     var username = Auth.userName;
-    var ws = ngSocket('ws://localhost:8001');
+    var ws = ngSocket('ws://' + window.location.hostname + ':' + window.config.ports.chat);
 
     $scope.roomID = roomID;
     $scope.messages = [];

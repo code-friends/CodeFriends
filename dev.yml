@@ -7,11 +7,19 @@ db:
 server:
   build: .
   ports:
-   - "9000:80"
+   - "80:80"
+   - "9000:9000"
+   - "9001:9001"
   expose:
    - "80"
+   - "9000"
+   - "9001"
   links:
    - "db:db"
+  volumes:
+   - ./config:/app/config
+   - ./server:/app/server
+   - ./client:/app/client
   environment:
-    NODE_ENV: development
+    NODE_ENV: dev
     PORT: 80
