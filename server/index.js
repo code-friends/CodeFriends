@@ -2,6 +2,8 @@
 
 var config = require('config');
 
+console.log('config:', config);
+
 //dependencies
 var bodyParser = require('body-parser'),
   session = require('express-session'),
@@ -40,14 +42,13 @@ app
   .use(express.static(__dirname + '/../client'))
   .use('/auth', authRouter)
   .use('/api', apiRouter)
-  .use('/api', auth.checkIfLoggedIn, apiRouter)
   .listen(config.get('ports').http, function () {
     console.log('Server listening on port:', config.get('ports').http);
   });
 
 chatServer.listen(config.get('ports').chat);
 shareJSServer.listen(config.get('ports').editor);
-
+console.log(config.get('ports'));
 console.log('Chat listening on port:', config.get('ports').chat);
 console.log('Editor listening on port:', config.get('ports').editor);
 
