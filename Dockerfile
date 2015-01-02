@@ -16,7 +16,7 @@ RUN apt-get -yq install mysql-client
 # Mongo
 RUN apt-get -yq install mongodb-org
 # NPM
-RUN npm install -g mocha gulp bower
+RUN npm install -g gulp bower nodemon forever
 # Remove Source Lists
 RUN rm -rf /var/lib/apt/lists/*
 
@@ -42,6 +42,6 @@ RUN gulp
 
 RUN mkdir -p /data/db
 
-EXPOSE 80
+EXPOSE 80 8001 8007
 WORKDIR /
 ENTRYPOINT ["/run.sh"]

@@ -4,7 +4,8 @@
   "description": "Remote pair/group programming environment",
   "main": "server/index.js",
   "scripts": {
-    "test": "export NODE_ENV='test'; ./node_modules/mocha/bin/mocha server/tests/index --bail"
+    "start": "./node_modules/forever/bin/forever start server",
+    "test": "export NODE_ENV='test'; ./node_modules/mocha/bin/mocha server/tests/index"
   },
   "repository": {
     "type": "git",
@@ -37,6 +38,7 @@
     "karma-firefox-launcher": "^0.1.3",
     "karma-jasmine": "^0.3.2",
     "mysql": "^2.5.4",
+    "nodemon": "^1.2.1",
     "should": "^4.4.1",
     "supertest": "^0.15.0"
   },
@@ -51,6 +53,7 @@
     "cookie-parser": "^1.3.3",
     "express": "^4.10.6",
     "express-session": "^1.9.3",
+    "forever": "^0.14.0",
     "knex": "^0.7.3",
     "livedb": "^0.4.11",
     "livedb-mongo": "^0.4.1",

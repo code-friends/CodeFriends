@@ -12,5 +12,9 @@ DELIMITER
 # mysql $params <<DELIMITER
 # SHOW DATABASES;
 # DELIMITER
+
+# Run Mongo (Should be on it's own container)
 mongod --fork --logpath=/mongodb.log
-cd /app && node server
+
+# Run nodemon (should be forever on production)
+cd /app && nodemon server

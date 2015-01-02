@@ -8,8 +8,12 @@ server:
   build: .
   ports:
    - "80:80"
+   - "8001:8001"
+   - "8007:8007"
   expose:
    - "80"
+   - "8001"
+   - "8007"
   links:
    - "db:db"
   volumes:
