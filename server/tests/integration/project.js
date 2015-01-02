@@ -6,6 +6,7 @@ var ProjectCollection = require('../../models').collections.ProjectCollection;
 var app = require('../../index');
 var agent = request.agent(app);
 var login = require('./login')(agent);
+var _ = require('lodash');
 
 describe('Project', function () {
 
@@ -37,66 +38,6 @@ describe('Project', function () {
           });
       })
       .then(function () {
-        done();
-      });
-  });
-
-  it('should get all of the user\'s projects on GET /project', function (done) {
-    agent
-      .get('/api/project')
-      .expect(200)
-      .end(function (err, res) {
-        // console.log('RES !!!', res);
-        var projects = res.body;
-        // console.log('projects');
-        // console.log(projects);
-        // console.log(projects[0].user);
-        // console.log(projects[1].user);
-        projects.should.be.instanceof(Array);
-        projects[0].should.have.property('id');
-        projects[0].should.have.property('project_name');
-        projects[0].should.have.property('created_at');
-        projects[0].should.have.property('updated_at');
-        projects[0].should.have.property('user');
-        done();
-      });
-  });
-
-  //SHOULD THIS BE AN OBJECT OR IS THERE A SITUATION WHERE THERE COULD BE MORE THAN ONE????
-  it('should get a specific project on GET /project/:project_name', function (done) {
-    agent
-      .get('/api/project/' + global.project.get('project_name'))
-      .expect(200)
-      .end(function (err, res) {
-        var projectResponse = res.body;
-        // console.log('projectResponse');
-        // console.log(projectResponse);
-        projectResponse.should.be.instanceof(Object);
-        projectResponse.should.have.property('id');
-        projectResponse.should.have.property('project_name');
-        projectResponse.project_name.should.equal(global.project.get('project_name'));
-        projectResponse.should.have.property('created_at');
-        projectResponse.should.have.property('updated_at');
-        projectResponse.should.have.property('user');
-        projectResponse.should.have.property('files');
-        projectResponse.user.should.be.instanceof(Array);
-        done();
-      });
-  });
-  it('should get a specific project on GET /project/:id', function (done) {
-    agent
-      .get('/api/project/' + global.project.get('id'))
-      .expect(200)
-      .end(function (err, res) {
-        var projectResponse = res.body;
-        projectResponse.should.be.instanceof(Object);
-        projectResponse.should.have.property('id');
-        projectResponse.should.have.property('project_name');
-        projectResponse.project_name.should.equal(global.project.get('project_name'));
-        projectResponse.should.have.property('created_at');
-        projectResponse.should.have.property('updated_at');
-        projectResponse.should.have.property('user');
-        projectResponse.user.should.be.instanceof(Array);
         done();
       });
   });
@@ -145,6 +86,79 @@ describe('Project', function () {
         project.should.have.property('user');
         project.user.should.be.instanceof(Array);
         project.user.length.should.equal(1);
+        done();
+      });
+  });
+
+  it('should get all of the user\'s projects on GET /project', function (done) {
+    var userId;
+    agent
+      .get('/auth/user')
+      .then(function (res) {
+        return res.body.userId;
+      })
+      .then(function (userId) {
+        // console.log('USERID: ', userId);
+        return agent
+          .get('/api/project')
+          .expect(200)
+          .then(function (res) {
+            var projects = res.body;
+            var allProjectsCotainTheUser = true;
+            // console.log('PROJECTS !!!', projects[0].user[0].id);
+            var containUser = _.all(projects, function (project) {
+              return _.any(project.user, function (user) {
+                return user.id === userId;
+              });
+            });
+            containUser.should.equal(true);
+            containUser.should.equal(true);
+            projects.should.be.instanceof(Array);
+            projects[0].should.have.property('id');
+            projects[0].should.have.property('project_name');
+            projects[0].should.have.property('created_at');
+            projects[0].should.have.property('updated_at');
+            projects[0].should.have.property('user');
+            done();
+          });
+      });
+  });
+
+  //SHOULD THIS BE AN OBJECT OR IS THERE A SITUATION WHERE THERE COULD BE MORE THAN ONE????
+  it('should get a specific project on GET /project/:project_name', function (done) {
+    agent
+      .get('/api/project/' + global.project.get('project_name'))
+      .expect(200)
+      .end(function (err, res) {
+        var projectResponse = res.body;
+        // console.log('projectResponse');
+        // console.log(projectResponse);
+        projectResponse.should.be.instanceof(Object);
+        projectResponse.should.have.property('id');
+        projectResponse.should.have.property('project_name');
+        projectResponse.project_name.should.equal(global.project.get('project_name'));
+        projectResponse.should.have.property('created_at');
+        projectResponse.should.have.property('updated_at');
+        projectResponse.should.have.property('user');
+        projectResponse.should.have.property('files');
+        projectResponse.user.should.be.instanceof(Array);
+        done();
+      });
+  });
+  it('should get a specific project on GET /project/:id', function (done) {
+    agent
+      .get('/api/project/' + global.project.get('id'))
+      .expect(200)
+      .end(function (err, res) {
+        var projectResponse = res.body;
+        projectResponse.should.be.instanceof(Object);
+        projectResponse.should.have.property('id');
+        projectResponse.should.have.property('project_name');
+        projectResponse.project_name.should.equal(global.project.get('project_name'));
+        projectResponse.should.have.property('created_at');
+        projectResponse.should.have.property('updated_at');
+        projectResponse.should.have.property('user');
+        projectResponse.user.should.be.instanceof(Array);
         done();
       });
   });

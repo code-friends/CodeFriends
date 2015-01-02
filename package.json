@@ -4,7 +4,7 @@
   "description": "Remote pair/group programming environment",
   "main": "server/index.js",
   "scripts": {
-    "test": "export NODE_ENV='test'; ./node_modules/mocha/bin/mocha server/tests/index"
+    "test": "export NODE_ENV='test'; ./node_modules/mocha/bin/mocha server/tests/index --bail"
   },
   "repository": {
     "type": "git",
