@@ -1,8 +1,12 @@
 <div class="chatContainer" ng-controller="chatController">
 <div>
   <div id="chatContent">
-    <div ng-repeat="message in messages"><strong>{{message.username}}</strong>: {{message.message}}
-      <p class="timestamp"> {{message.timeAgo}}</p>
+    <div class="messageContainer"ng-repeat="message in messages">
+      <div class="row">
+        <div class="col-sm-5"><strong>{{message.username}}</strong> </div> 
+        <div class="col-sm-7"><div class="timestamp"> {{message.timeAgo}}</div></div>
+      </div>
+      <span class="messageText" ng-bind-html="message.message| linky: '_blank'">{{message.message}}</span> 
     </div>
   </div> 
 </div> 
