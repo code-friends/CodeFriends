@@ -44,7 +44,6 @@ angular.module('code.services', [])
   .factory('ToolbarDocument', function ($rootScope) {
     var ToolbarDocument = {
       changeTheme: function (theme) {
-        console.log('Theme:', theme);
         ToolbarDocument.theme = theme;
         $rootScope.$broadcast('theme:changed', theme);
         $rootScope.$emit('theme:changed', theme);
