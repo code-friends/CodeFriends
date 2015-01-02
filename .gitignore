@@ -9,6 +9,7 @@ client/dist/main.css
 # Ingore Config
 config/*
 !config/default.json
+!config/test.json
 
 ### OSX ###
 .DS_Store
