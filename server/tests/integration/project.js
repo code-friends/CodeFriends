@@ -98,14 +98,12 @@ describe('Project', function () {
         return res.body.userId;
       })
       .then(function (userId) {
-        // console.log('USERID: ', userId);
         return agent
           .get('/api/project')
           .expect(200)
           .then(function (res) {
             var projects = res.body;
             var allProjectsCotainTheUser = true;
-            // console.log('PROJECTS !!!', projects[0].user[0].id);
             var containUser = _.all(projects, function (project) {
               return _.any(project.user, function (user) {
                 return user.id === userId;
@@ -131,8 +129,6 @@ describe('Project', function () {
       .expect(200)
       .end(function (err, res) {
         var projectResponse = res.body;
-        // console.log('projectResponse');
-        // console.log(projectResponse);
         projectResponse.should.be.instanceof(Object);
         projectResponse.should.have.property('id');
         projectResponse.should.have.property('project_name');

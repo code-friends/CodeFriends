@@ -10,7 +10,6 @@ module.exports = function (agent) {
         password: 'basketball'
       })
       .then(function () {
-        console.log('Hello');
         return agent
           .post('/auth/login')
           .send({
@@ -43,7 +42,6 @@ module.exports = function (agent) {
           });
       })
       .then(function () {
-        console.log('Get User');
         return agent
           .get('/auth/user');
       })
