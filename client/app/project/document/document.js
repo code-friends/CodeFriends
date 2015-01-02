@@ -13,7 +13,7 @@ angular.module('code.document', ['ui.router'])
       matchBrackets: true,
       theme: 'paraiso-dark'
     });
-    var ws = new WebSocket('ws://' + window.location.hostname + ':8007'); // This should be dynamic
+    var ws = new WebSocket('ws://' + window.location.hostname + ':' + window.config.editor); // This should be dynamic
     var sjs = new window.sharejs.Connection(ws);
     // Connect to document
     /**
