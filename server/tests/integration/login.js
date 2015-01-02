@@ -1,28 +1,49 @@
 /*jshint node:true */
 'use strict';
 
-module.exports = function (agent){
-  return function (done) {
-    agent
+module.exports = function (agent) {
+  return function () {
+    return agent
       .post('/auth/signup')
       .send({
-        email: 'jorge.silva@thejsj.com',
+        email: 'brady@brady.com',
         password: 'basketball'
       })
-      .end(function () {
-        agent
+      .then(function () {
+        return agent
           .post('/auth/login')
           .send({
-            email: 'jorge.silva@thejsj.com',
+            email: 'brady@brady.com',
             password: 'basketball'
-          })
-          .end(function () {
-            agent
-              .get('/auth/user')
-              .end(function () {
-                done();
-              });
           });
+      })
+      .then(function () {
+        return agent
+          .post('/auth/signup')
+          .send({
+            email: 'brees@brees.com',
+            password: 'soccer'
+          });
+      })
+      .then(function () {
+        return agent
+          .post('/auth/login')
+          .send({
+            email: 'brees@brees.com',
+            password: 'soccer'
+          });
+      })
+      .then(function () {
+        return agent
+          .post('/auth/login')
+          .send({
+            email: 'rodgers@rodgers.com',
+            password: 'rugby'
+          });
+      })
+      .then(function () {
+        return agent
+          .get('/auth/user');
       });
   };
 };

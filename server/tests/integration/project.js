@@ -1,11 +1,12 @@
 /*global describe:true, it:true, before: true */
 'use strict';
 
-var request = require('supertest');
+var request = require('supertest-as-promised');
 var ProjectCollection = require('../../models').collections.ProjectCollection;
 var app = require('../../index');
 var agent = request.agent(app);
 var login = require('./login')(agent);
+var _ = require('lodash');
 
 describe('Project', function () {
 
@@ -13,25 +14,113 @@ describe('Project', function () {
     return new ProjectCollection()
       .create({
         'project_name': 'car'
-      }).then(function (_project) {
+      })
+      .then(function (_project) {
         global.project = _project;
-        login(done);
+        return login();
+      })
+      .then(function () {
+        return new ProjectCollection()
+          .create({
+            'project_name': 'motorcycle'
+          });
+      })
+      .then(function () {
+        return new ProjectCollection()
+          .create({
+            'project_name': 'plane'
+          });
+      })
+      .then(function () {
+        return new ProjectCollection()
+          .create({
+            'project_name': 'basketball'
+          });
+      })
+      .then(function () {
+        done();
+      });
+  });
+
+  it('should create a new project on POST /project', function (done) {
+    agent
+      .post('/api/project')
+      .send({
+        project_name: 'tennis'
+      })
+      .expect(200)
+      .end(function (err, res) {
+        var _project = res.body;
+        agent
+          .get('/api/project/' + _project.project_name)
+          .expect(200)
+          .end(function (err, res) {
+            var project = res.body;
+            project.should.have.property('id');
+            project.should.have.property('project_name');
+            project.project_name.should.equal(_project.project_name);
+            project.should.have.property('created_at');
+            project.should.have.property('updated_at');
+            project.should.have.property('user');
+            project.user.should.be.instanceof(Array);
+            done();
+          });
+      });
+  });
+
+  it('should add a user to a project on PUT /project/addUser', function (done) {
+    agent
+      .put('/api/project/addUser')
+      .send({
+        newUserName: 'Chase',
+        project_name: 'basketball'
+      })
+      .expect(200)
+      .end(function (err, res) {
+        var project = res.body;
+        project.should.be.instanceof(Object);
+        project.should.have.property('id');
+        project.should.have.property('project_name');
+        project.should.have.property('created_at');
+        project.should.have.property('updated_at');
+        project.should.have.property('user');
+        project.user.should.be.instanceof(Array);
+        project.user.length.should.equal(1);
+        done();
       });
   });
 
   it('should get all of the user\'s projects on GET /project', function (done) {
+    var userId;
     agent
-      .get('/api/project')
-      .expect(200)
-      .end(function (err, res) {
-        var projects = res.body;
-        projects.should.be.instanceof(Array);
-        projects[0].should.have.property('id');
-        projects[0].should.have.property('project_name');
-        projects[0].should.have.property('created_at');
-        projects[0].should.have.property('updated_at');
-        projects[0].should.have.property('user');
-        done();
+      .get('/auth/user')
+      .then(function (res) {
+        return res.body.userId;
+      })
+      .then(function (userId) {
+        // console.log('USERID: ', userId);
+        return agent
+          .get('/api/project')
+          .expect(200)
+          .then(function (res) {
+            var projects = res.body;
+            var allProjectsCotainTheUser = true;
+            // console.log('PROJECTS !!!', projects[0].user[0].id);
+            var containUser = _.all(projects, function (project) {
+              return _.any(project.user, function (user) {
+                return user.id === userId;
+              });
+            });
+            containUser.should.equal(true);
+            containUser.should.equal(true);
+            projects.should.be.instanceof(Array);
+            projects[0].should.have.property('id');
+            projects[0].should.have.property('project_name');
+            projects[0].should.have.property('created_at');
+            projects[0].should.have.property('updated_at');
+            projects[0].should.have.property('user');
+            done();
+          });
       });
   });
 
@@ -42,6 +131,8 @@ describe('Project', function () {
       .expect(200)
       .end(function (err, res) {
         var projectResponse = res.body;
+        // console.log('projectResponse');
+        // console.log(projectResponse);
         projectResponse.should.be.instanceof(Object);
         projectResponse.should.have.property('id');
         projectResponse.should.have.property('project_name');
@@ -68,54 +159,6 @@ describe('Project', function () {
         projectResponse.should.have.property('updated_at');
         projectResponse.should.have.property('user');
         projectResponse.user.should.be.instanceof(Array);
-        done();
-      });
-  });
-
-  it('should create a new project on POST /project', function (done) {
-    agent
-      .post('/api/project')
-      .send({
-        project_name: 'basketball'
-      })
-      .expect(200)
-      .end(function (err, res) {
-        var _project = res.body;
-        agent
-          .get('/api/project/' + _project.project_name)
-          .expect(200)
-          .end(function (err, res) {
-            var project = res.body;
-            project.should.have.property('id');
-            project.should.have.property('project_name');
-            project.project_name.should.equal(_project.project_name);
-            project.should.have.property('created_at');
-            project.should.have.property('updated_at');
-            project.should.have.property('user');
-            project.user.should.be.instanceof(Array);
-            done();
-          });
-      });
-  });
-
-  it('should add a user to a project on PUT /project/addUser', function (done) {
-    agent
-      .put('/api/project/addUser')
-      .send({
-        userId: 2,
-        project_name: 'basketball'
-      })
-      .expect(200)
-      .end(function (err, res) {
-        var project = res.body;
-        project.should.be.instanceof(Object);
-        project.should.have.property('id');
-        project.should.have.property('project_name');
-        project.should.have.property('created_at');
-        project.should.have.property('updated_at');
-        project.should.have.property('user');
-        project.user.should.be.instanceof(Array);
-        project.user.length.should.equal(2);
         done();
       });
   });
