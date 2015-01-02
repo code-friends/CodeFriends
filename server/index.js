@@ -12,6 +12,7 @@ var bodyParser = require('body-parser'),
   shareJSServer = require('./sharejs/shareJSServer');
 
 // Set routes
+var clientConfigParser = require('./clientConfigParser');
 var auth = require('./auth');
 var auth = require('./auth');
 var authRouter = require('./auth/authRouter');
@@ -37,6 +38,7 @@ app
 
 // Set Routes
 app
+  .use('/config.js', clientConfigParser)
   .use(express.static(__dirname + '/../client'))
   .use('/auth', authRouter)
   .use('/api', apiRouter)
