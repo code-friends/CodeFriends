@@ -1,8 +1,6 @@
 'use strict';
 
 var config = require('config');
-console.log('config:');
-console.log(config);
 
 //dependencies
 var bodyParser = require('body-parser'),
