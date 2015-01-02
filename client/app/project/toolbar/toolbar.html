@@ -1,12 +1,24 @@
 <div id="toolbar">
   <div class="wrapper">
     <ul>
-      <li id="logo-image"></li>
+      <li id="logo-image" ui-sref="home"></li>
       <li>File</li>
+      <li>Edit</li>
+      <li>
+        View
+        <ul class="first-dropDown">
+          <li>
+            Set Editor Theme
+            <ul class="theme-menu second-dropDown">
+              <li ng-repeat="theme in themes" ng-click="changeEditorTheme($event)">{{theme}}</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
       <li>Git</li>
       <li>
         Friends
-        <ul>
+        <ul class="first-dropDown">
           <li>Add Friend to Project</li>
           <li>     
             <form ng-submit='addUser()'>
@@ -18,9 +30,11 @@
       </li>
       <li id="toolbar-user">
         User
-        <ul>
-          <li>Home</li>
-          <li>Log Out</li>
+        <ul class="first-dropDown">
+          <li ui-sref="home">Home</li>
+          <li>
+            <a href="/auth/logout">Log Out</a>
+          </li>
         </ul>
       </li>
     </ul>

@@ -1,7 +1,9 @@
 $font-stack: 'Lato', Helvetica, sans-serif;
 $turqoise-green: rgba(47,174,143,0.8);
 $sage-green: rgba(175,180,43,0.8);
-$bright-green: #CDDC39;
+$bright-green: #8BC34A;
+$dark-lime: #AFB42B;
+// $bright-green: #CDDC39;
 $orange: #FF9800;
 $dark-blue: rgb(30, 76, 97);
 $blue-grey: #607D8B;
@@ -9,7 +11,29 @@ $blue-grey: #607D8B;
 @import '../../lib/bootstrap-sass-official/assets/stylesheets/_bootstrap.scss';
 @import '../../lib/normalize.css/normalize.css';
 @import '_codemirror.scss';
+@import '_3024-day.scss';
+@import '_3024-night.scss';
+@import '_ambiance.scss';
+@import '_base16-dark.scss';
+@import '_base16-light.scss';
+@import '_blackboard.scss';
+@import '_cobalt.scss';
+@import '_eclipse.scss';
+@import '_elegant.scss';
+@import '_lesser-dark.scss';
+@import '_midnight.scss';
+@import '_monokai.scss';
+@import '_neat.scss';
+@import '_neo.scss';
+@import '_night.scss';
+@import '_paraiso-dark.scss';
+@import '_paraiso-light.scss';
 @import '_pastel-on-dark.scss';
+@import '_solarized.scss';
+@import '_twilight.scss';
+@import '_vibrant-ink.scss';
+@import '_xq-dark.scss';
+@import '_xq-light.scss';
 @import '_chat.scss';
 
 // elements
@@ -30,6 +54,7 @@ a {
 }
 a:hover {
     text-decoration: none;
+    color: inherit;
   }
 ul {
   list-style: none;
@@ -38,9 +63,7 @@ ul {
 // header and logo
 .header {
   width: 100%;
-  // background: linear-gradient(-180deg, rgba(47,174,143,0.8) 0%, rgba(47,174,143,0.8) 100%);
-  // background: linear-gradient(-180deg, rgba(175,180,43,0.8) 0%, rgba(175,180,43,0.8) 100%);
-  background: $turqoise-green;
+  background: $dark-lime;
   color: white;
   font-weight: 300;
   font-size: 1.6em;
@@ -71,10 +94,6 @@ ul {
 
 
 
-// .view {
-//   height: 100%;
-//   height: 100%;
-// }
 .viewport {
   width: 100vw;
   height: 100vh;
@@ -121,24 +140,47 @@ ul {
   }
 }
 
-
+// toolbar styling
 #toolbar {
+  $li-padding: 10px;
+  $darken-blue-grey: darken($blue-grey, 10);
+  cursor: default; 
   background-color: $blue-grey;
   color: white;
-  font-size: 1.2em;
+  font-size: 1.1em;
+  font-weight: 300;
+  z-index: 95;
+  #logo-image {
+    position: relative;
+    top: 5px;
+  }
   .wrapper {
-    padding: 15px;
+    padding: 0 30px 0 10px;
   }
   ul {
     display: inline;
     text-align: left;
     padding: 0;
+    li {
+      display: inline-block;
+      height: 100%;
+      padding: $li-padding;
+      &:not(#logo-image):hover {
+        background: $darken-blue-grey;
+        .first-dropDown {
+          display: block;
+          opacity: 1;
+          visibility: visible;
+        }
+      }
+    }
   }
-  ul li {
-    display: inline-block;
+  // ul li ul
+  .first-dropDown {
+    top: 38px;
   }
-  ul li ul {
-    padding: 0;
+  .first-dropDown, .second-dropDown {
+    z-index: 96;
     position: absolute;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
@@ -146,23 +188,28 @@ ul {
     display: none;
     opacity: 0;
     visibility: hidden;
-    -webkit-transiton: opacity 0.2s;
+    -webkit-transition: opacity 0.2s;
     -moz-transition: opacity 0.2s;
     -ms-transition: opacity 0.2s;
     -o-transition: opacity 0.2s;
     -transition: opacity 0.2s;
+    margin-left: -$li-padding;
+    li { 
+      margin-right: 0;
+      background: $blue-grey; 
+      display: block;
+      padding: 4px 20px;
+    }
   }
-  ul li ul li { 
-    background: $blue-grey; 
-    display: block;
-  }
-  ul li ul li:hover {
-    background: #666;
-  }
-  ul li:hover ul {
+  .first-dropDown li:hover .second-dropDown {
     display: block;
     opacity: 1;
     visibility: visible;
+  }
+  .theme-menu {
+    top: 1%;
+    left: 107%;
+    width: 100%;
   }
 }
 #toolbar-user {
@@ -170,4 +217,9 @@ ul {
   ul {
     float: right;
   }
+}
+
+// editor
+.padContainer {
+  font-size: 1.3em;
 }
