@@ -1,7 +1,7 @@
 /*global angular:true */
 'use strict';
 
-angular.module('code.chat', ['ui.router'])
+angular.module('code.chat', ['ui.router', 'ngSanitize'])
   .controller('chatController', function ($scope, $state, ngSocket, $stateParams, Auth, $interval) {
     var roomID = $stateParams.projectName;
     var username = Auth.userName;
