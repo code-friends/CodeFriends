@@ -3,6 +3,7 @@
 var models = require('../models.js').models;
 var Promise = require('bluebird');
 var db = require('../db');
+var _ = require('lodash');
 
 var getFileStructure = require('../file/fileController').getFileStructure;
 
@@ -21,6 +22,7 @@ projectController.post = function (req, res) {
   if (!project_name || !userId) {
     res.status(400).end();
   }
+
   new models.Project({
       project_name: project_name,
     })
@@ -41,61 +43,29 @@ projectController.post = function (req, res) {
 
 /////////////////////////////////////////    GET    /////////////////////////////////////////
 projectController.getAllProjects = function (req, res) {
-  console.log('getAllProjects');
   var userId = req.user.get('id');
-
-  // .query({
-  //   where: {
-  //     user: req.user
-  //   }
-  // })
-
+  //the below request is not optimized
   models.Project
     .fetchAll({
       withRelated: ['user']
     })
     .then(function (coll) {
-      res.json(coll.toJSON());
+      return coll.toJSON().filter(function (model) {
+        return _.some(model.user, function (user) {
+          return user.id === req.user.get('id');
+        });
+      });
+    })
+    .then(function (projectsArray) {
+      res.json(projectsArray);
+    })
+    .catch(function (err) {
+      console.log('Error fetching projects : ', err);
     });
 };
-// .catch(function (err) {
-//   console.log('Error Querying Projects:', err);
-// });
-// var allTheUsersProjectsById = [];
-// var userProjects = models.User
-//   .query({
-//     where: {
-//       id: userId
-//     }
-//   })
-//   .fetch({
-//     withRelated: ['project']
-//   })
-//   .then(function (model) {
-//     if (!model) {
-//       console.log('DUDE, THERE IS NO MODEL WITH THAT NAME !!!!!!!!');
-//     }
-// var door = model.get('project').at(0).get('id');
-// console.log('DOOR !!!!', door);
-// var allTheUsersProjects = model.relations.project.models;
-// for (var key in allTheUsersProjects) {
-//   var projectId = allTheUsersProjects[key].attributes.id;
-//   allTheUsersProjectsById.push(projectId);
-// };
-
-// console.log('all the project ids !!!!', allTheUsersProjectsById);
-// console.log('model !!!!', model.relations.project.models[0].attributes.id);
-// console.log('model !!!!', model);
-
-// })
-// .catch(function (err) {
-//   console.log('Error adding user', err);
-// });
-
-// console.log('USERID !!!!!', userId);
-// console.log('USERID !!!!!', req.user.id);
 
 projectController.getSpecificProject = function (req, res) {
+  //only get the requested project if the user has a relation with it
   models.Project
     .query({
       where: {
@@ -126,9 +96,7 @@ projectController.addUser = function (req, res) {
   var project_name = req.body.project_name;
   var newUserName = req.body.newUserName;
   var newUserId = null;
-  console.log('PROJECT_NAME', project_name);
-  console.log('NEWUSERNAME', newUserName);
-
+  //only only add the user if the person that requested the addition is a listed user of the project
   models.User
     .query({
       where: {
@@ -143,8 +111,6 @@ projectController.addUser = function (req, res) {
       return user;
     })
     .then(function (queriedUser) {
-      console.log('QUERIEDUSER.ATTRIBUTES', queriedUser.attributes);
-      console.log('ID FOR QUERIEDUSER', queriedUser.get('id'));
       return models.Project
         .query({
           where: {
@@ -155,7 +121,7 @@ projectController.addUser = function (req, res) {
           withRelated: ['user']
         })
         .then(function (model) {
-          console.log('model', model);
+          // console.log('model', model);
           return model
             .related('user')
             .create({
@@ -185,6 +151,7 @@ projectController.put = function (req, res) {
 /////////////////////////////////////////    DELETE    /////////////////////////////////////////
 //DELETE A PROJECT
 projectController.delete = function (req, res) {
+  //only delete the project if person requesting the deletion has a relation with it
   models.Project
     .query({
       where: {
