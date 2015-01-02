@@ -12,6 +12,7 @@ var chatApp = connect(),
   });
 
 chatWS.on('connection', function (ws) {
+  console.log('Chat WS: New Connection Established');
   ws.on('message', function (msg) {
     var parsedMsg = JSON.parse(msg);
     var chatRoomName = parsedMsg.message.roomID;
