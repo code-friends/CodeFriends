@@ -29,6 +29,7 @@
     "angular-ui-utils": "bower-keypress",
     "ngSocket": "~0.2.1",
     "normalize.css": "~3.0.2",
-    "jshashes": "~1.0.5"
+    "jshashes": "~1.0.5",
+    "moment": "~2.8.4"
   }
 }

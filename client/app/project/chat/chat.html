@@ -1,7 +1,9 @@
 <div class="chatContainer" ng-controller="chatController">
 <div>
   <div id="chatContent">
-    <p ng-repeat="message in messages">{{message.username}}: {{message.message}}</p>
+    <div ng-repeat="message in messages"><strong>{{message.username}}</strong>: {{message.message}}
+      <p class="timestamp"> {{message.timeAgo}}</p>
+    </div>
   </div> 
 </div> 
 <div class="chatInputForm">
