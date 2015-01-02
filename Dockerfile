@@ -42,6 +42,6 @@ RUN gulp
 
 RUN mkdir -p /data/db
 
-EXPOSE 80 8001 8007
+EXPOSE 80 9000 9001
 WORKDIR /
 ENTRYPOINT ["/run.sh"]
