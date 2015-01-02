@@ -5,7 +5,7 @@
   "main": "server/index.js",
   "scripts": {
     "start": "./node_modules/forever/bin/forever start server",
-    "test": "export NODE_ENV='test'; ./node_modules/mocha/bin/mocha server/tests/index"
+    "test": "export NODE_ENV='test'; ./node_modules/mocha/bin/mocha -t 5000 server/tests/index"
   },
   "repository": {
     "type": "git",

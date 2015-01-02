@@ -1,0 +1,14 @@
+<div class="header">
+  <div class='wrapper'>
+    <div class="logo-region">
+      <a ui-sref="home">
+        <div id="logo-image"></div>
+        <div id="logo-text">code friends</div>
+      </a>
+    </div>
+    <div class='user-box-region' ng-controller='userBox'>
+      <a ng-show='!userLoggedIn' href='/auth/login'>Login</a>
+      <span ng-show='userLoggedIn' class='userName'>Hello {{userName}}</span>
+    </div>
+  </div>
+</div>

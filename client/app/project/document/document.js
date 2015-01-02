@@ -2,16 +2,20 @@
 /*jshint browser:true */
 'use strict';
 angular.module('code.document', ['ui.router'])
-  .controller('documentController', function ($scope, $state, $stateParams) {
+  .controller('documentController', function ($scope, $state, $stateParams, ToolbarDocument, $rootScope) {
+    console.log('documentController');
+    console.log($stateParams);
     $scope.projectName = $stateParams.projectName;
     $scope.documentName = $stateParams.documentName;
+    $scope.theme = ToolbarDocument.theme;
+
     // Setup Code Editor
     var cm = CodeMirror.fromTextArea(document.getElementById('pad'), {
       mode: 'javascript',
       value: 'alert(\'hello world\')',
       lineNumbers: true,
       matchBrackets: true,
-      theme: 'paraiso-dark'
+      theme: 'solarized dark'
     });
     var ws = new WebSocket('ws://' + window.location.hostname + ':' + window.config.ports.editor); // This should be dynamic
     var sjs = new window.sharejs.Connection(ws);
@@ -32,4 +36,9 @@ angular.module('code.document', ['ui.router'])
         doc.attachCodeMirror(cm);
       }
     });
+
+    $scope.$on('theme:changed', function (event, theme) {
+      cm.setOption('theme', theme);
+    });
+
   });

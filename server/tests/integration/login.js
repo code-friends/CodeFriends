@@ -44,6 +44,9 @@ module.exports = function (agent) {
       .then(function () {
         return agent
           .get('/auth/user');
+      })
+      .catch(function (err) {
+        console.log('Error Logging user in:', err);
       });
   };
 };
