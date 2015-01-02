@@ -1,5 +1,5 @@
 .chatContainer{
-  height:100vh; 
+  height:100vh;
 }
 
 #chatContent{
@@ -8,7 +8,7 @@
   display: block;
   width: 100%;
   overflow-x: hidden;
-  padding-left: 10px; 
+  padding-left: 10px;
 }
 
 .chatInputForm{
@@ -22,6 +22,11 @@
 }
 
 .nopadding {
-   padding: 0px; 
+   padding: 0px;
    margin: 0px;
+}
+
+.timestamp {
+  font-size: 10px;
+  font-style: italic
 }
