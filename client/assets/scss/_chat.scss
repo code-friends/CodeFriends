@@ -26,7 +26,23 @@
    margin: 0px;
 }
 
+//this is hacky, but there is a margin-top to get line-heights looking okay
 .timestamp {
   font-size: 10px;
-  font-style: italic
+  text-align: right;
+  padding-right: 5px; 
+  margin-top: 2px; 
+}
+
+.messageContainer{
+  margin-bottom: 5px;
+}
+
+.messageText{
+  a{
+    color: #0000EE
+  }
+  a:visited{
+    color: #551A8B;
+  }
 }
