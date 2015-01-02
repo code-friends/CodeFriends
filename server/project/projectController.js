@@ -3,23 +3,26 @@
 var models = require('../models.js').models;
 var Promise = require('bluebird');
 var db = require('../db');
+var _ = require('lodash');
 
 var getFileStructure = require('../file/fileController').getFileStructure;
 
 var projectController = {};
 
 /////////////////////////////////////////    POST    /////////////////////////////////////////
-//ADDS A NEW PROJECT AND ADDS THE CREATOR TO THE 'USER' PROPERTY   ///   var userId = req.user.get('id');   ///   ABOVE IS THE RIGHT ONE ONCE AUTH IS ATTACHED. DUMMY DATA BELOW
+//ADDS A NEW PROJECT AND ADDS THE CREATOR TO THE 'USER' PROPERTY   
 projectController.post = function (req, res) {
+
   var userId = {
-    id: 1
+    id: req.user.get('id')
   };
 
   var project_name = req.body.project_name;
 
-  if (!project_name) {
+  if (!project_name || !userId) {
     res.status(400).end();
   }
+
   new models.Project({
       project_name: project_name,
     })
@@ -39,21 +42,39 @@ projectController.post = function (req, res) {
 };
 
 /////////////////////////////////////////    GET    /////////////////////////////////////////
-///   var userId = req.user.get('id');   ///   only allow access to the file for projects associated with this current user (they only have permission for those)
 projectController.getAllProjects = function (req, res) {
+  var userId = req.user.get('id');
+  //the below request is not optimized
   models.Project
     .fetchAll({
       withRelated: ['user']
     })
     .then(function (coll) {
-      res.json(coll.toJSON());
+      return coll.toJSON().filter(function (model) {
+        return _.some(model.user, function (user) {
+          return user.id === req.user.get('id');
+        });
+      });
+    })
+    .then(function (projectsArray) {
+      res.json(projectsArray);
+    })
+    .catch(function (err) {
+      console.log('Error fetching projects : ', err);
     });
 };
 
-///   var userId = req.user.get('id');   ///   if user is one of the users in if the project   ///   then execute the code below
 projectController.getSpecificProject = function (req, res) {
+  //only get the requested project if the user has a relation with it
   models.Project
-    .query({where: { project_name: req.params.project_name_or_id}, orWhere: {id: req.params.project_name_or_id}})
+    .query({
+      where: {
+        project_name: req.params.project_name_or_id
+      },
+      orWhere: {
+        id: req.params.project_name_or_id
+      }
+    })
     .fetch({
       withRelated: ['user']
     })
@@ -64,37 +85,60 @@ projectController.getSpecificProject = function (req, res) {
           project_json.files = fileStructure.files;
           res.json(project_json);
         });
+    })
+    .catch(function (err) {
+      console.log('Could Not Get getSpecificProject', err);
     });
 };
 
 /////////////////////////////////////////    PUT    /////////////////////////////////////////
-//ADD USER TO A PROJECT   ///   var userId = req.user.get('id');   ///   BELOW IS HARD CODED. NEED TO CHANGE
 projectController.addUser = function (req, res) {
   var project_name = req.body.project_name;
-  var user = {
-    id: req.body.userId
-  };
-
-  models.Project
+  var newUserName = req.body.newUserName;
+  var newUserId = null;
+  //only only add the user if the person that requested the addition is a listed user of the project
+  models.User
     .query({
       where: {
-        project_name: project_name
+        username: newUserName
       }
     })
     .fetch({
-      withRelated: ['user']
+      withRelated: ['project']
     })
-    .then(function (model) {
-      return model
-        .related('user')
-        .create(user)
-        .yield(model)
-        .catch(function (err) {
-          console.log('Error adding user', err);
+    .then(function (user) {
+      if (!user) throw new Error('There is not model with this name');
+      return user;
+    })
+    .then(function (queriedUser) {
+      return models.Project
+        .query({
+          where: {
+            project_name: project_name
+          }
+        })
+        .fetch({
+          withRelated: ['user']
+        })
+        .then(function (model) {
+          // console.log('model', model);
+          return model
+            .related('user')
+            .create({
+              id: queriedUser.get('id')
+            })
+            .yield(model)
+            .then(function (model) {
+              res.json(model.toJSON());
+            })
+            .catch(function (err) {
+              console.log('Error adding user', err);
+            });
         });
+
     })
-    .then(function (model) {
-      res.json(model.toJSON());
+    .catch(function (err) {
+      console.log('Error getting newUserId', err);
     });
 };
 
@@ -107,6 +151,7 @@ projectController.put = function (req, res) {
 /////////////////////////////////////////    DELETE    /////////////////////////////////////////
 //DELETE A PROJECT
 projectController.delete = function (req, res) {
+  //only delete the project if person requesting the deletion has a relation with it
   models.Project
     .query({
       where: {

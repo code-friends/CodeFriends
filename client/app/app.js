@@ -5,11 +5,12 @@
   angular.module('code', [
       'ui.router',
       'code.userBox',
-      // 'code.landing',
+      'code.landing',
       'code.home',
       'code.login',
       'code.project',
       'code.projects',
+      'code.toolbar',
       'code.document',
       'code.services',
       'code.chat',
@@ -20,7 +21,7 @@
       $stateProvider
         .state('landing', {
           templateUrl: '/app/landing/landing.html',
-          // controller: 'landingController',
+          controller: 'landingController',
           url: '/'
         })
         .state('login', {
@@ -39,12 +40,6 @@
               templateUrl: '/app/home/projects/projects.html',
               controller: 'projectsController'
             }
-            // 'friends@home': {
-            //   template: '<p>Friends data here<p>'
-            //     // these files do not exist yet
-            //     // templateUrl: '/app/home/friends/friends.html',
-            //     // controller: '/app/home/friends/friends.js'
-            // }
           }
         })
         .state('project', {
@@ -57,6 +52,10 @@
             'chat@project': {
               templateUrl: '/app/project/chat/chat.html',
               controller: 'chatController'
+            },
+            'toolbar@project': {
+              templateUrl: '/app/project/toolbar/toolbar.html',
+              controller: 'toolbarController'
             }
           }
         })
