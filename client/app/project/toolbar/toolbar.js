@@ -1,8 +1,8 @@
 /*global angular:true */
 'use strict';
 
-angular.module('code.toolbar', [])
-  .controller('toolbarController', function ($scope, $state, $stateParams, $http, ToolbarDocument, Projects, Files) {
+angular.module('code.toolbar', ['ui.bootstrap'])
+  .controller('toolbarController', function ($scope, $state, $stateParams, $http, Projects, ToolbarDocument, $modal, Files) {
     $scope.themes = [
       'Default',
       'Ambiance',
@@ -41,12 +41,20 @@ angular.module('code.toolbar', [])
       ToolbarDocument.changeTheme(formatThemeName(event.target.innerText));
     };
 
+    $scope.openAddFile = function () {
+      $modal.open({
+        templateUrl: '/app/templates/modalAddFile.html',
+        controller: 'modalAddToProjectController',
+        size: 'sm'
+      });
+    };
 
-    $scope.addFile = function () {
-      console.log('Add file!');
-      var projectName = $stateParams.projectName;
-      var fileName = 'Example.html';
-      Projects.addFile(projectName, fileName);
+    $scope.openAddFolder = function () {
+      $modal.open({
+        templateUrl: '/app/templates/modalAddFolder.html',
+        controller: 'modalAddToProjectController',
+        size: 'sm'
+      });
     };
 
     $scope.createNewFolder = function (event) {
@@ -65,5 +73,26 @@ angular.module('code.toolbar', [])
         .catch(function (error) {
           console.log('error!!!!', error);
         });
+    };
+  })
+  .controller('modalAddToProjectController', function ($scope, Projects, $stateParams, $modalInstance) {
+    $scope.addFile = function () {
+      $modalInstance.close();
+      console.log('Adding file in modalAddToProjectController');
+      var projectName = $stateParams.projectName;
+      console.log('projectName:', projectName);
+      var fileName = $scope.newFileName;
+      console.log('file name:', fileName);
+      Projects.addFile(projectName, fileName);
+    };
+
+    $scope.addFolder = function () {
+      $modalInstance.close();
+      console.log('Adding folder in modalAddToProjectController');
+      var projectName = $stateParams.projectName;
+      console.log('projectName:', projectName);
+      var folderName = $scope.newFolderName;
+      console.log('folder name:', folderName);
+      Projects.addFile(projectName, folderName);
     };
   });
