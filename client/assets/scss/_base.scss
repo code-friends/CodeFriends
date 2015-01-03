@@ -1,0 +1,22 @@
+* {
+  box-sizing: border-box;
+}
+html {
+  font-size: 62.5%;
+  height: 100%;
+}
+body {
+  font-family: $font-stack;
+  font-size: 1.2em;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+a:hover {
+    text-decoration: none;
+    color: inherit;
+  }
+ul {
+  list-style: none;
+}
