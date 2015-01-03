@@ -1,4 +1,4 @@
-/*global angular:true */
+/*global angular:true, moment:true */
 'use strict';
 
 // factory for Projects, Auth, Toolbar
@@ -10,13 +10,27 @@ angular.module('code.services', [])
 
     projects.userProjects = null;
 
-    projects.getProjects = function (cb) {
-      console.log('ENTERED GET PROJECTS !!!!!!!!');
-      $http.get('api/project/')
+    projects.getProjects = function () {
+      return $http.get('api/project/')
         .then(function (res) {
-          console.log(res.data);
-          this.userProjects = res.data;
-          cb(res.data);
+          var projects = res.data;
+          // Add all avatars
+          projects.forEach(function (project) {
+            project.avatars = [];
+            project.user.forEach(function (user) {
+              project.avatars.push(user.githubAvatarUrl);
+            });
+          });
+          // Add Create String
+          angular.forEach(projects, function (theProject) {
+            theProject.createString = moment(theProject.created_at).format('MMM Do YY');
+            theProject.updateString = moment(theProject.updated_at).format('MMM Do YY');
+          });
+          return projects;
+        })
+        .then(function (_projects) {
+          projects.userProjects = _projects;
+          return _projects;
         });
     };
     return projects;
@@ -26,7 +40,6 @@ angular.module('code.services', [])
       isLoggedIn: function (redirectToLogin) {
         return $http.get('/auth/user')
           .then(function (res) {
-            console.log(res);
             Auth.userId = res.data.userId;
             Auth.userName = res.data.userName;
             if (res.data.userId === null && redirectToLogin !== false) {
@@ -51,4 +64,32 @@ angular.module('code.services', [])
       theme: 'default'
     };
     return ToolbarDocument;
+  })
+  .factory('Files', function ($http) {
+    var files = {};
+
+    files.getAllFiles = function (projectName) {
+      return $http.get('/api/project/' + projectName)
+        .then(function (res) {
+          return res.data.files;
+        });
+    };
+
+    files._addNew = function (type) {
+      return function (newFileName, projectName, path) {
+        return $http.post('/api/file', {
+            file_name: newFileName,
+            project_name: projectName,
+            type: type,
+            parent_file: path || null
+          })
+          .then(function () {
+            // Get files with added files
+            return files.getAllFiles();
+          });
+      };
+    };
+    files.addNewFile = files._addNew('file');
+    files.addNewFolder = files._addNew('folder');
+    return files;
   });
