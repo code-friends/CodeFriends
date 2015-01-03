@@ -6,6 +6,7 @@ var mongoClient = Promise.promisifyAll(require('mongodb').MongoClient);
 var Q = require('q');
 var moment = require('moment');
 var multiparty = require('multiparty');
+var backend = require('../liveDbClient');
 
 var uploadController = {
 	uploadNewFile: function (req, res) {
@@ -31,17 +32,25 @@ var uploadController = {
 			console.log('name: ', name);
 			console.log('file: ', file);
 			var temportal_path = file.path;
-			var extension = file.path.substring(file.path.lastIndexOf('.'));
-			// var imageName = uuid.v4() + extension;
-			destination_path = path.join(__dirname, '/archives/', imageName);
-			var input_stream = fs.createReadStream(temportal_path);
-			var output_stream = fs.createWriteStream(destination_path);
-			input_stream.pipe(output_stream);
-			input_stream.on('end', function () {
-				fs.unlinkSync(temportal_path);
-				console.log('Uploaded: ', file_name, size);
-				res.send(imageName);
+			var fileContent = fs.readFile(temportal_path, function (err, data) {
+				if (err) throw err;
+				console.log('DATA: ', data.toString());
 			});
+			console.log('fileContent: ', fileContent);
+			console.log('temportal_path: ', temportal_path);
+			// 1. create a file
+			// 2. send the contents (data.toString()) as a keystroke to be saved on the db
+			// var extension = file.path.substring(file.path.lastIndexOf('.'));
+			// var imageName = uuid.v4() + extension;
+			// destination_path = path.join(__dirname, '/archives/', imageName);
+			// var input_stream = fs.createReadStream(temportal_path);
+			// var output_stream = fs.createWriteStream(destination_path);
+			// input_stream.pipe(output_stream);
+			// input_stream.on('end', function () {
+			// 	fs.unlinkSync(temportal_path);
+			// 	console.log('Uploaded: ', file_name, size);
+			// 	res.send(imageName);
+			// });
 		});
 
 		form.on('close', function () {
