@@ -6,10 +6,16 @@ angular.module('code.projects', ['ui.router'])
 
     // on project state initialize, get projects
     $scope.init = function () {
+<<<<<<< HEAD
       Projects.getProjects()
         .then(function (projects) {
           $scope.projects = projects;
         });
+=======
+      Projects.getProjects(function (res) {
+        $scope.projects = res;
+      });
+>>>>>>> Fixes project load bug on home view, takes out console.logs, add post requests for add file and folder in projects factory
     };
 
     $scope.createProject = function () {
@@ -28,6 +34,10 @@ angular.module('code.projects', ['ui.router'])
         .then(function () {
           $scope.init();
         });
+<<<<<<< HEAD
+=======
+      $scope.init();
+>>>>>>> Fixes project load bug on home view, takes out console.logs, add post requests for add file and folder in projects factory
     };
     $scope.init();
   });

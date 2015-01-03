@@ -17,7 +17,7 @@ angular.module('code.document', ['ui.router'])
     });
 
     documentFactory.goToDocument($scope.projectName, $scope.documentName, cm);
-
+    // listens for theme variable changed in ToolbarDocument factory broadcasted by $rootScope
     $scope.$on('theme:changed', function (event, theme) {
       cm.setOption('theme', theme);
     });
