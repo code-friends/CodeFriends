@@ -5,13 +5,16 @@ var path = require('path');
 var mongoClient = Promise.promisifyAll(require('mongodb').MongoClient);
 var Q = require('q');
 var moment = require('moment');
+var Hashes = require('../../node_modules/jshashes/hashes');
 var multiparty = require('multiparty');
 var backend = require('../liveDbClient');
 
 var uploadController = {
 	uploadNewFile: function (req, res) {
 		var size = '';
-		var file_name = '';
+		var projectName;
+		var documentName;
+		var fileContent;
 		var destination_path = '';
 		var form = new multiparty.Form();
 
@@ -20,24 +23,20 @@ var uploadController = {
 		});
 
 		form.on('part', function (part) {
-			console.log('part: !!!!!', part);
 			if (!part.filename) {
 				return;
 			}
 			size = part.byteCount;
-			file_name = part.filename;
+			var file_name = part.filename;
 		});
 
 		form.on('file', function (name, file) {
-			console.log('name: ', name);
-			console.log('file: ', file);
 			var temportal_path = file.path;
-			var fileContent = fs.readFile(temportal_path, function (err, data) {
+			fs.readFile(temportal_path, function (err, data) {
 				if (err) throw err;
-				console.log('DATA: ', data.toString());
+				fileContent = data.toString();
+				console.log('fileContent: ', fileContent);
 			});
-			console.log('fileContent: ', fileContent);
-			console.log('temportal_path: ', temportal_path);
 			// 1. create a file
 			// 2. send the contents (data.toString()) as a keystroke to be saved on the db
 			// var extension = file.path.substring(file.path.lastIndexOf('.'));
@@ -57,7 +56,29 @@ var uploadController = {
 			console.log('Uploaded!!');
 		});
 
-		form.parse(req);
+		form.parse(req, function (err, fields, file) {
+			if (err) {
+				console.log('err: ', err);
+			}
+			projectName = fields.project_name[0];
+			console.log('projectName: ', projectName);
+			documentName = fields.file_name[0];
+			console.log('documentName: ', documentName);
+		});
+
+		// var str = 'p-' + projectName + '-d' + documentName;
+		// var documentHash = new Hashes.SHA256().hex(str);
+		// var doc = sjs.get('documents', documentHash);
+		// doc.subscribe();
+		// doc.whenReady(function () {
+		// 	if (!doc.type) {
+		// 		doc.create('text');
+		// 	}
+		// 	if (doc.type && doc.type.name === 'text') {
+		// 		doc.attachCodeMirror(cm);
+		// 	}
+		// });
+
 	}
 };
 
