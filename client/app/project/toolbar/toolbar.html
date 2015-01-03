@@ -24,8 +24,8 @@
       <li>
         Friends
         <ul class="first-dropDown">
-          <li>Add Friend to Project</li>
-          <li>
+          <li ng-click="openAddUserModal()">Add Collaborator to Project</li>
+          <li>     
             <form ng-submit='addUser()'>
               <input type='text' ng-model='newUser' name="text" placeholder="Friend's Github username">
               <input type='submit' id='submit' value='Add'>
