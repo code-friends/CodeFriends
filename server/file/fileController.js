@@ -1,7 +1,7 @@
 'use strict';
 var config = require('config');
 var Promise = require('bluebird');
-var mongoClient =  Promise.promisifyAll(require('mongodb').MongoClient);
+var mongoClient = Promise.promisifyAll(require('mongodb').MongoClient);
 var Q = require('q');
 var moment = require('moment');
 var _ = require('lodash');
@@ -20,7 +20,7 @@ var fileController = {
     var type = req.body.type || req.param('type');
     var projectId = req.body.project_id || req.param('project_id') || null;
     var path = req.body.path || req.param('path') || '';
-    if(type !== 'file' && type !== 'folder') {
+    if (type !== 'file' && type !== 'folder') {
       return res.status(400).send('Invalid File Type Specified').end();
     }
     // Check if name is valid (no white space)
@@ -63,15 +63,25 @@ var fileController = {
    */
   _updateFileStructure: function (fileStructure) {
     return mongoClient.connectAsync(config.get('mongo'))
-     .then(function (db) {
+      .then(function (db) {
         return Promise.promisifyAll(db.collection('project_file_structre'));
       })
-     .then(function (projectCollection) {
-        return projectCollection.updateAsync({_id: fileStructure._id }, {$set: {files: fileStructure.files}}, {w: 1})
+      .then(function (projectCollection) {
+        return projectCollection.updateAsync({
+            _id: fileStructure._id
+          }, {
+            $set: {
+              files: fileStructure.files
+            }
+          }, {
+            w: 1
+          })
           .then(function () {
-            return projectCollection.findOneAsync({_id: fileStructure._id});
+            return projectCollection.findOneAsync({
+              _id: fileStructure._id
+            });
           });
-     });
+      });
   },
   _isValidFileName: function (fileName) {
     return !(/\s/g.test(fileName) || /\//g.test(fileName));
@@ -88,7 +98,7 @@ var fileController = {
     var _path = path.split('/').filter(function (str) {
       return str.length > 0;
     });
-     var traverseFileStructure = function (_fileStructure, pathStructure) {
+    var traverseFileStructure = function (_fileStructure, pathStructure) {
       if (pathStructure.length === 0) {
         cb(_fileStructure);
         return true;
@@ -133,46 +143,51 @@ var fileController = {
   },
   getFileStructure: function (projectId, projectName) {
     return new Q().then(function () {
-      if (projectId !== null && projectId !== undefined) { // If project ID
-        // Check if project ID exists
-        return ProjectCollection
-          .query('where', 'id', '=', projectId)
-          .fetchOne();
-      }
-      // If project name
-      if (projectName !== null && projectName !== undefined) {
-        // Get project ID
-        return ProjectCollection
-          .query('where', 'project_name', '=', projectName)
-          .fetchOne();
-      }
-      throw new Error('No Project ID or name specified');
-    })
-    .then(function (project) {
-      // Get project structure form mongo
-      return mongoClient.connectAsync(config.get('mongo'))
-        .then(function (db) {
-          var projectCollection = Promise.promisifyAll(db.collection('project_file_structre'));
-          return projectCollection.findOneAsync({project_id: project.get('id')})
-            .then(function (projectFileStructure) {
-              // Create empty project if nothing is found
-              if (projectFileStructure === null) {
-                return projectCollection.insertAsync({project_id: project.get('id'), files: {}})
-                  .then(function (projectFileStructure) {
-                    return projectFileStructure[0];
-                  });
-              }
-              return projectFileStructure;
-            })
-            .then(function (projectFileStructure) {
-              db.close();
-              return projectFileStructure;
-            });
-        })
-        .catch(function (error) {
-          console.log('Error Connecting to MongoDB', error);
-        });
-    });
+        if (projectId !== null && projectId !== undefined) { // If project ID
+          // Check if project ID exists
+          return ProjectCollection
+            .query('where', 'id', '=', projectId)
+            .fetchOne();
+        }
+        // If project name
+        if (projectName !== null && projectName !== undefined) {
+          // Get project ID
+          return ProjectCollection
+            .query('where', 'project_name', '=', projectName)
+            .fetchOne();
+        }
+        throw new Error('No Project ID or name specified');
+      })
+      .then(function (project) {
+        // Get project structure form mongo
+        return mongoClient.connectAsync(config.get('mongo'))
+          .then(function (db) {
+            var projectCollection = Promise.promisifyAll(db.collection('project_file_structre'));
+            return projectCollection.findOneAsync({
+                project_id: project.get('id')
+              })
+              .then(function (projectFileStructure) {
+                // Create empty project if nothing is found
+                if (projectFileStructure === null) {
+                  return projectCollection.insertAsync({
+                      project_id: project.get('id'),
+                      files: {}
+                    })
+                    .then(function (projectFileStructure) {
+                      return projectFileStructure[0];
+                    });
+                }
+                return projectFileStructure;
+              })
+              .then(function (projectFileStructure) {
+                db.close();
+                return projectFileStructure;
+              });
+          })
+          .catch(function (error) {
+            console.log('Error Connecting to MongoDB', error);
+          });
+      });
   }
 };
 
