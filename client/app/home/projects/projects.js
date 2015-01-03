@@ -1,23 +1,18 @@
-/*global angular:true */
+/*global angular:true, moment:true */
+'use strict';
+
 angular.module('code.projects', ['ui.router'])
   .controller('projectsController', function ($scope, $state, $http, Projects, chatFactory) {
 
     // on project state initialize, get projects
     $scope.init = function () {
-
-      Projects.getProjects(function (res) {
-        $scope.projects = res;
-
-        angular.forEach($scope.projects, function (theProject) {
-          theProject.createString = moment(theProject.created_at).format("dddd, MMMM Do YYYY");
-          theProject.updateString = moment(theProject.updated_at).fromNow();
-        })
-      });
-
+      Projects.getProjects()
+        .then(function (projects) {
+          $scope.projects = projects;
+        });
     };
 
     $scope.createProject = function () {
-      console.log('$scope.newProjectName !!!!!!', $scope.newProjectName);
       return $http.post('/api/project', {
           project_name: $scope.newProjectName
         })
@@ -28,10 +23,10 @@ angular.module('code.projects', ['ui.router'])
           return Projects.getProjects(function (res) {
             $scope.projects = res;
           });
-
+        })
+        .then(function () {
+          $scope.init();
         });
-
-      $scope.init();
     };
     $scope.init();
   });

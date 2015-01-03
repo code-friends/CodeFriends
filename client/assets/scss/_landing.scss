@@ -1,0 +1,29 @@
+.initial-landing-view {
+  background-color: #86CCCC;
+}
+.landing-one {
+  color: $dark-blue;
+  text-align: center;
+  #greeting-image {
+    background-image: url('../assets/img/programming.jpg');
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: 50% 55%;
+    background-size: 65%;
+    position: relative;
+    top: 10%;
+    #greeting-image-text {
+      position: relative;
+      top: 5%;
+    }
+  }
+  h1 {
+    font-size: 3em;
+    margin: 0;
+  }
+  p {
+  font-size: 1.4em;
+  }
+}

@@ -1,7 +1,8 @@
 /*global angular:true */
+'use strict';
 
 angular.module('code.toolbar', [])
-  .controller('toolbarController', function ($scope, $state, $stateParams, $http, ToolbarDocument) {
+  .controller('toolbarController', function ($scope, $state, $stateParams, $http, ToolbarDocument, Files) {
     $scope.themes = [
       'Default',
       'Ambiance',
@@ -40,6 +41,21 @@ angular.module('code.toolbar', [])
       ToolbarDocument.changeTheme(formatThemeName(event.target.innerText));
     };
 
+    $scope.createNewFile = function (event) {
+      var fileName = prompt('File name:');
+      Files.addNewFile(fileName, $stateParams.projectName)
+        .then(function () {
+          console.log('New File Created');
+        });
+    };
+
+    $scope.createNewFolder = function (event) {
+      var folderName = prompt('Folder name:');
+      Files.addNewFolder(folderName, $stateParams.projectName)
+        .then(function () {
+          console.log('New Folder Created');
+        });
+    };
 
     $scope.addUser = function () {
       return $http.put('api/project/addUser', {
