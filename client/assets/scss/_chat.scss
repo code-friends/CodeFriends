@@ -30,8 +30,8 @@
 .timestamp {
   font-size: 10px;
   text-align: right;
-  padding-right: 5px; 
-  margin-top: 2px; 
+  padding-right: 5px;
+  margin-top: 2px;
 }
 
 .messageContainer{
@@ -49,11 +49,15 @@
 
 .thumbnailAndName{
   padding-right: 0px;
-  margin-right: 0px; 
+  margin-right: 0px;
+  table {
+    width: 100%;
+  }
 }
 
 .chatMediaButtons{
-  padding-right: 5px;
+  // float: right;
+  // padding-right: 5px;
 }
 
 .friendsContainer{
@@ -61,5 +65,5 @@
 }
 
 .chatSubTitle{
-  margin-left: 5px; 
+  margin-left: 5px;
 }

@@ -9,7 +9,7 @@ angular.module('code.chat', ['ui.router', 'ngSanitize'])
     chatFactory.getUsers(roomID)
       .then(function (data) {
         angular.forEach(data.data.user, function (eachUser) {
-          eachUser.githubAvatarUrl = eachUser.githubAvatarUrl + '&s=24';
+          eachUser.githubAvatarUrl = eachUser.githubAvatarUrl + '&s=36';
         });
         $scope.users = data.data.user;
       });
