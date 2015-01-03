@@ -3,14 +3,19 @@
   <!-- New File -->
 
   <!-- Files -->
-  <div class="col-md-2 col-sm-3">
-    <form ng-submit='addNewFile()'>
+  <div class="col-md-2 col-sm-3 nopadding project-file-structure">
+    <!-- <form ng-submit='addNewFile()'>
       <input type='text' ng-model='newFileName' name="text" placeholder='New File Name'>
       <input type='submit' id='submit' value='Create'>
-    </form>
-    <p ng-repeat="file in files"><a ui-sref='document({documentName: file.name})'>File: {{ file.name }}</a></p>
+    </form> -->
+    <h4 class='project-file-structure-header'>Files</h4>
+    <ul class='project-file-structure-list'>
+      <li class='{{ file.type }}' ng-repeat="file in files">
+        <span class="glyphicon glyphicon-{{ file.type }} glyphicon-{{ file.type }}-open" aria-hidden="true"></span> <a  ui-sref='document({documentName: file.name})'>{{ file.name }}</a>
+      </li>
+    </ul>
   </div>
 
-  <div class="padContainer col-md-8 col-sm-6" ui-view></div>
+  <div class="padContainer col-md-8 col-sm-6 nopadding" ui-view></div>
 	<div class="col-md-2 col-sm-3 nopadding" ui-view="chat"></div>
 </div>
