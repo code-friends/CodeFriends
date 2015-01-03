@@ -15,7 +15,6 @@
       'code.services',
       'code.chat',
       'code.mainHeaderDirective',
-      // 'code.modal',
       'ngSocket'
     ])
     .config(function ($stateProvider, $urlRouterProvider) {
