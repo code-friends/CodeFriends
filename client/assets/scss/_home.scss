@@ -1,0 +1,34 @@
+.viewport {
+  width: 100vw;
+  height: 100vh;
+}
+.header-space {
+  position: absolute;
+  top: 58px;
+}
+.body {
+  // position: absolute;
+  // left: 5%;
+  // top: 5%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.new-project-submission-form {
+  float: right;
+  margin-top: 25px;
+}
+.single-project-head {
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 5px;
+}
+.single-project {
+  background: #f2f2f2;
+  padding: 10px;
+  border: solid 1px #c5c5c5;
+  margin-bottom: 1px;
+  &:hover {
+    background: #e8e8e8;
+  }
+}

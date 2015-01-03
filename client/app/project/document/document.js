@@ -3,8 +3,6 @@
 'use strict';
 angular.module('code.document', ['ui.router'])
   .controller('documentController', function ($scope, $state, $stateParams, ToolbarDocument, $rootScope, documentFactory) {
-    console.log('documentController');
-    console.log($stateParams);
     $scope.projectName = $stateParams.projectName;
     $scope.documentName = $stateParams.documentName;
     $scope.theme = ToolbarDocument.theme;

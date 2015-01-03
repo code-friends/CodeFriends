@@ -4,28 +4,40 @@
     <div class="friendsContainer">
       <div ng-repeat="friend in users">
         <div class="thumbnailAndName"class="col-sm-12">
-          <img src="{{friend.githubAvatarUrl}}"> </img>
-          <span> {{friend.username}}</span> 
-          <div class="chatMediaButtons btn-group btn-group-xs pull-right" role="group" aria-label="...">
-            <button type="button" class="btn btn-default">Video</button>
-            <button type="button" class="btn btn-default">Mute</button>
-          </div>
+          <table>
+            <tr>
+              <td class='image'><img src="{{friend.githubAvatarUrl}}"> </img></td>
+              <td class='name'>
+                 <span>{{friend.username}}</span>
+              </td>
+              <td class='buttons'>
+                 <div class="chatMediaButtons btn-group btn-group-xs pull-right" role="group" aria-label="...">
+                  <button type="button" class="btn btn-default">
+                    <span class='glyphicon glyphicon-facetime-video'></span>
+                  </button>
+                  <button type="button" class="btn btn-default">
+                    <span class='glyphicon glyphicon-volume-off'></span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </table>
         </div>
       </div>
     </div>
-  <h4 class="chatSubTitle"> Chat </h4> 
+  <h4 class="chatSubTitle"> Chat </h4>
   <div id="chatContent">
     <div class="messageContainer" ng-repeat="message in messages">
       <div class="row">
-        <div class="col-sm-5"><strong>{{message.username}}</strong> </div> 
+        <div class="col-sm-5"><strong>{{message.username}}</strong> </div>
         <div class="col-sm-7"><div class="timestamp"> {{message.timeAgo}}</div></div>
       </div>
-      <span class="messageText" ng-bind-html="message.message| linky: '_blank'">{{message.message}}</span> 
+      <span class="messageText" ng-bind-html="message.message| linky: '_blank'">{{message.message}}</span>
     </div>
-  </div> 
-</div> 
+  </div>
+</div>
 <div class="chatInputForm">
     <input placeholder="Say Something!" type="text" ng-model="chatMessage" ng-enter="sendChat()">
 </div>
 
-</div> 
+</div>

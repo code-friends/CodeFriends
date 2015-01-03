@@ -2,7 +2,12 @@
   <div class="wrapper">
     <ul>
       <li id="logo-image" ui-sref="home"></li>
-      <li>File</li>
+      <li>File
+        <ul class="first-dropDown">
+          <li ng-click='createNewFile()'>New File</li>
+          <li ng-click='createNewFolder()'>New Folder</li>
+        </ul>
+      </li>
       <li>Edit</li>
       <li>
         View
@@ -20,7 +25,7 @@
         Friends
         <ul class="first-dropDown">
           <li>Add Friend to Project</li>
-          <li>     
+          <li>
             <form ng-submit='addUser()'>
               <input type='text' ng-model='newUser' name="text" placeholder="Friend's Github username">
               <input type='submit' id='submit' value='Add'>
