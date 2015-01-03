@@ -1,11 +1,11 @@
 'use strict';
 var Promise = require('bluebird');
+var fs = Promise.promisifyAll(require('fs'));
+var path = require('path');
 var mongoClient = Promise.promisifyAll(require('mongodb').MongoClient);
 var Q = require('q');
 var moment = require('moment');
 var multiparty = require('multiparty');
-// var ProjectCollection = require('../models').collections.ProjectCollection;
-// var Project = require('../models').models.Project;
 
 var uploadController = {
 	uploadNewFile: function (req, res) {
@@ -30,18 +30,18 @@ var uploadController = {
 		form.on('file', function (name, file) {
 			console.log('name: ', name);
 			console.log('file: ', file);
-			// var temportal_path = file.path;
-			// var extension = file.path.substring(file.path.lastIndexOf('.'));
+			var temportal_path = file.path;
+			var extension = file.path.substring(file.path.lastIndexOf('.'));
 			// var imageName = uuid.v4() + extension;
-			// destination_path = path.join(__dirname, '/archives/', imageName);
-			// var input_stream = fs.createReadStream(temportal_path);
-			// var output_stream = fs.createWriteStream(destination_path);
-			// input_stream.pipe(output_stream);
-			// input_stream.on('end', function () {
-			//   fs.unlinkSync(temportal_path);
-			//   console.log('Uploaded: ', file_name, size);
-			//   res.send(imageName);
-			// });
+			destination_path = path.join(__dirname, '/archives/', imageName);
+			var input_stream = fs.createReadStream(temportal_path);
+			var output_stream = fs.createWriteStream(destination_path);
+			input_stream.pipe(output_stream);
+			input_stream.on('end', function () {
+				fs.unlinkSync(temportal_path);
+				console.log('Uploaded: ', file_name, size);
+				res.send(imageName);
+			});
 		});
 
 		form.on('close', function () {
