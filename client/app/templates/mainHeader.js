@@ -4,7 +4,7 @@
 angular.module('code.mainHeaderDirective', [])
   .directive('cfMainHeader', function () {
     return {
-      restrict: 'AE',
+      restrict: 'E',
       templateUrl: '/app/templates/mainHeader.html'
     };
   });
