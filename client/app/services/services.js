@@ -10,8 +10,8 @@ angular.module('code.services', [])
 
     projects.userProjects = null;
 
-    projects.getProjects = function (cb) {
-      $http.get('api/project/')
+    projects.getProjects = function () {
+      return $http.get('api/project/')
         .then(function (res) {
           var projects = res.data;
           // Add all avatars
@@ -28,10 +28,9 @@ angular.module('code.services', [])
           });
           return projects;
         })
-        .then(function (projects) {
-          this.userProjects = projects;
-          cb(projects);
-          return projects;
+        .then(function (_projects) {
+          projects.userProjects = _projects;
+          return _projects;
         });
     };
     return projects;

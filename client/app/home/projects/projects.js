@@ -20,9 +20,10 @@ angular.module('code.projects', ['ui.router'])
           return res.data;
         })
         .then(function () {
-          return Projects.getProjects(function (res) {
-            $scope.projects = res;
-          });
+          return Projects.getProjects()
+            .then(function (projects) {
+              $scope.projects = projects;
+            });
         })
         .then(function () {
           $scope.init();
