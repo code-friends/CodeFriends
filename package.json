@@ -63,6 +63,7 @@
     "moment": "^2.8.4",
     "mongodb": "^1.4.26",
     "morgan": "^1.5.0",
+    "multiparty": "^4.1.0",
     "mysql": "^2.5.4",
     "optimist": "^0.6.1",
     "passport": "^0.2.1",
