@@ -52,7 +52,7 @@
     "cookie-parser": "^1.3.3",
     "express": "^4.10.6",
     "express-session": "^1.9.3",
-    "forever": "^0.14.0",
+    "forever": "^0.12.0",
     "knex": "^0.7.3",
     "livedb": "^0.4.11",
     "livedb-mongo": "^0.4.1",
