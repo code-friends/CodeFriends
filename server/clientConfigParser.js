@@ -7,7 +7,9 @@ var clientConfigParser = function (req, res) {
     'url': config.get('url')
   };
   var str = 'window.config = ' + JSON.stringify(_config) + ';';
-  res.send(str);
+  res
+    .type('text/javascript')
+    .send(str);
 };
 
 module.exports = clientConfigParser;

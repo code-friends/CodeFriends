@@ -1,19 +1,28 @@
-<form ng-submit='createProject()'>
-  <input type='text' ng-model='newProjectName' name="text" placeholder='New Project'>
-  <input type='submit' id='submit' value='submit'>
-</form>
+<div class="row">
+  <div class="col-md-8">
+    <h2>Your Projects</h2>
+  </div>
+  <div class="col-md-4">
+    <form ng-submit='createProject()' class='new-project-submission-form'>
+      <input type='text' ng-model='newProjectName' name="text" placeholder='New Project'>
+      <input type='submit' id='submit' value='submit'>
+    </form>
+  </div>
+</div>
 
 <div class="row">
-  <div class="col-md-12">
-    <div class="col-sm-3"><strong>Project Name</strong></div>
-    <div class="col-sm-3"><strong>Collaborators</strong></span></div> 
-    <div class="col-sm-3"><strong>Created On</strong></div>
-    <div class="col-sm-3"><strong>Last Updated</strong></div>
-  </div> 
-  <div class="col-md-12" ng-repeat="project in projects">
-    <div class="col-sm-3"><a style="color: blue;" ui-sref="project({projectName: project.project_name})">{{ project.project_name }}</a></div>
-    <div class="col-sm-3"><span ng-repeat="user in project.user">{{user.username}}</span></div> 
-    <div class="col-sm-3">{{ project.createString }}</div>
-    <div class="col-sm-3">{{project.updateString}} </div>
+  <div class="col-md-12 single-project-head">
+    <div class="col-sm-6">Project Name</div>
+    <div class="col-sm-2">Collaborators</span></div>
+    <div class="col-sm-2">Created On</div>
+    <div class="col-sm-2">Last Updated</div>
   </div>
+  <a ui-sref="project({projectName: project.project_name})" ng-repeat="project in projects">
+  <div class="col-md-12 single-project">
+    <div class="col-sm-6">{{ project.project_name }}</div>
+    <div class="col-sm-2"><span ng-repeat="user in project.user">{{user.username}}</span></div>
+    <div class="col-sm-2">{{ project.createString }}</div>
+    <div class="col-sm-2">{{project.updateString}} </div>
+  </div>
+  </a>
 </div>

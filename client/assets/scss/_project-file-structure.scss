@@ -1,0 +1,36 @@
+.project-file-structure {
+
+  .project-file-structure-header {
+    text-transform: uppercase;
+    font-size: 0.65em;
+    letter-spacing: 0.05em;
+    padding: 0 1em;
+  }
+
+  .project-file-structure-list {
+    margin: 0;
+    padding-left: 0;
+    li {
+      border: solid 1px #f9f9f9;
+      padding: 0.5em;
+      cursor: pointer;
+      color: #444;
+      .glyphicon {
+        width: 20px;
+      }
+      a {
+        text-decoration: none;
+        color: #444;
+      }
+      &.folder {
+        background: #fafafa;
+        border-color: #f3f3f3;
+      }
+      &:hover {
+        background: #f9f9f9;
+        border-color: #f2f2f2;
+      }
+    }
+  }
+
+}

@@ -1,0 +1,30 @@
+.header {
+  width: 100%;
+  background: $dark-lime;
+  color: white;
+  font-weight: 300;
+  font-size: 1.6em;
+  position: fixed;
+  z-index: 99;
+  .wrapper {
+    padding: 11px 60px 7px;
+  }
+  .user-box-region {
+    float: right;
+  }
+}
+.logo-region {
+  display: inline-block;
+}
+#logo-image {
+  background: url('../assets/img/logo.png') no-repeat center center;
+  background-size: contain;
+  width: 30px;
+  height: 20px;
+  display: inline-block;
+}
+#logo-text {
+  display: inline-block;
+  position: relative;
+  bottom: 12px;
+}
