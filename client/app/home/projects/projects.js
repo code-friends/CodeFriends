@@ -29,6 +29,6 @@ angular.module('code.projects', ['ui.router'])
         });
 
       $scope.init();
-
     };
+    $scope.init();
   });

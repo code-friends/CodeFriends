@@ -2,10 +2,21 @@
 'use strict';
 
 angular.module('code.chat', ['ui.router', 'ngSanitize'])
-  .controller('chatController', function ($scope, $state, ngSocket, $stateParams, Auth, $interval) {
+  .controller('chatController', function ($scope, $state, $http, ngSocket, $stateParams, Auth, $interval, chatFactory) {
     var roomID = $stateParams.projectName;
     var username = Auth.userName;
     var ws = ngSocket('ws://' + window.location.hostname + ':' + window.config.ports.chat);
+
+    chatFactory.getUsers(roomID)
+      .then(function (data) {
+
+        angular.forEach(data.data.user, function (eachUser) {
+          eachUser.githubAvatarUrl = eachUser.githubAvatarUrl + '&s=24';
+        });
+
+        console.log(data.data.user);
+        $scope.users = data.data.user;
+      });
 
     $scope.roomID = roomID;
     $scope.messages = [];
@@ -72,5 +83,12 @@ angular.module('code.chat', ['ui.router', 'ngSanitize'])
           event.preventDefault();
         }
       });
+    };
+  })
+  .factory('chatFactory', function ($http) {
+    return {
+      getUsers: function (projectName) {
+        return $http.get('/api/project/' + projectName)
+      }
     };
   });
