@@ -2,9 +2,8 @@
 /*jshint browser:true */
 'use strict';
 angular.module('code.project', ['ui.router'])
-  .controller('projectController', function ($scope, $state, $stateParams, $http, Auth) {
+  .controller('projectController', function ($scope, $state, $stateParams, $http, Auth, documentFactory) {
     Auth.isLoggedIn();
-    console.log('Project Name: ', $stateParams.projectName);
     $scope.files = [];
     $scope.getAllFiles = function () {
       return $http.get('/api/project/' + $stateParams.projectName)
@@ -26,6 +25,15 @@ angular.module('code.project', ['ui.router'])
         .then(function () {
           console.log('Created New File');
           return $scope.getAllFiles();
+        }).then(function () {
+          var cm = CodeMirror.fromTextArea(document.getElementById('pad'), {
+            mode: 'javascript',
+            value: 'function(){}',
+            lineNumbers: true,
+            matchBrackets: true,
+            theme: 'solarized dark'
+          });
+          documentFactory.goToDocument($scope.newFileName, $stateParams.projectName, cm);
         });
     };
     $scope.getAllFiles();
