@@ -38,6 +38,7 @@ describe('File', function () {
       .send({
         project_name: project_name,
         file_name: 'main.js',
+        type: 'file',
       })
       .end(function (err, res) {
         var fileStructure = res.body;
@@ -45,6 +46,106 @@ describe('File', function () {
         expect(fileStructure.files).to.be.a('object');
         expect(fileStructure.files[fileKey]).to.be.a('object');
         expect(fileStructure.files[fileKey].name).to.equal('main.js');
+        done();
+      });
+  });
+
+  it('should throw a 400 error when a file has already been created', function (done) {
+    agent
+      .post('/api/file')
+      .send({
+        project_name: project_name,
+        file_name: 'main.js',
+        type: 'file',
+      })
+      .expect(400)
+      .then(function () {
+        done();
+      });
+  });
+
+  it('should add a new folder when POSTed', function (done) {
+    agent
+      .post('/api/file')
+      .send({
+        project_name: project_name,
+        file_name: 'example',
+        type: 'folder',
+      })
+      .end(function (err, res) {
+        var fileStructure = res.body;
+        var fileKey = 'example'.replace('.', '');
+        expect(fileStructure.files).to.be.a('object');
+        expect(fileStructure.files[fileKey]).to.be.a('object');
+        expect(fileStructure.files[fileKey].name).to.equal('example');
+        done();
+      });
+  });
+
+  it('should add a new file to a folder that was already added', function (done) {
+    agent
+      .post('/api/file')
+      .send({
+        project_name: project_name,
+        file_name: 'index.js',
+        type: 'file',
+        path: '/example'
+      })
+      .end(function (err, res) {
+        var fileStructure = res.body;
+        var folderKey = 'example'.replace('.', '');
+        var fileKey = 'index.js'.replace('.', '');
+        expect(fileStructure.files).to.be.a('object');
+        expect(fileStructure.files[folderKey]).to.be.a('object');
+        expect(fileStructure.files[folderKey].name).to.equal('example');
+        expect(fileStructure.files[folderKey].files[fileKey].name).to.equal('index.js');
+        done();
+      });
+  });
+
+  it('should add a new folder to a folder that was already added', function (done) {
+    agent
+      .post('/api/file')
+      .send({
+        project_name: project_name,
+        file_name: 'child',
+        type: 'folder',
+        path: '/example'
+      })
+      .end(function (err, res) {
+        var fileStructure = res.body;
+        var folderKey = 'example'.replace('.', '');
+        var fileKey = 'child'.replace('.', '');
+        expect(fileStructure.files).to.be.a('object');
+        expect(fileStructure.files[folderKey]).to.be.a('object');
+        expect(fileStructure.files[folderKey].name).to.equal('example');
+        expect(fileStructure.files[folderKey].files[fileKey].name).to.equal('child');
+        expect(fileStructure.files[folderKey].files[fileKey].type).to.equal('folder');
+        done();
+      });
+  });
+
+  it('should add a new file to a second-level folder', function (done) {
+    agent
+      .post('/api/file')
+      .send({
+        project_name: project_name,
+        file_name: 'jorge.js',
+        type: 'file',
+        path: '/example/child'
+      })
+      .end(function (err, res) {
+        var fileStructure = res.body;
+        var folderKey = 'example'.replace('.', '');
+        var folderKey2 = 'child'.replace('.', '');
+        var fileKey = 'jorge.js'.replace('.', '');
+        expect(fileStructure.files).to.be.a('object');
+        expect(fileStructure.files[folderKey]).to.be.a('object');
+        expect(fileStructure.files[folderKey].name).to.equal('example');
+        expect(fileStructure.files[folderKey].files[folderKey2].name).to.equal('child');
+        expect(fileStructure.files[folderKey].files[folderKey2].type).to.equal('folder');
+        expect(fileStructure.files[folderKey].files[folderKey2].files[fileKey].name).to.equal('jorge.js');
+        expect(fileStructure.files[folderKey].files[folderKey2].files[fileKey].type).to.equal('file');
         done();
       });
   });
