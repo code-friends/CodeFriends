@@ -9,9 +9,8 @@ angular.module('code.projects', ['ui.router'])
         $scope.projects = res;
 
         angular.forEach($scope.projects, function (theProject) {
-          console.log(theProject);
           theProject.createString = moment(theProject.created_at).format("dddd, MMMM Do YYYY");
-          theProject.updateString = moment(theProject.updated_at).format("dddd, MMMM Do YYYY, h:mm:ss a");
+          theProject.updateString = moment(theProject.updated_at).fromNow();
         })
       });
 
@@ -23,13 +22,11 @@ angular.module('code.projects', ['ui.router'])
           project_name: $scope.newProjectName
         })
         .then(function (res) {
-          console.log('RES !!!!!!', res);
           return res.data;
         })
         .then(function () {
           return Projects.getProjects(function (res) {
             $scope.projects = res;
-            console.log('RES $scope.projects !!!!!', $scope.projects);
           });
 
         });

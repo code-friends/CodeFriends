@@ -50,7 +50,6 @@ angular.module('code.chat', ['ui.router', 'ngSanitize'])
       }
       if (msg.hasOwnProperty('message')) {
         if (msg.message.roomID === roomID) {
-          console.log(moment(msg.message.createdAt).fromNow());
           var theDate = moment(msg.message.createdAt).fromNow();
           $scope.messages.push({
             username: msg.message.username,
