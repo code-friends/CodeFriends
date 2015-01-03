@@ -41,7 +41,7 @@ angular.module('code.toolbar', ['ui.bootstrap'])
       ToolbarDocument.changeTheme(formatThemeName(event.target.innerText));
     };
 
-    $scope.openAddFile = function () {
+    $scope.openAddFileModal = function () {
       $modal.open({
         templateUrl: '/app/templates/modalAddFile.html',
         controller: 'modalAddToProjectController',
@@ -49,7 +49,7 @@ angular.module('code.toolbar', ['ui.bootstrap'])
       });
     };
 
-    $scope.openAddFolder = function () {
+    $scope.openAddFolderModal = function () {
       $modal.open({
         templateUrl: '/app/templates/modalAddFolder.html',
         controller: 'modalAddToProjectController',
