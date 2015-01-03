@@ -1,12 +1,18 @@
 /*global angular:true */
 angular.module('code.projects', ['ui.router'])
-  .controller('projectsController', function ($scope, $state, $http, Projects) {
+  .controller('projectsController', function ($scope, $state, $http, Projects, chatFactory) {
 
     // on project state initialize, get projects
     $scope.init = function () {
 
       Projects.getProjects(function (res) {
         $scope.projects = res;
+
+        angular.forEach($scope.projects, function (theProject) {
+          console.log(theProject);
+          theProject.createString = moment(theProject.created_at).format("dddd, MMMM Do YYYY");
+          theProject.updateString = moment(theProject.updated_at).format("dddd, MMMM Do YYYY, h:mm:ss a");
+        })
       });
 
     };

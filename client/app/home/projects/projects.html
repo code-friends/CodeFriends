@@ -3,9 +3,17 @@
   <input type='submit' id='submit' value='submit'>
 </form>
 
-<div>
-  <div ng-repeat="project in projects">
-    <p><a ui-sref="project({projectName: project.project_name})">{{ project.project_name }}</a></p>
-    <p>{{ project.created_at }}</p>
+<div class="row">
+  <div class="col-md-12">
+    <div class="col-sm-3"><strong>Project Name</strong></div>
+    <div class="col-sm-3"><strong>Collaborators</strong></span></div> 
+    <div class="col-sm-3"><strong>Created On</strong></div>
+    <div class="col-sm-3"><strong>Last Updated</strong></div>
+  </div> 
+  <div class="col-md-12" ng-repeat="project in projects">
+    <div class="col-sm-3"><a style="color: blue;" ui-sref="project({projectName: project.project_name})">{{ project.project_name }}</a></div>
+    <div class="col-sm-3"><span ng-repeat="user in project.user">{{user.username}}</span></div> 
+    <div class="col-sm-3">{{ project.createString }}</div>
+    <div class="col-sm-3">{{project.updateString}} </div>
   </div>
 </div>
