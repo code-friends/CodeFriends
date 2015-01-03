@@ -55,6 +55,7 @@
     "express-session": "^1.9.3",
     "forever": "^0.14.0",
     "fs": "0.0.2",
+    "jshashes": "^1.0.5",
     "knex": "^0.7.3",
     "livedb": "^0.4.11",
     "livedb-mongo": "^0.4.1",
