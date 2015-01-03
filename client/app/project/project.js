@@ -20,6 +20,7 @@ angular.module('code.project', ['ui.router'])
       return $http.post('/api/file', {
           file_name: $scope.newFileName,
           project_name: $stateParams.projectName,
+          type: 'file',
           parent_file: null
         })
         .then(function () {
