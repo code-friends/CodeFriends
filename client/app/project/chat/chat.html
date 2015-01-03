@@ -1,7 +1,26 @@
 <div class="chatContainer" ng-controller="chatController">
 <div>
+  <div>
+    <h4 style="margin-left: 5px; "> Code Friends</h4>
+    <div class="friendsContainer" style="margin-left: 10px;">
+
+      <div class="row" ng-repeat="friend in users">
+        <div class="col-sm-6" style="padding-right: 0px; margin-right: 0px; ">
+          <img src="{{friend.githubAvatarUrl}}"> </img>
+          <span> {{friend.username}}</span> 
+        </div>
+        <div class="col-sm-6 nopadding">
+          <div class="btn-group btn-group-xs" role="group" aria-label="...">
+            <button type="button" class="btn btn-default">Video</button>
+            <button type="button" class="btn btn-default">Mute</button>
+          </div> 
+        </div> 
+      </div> 
+    </div> 
+  </div> 
+  <h4 style="margin-left: 5px;"> Chat </h4> 
   <div id="chatContent">
-    <div class="messageContainer"ng-repeat="message in messages">
+    <div class="messageContainer" ng-repeat="message in messages">
       <div class="row">
         <div class="col-sm-5"><strong>{{message.username}}</strong> </div> 
         <div class="col-sm-7"><div class="timestamp"> {{message.timeAgo}}</div></div>
