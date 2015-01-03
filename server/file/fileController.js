@@ -5,6 +5,7 @@ var mongoClient = Promise.promisifyAll(require('mongodb').MongoClient);
 var Q = require('q');
 var moment = require('moment');
 var _ = require('lodash');
+var multiparty = require('multiparty');
 
 var ProjectCollection = require('../models').collections.ProjectCollection;
 // var Project = require('../models').models.Project;
@@ -14,7 +15,9 @@ var mongoIndex = function (str) {
 };
 
 var fileController = {
+
   createNewFileOrFolder: function (req, res) {
+
     var projectName = req.body.project_name || req.param('project_name');
     var fileName = req.body.file_name || req.param('file_name');
     var type = req.body.type || req.param('type');
