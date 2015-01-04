@@ -1,23 +1,31 @@
-.chatContainer{
-  height:100vh;
+$chat-header-height: 36px;
+
+.chat-container-container {
+  height: calc(100vh - 36px);
+  border-left: solid 1px #f2f2f2;
 }
 
 #chatContent{
-  height: 95vh;
-  overflow-y: scroll;
+  $height-all-headers: $chat-header-height * 3;
+  $height-all-users: $chat-header-height;
+  $height-all: $height-all-headers + $height-all-users;
+  height: calc(100vh - #{$height-all} - #{$toolbar-height});
   display: block;
   width: 100%;
   overflow-x: hidden;
-  padding-left: 10px;
+  overflow-y: scroll;
+  // padding-left: 10px;
 }
 
 .chatInputForm{
   width: 100%;
   position: absolute;
   bottom:0px;
-
+  height: $chat-header-height;
   input{
     width: 100%;
+    height: $chat-header-height;
+    padding: 10px;
   }
 }
 
@@ -32,10 +40,15 @@
   text-align: right;
   padding-right: 5px;
   margin-top: 2px;
+  color: #bbb;
 }
 
 .messageContainer{
-  margin-bottom: 5px;
+  padding: 5px;
+  border-bottom: 1px solid #f7f7f7;
+  &:hover {
+    background: #f7f7f7;
+  }
 }
 
 .messageText{
@@ -63,10 +76,19 @@
   // padding-right: 5px;
 }
 
+$single-friend-height: 36px; // height of gravatar thumbnail
 .friendsContainer{
-  margin-left: 10px;
+  // margin-left: 10px;
+  max-height: $single-friend-height * 5;
+  overflow-y: scroll;
+  .single-friend-container {
+    height: $single-friend-height;
+  }
 }
 
 .chatSubTitle{
-  margin-left: 5px;
+  // margin-left: 5px;
+  border-top: solid 1px #f7f7f7;
+  border-bottom: solid 1px #f7f7f7;
+  height: $chat-header-height;
 }

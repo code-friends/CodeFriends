@@ -1,8 +1,9 @@
 <div class="chatContainer" ng-controller="chatController">
-<div>
+  <!-- Chat Collaborators -->
+  <div class='chat-collaborators-container chat-container'>
     <h4 class="chatSubTitle"> Collaborators</h4>
     <div class="friendsContainer">
-      <div ng-repeat="friend in users">
+      <div class='single-friend-container' ng-repeat="friend in users">
         <div class="thumbnailAndName"class="col-sm-12">
           <table>
             <tr>
@@ -25,19 +26,21 @@
         </div>
       </div>
     </div>
-  <h4 class="chatSubTitle"> Chat </h4>
-  <div id="chatContent">
-    <div class="messageContainer" ng-repeat="message in messages">
-      <div class="row">
-        <div class="col-sm-5"><strong>{{message.username}}</strong> </div>
-        <div class="col-sm-7"><div class="timestamp"> {{message.timeAgo}}</div></div>
+  </div>
+  <!-- Chat Message -->
+  <div class='chat-content-container chat-container'>
+    <h4 class="chatSubTitle"> Chat </h4>
+    <div id="chatContent">
+      <div class="messageContainer" ng-repeat="message in messages">
+        <div class="row">
+          <div class="col-sm-5"><strong>{{message.username}}</strong> </div>
+          <div class="col-sm-7"><div class="timestamp"> {{message.timeAgo}}</div></div>
+        </div>
+        <span class="messageText" ng-bind-html="message.message| linky: '_blank'">{{message.message}}</span>
       </div>
-      <span class="messageText" ng-bind-html="message.message| linky: '_blank'">{{message.message}}</span>
+    </div>
+    <div class="chatInputForm">
+        <input placeholder="Say Something!" type="text" ng-model="chatMessage" ng-enter="sendChat()">
     </div>
   </div>
-</div>
-<div class="chatInputForm">
-    <input placeholder="Say Something!" type="text" ng-model="chatMessage" ng-enter="sendChat()">
-</div>
-
 </div>
