@@ -6,7 +6,6 @@ var share = sharejs.server.createClient({
   backend: backend
 });
 
-
 var socketConnectionHandler = function (client) {
   var stream = new Duplex({
     objectMode: true

@@ -11,6 +11,8 @@ angular.module('code.uploads', ['ui.router'])
         console.log('file: ', file);
         console.log('file.name: ', file.name);
         console.log('$stateParams.projectName: ', $stateParams.projectName);
+        console.log('$stateParams.project_id: ', $stateParams.project_id);
+        console.log('$stateParams: ', $stateParams);
         $scope.upload = $upload.upload({
             method: 'POST',
             url: '/api/upload',
