@@ -44,7 +44,7 @@ angular.module('code.toolbar', ['ui.bootstrap'])
     $scope.openAddFileModal = function () {
       $modal.open({
         templateUrl: '/app/templates/modalAddFile.html',
-        controller: 'modalAddToProjectController',
+        controller: 'modalProjectController',
         size: 'sm'
       });
     };
@@ -52,22 +52,20 @@ angular.module('code.toolbar', ['ui.bootstrap'])
     $scope.openAddFolderModal = function () {
       $modal.open({
         templateUrl: '/app/templates/modalAddFolder.html',
-        controller: 'modalAddToProjectController',
+        controller: 'modalProjectController',
         size: 'sm'
       });
     };
 
-    $scope.addUser = function () {
-      return $http.put('api/project/addUser', {
-          newUserName: $scope.newUser,
-          project_name: $stateParams.projectName
-        })
-        .catch(function (error) {
-          console.log('error!!!!', error);
-        });
+    $scope.openAddUserModal = function () {
+      $modal.open({
+        templateUrl: '/app/templates/modalAddUser.html',
+        controller: 'modalProjectController',
+        size: 'sm'
+      });
     };
   })
-  .controller('modalAddToProjectController', function ($scope, $stateParams, $modalInstance, Files) {
+  .controller('modalProjectController', function ($scope, $stateParams, $modalInstance, Files, Projects) {
     $scope.addFile = function () {
       $modalInstance.close();
       Files.addNewFile($scope.newFileName, $stateParams.projectName)
@@ -82,5 +80,10 @@ angular.module('code.toolbar', ['ui.bootstrap'])
         .then(function () {
           console.log('New Folder Created');
         });
+    };
+
+    $scope.addUser = function () {
+      $modalInstance.close();
+      Projects.addUser($scope.addedUserName, $stateParams.projectName);
     };
   });
