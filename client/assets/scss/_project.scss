@@ -1,87 +1,21 @@
 @import 'chat';
+@import 'toolbar';
 @import 'project-file-structure';
 
-// toolbar styling
-#toolbar {
-  $li-padding: 10px;
-  $darken-blue-grey: darken($blue-grey, 10);
-  cursor: default;
-  background-color: $blue-grey;
-  color: white;
-  font-size: 1.1em;
-  font-weight: 300;
-  z-index: 95;
-  #logo-image {
-    position: relative;
-    top: 5px;
-  }
-  .wrapper {
-    padding: 0 30px 0 10px;
-  }
-  ul {
-    display: inline;
-    text-align: left;
-    padding: 0;
-    li {
-      display: inline-block;
-      height: 100%;
-      padding: $li-padding;
-      cursor: pointer;
-      &:not(#logo-image):hover {
-        background: $darken-blue-grey;
-        .first-dropDown {
-          display: block;
-          opacity: 1;
-          visibility: visible;
-        }
-      }
-    }
-  }
-  // ul li ul
-  .first-dropDown {
-    top: 36px;
-  }
-  .first-dropDown, .second-dropDown {
-    z-index: 96;
-    position: absolute;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-    display: none;
-    opacity: 0;
-    visibility: hidden;
-    -webkit-transition: opacity 0.2s;
-    -moz-transition: opacity 0.2s;
-    -ms-transition: opacity 0.2s;
-    -o-transition: opacity 0.2s;
-    -transition: opacity 0.2s;
-    margin-left: -$li-padding;
-    li {
-      margin-right: 0;
-      background: $blue-grey;
-      display: block;
-      padding: 4px 20px;
-    }
-  }
-  .first-dropDown li:hover .second-dropDown {
-    display: block;
-    opacity: 1;
-    visibility: visible;
-  }
-  .theme-menu {
-    top: 1%;
-    left: 106%;
-    width: 100%;
-  }
+.project-view-container {
+  height: 100vh;
+  overflow: hidden;
 }
-#toolbar-user {
-  float: right;
-  ul {
-    float: right;
-  }
+
+// Project Container
+.project-container {
+  height: calc(100% - #{$toolbar-height});
+  width: 100%;
+  overflow: hidden;
 }
 
 // editor
 .padContainer {
   font-size: 1.3em;
+  height: 100%;
 }
