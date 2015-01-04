@@ -34,7 +34,7 @@ var fileController = {
     if (type !== 'file' && type !== 'folder') {
       return res.status(400).send('Invalid File Type Specified').end();
     }
-    fileController._createNewFileOrFolder(projectName, fileName, type, projectId, path)
+    fileController._createNewFileOrFolder(fileInfo)
       .then(function (fileStructure) {
         return res.json(fileStructure);
       })
