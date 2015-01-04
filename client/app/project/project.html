@@ -1,21 +1,25 @@
-<div>
+<div class='container-fluid nopadding project-view-container'>
   <div ui-view="toolbar"></div>
-  <!-- New File -->
-
-  <!-- Files -->
-  <div class="col-md-2 col-sm-3 nopadding project-file-structure">
-    <!-- <form ng-submit='addNewFile()'>
-      <input type='text' ng-model='newFileName' name="text" placeholder='New File Name'>
-      <input type='submit' id='submit' value='Create'>
-    </form> -->
-    <h4 class='project-file-structure-header'>Files</h4>
-    <ul class='project-file-structure-list'>
-      <li class='{{ file.type }}' ng-repeat="file in files">
-        <span class="glyphicon glyphicon-{{ file.type }} glyphicon-{{ file.type }}-open" aria-hidden="true"></span> <a  ui-sref='document({documentName: file.name})'>{{ file.name }}</a>
-      </li>
-    </ul>
+    <!-- New File -->
+    <div class='row-fluid project-container'>
+    <!-- Files -->
+    <div class="col-md-2 col-sm-3 nopadding project-file-structure">
+      <!-- <form ng-submit='addNewFile()'>
+        <input type='text' ng-model='newFileName' name="text" placeholder='New File Name'>
+        <input type='submit' id='submit' value='Create'>
+      </form> -->
+      <h4 class='project-file-structure-header'>Files</h4>
+      <ul class='project-file-structure-list'>
+        <a  ui-sref='document({documentName: file.name})' ng-repeat="file in files">
+        <li class='{{ file.type }}'>
+          <span class="glyphicon glyphicon-{{ file.type }} glyphicon-{{ file.type }}-open" aria-hidden="true"></span> {{ file.name }}
+        </li>
+        </a>
+      </ul>
+    </div>
+    <!-- Document -->
+    <div class="padContainer col-md-8 col-sm-6 nopadding" ui-view></div>
+    <!-- Chat -->
+    <div class="col-md-2 col-sm-3 nopadding chat-container-container" ui-view="chat"></div>
   </div>
-
-  <div class="padContainer col-md-8 col-sm-6 nopadding" ui-view></div>
-	<div class="col-md-2 col-sm-3 nopadding" ui-view="chat"></div>
 </div>
