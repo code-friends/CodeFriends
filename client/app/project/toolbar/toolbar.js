@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('code.toolbar', ['ui.bootstrap'])
-  .controller('toolbarController', function ($scope, $state, $stateParams, $http, Projects, ToolbarDocument, $modal, Files) {
+  .controller('toolbarController', function ($scope, $stateParams, $http, ToolbarDocument, $modal) {
     $scope.themes = [
       'Default',
       'Ambiance',
@@ -57,14 +57,6 @@ angular.module('code.toolbar', ['ui.bootstrap'])
       });
     };
 
-    $scope.createNewFolder = function (event) {
-      var folderName = prompt('Folder name:');
-      Files.addNewFolder(folderName, $stateParams.projectName)
-        .then(function () {
-          console.log('New Folder Created');
-        });
-    };
-
     $scope.addUser = function () {
       return $http.put('api/project/addUser', {
           newUserName: $scope.newUser,
@@ -75,24 +67,20 @@ angular.module('code.toolbar', ['ui.bootstrap'])
         });
     };
   })
-  .controller('modalAddToProjectController', function ($scope, Projects, $stateParams, $modalInstance) {
+  .controller('modalAddToProjectController', function ($scope, $stateParams, $modalInstance, Files) {
     $scope.addFile = function () {
       $modalInstance.close();
-      console.log('Adding file in modalAddToProjectController');
-      var projectName = $stateParams.projectName;
-      console.log('projectName:', projectName);
-      var fileName = $scope.newFileName;
-      console.log('file name:', fileName);
-      Projects.addFile(projectName, fileName);
+      Files.addNewFile($scope.newFileName, $stateParams.projectName)
+        .then(function () {
+          console.log('New File Created');
+        });
     };
 
     $scope.addFolder = function () {
       $modalInstance.close();
-      console.log('Adding folder in modalAddToProjectController');
-      var projectName = $stateParams.projectName;
-      console.log('projectName:', projectName);
-      var folderName = $scope.newFolderName;
-      console.log('folder name:', folderName);
-      Projects.addFile(projectName, folderName);
+      Files.addNewFolder($scope.newFolderName, $stateParams.projectName)
+        .then(function () {
+          console.log('New Folder Created');
+        });
     };
   });
