@@ -2,13 +2,14 @@ $chat-header-height: 36px;
 
 .chat-container-container {
   height: calc(100vh - 36px);
+  border-left: solid 1px #f2f2f2;
 }
 
 #chatContent{
   $height-all-headers: $chat-header-height * 3;
   $height-all-users: $chat-header-height;
   $height-all: $height-all-headers + $height-all-users;
-  height: calc(100% - #{$height-all});
+  height: calc(100vh - #{$height-all} - #{$toolbar-height});
   display: block;
   width: 100%;
   overflow-x: hidden;
@@ -39,10 +40,15 @@ $chat-header-height: 36px;
   text-align: right;
   padding-right: 5px;
   margin-top: 2px;
+  color: #bbb;
 }
 
 .messageContainer{
-  margin-bottom: 5px;
+  padding: 5px;
+  border-bottom: 1px solid #f7f7f7;
+  &:hover {
+    background: #f7f7f7;
+  }
 }
 
 .messageText{
