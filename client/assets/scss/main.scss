@@ -9,10 +9,13 @@ $dark-blue: rgb(30, 76, 97);
 $blue-grey: #607D8B;
 
 @import '../../lib/normalize.css/normalize.css';
+// @import '../../lib/bootstrap-sass-official/assets/stylesheets/bootstrap';
 @import '../../lib/bootstrap-sass-official/assets/stylesheets/bootstrap/variables';
 @import '../../lib/bootstrap-sass-official/assets/stylesheets/bootstrap/mixins';
 @import '../../lib/bootstrap-sass-official/assets/stylesheets/bootstrap/grid';
 @import '../../lib/bootstrap-sass-official/assets/stylesheets/bootstrap/glyphicons';
+@import '../../lib/bootstrap-sass-official/assets/stylesheets/bootstrap/modals';
+
 
 $bootrap-icon-path: '../../lib/bootstrap-sass-official/assets/fonts/bootstrap/';
 // Import the fonts
@@ -33,4 +36,3 @@ $bootrap-icon-path: '../../lib/bootstrap-sass-official/assets/fonts/bootstrap/';
 @import 'landing';
 @import 'home';
 @import 'project';
-

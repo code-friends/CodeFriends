@@ -4,10 +4,8 @@
 // factory for Projects, Auth, Toolbar
 angular.module('code.services', [])
   .factory('Projects', function ($http) {
-
     // gets projects from server, caches projects in factory and allows cb in controller to access projects
     var projects = {};
-
     projects.userProjects = null;
 
     projects.getProjects = function () {
@@ -33,6 +31,17 @@ angular.module('code.services', [])
           return _projects;
         });
     };
+
+    projects.addUser = function (userName, projectName) {
+      return $http.put('api/project/addUser', {
+          newUserName: userName,
+          project_name: projectName
+        })
+        .catch(function (error) {
+          console.log('error!!!!', error);
+        });
+    };
+
     return projects;
   })
   .factory('Auth', function ($http, $state) {

@@ -28,6 +28,7 @@ angular.module('code.projects', ['ui.router'])
         .then(function () {
           $scope.init();
         });
+      $scope.init();
     };
     $scope.init();
   });

@@ -1,8 +1,8 @@
 /*global angular:true */
 'use strict';
 
-angular.module('code.toolbar', [])
-  .controller('toolbarController', function ($scope, $state, $stateParams, $http, ToolbarDocument, Files) {
+angular.module('code.toolbar', ['ui.bootstrap'])
+  .controller('toolbarController', function ($scope, $stateParams, $http, ToolbarDocument, $modal) {
     $scope.themes = [
       'Default',
       'Ambiance',
@@ -32,7 +32,7 @@ angular.module('code.toolbar', [])
     ];
 
     var formatThemeName = function (theme) {
-      var theme = theme.toLowerCase();
+      theme = theme.toLowerCase();
       if (theme.split(' ')[0] === 'solarized') return theme;
       return theme.replace(' ', '-');
     };
@@ -41,30 +41,49 @@ angular.module('code.toolbar', [])
       ToolbarDocument.changeTheme(formatThemeName(event.target.innerText));
     };
 
-    $scope.createNewFile = function (event) {
-      var fileName = prompt('File name:');
-      Files.addNewFile(fileName, $stateParams.projectName)
+    $scope.openAddFileModal = function () {
+      $modal.open({
+        templateUrl: '/app/templates/modalAddFile.html',
+        controller: 'modalProjectController',
+        size: 'sm'
+      });
+    };
+
+    $scope.openAddFolderModal = function () {
+      $modal.open({
+        templateUrl: '/app/templates/modalAddFolder.html',
+        controller: 'modalProjectController',
+        size: 'sm'
+      });
+    };
+
+    $scope.openAddUserModal = function () {
+      $modal.open({
+        templateUrl: '/app/templates/modalAddUser.html',
+        controller: 'modalProjectController',
+        size: 'sm'
+      });
+    };
+  })
+  .controller('modalProjectController', function ($scope, $stateParams, $modalInstance, Files, Projects) {
+    $scope.addFile = function () {
+      $modalInstance.close();
+      Files.addNewFile($scope.newFileName, $stateParams.projectName)
         .then(function () {
           console.log('New File Created');
         });
     };
 
-    $scope.createNewFolder = function (event) {
-      var folderName = prompt('Folder name:');
-      Files.addNewFolder(folderName, $stateParams.projectName)
+    $scope.addFolder = function () {
+      $modalInstance.close();
+      Files.addNewFolder($scope.newFolderName, $stateParams.projectName)
         .then(function () {
           console.log('New Folder Created');
         });
     };
 
     $scope.addUser = function () {
-      return $http.put('api/project/addUser', {
-          newUserName: $scope.newUser,
-          project_name: $stateParams.projectName
-        })
-        .catch(function (error) {
-          console.log('error!!!!', error);
-          // console.log('Added User');
-        });
+      $modalInstance.close();
+      Projects.addUser($scope.addedUserName, $stateParams.projectName);
     };
   });
