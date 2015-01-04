@@ -14,6 +14,7 @@
       'code.document',
       'code.services',
       'code.chat',
+      'code.video',
       'code.mainHeaderDirective',
       'ngSocket'
     ])
@@ -57,6 +58,10 @@
             'toolbar@project': {
               templateUrl: '/app/project/toolbar/toolbar.html',
               controller: 'toolbarController'
+            },
+            'video@project': {
+              templateUrl: '/app/project/chat/video/video.html',
+              controller: 'videoController'
             }
           }
         })
