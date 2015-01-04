@@ -108,6 +108,7 @@ projectController.addUser = function (req, res) {
     })
     .then(function (user) {
       if (!user) throw new Error('There is not model with this name');
+      //change so that if there is not user, it does a res.end saying 'there is no user', so they know that on the front end
       return user;
     })
     .then(function (queriedUser) {
