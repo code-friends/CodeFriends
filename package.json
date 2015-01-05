@@ -4,8 +4,9 @@
   "description": "Remote pair/group programming environment",
   "main": "server/index.js",
   "scripts": {
-    "start": "./node_modules/forever/bin/forever start server",
-    "test": "export NODE_ENV='test'; ./node_modules/mocha/bin/mocha -t 5000 server/tests/index --bail"
+    "start": "./node_modules/forever/bin/forever start -p ./logs -a -o ./logs/stdout.log -e ./logs/stderr.log server ",
+    "test": "export NODE_ENV='test'; ./node_modules/mocha/bin/mocha -t 5000 server/tests/index --bail",
+    "dev": "./node_modules/nodemon/bin/nodemon.js server"
   },
   "repository": {
     "type": "git",

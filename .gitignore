@@ -13,3 +13,7 @@ config/*
 
 ### OSX ###
 .DS_Store
+
+forever/*
+forever/**/*
+!forever/.gitkeep
