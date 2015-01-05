@@ -22,8 +22,8 @@ authController.getUser = function (req, res) {
 };
 
 authController.logout = function (req, res) {
-  res.logout();
-  res.status(200).end();
+  req.logout();
+  res.redirect('/');
 };
 
 authController.login = function (req, res) {

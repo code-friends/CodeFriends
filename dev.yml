@@ -22,4 +22,5 @@ server:
    - ./client:/app/client
   environment:
     NODE_ENV: dev
+    HOST: docker.dev
     PORT: 80
