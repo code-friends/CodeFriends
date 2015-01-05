@@ -12,6 +12,7 @@ var fileController = require('../file/fileController');
 
 var uploadController = {
   uploadNewFile: function (req, res) {
+
     var size = '';
     var projectName;
     var documentName;
@@ -20,6 +21,7 @@ var uploadController = {
     var destination_path = '';
     var form = new multiparty.Form();
 
+    //upload file to mongo
     form.on('error', function (err) {
       console.log('Error parsing form: ' + err.stack);
     });
@@ -60,12 +62,18 @@ var uploadController = {
               projectName: projectName,
               fileName: documentName,
               type: 'file', ///need to make flexible to take folders too
-              path: temportal_path,
+              path: '',
               userId: userId
             };
-            fileController._createNewFileOrFolder(fileInfo);
+            fileController._createNewFileOrFolder(fileInfo)
+              .then(function (newFileStructre) {
+                console.log('newFileStructre');
+                console.log(newFileStructre);
+              })
+              .catch(function (err) {
+                console.log('Error Creating File or Folder: ', err);
+              });
           });
-
       });
     });
 
@@ -80,6 +88,8 @@ var uploadController = {
       projectName = fields.project_name[0];
       documentName = fields.file_name[0];
     });
+
+    //update file structure
 
   }
 };
