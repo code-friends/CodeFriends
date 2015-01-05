@@ -1,7 +1,7 @@
 $chat-header-height: 36px;
 
 .chat-container-container {
-  height: calc(100vh - 36px);
+  height: calc(100vh - #{$toolbar-height} - #{$video-height});
   border-left: solid 1px #f2f2f2;
 }
 
@@ -9,7 +9,7 @@ $chat-header-height: 36px;
   $height-all-headers: $chat-header-height * 3;
   $height-all-users: $chat-header-height;
   $height-all: $height-all-headers + $height-all-users;
-  height: calc(100vh - #{$height-all} - #{$toolbar-height});
+  height: calc(100vh - #{$height-all} - #{$toolbar-height} - #{$video-height});
   display: block;
   width: 100%;
   overflow-x: hidden;
@@ -19,7 +19,7 @@ $chat-header-height: 36px;
 
 .chatInputForm{
   width: 100%;
-  position: absolute;
+  position: relative;
   bottom:0px;
   height: $chat-header-height;
   input{
@@ -91,4 +91,23 @@ $single-friend-height: 36px; // height of gravatar thumbnail
   border-top: solid 1px #f7f7f7;
   border-bottom: solid 1px #f7f7f7;
   height: $chat-header-height;
+}
+
+.videoContainer {
+    position: relative;
+    width: 200px;
+    height: 150px;
+}
+.videoContainer video {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+.volume_bar {
+    position: absolute;
+    width: 5px;
+    height: 0px;
+    right: 0px;
+    bottom: 0px;
+    background-color: #12acef;
 }
