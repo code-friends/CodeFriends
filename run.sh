@@ -17,4 +17,4 @@ DELIMITER
 mongod --fork --logpath=/mongodb.log
 
 # Run nodemon (should be forever on production)
-cd /app && nodemon server
+cd /app && node server
