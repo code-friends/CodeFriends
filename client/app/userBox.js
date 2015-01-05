@@ -4,6 +4,6 @@ angular.module('code.userBox', ['ui.router'])
     Auth.isLoggedIn(false)
       .then(function () {
         $scope.userLoggedIn = (Auth.userId !== null);
-        $scope.userName = Auth.userId;
+        $scope.userName = Auth.userName;
       });
   });
