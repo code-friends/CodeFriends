@@ -3,41 +3,33 @@
 angular.module('code.uploads', ['ui.router'])
   .controller('uploadsController', function ($scope, $state, $stateParams, $http, $upload) {
 
-    console.log('1!!!');
     $scope.onFileSelect = function (files) {
-
-      for (var i = 0; i < files.length; i++) {
-        var file = files[i];
-        console.log('file: ', file);
-        console.log('file.name: ', file.name);
-        console.log('$stateParams.projectName: ', $stateParams.projectName);
-        console.log('$stateParams.project_id: ', $stateParams.project_id);
-        console.log('$stateParams: ', $stateParams);
-        $scope.upload = $upload.upload({
+      var uploadFile = function (fileIndex) {
+        return $upload.upload({
             method: 'POST',
             url: '/api/upload',
             data: {
-              file_name: file.name,
+              file_name: files[fileIndex].name,
               project_name: $stateParams.projectName,
               parent_file: null
             },
-            file: file
+            file: files[fileIndex]
           })
-          .progress(function (evt) {
-            // console.log(evt);
-            console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+          .then(function (newFileStructure) {
+            if (files.length > fileIndex + 1) {
+              return uploadFile(fileIndex + 1);
+            } else {
+              return true;
+            }
           })
-          .success(function (data, status, headers, config) {
-            console.log(data);
-            console.log(status);
-            console.log(headers);
-            console.log(config);
-            // $state.reload();                             
-          })
-          .error(function (error) {
-            console.log('ERROR: ', error);
-          })
-      }
+          .catch(function (error) {
+            console.log('Error Uploading File: ', error);
+          });
+      };
+      uploadFile(0)
+        .then(function () {
+          console.log('All Files UPloaded');
+        });
     };
-
+    //get request to reload with updated files
   });

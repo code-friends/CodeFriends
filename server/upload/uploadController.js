@@ -69,9 +69,11 @@ var uploadController = {
               .then(function (newFileStructre) {
                 console.log('newFileStructre');
                 console.log(newFileStructre);
+                res.json(newFileStructre);
               })
               .catch(function (err) {
                 console.log('Error Creating File or Folder: ', err);
+                res.status(400).end();
               });
           });
       });
@@ -88,9 +90,6 @@ var uploadController = {
       projectName = fields.project_name[0];
       documentName = fields.file_name[0];
     });
-
-    //update file structure
-
   }
 };
 
