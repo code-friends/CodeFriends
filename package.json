@@ -73,6 +73,7 @@
     "request": "^2.51.0",
     "share": "^0.7.3",
     "share-codemirror": "^0.1.0",
+    "simplewebrtc": "^1.11.2",
     "stream": "0.0.2",
     "supertest-as-promised": "^1.0.0",
     "ws": "^0.6.3"

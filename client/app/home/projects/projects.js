@@ -3,7 +3,6 @@
 
 angular.module('code.projects', ['ui.router'])
   .controller('projectsController', function ($scope, $state, $http, Projects, chatFactory) {
-
     // on project state initialize, get projects
     $scope.init = function () {
       Projects.getProjects()
