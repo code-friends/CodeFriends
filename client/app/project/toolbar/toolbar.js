@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('code.toolbar', ['ui.bootstrap'])
-  .controller('toolbarController', function ($scope, $stateParams, $http, ToolbarDocument, $modal) {
+  .controller('toolbarController', function ($scope, $stateParams, $http, ToolbarDocument, $modal, Auth) {
     $scope.themes = [
       'Default',
       'Ambiance',
@@ -30,6 +30,9 @@ angular.module('code.toolbar', ['ui.bootstrap'])
       '3024 Day',
       '3024 Night'
     ];
+
+    console.log("username", Auth.username);
+    $scope.username = Auth.userName;
 
     var formatThemeName = function (theme) {
       theme = theme.toLowerCase();
