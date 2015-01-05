@@ -1,6 +1,7 @@
 #!/bin/bash
 
 params=" -u ${DB_ENV_MYSQL_USER} -p${DB_ENV_MYSQL_PASS} -h ${DB_PORT_3306_TCP_ADDR} "
+echo $params;
 
 # Create Database
 mysql $params <<DELIMITER
@@ -17,4 +18,4 @@ DELIMITER
 mongod --fork --logpath=/mongodb.log
 
 # Run nodemon (should be forever on production)
-cd /app && nodemon server
+cd /app && node server

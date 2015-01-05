@@ -13,3 +13,8 @@ config/*
 
 ### OSX ###
 .DS_Store
+
+data/*
+data/**/*
+data/logs/*
+data/logs/**/*

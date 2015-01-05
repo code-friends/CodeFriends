@@ -10,7 +10,7 @@ Install mysql and mongodb
 brew install mysql mongo
 ```
 
-Install mocha and gulp 
+Install mocha and gulp
 
 ```
 npm install -g mocha gulp nodemon
@@ -25,8 +25,13 @@ bower install
 
 ### Running
 
+Running for development (using nodemon):
 ```
-nodemon server
+npm run dev
+```
+Running on production (using forever):
+```
+npm start
 ```
 
 ### Testing

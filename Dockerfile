@@ -16,7 +16,7 @@ RUN apt-get -yq install mysql-client
 # Mongo
 RUN apt-get -yq install mongodb-org
 # NPM
-RUN npm install -g gulp bower nodemon forever
+RUN npm install -g gulp bower
 # Remove Source Lists
 RUN rm -rf /var/lib/apt/lists/*
 

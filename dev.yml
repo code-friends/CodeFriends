@@ -2,6 +2,8 @@ db:
   image: tutum/mysql:5.5
   ports:
    - "3306:3306"
+  volumes:
+   - ./data/mysql:/var/lib/mysql
   environment:
     MYSQL_PASS: "6gdP7R3adDYNehj"
 server:
@@ -17,9 +19,10 @@ server:
   links:
    - "db:db"
   volumes:
+   - ./data:/app/data
    - ./config:/app/config
    - ./server:/app/server
    - ./client:/app/client
   environment:
-    NODE_ENV: dev
+    NODE_ENV: docker-local
     PORT: 80
