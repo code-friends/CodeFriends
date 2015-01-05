@@ -14,6 +14,7 @@ config/*
 ### OSX ###
 .DS_Store
 
-forever/*
-forever/**/*
-!forever/.gitkeep
+data/*
+data/**/*
+data/logs/*
+data/logs/**/*
