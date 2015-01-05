@@ -1,6 +1,8 @@
 'use strict';
 
 var config = require('config');
+var fs = require('fs');
+var https = require('https');
 
 console.log('config:', config);
 
@@ -45,6 +47,19 @@ app
   .listen(config.get('ports').http, function () {
     console.log('Server listening on port:', config.get('ports').http);
   });
+
+
+var privateKey = fs.readFileSync('./key.pem').toString(),
+  certificate = fs.readFileSync('./cert.pem').toString();
+
+console.log(privateKey);
+console.log(certificate);
+
+https.createServer({
+  key: privateKey,
+  cert: certificate
+}, app).listen(8005);
+console.log('video listening on port: 8005');
 
 chatServer.listen(config.get('ports').chat);
 shareJSServer.listen(config.get('ports').editor);
