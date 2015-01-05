@@ -52,6 +52,9 @@ app
 var privateKey = fs.readFileSync('./key.pem').toString(),
   certificate = fs.readFileSync('./cert.pem').toString();
 
+console.log(privateKey);
+console.log(certificate);
+
 https.createServer({
   key: privateKey,
   cert: certificate
