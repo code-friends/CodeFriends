@@ -70,7 +70,7 @@ angular.module('code.toolbar', ['ui.bootstrap'])
   })
   .controller('modalProjectController', function ($scope, $stateParams, $modalInstance, Files, Projects) {
     $scope.filesInProject = Files.files;
-    console.log($scope.fileInProject);
+    console.log('Files variable in modal controller', $scope.filesInProject);
     $scope.status = {
       isopen: false
     };
