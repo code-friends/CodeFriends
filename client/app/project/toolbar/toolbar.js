@@ -69,6 +69,18 @@ angular.module('code.toolbar', ['ui.bootstrap'])
     };
   })
   .controller('modalProjectController', function ($scope, $stateParams, $modalInstance, Files, Projects) {
+    $scope.filesInProject = Files.files;
+    console.log($scope.fileInProject);
+    $scope.status = {
+      isopen: false
+    };
+
+    $scope.toggleDropdown = function ($event) {
+      $event.preventDefault();
+      $event.stopPropagation();
+      $scope.status.isopen = !$scope.status.isopen;
+    };
+
     $scope.addFile = function () {
       $modalInstance.close();
       Files.addNewFile($scope.newFileName, $stateParams.projectName)

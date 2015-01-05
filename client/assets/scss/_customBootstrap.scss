@@ -1,0 +1,59 @@
+$input-height: 30px;
+
+//Modal styling, fo input, submit button and dropdown
+.modal-content {
+  background-color: $blue-grey-opaque;
+  color: white;
+  .modalDropDownButton {
+    background-color: $blue-grey;
+    border: none;
+    display: block;
+    width: 100%;
+    text-align: left;
+    height: $input-height;
+    border-radius: 5px;
+  }
+  .dropdown-menu {
+    position: absolute;
+    top: inherit;
+    left: inherit;
+    background-color: $blue-grey;
+    padding: 0;
+    margin-top: 0;
+    width: 90%;
+    li {
+      padding: 7px 24px;
+      font-size: 0.9em;
+      &:first-child {
+        padding-top: 10px;
+      }
+      &:last-child {
+        padding-bottom: 10px;
+      }
+      &:hover {
+        background-color: $darken-blue-grey;
+      }
+    }
+  }
+  .modalTextInput {
+    background-color: $blue-grey;
+    border: none;
+    outline: none;
+    height: $input-height;
+    border-radius: 4px;
+    padding: 9px;
+    width: 80%;
+  }
+  ::-webkit-input-placeholder {
+    color: white;
+  }
+  .modalSubmit {
+    background-color: $blue-grey;
+    border: none;
+    height: $input-height;
+    border-radius: 4px;
+  }
+  .addFileForm {
+    margin-top: 5%;
+  }
+}

@@ -80,6 +80,7 @@ angular.module('code.services', [])
     files.getAllFiles = function (projectName) {
       return $http.get('/api/project/' + projectName)
         .then(function (res) {
+          files.files = res.data.files;
           return res.data.files;
         });
     };
