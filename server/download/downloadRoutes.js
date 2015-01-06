@@ -5,6 +5,6 @@ var downloadController = require('./downloadController.js');
 
 var downloadRouter = express.Router();
 
-downloadRouter.get('/projectId:?/fileName:?', downloadController.downloadFile);
+downloadRouter.get('/*', downloadController.downloadFile);
 
 module.exports = downloadRouter;
