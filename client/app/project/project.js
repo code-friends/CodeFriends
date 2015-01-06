@@ -6,6 +6,22 @@ angular.module('code.project', ['ui.router'])
       Auth.isLoggedIn();
       $scope.files = [];
       $scope.currentProjectId = null;
+      $scope.getAllFiles = function () {
+        console.log('$stateParams: ', $stateParams);
+        return $http.get('/api/project/' + $stateParams.projectName)
+          .then(function (res) {
+            $scope.currentProjectId = res.data.id;
+            console.log('$scope.currentProjectId: ', $scope.currentProjectId);
+            console.log('res: ', res);
+            $scope.files = res.data.files;
+            console.log('$scope.files!!', $scope.files);
+            return $scope.files;
+          })
+          .catch(function (err) {
+            console.log('COULD NOT GET SINGLE PROJECT', err);
+          });
+      };
+
 
       $scope.getAllFiles = function () {
         return $http.get('/api/project/' + $stateParams.projectName)

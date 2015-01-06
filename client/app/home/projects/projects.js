@@ -1,4 +1,5 @@
 /*global angular:true, moment:true */
+
 'use strict';
 
 angular.module('code.projects', ['ui.router'])
@@ -9,6 +10,7 @@ angular.module('code.projects', ['ui.router'])
         .then(function (projects) {
           $scope.projects = projects;
         });
+
     };
 
     $scope.createProject = function () {

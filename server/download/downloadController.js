@@ -12,7 +12,8 @@ var fileController = require('../file/fileController');
 
 var downloadController = {
 	downloadFile: function (req, res) {
-
+		console.log('req: ', req);
+		console.log('req.params: ', req.params);
 	}
 };
 
