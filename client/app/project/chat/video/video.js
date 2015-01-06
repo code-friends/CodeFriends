@@ -16,13 +16,17 @@ angular.module('code.video', ['ui.router', 'ngSanitize'])
       autoRequestMedia: true,
       debug: false,
       detectSpeakingEvents: true,
-      autoAdjustMic: false
+      adjustPeerVolume: true,
+      autoAdjustMic: true
     });
 
     // when it's ready, join if we got a room from the URL
-    webrtc.on('readyToCall', function () {
+    webrtc.on('readyToCall', function (data) {
+      console.log("readytoCall", roomID, data);
       // you can name it anything
-      if (roomID) webrtc.joinRoom(roomID);
+      if (roomID) {
+        webrtc.joinRoom(roomID);
+      }
     });
 
     function showVolume(el, volume) {
@@ -37,13 +41,11 @@ angular.module('code.video', ['ui.router', 'ngSanitize'])
     }
     webrtc.on('channelMessage', function (peer, label, data) {
       if (data.type == 'volume') {
-        console.log("volume was here", data.type);
         showVolume(document.getElementById('volume_' + peer.id), data.volume);
       }
     });
 
     webrtc.on('videoAdded', function (video, peer) {
-      console.log('video added', peer);
       var remotes = document.getElementById('remotes');
       if (remotes) {
         var d = document.createElement('div');
@@ -62,7 +64,6 @@ angular.module('code.video', ['ui.router', 'ngSanitize'])
       }
     });
     webrtc.on('videoRemoved', function (video, peer) {
-      console.log('video removed ', peer);
       var remotes = document.getElementById('remotes');
       var el = document.getElementById('container_' + webrtc.getDomId(peer));
       if (remotes && el) {
