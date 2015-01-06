@@ -1,14 +1,5 @@
 $font-stack: 'Lato', Helvetica, sans-serif;
-$turqoise-green: rgba(47,174,143,0.8);
-$sage-green: rgba(175,180,43,0.8);
-$bright-green: #8BC34A;
-$dark-lime: #AFB42B;
-// $bright-green: #CDDC39;
-$orange: #FF9800;
-$dark-blue: rgb(30, 76, 97);
-$blue-grey: #607D8B;
-$blue-grey-opaque: rgba(96,125,139, 0.8);
-$darken-blue-grey: darken($blue-grey, 10);
+@import 'colors';
 
 $toolbar-height: 36px;
 $video-height: 150px;
@@ -25,7 +16,6 @@ $video-width: 200px;
 @import '../../lib/bootstrap-sass-official/assets/stylesheets/bootstrap/navs';
 @import '../../lib/bootstrap-sass-official/assets/stylesheets/bootstrap/navbar';
 @import '../../lib/bootstrap-sass-official/assets/stylesheets/bootstrap/dropdowns';
-
 
 $bootrap-icon-path: '../../lib/bootstrap-sass-official/assets/fonts/bootstrap/';
 // Import the fonts
@@ -48,3 +38,4 @@ $bootrap-icon-path: '../../lib/bootstrap-sass-official/assets/fonts/bootstrap/';
 @import 'landing';
 @import 'home';
 @import 'project';
+@import 'toolbar';
