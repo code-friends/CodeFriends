@@ -20,7 +20,7 @@ $chat-header-height: 36px;
 .chatInputForm{
   width: 100%;
   position: relative;
-  bottom:0px;
+  bottom: $toolbar-height;
   height: $chat-header-height;
   input{
     width: 100%;
