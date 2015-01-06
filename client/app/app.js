@@ -13,6 +13,7 @@
       'code.projects',
       'code.toolbar',
       'code.uploads',
+      'code.downloads',
       'code.document',
       'code.services',
       'code.chat',

@@ -5,10 +5,12 @@ angular.module('code.project', ['ui.router'])
   .controller('projectController', function ($scope, $state, $stateParams, $http, Auth, Files, documentFactory) {
       Auth.isLoggedIn();
       $scope.files = [];
+      $scope.currentProjectId = null;
 
       $scope.getAllFiles = function () {
         return $http.get('/api/project/' + $stateParams.projectName)
           .then(function (res) {
+            $scope.currentProjectId = res.data.id;
             $scope.files = res.data.files;
             console.log('$scope.files!!', $scope.files);
             return $scope.files;
