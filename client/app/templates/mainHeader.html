@@ -1,14 +1,17 @@
-<div class="header">
-  <div class='wrapper'>
-    <div class="logo-region">
-      <a ui-sref="home">
+<div class="header navbar navbar-default navbar-static">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" ui-sref="home">
         <div id="logo-image"></div>
-        <div id="logo-text">code friends</div>
+        <span id="logo-text">code friends</span>
       </a>
     </div>
-    <div class='user-box-region' ng-controller='userBox'>
-      <a ng-show='!userLoggedIn' href='/auth/login'>Login</a>
-      <span ng-show='userLoggedIn' class='userName'>Hello {{userName}}</span>
+    <div class='user-box-region nav navbar-nav navbar-right dropdown' dropdown ng-controller='userBox'>
+      <a ng-show='!userLoggedIn' class='navbar-brand dropdown-toggle' href='/auth/login'>Login</a>
+      <a ng-show='userLoggedIn' class='userName navbar-brand dropdown-toggle' dropdown-toggle>{{userName}}</a>
+      <ul class="dropdown-menu pull-right">
+        <li><a href='/auth/logout'>Logout</a></li>
+      </ul>
     </div>
   </div>
 </div>
