@@ -8,39 +8,26 @@ var agent = request.agent(app);
 var login = require('./login')(agent);
 
 
-xdescribe('Upload', function () {
+describe('Upload', function () {
 
-	it('should add a new file to the database', function () {
-		agent
-			.post('/api/upload')
-			.send({
-				data: {
-					file_name: files[fileIndex].name,
-					project_name: $stateParams.projectName,
-					parent_file: null
-				},
-				file: files[fileIndex]
-			})
-			.end(function (err, res) {
-				console.log('res in test: ', res);
-				var newFileStructure = res.body;
-				expect(fileStructure.files).to.be.a('object');
+	before(function (done) {
+		login()
+			.then(function () {
 				done();
 			});
 	});
 
-	it('should add multiple files to the database', function () {
-
+	it('should add a new file to the database', function (done) {
+		agent
+			.post('/api/upload')
+			.field('file_name', 'dummyForTest.js')
+			.field('project_name', 'basketball')
+			.field('path', '')
+			.attach('testFile', './server/tests/integration/dummyForTest.js')
+			.then(function (res) {
+				expect(res.status).to.equal(200); // 'success' status
+				done();
+			});
 	});
 
-	it('', function () {
-
-	});
-
-});
-
-describe('API', function () {
-	require('./user');
-	require('./project');
-	require('./file');
 });

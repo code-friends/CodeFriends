@@ -36,6 +36,7 @@ var uploadController = {
 
     form.on('file', function (name, file) {
       var temportal_path = file.path;
+      console.log('file: ', file);
       fs.readFile(temportal_path, function (err, data) {
         if (err) throw err;
         fileContent = data.toString();
@@ -87,8 +88,15 @@ var uploadController = {
       if (err) {
         console.log('err: ', err);
       }
-      projectName = fields.project_name[0];
-      documentName = fields.file_name[0];
+      console.log('fields: ', fields);
+      console.log('file: ', file);
+      console.log('req.body.project_name: ', req.body.project_name);
+      console.log(req.body.project_name);
+      console.log(req.param('project_name'));
+      projectName = fields.project_name[0] || req.body.project_name;
+      documentName = fields.file_name[0] || file.originalFilename;
+      console.log('documentName: ', documentName);
+
     });
   }
 };
