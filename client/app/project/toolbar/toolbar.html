@@ -1,40 +1,53 @@
-<div id="toolbar">
-  <div class="wrapper">
-    <ul>
-      <li id="logo-image" ui-sref="home"></li>
-      <li>Add
-        <ul class="first-dropDown">
+<div id="toolbar" class="navbar navbar-default navbar-static">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" ui-sref="home">
+        <div id="logo-image"></div>
+        <span id="logo-text">code friends</span>
+      </a>
+    </div>
+    <ul class='nav navbar-nav'>
+      <li class='dropdown' dropdown>
+        <a href='#' class='dropdown-toggle' dropdown-toggle>File</a>
+        <ul class='dropdown-menu'>
           <li ng-click="openAddFileModal()">Add File</li>
           <li ng-click="openAddFolderModal()">Add Folder</li>
         </ul>
       </li>
-      <li>Edit</li>
-      <li>
-        View
-        <ul class="first-dropDown">
-          <li>
-            Set Editor Theme
-            <span class="glyphicon glyphicon-chevron-right"></span>
-            <ul class="theme-menu second-dropDown">
-              <li ng-repeat="theme in themes" ng-click="changeEditorTheme($event)">{{theme}}</li>
-            </ul>
-          </li>
+      <li class='dropdown' dropdown>
+        <a href='#' class='dropdown-toggle' dropdown-toggle>Edit</a>
+        <ul class='dropdown-menu'>
+          <li>Do Nothing</li>
         </ul>
       </li>
-      <li>Git</li>
-      <li>
-        Invite
-        <ul class="first-dropDown">
-          <li ng-click="openAddUserModal()">Invite Collaborator to Project</li>
+      <li class='dropdown' dropdown>
+        <a href='#' class='dropdown-toggle' dropdown-toggle>View</a>
+        <ul class='dropdown-menu'>
+          <!--<li role="presentation" class="divider"></li>-->
+          <li role="presentation" class="dropdown-header">Themes</li>
+          <li ng-repeat="theme in themes" ng-click="changeEditorTheme($event)">{{theme}}</li>
         </ul>
       </li>
-      <li id="toolbar-user"> 
-       {{username}}
-        <ul class="first-dropDown">
-          <li ui-sref="home">Home</li>
-          <li>
-            <a href="/auth/logout">Log Out</a>
-          </li>
+      <li class='dropdown' dropdown>
+        <a href='#' class='dropdown-toggle' dropdown-toggle>Git</a>
+        <ul class='dropdown-menu'>
+          <li ng-click="">Pull</li>
+          <li ng-click="">Pull (--rebase)</li>
+          <li ng-click="">Commit</li>
+        </ul>
+      </li>
+      <li class='dropdown' dropdown>
+        <a href='#' class='dropdown-toggle' dropdown-toggle>Collaborators</a>
+        <ul class='dropdown-menu'>
+          <li ng-click="openAddUserModal()">Invite To Project</li>
+        </ul>
+      </li>
+    </ul>
+    <ul class='nav navbar-nav navbar-right'>
+      <li class='dropdown' dropdown>
+        <a href='#' class='dropdown-toggle' dropdown-toggle>{{username}}</a>
+        <ul class='dropdown-menu'>
+          <a href="/auth/logout"><li>Logout</li></a>
         </ul>
       </li>
     </ul>
