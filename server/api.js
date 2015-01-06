@@ -2,8 +2,8 @@ var authRouter = require('./auth/authRouter');
 var projectRouter = require('./project/projectRoutes');
 var userRouter = require('./user/userRoutes');
 var fileRouter = require('./file/fileRouter');
-var uploadRouter = require('./upload/uploadRouter');
-var downloadRouter = require('./download/downloadRouter');
+var uploadRouter = require('./upload/uploadRoutes');
+var downloadRouter = require('./download/downloadRoutes');
 var express = require('express');
 
 var apiRouter = express.Router();
