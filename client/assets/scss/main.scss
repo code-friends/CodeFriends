@@ -7,6 +7,8 @@ $dark-lime: #AFB42B;
 $orange: #FF9800;
 $dark-blue: rgb(30, 76, 97);
 $blue-grey: #607D8B;
+$blue-grey-opaque: rgba(96,125,139, 0.8);
+$darken-blue-grey: darken($blue-grey, 10);
 
 $toolbar-height: 36px;
 $video-height: 150px;
@@ -18,6 +20,7 @@ $video-height: 150px;
 @import '../../lib/bootstrap-sass-official/assets/stylesheets/bootstrap/grid';
 @import '../../lib/bootstrap-sass-official/assets/stylesheets/bootstrap/glyphicons';
 @import '../../lib/bootstrap-sass-official/assets/stylesheets/bootstrap/modals';
+@import '../../lib/bootstrap-sass-official/assets/stylesheets/bootstrap/dropdowns';
 
 
 $bootrap-icon-path: '../../lib/bootstrap-sass-official/assets/fonts/bootstrap/';
@@ -33,6 +36,8 @@ $bootrap-icon-path: '../../lib/bootstrap-sass-official/assets/fonts/bootstrap/';
 
 @import '_codemirror.scss';
 @import 'codemirror-themes/index';
+
+@import '_customBootstrap.scss';
 
 @import 'base';
 @import 'header';
