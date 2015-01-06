@@ -11,6 +11,7 @@ angular.module('code.project', ['ui.router'])
         return $http.get('/api/project/' + $stateParams.projectName)
           .then(function (res) {
             $scope.currentProjectId = res.data.id;
+            $scope.currentProjectName = res.data.project_name; //change eventually to project id
             console.log('$scope.currentProjectId: ', $scope.currentProjectId);
             console.log('res: ', res);
             $scope.files = res.data.files;
@@ -21,7 +22,6 @@ angular.module('code.project', ['ui.router'])
             console.log('COULD NOT GET SINGLE PROJECT', err);
           });
       };
-
 
       $scope.getAllFiles = function () {
         return $http.get('/api/project/' + $stateParams.projectName)
