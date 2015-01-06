@@ -4,6 +4,10 @@
     <div class='row-fluid project-container'>
     <!-- Files -->
     <div class="col-md-2 col-sm-3 nopadding project-file-structure">
+    <p ng-repeat="file in files">
+      <a ui-sref='document({documentName: file.name})'>File: {{ file.name }}</a>
+      <a href='/api/file/download/projectId/{{ projectId }}/docment-name/{{ file.name }}'>Download</a>
+    </p>
       <!-- <form ng-submit='addNewFile()'>
         <input type='text' ng-model='newFileName' name="text" placeholder='New File Name'>
         <input type='submit' id='submit' value='Create'>
