@@ -18,16 +18,15 @@ var downloadController = {
 		var fileName = parsedUrl[3];
 		console.log('projectName: ', projectName, ' fileName: ', fileName);
 
-		// var str = 'p-' + projectName + '-d' + fileName;
-		// var documentHash = new Hashes.SHA256().hex(str);
-		// // console.log('fileContent:', fileContent);
-		// // console.log(documentHash);
-		// backend.submit('documents', documentHash, {
-		// 		create: {
-		// 			type: 'text',
-		// 			data: fileContent
-		// 		}
-		// 	},
+		var str = 'p-' + projectName + '-d' + fileName;
+		var documentHash = new Hashes.SHA256().hex(str);
+		// console.log('documentHash: ', documentHash);
+		backend.fetch('documents', documentHash, function (err, snapshot) {
+			if (err) {
+				console.log('Error: ', err)
+			}
+			console.log('Snapshot: ', snapshot);
+		});
 		// 	function (err, version, transformedByOps, snapshot) {
 		// 		if (err) {
 		// 			console.log('ERROR: ', err);
