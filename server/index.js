@@ -49,18 +49,6 @@ app
   });
 
 
-var privateKey = fs.readFileSync('./key.pem').toString(),
-  certificate = fs.readFileSync('./cert.pem').toString();
-
-console.log(privateKey);
-console.log(certificate);
-
-https.createServer({
-  key: privateKey,
-  cert: certificate
-}, app).listen(8005);
-console.log('video listening on port: 8005');
-
 chatServer.listen(config.get('ports').chat);
 shareJSServer.listen(config.get('ports').editor);
 console.log(config.get('ports'));
