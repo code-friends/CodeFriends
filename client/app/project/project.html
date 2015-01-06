@@ -6,7 +6,7 @@
     <div class="col-md-2 col-sm-3 nopadding project-file-structure">
     <p ng-repeat="file in files">
       <a ui-sref='document({documentName: file.name})'>File: {{ file.name }}</a>
-      <a href='/api/download/projectId/{{ currentProjectId }}/fileName/{{ file.name }}'>Download</a>
+      <a href='/api/download/projectName/{{ currentProjectName }}/fileName/{{ file.name }}'>Download</a>
     </p>
       <!-- <form ng-submit='addNewFile()'>
         <input type='text' ng-model='newFileName' name="text" placeholder='New File Name'>
