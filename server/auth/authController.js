@@ -8,16 +8,19 @@ authController.getUser = function (req, res) {
   var userId = null;
   var userName = null;
   var email = null;
+  var gravatar = 'http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&f=y';
   if (req.user && req.user.get('id') && typeof req.user.get('id') === 'number') {
     userId = req.user.get('id');
-    userName = req.user.get('username');
     email = req.user.get('email');
+    userName = req.user.get('username') || email;
+    gravatar = req.user.get('githubAvatarUrl') || gravatar;
   }
   res.json({
     userId: userId,
     // userName: req.user.get('username'),
     userName: userName,
     email: email,
+    gravatar: gravatar
   });
 };
 
