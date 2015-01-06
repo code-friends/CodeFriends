@@ -1,6 +1,7 @@
 'use strict';
 var Promise = require('bluebird');
 var fs = Promise.promisifyAll(require('fs'));
+var mime = require('mime');
 var path = require('path');
 var mongoClient = Promise.promisifyAll(require('mongodb').MongoClient);
 var Q = require('q');
@@ -20,30 +21,26 @@ var downloadController = {
 
 		var str = 'p-' + projectName + '-d' + fileName;
 		var documentHash = new Hashes.SHA256().hex(str);
-		// console.log('documentHash: ', documentHash);
-		backend.fetch('documents', documentHash, function (err, snapshot) {
-			if (err) {
-				console.log('Error: ', err)
-			}
-			console.log('Snapshot: ', snapshot);
-		});
-		// 	function (err, version, transformedByOps, snapshot) {
-		// 		if (err) {
-		// 			console.log('ERROR: ', err);
-		// 		}
-		// 		console.log('version: ', version);
-		// 		console.log('transformedByOps: ', transformedByOps);
-		// 		console.log('snapshot: ', snapshot);
-		// 		var fileInfo = {
-		// 			projectName: projectName,
-		// 			fileName: documentName,
-		// 			type: 'file', ///need to make flexible to take folders too
-		// 			path: '',
-		// 			userId: userId
-		// 		};
-		// 	});
+		return Q()
+			.then(function () {
+				return backend.fetchAsync('documents', documentHash)
+					.then(function (file) {
+						console.log('data: ', file);
+						return file.data;
+					})
+					.catch(function (err) {
+						console.log('Error with promsie', err);
+					});
+			})
+			.then(function (fileContents) {
+				res.setHeader('Content-disposition', 'attachment; filename=' + fileName);
+				res.send(fileContents);
+			})
+			.catch(function (err) {
+				console.log('Error downloading file: ', err);
+			});
 
 	}
-}
+};
 
 module.exports = downloadController;
