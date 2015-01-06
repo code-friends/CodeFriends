@@ -23,12 +23,20 @@
   letter-spacing: 0.05em;
   padding: 5px;
 }
-.single-project {
-  background: #f2f2f2;
-  padding: 10px;
-  border: solid 1px #c5c5c5;
-  margin-bottom: 1px;
-  &:hover {
-    background: #e8e8e8;
+a:last-child {
+  .single-project {
+    border-bottom: solid 1px #c5c5c5;
   }
+}
+.single-project {
+  padding: 10px;
+  border-top: solid 1px #c5c5c5;
+  &:hover {
+    background: #f7f7f7;
+  }
+}
+
+// Margin-bottom
+.btn-github-login {
+  margin-bottom: 20px;
 }

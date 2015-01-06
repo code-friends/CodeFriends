@@ -2,32 +2,6 @@
 
 // toolbar styling
 #toolbar {
-  $li-padding: 10px;
-  cursor: default;
-  background-color: $blue-grey;
-  color: white;
-  font-size: 1.1em;
-  font-weight: 300;
-  z-index: 95;
-  height: $toolbar-height;
-  border-radius: 0;
-  margin-bottom: 0;
-  &.navbar-default{
-    #logo-text {
-      color: white;
-    }
-    a.navbar-brand.dropdown-toggle {
-      color: white;
-    }
-    .dropdown-menu {
-      background: $blue-grey;
-      li {
-        &:hover {
-          background: $darken-blue-grey;
-        }
-      }
-    }
-  }
   #logo-image {
     // position: relative;
     // top: 5px;
