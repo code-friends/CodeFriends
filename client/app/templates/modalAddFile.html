@@ -1,9 +1,17 @@
 <div>
   <h1 class="modal-header">Add a file to this project</h1>
-  <div class="modal-body">    
-    <form ng-submit="addFile()">
-      <input type="text" placeholder="Enter file name" ng-model="newFileName">
-      <input type="submit" text="Add">
+  <div class="modal-body">
+    <div class="btn-group" dropdown is-open="status.isopen">
+      <button type="button" class="btn btn-primary dropdown-toggle modalDropDownButton" dropdown-toggle ng-disabled="disabled">
+        Specify a path <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li ng-repeat="folder in filesInProject | getFoldersFromProject" ng-click="getFolderPath($event)">{{ folder.name }}</li>
+      </ul>
+    </div>
+    <form ng-submit="addFile()" class="addFileForm">
+      <input type="text" placeholder="Enter file name" ng-model="newFileName" class="modalTextInput">
+      <input type="submit" text="Add" class="modalSubmit">
     </form>
   </div>
 </div>

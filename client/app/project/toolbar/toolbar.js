@@ -2,6 +2,17 @@
 'use strict';
 
 angular.module('code.toolbar', ['ui.bootstrap'])
+  .filter('getFoldersFromProject', function () {
+    return function (project) {
+      var folders = [];
+      for (var file in project) {
+        if (project[file].type === 'folder') {
+          folders.push(project[file]);
+        }
+      }
+      return folders;
+    };
+  })
   .controller('toolbarController', function ($scope, $stateParams, $http, ToolbarDocument, $modal, Auth) {
     $scope.themes = [
       'Default',
@@ -31,7 +42,6 @@ angular.module('code.toolbar', ['ui.bootstrap'])
       '3024 Night'
     ];
 
-    console.log("username", Auth.username);
     $scope.username = Auth.userName;
 
     var formatThemeName = function (theme) {
@@ -69,9 +79,28 @@ angular.module('code.toolbar', ['ui.bootstrap'])
     };
   })
   .controller('modalProjectController', function ($scope, $stateParams, $modalInstance, Files, Projects) {
+    $scope.filesInProject = Files.files;
+
+    $scope.status = {
+      isopen: false
+    };
+
+    $scope.toggleDropdown = function ($event) {
+      $event.preventDefault();
+      $event.stopPropagation();
+      $scope.status.isopen = !$scope.status.isopen;
+    };
+
+    $scope.getFolderPath = function ($event) {
+      $scope.folderSelected = $event.target.innerText;
+      //only working for one level of folders now from root dir, not nested folders
+      $scope.folderSelectedPath = '/' + $scope.folderSelected;
+      return;
+    };
+
     $scope.addFile = function () {
       $modalInstance.close();
-      Files.addNewFile($scope.newFileName, $stateParams.projectName)
+      Files.addNewFile($scope.newFileName, $stateParams.projectName, $scope.folderSelectedPath)
         .then(function () {
           console.log('New File Created');
         });
