@@ -8,9 +8,6 @@ angular.module('code.chat', ['ui.router', 'ngSanitize'])
     var ws = ngSocket('ws://' + window.location.hostname + ':' + window.config.ports.chat);
     chatFactory.getUsers(roomID)
       .then(function (data) {
-        angular.forEach(data.data.user, function (eachUser) {
-          eachUser.githubAvatarUrl = eachUser.githubAvatarUrl + '&s=36';
-        });
         $scope.users = data.data.user;
       });
     $scope.roomID = roomID;
