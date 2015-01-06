@@ -1,15 +1,15 @@
 'use strict';
 var Promise = require('bluebird');
 var fs = Promise.promisifyAll(require('fs'));
-var mime = require('mime');
-var path = require('path');
 var mongoClient = Promise.promisifyAll(require('mongodb').MongoClient);
 var Q = require('q');
-var moment = require('moment');
 var Hashes = require('jshashes');
-var multiparty = require('multiparty');
 var backend = require('../liveDbClient');
 var fileController = require('../file/fileController');
+
+var path = require('path');
+var moment = require('moment');
+var multiparty = require('multiparty');
 
 var downloadController = {
 
