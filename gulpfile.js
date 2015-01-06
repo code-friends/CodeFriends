@@ -24,6 +24,7 @@ gulp.task('js', function () {
       './client/lib/angular-bootstrap/ui-bootstrap-tpls.js',
       './client/lib/angular-ui-router/release/angular-ui-router.js',
       './client/lib/jshashes/hashes.js',
+      './node_modules/simplewebrtc/simplewebrtc.bundle.js',
       './client/assets/js/share.js',
       './client/assets/js/codemirror.js',
       './client/assets/js/share-codemirror.js',
@@ -43,9 +44,7 @@ gulp.task('js', function () {
       './client/app/app.js',
       './client/lib/ngSocket/dist/ngSocket.js',
       './client/lib/moment/moment.js',
-      './client/lib/angular-sanitize/angular-sanitize.js',
-      './node_modules/simplewebrtc/latest.js',
-      './node_modules/simplewebrtc/webrtcsupport/webrtcsupport.bundle.js'
+      './client/lib/angular-sanitize/angular-sanitize.js'
     ])
     .pipe(concat('main.js'))
     // .pipe(uglify())
