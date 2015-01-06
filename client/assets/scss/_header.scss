@@ -1,15 +1,7 @@
 @import 'colors';
 
 .header {
-  &.navbar {
-    border-radius: 0;
-    border: 0;
-  }
   // width: 100%;
-  background: $blue-grey;
-  color: white;
-  font-weight: 300;
-  font-size: 1.6em;
   // position: fixed;
   // z-index: 99;
   .wrapper {
@@ -21,22 +13,37 @@
   .logo-region {
     // display: inline-block;
   }
-  .userName {
-    color: white;
-    cursor: pointer;
-    &:hover {
-      color: white;
-      background: $darken-blue-grey;
-    }
-  }
-
 }
 
 .header, #toolbar {
   border: 0;
+  background: $blue-grey;
+  color: white;
+  font-weight: 300;
+  font-size: 1.6em;
+  $li-padding: 10px;
+  cursor: default;
+  background-color: $blue-grey;
+  color: white;
+  font-size: 1.1em;
+  font-weight: 300;
+  z-index: 95;
+  height: $toolbar-height;
+  border-radius: 0;
+  margin-bottom: 0;
+  .navbar-brand {
+    &:hover, &:focus {
+      background: $darken-blue-grey;
+    }
+  }
+  &.navbar {
+    border-radius: 0;
+    border: 0;
+  }
   nav .open > a,
   .nav .open > a:hover,
   .nav .open > a:focus {
+    color: white;
     background: $darken-blue-grey;
   }
   .navbar-nav > .open > a,
@@ -44,7 +51,8 @@
   .navbar-nav > .open > a:focus, {
     background: $darken-blue-grey;
   }
-  .navbar-nav > li > a {
+  .navbar-nav > li > a,
+  .navbar-nav > a {
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -76,6 +84,36 @@
         }
       }
 
+    }
+  }
+  &.navbar-default{
+    #logo-text {
+      color: white;
+    }
+    a.navbar-brand.dropdown-toggle {
+      color: white;
+    }
+    .dropdown-menu {
+      background: $blue-grey;
+      li {
+        &:hover {
+          background: $darken-blue-grey;
+        }
+      }
+    }
+  }
+  .dropdown-menu > li > a {
+    color: white;
+    background: none;
+    font-weight: 300;
+    display: inline-block;
+  }
+  .userName {
+    color: white;
+    cursor: pointer;
+    &:hover {
+      color: white;
+      background: $darken-blue-grey;
     }
   }
 }
