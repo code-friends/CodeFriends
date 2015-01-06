@@ -161,6 +161,9 @@ projectController.delete = function (req, res) {
     })
     .fetch()
     .then(function (model) {
+      if (model === null) {
+        throw new Error('No model found for that id');
+      }
       return db('projects_users')
         .where('project_id', '=', model.get('id'))
         .del()
@@ -173,7 +176,10 @@ projectController.delete = function (req, res) {
     })
     .then(function () {
       res.status(200).end();
-    });
+    })
+    .catch(function (err) {
+      res.status(400).end();
+    })
 };
 
 module.exports = projectController;

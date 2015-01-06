@@ -5,7 +5,7 @@
   "main": "server/index.js",
   "scripts": {
     "start": "./node_modules/forever/bin/forever start -p ./data/logs -a -o ./data/logs/stdout.log -e ./data/logs/stderr.log server ",
-    "test": "export NODE_ENV='test'; ./node_modules/mocha/bin/mocha -t 5000 server/tests/index --bail",
+    "test": "export NODE_ENV='test'; ./node_modules/mocha/bin/mocha -t 5000 server/tests/index",
     "dev": "./node_modules/nodemon/bin/nodemon.js server"
   },
   "repository": {

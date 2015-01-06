@@ -163,7 +163,7 @@ describe('Project', function () {
     agent
       .delete('/api/project/')
       .send({
-        id: 1
+        id: global.project.get('id')
       })
       .end(function () {
         agent

@@ -17,7 +17,6 @@ var mongoIndex = function (str) {
 var fileController = {
 
   createNewFileOrFolder: function (req, res) {
-    console.log('req: ', req);
     var projectName = req.body.project_name || req.param('project_name');
     var fileName = req.body.file_name || req.param('file_name');
     var type = req.body.type || req.param('type');
