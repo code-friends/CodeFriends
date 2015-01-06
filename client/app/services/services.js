@@ -52,8 +52,8 @@ angular.module('code.services', [])
             console.log(res.data);
             Auth.userId = res.data.userId;
             Auth.userName = res.data.userName;
-            Auth.gravatar = res.data.gravatar;
-            console.log('gravatar:', Auth.gravatar);
+            Auth.githubAvatarUrl = res.data.githubAvatarUrl;
+            console.log('githubAvatarUrl:', Auth.githubAvatarUrl);
             if (res.data.userId === null && redirectToLogin !== false) {
               $state.go('login');
             }

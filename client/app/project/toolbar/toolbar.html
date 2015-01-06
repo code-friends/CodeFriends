@@ -43,9 +43,12 @@
         </ul>
       </li>
     </ul>
-    <ul class='nav navbar-nav navbar-right'>
+    <ul class='nav navbar-nav navbar-right' ng-controller='userBox'>
       <li class='dropdown' dropdown>
-        <a href='#' class='dropdown-toggle' dropdown-toggle>{{username}}</a>
+        <a href='#' class='dropdown-toggle' dropdown-toggle>
+          <img class='avatar-72 profile-image' src="{{ githubAvatarUrl }}&s=72">
+          <span>{{ username }}</span>
+        </a>
         <ul class='dropdown-menu'>
           <a href="/auth/logout"><li>Logout</li></a>
         </ul>

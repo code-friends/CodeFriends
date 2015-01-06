@@ -5,5 +5,6 @@ angular.module('code.userBox', ['ui.router'])
       .then(function () {
         $scope.userLoggedIn = (Auth.userId !== null);
         $scope.userName = Auth.userName;
+        $scope.githubAvatarUrl = Auth.githubAvatarUrl;
       });
   });

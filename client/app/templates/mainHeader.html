@@ -8,8 +8,11 @@
     </div>
     <ul class='user-box-region nav navbar-nav navbar-right' ng-controller='userBox'>
       <a ng-show='!userLoggedIn' class='userName navbar-brand dropdown-toggle' href='/#/login'>Login</a>
-      <li class='dropdown' dropdown>
-        <a ng-show='userLoggedIn' class='userName navbar-brand dropdown-toggle' dropdown-toggle>{{userName}}</a>
+      <li ng-show='userLoggedIn' class='dropdown' dropdown>
+        <a class='userName navbar-brand dropdown-toggle' dropdown-toggle>
+          <img ng-show='userLoggedIn' class='avatar-72 profile-image' src="{{ githubAvatarUrl }}&s=72">
+          <span class=''>{{userName}}</span>
+        </a>
         <ul class="dropdown-menu ">
           <a href='/auth/logout'>
             <li>

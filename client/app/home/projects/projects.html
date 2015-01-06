@@ -20,7 +20,11 @@
   <a ui-sref="project({projectName: project.project_name})" ng-repeat="project in projects">
   <div class="col-md-12 single-project">
     <div class="col-sm-6">{{ project.project_name }}</div>
-    <div class="col-sm-2"><span ng-repeat="user in project.user">{{user.username}}</span></div>
+    <div class="col-sm-2">
+      <span ng-repeat="user in project.user">
+        <img class='avatar-48' src='{{user.githubAvatarUrl}}&s=48'/>
+      </span>
+    </div>
     <div class="col-sm-2">{{ project.createString }}</div>
     <div class="col-sm-2">{{project.updateString}} </div>
   </div>

@@ -116,6 +116,14 @@
       background: $darken-blue-grey;
     }
   }
+  .profile-image {
+    float: left;
+    border-radius: 18px;
+    margin-right: 5px;
+    width: 24px;
+    height: 24px;
+    margin-top: -2px;
+  }
 }
 
 .navbar-brand, .navbar-default .navbar-brand {
