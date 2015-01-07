@@ -1,12 +1,14 @@
 'use strict';
-
-var models = require('../models.js').models;
 var Promise = require('bluebird');
 var db = require('../db');
 var _ = require('lodash');
+var Q = require('q');
 
+var models = require('../models.js').models;
+var getFileContents = require('../download/downloadController')._getFileContents;
 var getFileStructure = require('../file/fileController').getFileStructure;
 var getPathsForFileStructure = require('../file/fileController').getPathsForFileStructure;
+var JSZip = require("jszip");
 
 var projectController = {};
 
@@ -187,6 +189,7 @@ projectController.delete = function (req, res) {
  * Download a project as a .zip
  */
 projectController.downloadSpecificProject = function (req, res) {
+  var project;
    return models.Project
     .query({
       where: {
@@ -197,16 +200,39 @@ projectController.downloadSpecificProject = function (req, res) {
       }
     })
     .fetch()
-    .then(function (project) {
+    .then(function (_project) {
+      project = _project;
       if (!project) throw new Error('No Model Could Be Found');
-      return getFileStructure(project.get('id'), project.get('project_name'));
+      return getFileStructure(project.get('id'), project.get('project_name'))
+         .then(function (fileStructure) {
+          var paths = getPathsForFileStructure(fileStructure);
+          return Q.allSettled(paths.map(function (path) {
+            return getFileContents(project, path)
+              .then(function (fileContents) {
+                return {
+                  path: path,
+                  fileContents: fileContents
+                };
+              });
+          }));
+        });
     })
-    .then(function (fileStructure) {
-      var paths = getPathsForFileStructure(fileStructure);
-      // console.log('fileStructure');
-      // console.log(fileStructure);
-      // console.log('paths', paths);
-      res.status(200).end();
+    .then(function (allFileContents){
+      var projectArchive = new JSZip();
+      allFileContents.forEach(function (file) {
+        var filePath = file.value.path;
+        var fileContents = file.value.fileContents;
+        projectArchive.file(filePath, fileContents);
+      });
+      var content = null;
+      if (JSZip.support.uint8array) {
+        content = projectArchive.generate({type : 'uint8array'});
+      } else {
+        content = projectArchive.generate({type : 'string'});
+      }
+      res.setHeader('Content-disposition', 'attachment; filename=' + project.get('project_name'));
+      res.setHeader('content-type', 'application/zip');
+      res.send(content);
     })
     .catch(function (err) {
       console.log('ERROR', err);

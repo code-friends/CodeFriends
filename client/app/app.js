@@ -28,6 +28,7 @@
         .state('landing', {
           templateUrl: '/app/landing/landing.html',
           controller: 'landingController',
+
           url: '/'
         })
         .state('login', {
