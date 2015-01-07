@@ -2,9 +2,9 @@
 /*jshint browser:true */
 'use strict';
 angular.module('code.document', ['ui.router'])
-  .controller('documentController', function ($scope, $state, $stateParams, ToolbarDocument, $rootScope, documentFactory) {
+  .controller('documentController', function ($scope, $stateParams, ToolbarDocument, documentFactory) {
     $scope.projectName = $stateParams.projectName;
-    $scope.documentName = $stateParams.documentName;
+    $scope.documentPath = $stateParams.documentPath;
     $scope.theme = ToolbarDocument.theme;
 
     // Setup Code Editor
@@ -16,19 +16,20 @@ angular.module('code.document', ['ui.router'])
       theme: 'solarized dark'
     });
 
-    documentFactory.goToDocument($scope.projectName, $scope.documentName, cm);
+    documentFactory.goToDocument($scope.projectName, $scope.documentPath, cm);
     // listens for theme variable changed in ToolbarDocument factory broadcasted by $rootScope
     $scope.$on('theme:changed', function (event, theme) {
       cm.setOption('theme', theme);
     });
 
   })
-  .factory('documentFactory', function () {
+  .factory('documentFactory', function (Projects) {
     return {
-      goToDocument: function (projectName, documentName, codeMirror) {
+      goToDocument: function (projectName, documentPath, codeMirror) {
+        var projectId = Projects.getProjectId(projectName);
         var ws = new WebSocket('ws://' + window.location.hostname + ':' + window.config.ports.editor);
         var sjs = new window.sharejs.Connection(ws);
-        var str = 'p-' + projectName + '-d' + documentName;
+        var str = 'p-' + projectId + '-d' + documentPath;
         var documentHash = new Hashes.SHA256().hex(str);
         var doc = sjs.get('documents', documentHash);
         doc.subscribe();

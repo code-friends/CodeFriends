@@ -157,11 +157,23 @@ describe('File', function () {
       .end(function (err, res) {
         var project = res.body;
         var fileKey = 'main.js'.replace('.', '');
-        console.log(JSON.stringify(project));
         project.should.have.property('id');
         project.should.have.property('files');
         project.files.should.be.instanceof(Object);
         project.files[fileKey].name.should.equal('main.js');
+        done();
+      });
+  });
+
+  /**
+   * This should probably be in project.js, but it's easier to test multiple files
+   * here, since we're adding so many of them here
+   */
+  it('should download a project on GET /api/project/download/:project_name_or_id', function (done) {
+    agent
+      .get('/api/project/download/' + project_name)
+      .expect(200)
+      .then(function () {
         done();
       });
   });
