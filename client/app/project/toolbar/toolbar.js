@@ -13,7 +13,7 @@ angular.module('code.toolbar', ['ui.bootstrap'])
       return folders;
     };
   })
-  .controller('toolbarController', function ($scope, $stateParams, $http, ToolbarDocument, $modal, Auth) {
+  .controller('toolbarController', function ($scope, $state, $stateParams, $http, ToolbarDocument, $modal, Auth) {
     $scope.themes = [
       'Default',
       'Ambiance',
@@ -43,11 +43,17 @@ angular.module('code.toolbar', ['ui.bootstrap'])
     ];
 
     $scope.username = Auth.userName;
-
+    $scope.currentProjectName = $stateParams.projectName;
+    angular.extend($scope, $state.params);
     var formatThemeName = function (theme) {
       theme = theme.toLowerCase();
       if (theme.split(' ')[0] === 'solarized') return theme;
       return theme.replace(' ', '-');
+    };
+
+    $scope.downloadFile = function (event) {
+      window.location = '/api/download/projectName/' +
+        $state.params.projectName + '/fileName/' + $state.params.documentName;
     };
 
     $scope.changeEditorTheme = function (event) {

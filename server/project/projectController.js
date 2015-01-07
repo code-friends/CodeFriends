@@ -108,6 +108,7 @@ projectController.addUser = function (req, res) {
     })
     .then(function (user) {
       if (!user) throw new Error('There is not model with this name');
+      //change so that if there is not user, it does a res.end saying 'there is no user', so they know that on the front end
       return user;
     })
     .then(function (queriedUser) {
@@ -121,7 +122,6 @@ projectController.addUser = function (req, res) {
           withRelated: ['user']
         })
         .then(function (model) {
-          // console.log('model', model);
           return model
             .related('user')
             .create({
@@ -160,6 +160,9 @@ projectController.delete = function (req, res) {
     })
     .fetch()
     .then(function (model) {
+      if (model === null) {
+        throw new Error('No model found for that id');
+      }
       return db('projects_users')
         .where('project_id', '=', model.get('id'))
         .del()
@@ -172,7 +175,10 @@ projectController.delete = function (req, res) {
     })
     .then(function () {
       res.status(200).end();
-    });
+    })
+    .catch(function (err) {
+      res.status(400).end();
+    })
 };
 
 module.exports = projectController;

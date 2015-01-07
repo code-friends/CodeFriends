@@ -8,6 +8,12 @@ angular.module('code.services', [])
     var projects = {};
     projects.userProjects = null;
 
+
+    projects.filename = null;
+    projects.updateName = function (name) {
+      this.filename = name;
+    };
+
     projects.getProjects = function () {
       return $http.get('api/project/')
         .then(function (res) {
@@ -29,6 +35,7 @@ angular.module('code.services', [])
         .then(function (_projects) {
           projects.userProjects = _projects;
           return _projects;
+
         });
     };
 
