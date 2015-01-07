@@ -112,6 +112,7 @@ angular.module('code.toolbar', ['ui.bootstrap'])
       if ($scope.folderSelected === 'root') {
         return;
       }
+      console.log('filessss', $scope.filesInProject);
       $scope.folderSelectedPath = '/' + $scope.folderSelected;
       return;
     };
@@ -126,7 +127,7 @@ angular.module('code.toolbar', ['ui.bootstrap'])
 
     $scope.addFolder = function () {
       $modalInstance.close();
-      Files.addNewFolder($scope.newFolderName, $stateParams.projectName)
+      Files.addNewFolder($scope.newFolderName, $stateParams.projectName, $scope.folderSelectedPath)
         .then(function () {
           console.log('New Folder Created');
         });
