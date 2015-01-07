@@ -43,6 +43,7 @@
     "supertest": "^0.15.0"
   },
   "dependencies": {
+    "archiver": "^0.13.1",
     "bcrypt-nodejs": "0.0.3",
     "bluebird": "^2.4.0",
     "body-parser": "^1.10.0",
@@ -56,11 +57,13 @@
     "forever": "^0.12.0",
     "fs": "0.0.2",
     "jshashes": "^1.0.5",
+    "jszip": "^2.4.0",
     "knex": "^0.7.3",
     "livedb": "^0.4.11",
     "livedb-mongo": "^0.4.1",
     "lodash": "^2.4.1",
     "marked": "^0.3.2",
+    "mkdirp": "^0.5.0",
     "mocha": "^2.0.1",
     "moment": "^2.8.4",
     "mongodb": "^1.4.26",
