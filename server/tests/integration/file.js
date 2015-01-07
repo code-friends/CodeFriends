@@ -157,6 +157,7 @@ describe('File', function () {
       .end(function (err, res) {
         var project = res.body;
         var fileKey = 'main.js'.replace('.', '');
+        console.log(JSON.stringify(project));
         project.should.have.property('id');
         project.should.have.property('files');
         project.files.should.be.instanceof(Object);
