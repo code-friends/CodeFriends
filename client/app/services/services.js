@@ -29,6 +29,7 @@ angular.module('code.services', [])
           angular.forEach(projects, function (theProject) {
             theProject.createString = moment(theProject.created_at).format('MMM Do YY');
             theProject.updateString = moment(theProject.updated_at).format('MMM Do YY');
+            theProject.timeAgoString = moment(theProject.updated_at).fromNow();
           });
           return projects;
         })
