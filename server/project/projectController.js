@@ -203,9 +203,9 @@ projectController.downloadSpecificProject = function (req, res) {
     })
     .then(function (fileStructure) {
       var paths = getPathsForFileStructure(fileStructure);
-      console.log('fileStructure');
-      console.log(fileStructure);
-      console.log('paths', paths);
+      // console.log('fileStructure');
+      // console.log(fileStructure);
+      // console.log('paths', paths);
       res.status(200).end();
     })
     .catch(function (err) {
