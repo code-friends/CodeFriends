@@ -6,23 +6,19 @@ var db = require('../db');
 var _ = require('lodash');
 
 var getFileStructure = require('../file/fileController').getFileStructure;
+var getPathsForFileStructure = require('../file/fileController').getPathsForFileStructure;
 
 var projectController = {};
 
-/////////////////////////////////////////    POST    /////////////////////////////////////////
-//ADDS A NEW PROJECT AND ADDS THE CREATOR TO THE 'USER' PROPERTY   
+/**
+ * Post a new Project
+ * Adds a new project and adds a the creator to the 'user' property
+ */
 projectController.post = function (req, res) {
-
-  var userId = {
-    id: req.user.get('id')
-  };
-
   var project_name = req.body.project_name;
-
-  if (!project_name || !userId) {
+  if (!project_name || !req.user) {
     res.status(400).end();
   }
-
   new models.Project({
       project_name: project_name,
     })
@@ -30,7 +26,7 @@ projectController.post = function (req, res) {
     .then(function (model) {
       return model
         .related('user')
-        .create(userId)
+        .create(req.user)
         .yield(model)
         .catch(function (err) {
           console.log('Error Attaching User:', err);
@@ -41,9 +37,10 @@ projectController.post = function (req, res) {
     });
 };
 
-/////////////////////////////////////////    GET    /////////////////////////////////////////
+/**
+ * Get all projects by req.user
+ */
 projectController.getAllProjects = function (req, res) {
-  var userId = req.user.get('id');
   //the below request is not optimized
   models.Project
     .fetchAll({
@@ -64,6 +61,9 @@ projectController.getAllProjects = function (req, res) {
     });
 };
 
+/**
+ * Get a specific project
+ */
 projectController.getSpecificProject = function (req, res) {
   //only get the requested project if the user has a relation with it
   models.Project
@@ -91,11 +91,15 @@ projectController.getSpecificProject = function (req, res) {
     });
 };
 
-/////////////////////////////////////////    PUT    /////////////////////////////////////////
+/**
+ * Add a user to a project
+ *
+ * @param project_name <String>
+ * @param newUserName <String>
+ */
 projectController.addUser = function (req, res) {
   var project_name = req.body.project_name;
   var newUserName = req.body.newUserName;
-  var newUserId = null;
   //only only add the user if the person that requested the addition is a listed user of the project
   models.User
     .query({
@@ -108,7 +112,8 @@ projectController.addUser = function (req, res) {
     })
     .then(function (user) {
       if (!user) throw new Error('There is not model with this name');
-      //change so that if there is not user, it does a res.end saying 'there is no user', so they know that on the front end
+      // Change so that if there is not user, it does a res.end saying 'there is no user'
+      // so they know that on the front end
       return user;
     })
     .then(function (queriedUser) {
@@ -142,14 +147,11 @@ projectController.addUser = function (req, res) {
     });
 };
 
-//REMOVE USERS FROM A PROJECT   ///   if user is one of the users in if the project   ///   then execute the code below
-projectController.put = function (req, res) {
-  // var userId = req.user.get('id');
-  res.status(200).end();
-};
-
-/////////////////////////////////////////    DELETE    /////////////////////////////////////////
-//DELETE A PROJECT
+/**
+ * Delete a project
+ *
+ * @param id <Integer>
+ */
 projectController.delete = function (req, res) {
   //only delete the project if person requesting the deletion has a relation with it
   models.Project
@@ -176,9 +178,40 @@ projectController.delete = function (req, res) {
     .then(function () {
       res.status(200).end();
     })
-    .catch(function (err) {
+    .catch(function () {
       res.status(400).end();
+    });
+};
+
+/**
+ * Download a project as a .zip
+ */
+projectController.downloadSpecificProject = function (req, res) {
+   return models.Project
+    .query({
+      where: {
+        project_name: req.params.project_name_or_id
+      },
+      orWhere: {
+        id: req.params.project_name_or_id
+      }
     })
+    .fetch()
+    .then(function (project) {
+      if (!project) throw new Error('No Model Could Be Found');
+      return getFileStructure(project.get('id'), project.get('project_name'));
+    })
+    .then(function (fileStructure) {
+      var paths = getPathsForFileStructure(fileStructure);
+      console.log('fileStructure');
+      console.log(fileStructure);
+      console.log('paths', paths);
+      res.status(200).end();
+    })
+    .catch(function (err) {
+      console.log('ERROR', err);
+      res.status(400).send(err);
+    });
 };
 
 module.exports = projectController;

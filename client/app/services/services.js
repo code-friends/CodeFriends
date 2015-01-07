@@ -1,4 +1,4 @@
-/*global angular:true, moment:true */
+/*global angular:true, moment:true, _:true */
 'use strict';
 
 // factory for Projects, Auth, Toolbar
@@ -7,11 +7,29 @@ angular.module('code.services', [])
     // gets projects from server, caches projects in factory and allows cb in controller to access projects
     var projects = {};
     projects.userProjects = null;
-
-
     projects.filename = null;
+
     projects.updateName = function (name) {
       this.filename = name;
+    };
+
+    projects.getProjectId = function (projectName) {
+      for (var i in projects) {
+        if (projects.hasOwnProperty(i)) {
+          if (projects[i].project_name === projectName) {
+            console.log(projects[i]);
+            return projects[i].id;
+          }
+        }
+      }
+      return null;
+    };
+
+    projects.getProject = function (projectName) {
+      return $http.get('/api/project/' + projectName)
+        .then(function (res) {
+          return res.data;
+        });
     };
 
     projects.getProjects = function () {
@@ -74,7 +92,6 @@ angular.module('code.services', [])
         if (Auth.userName === undefined) {
           return Auth.isLoggedIn();
         } else {
-          console.log('Returning Value In Memory');
           return $q.when({
             'userName': Auth.userName,
             'userId': Auth.userId,
@@ -104,6 +121,7 @@ angular.module('code.services', [])
       return $http.get('/api/project/' + projectName)
         .then(function (res) {
           files.files = res.data.files;
+          console.log(files.files);
           return res.data.files;
         });
     };
