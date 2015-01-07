@@ -1,3 +1,7 @@
+@mixin file-padding($some-number) {
+  padding-left: $some-number;
+}
+
 .project-file-structure {
   border-right: solid 1px #f2f2f2;
   height: calc(100vh - #{$toolbar-height});
@@ -26,6 +30,17 @@
         border-color: #f2f2f2;
       }
     }
+    ul {
+      padding-left: 0;
+      li {
+        padding-left: 10%;
+      }
+    }
+    // .nested1 {
+    //   @include file-padding(10%);
+    // }
+    // .nested2 {
+    //   @include file-padding(20%);
+    // }
   }
-
 }

@@ -91,6 +91,8 @@ angular.module('code.toolbar', ['ui.bootstrap'])
   })
   .controller('modalProjectController', function ($scope, $stateParams, $modalInstance, Files, Projects) {
     $scope.filesInProject = Files.files;
+    $scope.folderSelected = 'Specify a folder';
+
 
     $scope.status = {
       isopen: false
@@ -105,6 +107,12 @@ angular.module('code.toolbar', ['ui.bootstrap'])
     $scope.getFolderPath = function ($event) {
       $scope.folderSelected = $event.target.innerText;
       //only working for one level of folders now from root dir, not nested folders
+
+      //if root return nothing
+      if ($scope.folderSelected === 'root') {
+        return;
+      }
+      console.log('filessss', $scope.filesInProject);
       $scope.folderSelectedPath = '/' + $scope.folderSelected;
       return;
     };
@@ -119,7 +127,7 @@ angular.module('code.toolbar', ['ui.bootstrap'])
 
     $scope.addFolder = function () {
       $modalInstance.close();
-      Files.addNewFolder($scope.newFolderName, $stateParams.projectName)
+      Files.addNewFolder($scope.newFolderName, $stateParams.projectName, $scope.folderSelectedPath)
         .then(function () {
           console.log('New Folder Created');
         });

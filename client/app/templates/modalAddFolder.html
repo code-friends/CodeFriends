@@ -1,7 +1,16 @@
 <div>
   <h1 class="modal-header">Add a folder to this project</h1>
   <div class="modal-body">    
-    <form ng-submit="addFolder()">
+    <div class="btn-group" dropdown is-open="status.isopen">
+      <button type="button" class="btn btn-primary dropdown-toggle modalDropDownButton" dropdown-toggle ng-disabled="disabled">
+        {{folderSelected}}<span ng-if="folderSelected === 'Specify a folder'" class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li ng-click="getFolderPath($event)">root</li>
+        <li ng-repeat="folder in filesInProject | getFoldersFromProject | orderBy:'name'" ng-click="getFolderPath($event)">{{ folder.name }}</li>
+      </ul>
+    </div>
+    <form ng-submit="addFolder()" class="addFileForm">
       <input type="text" placeholder="Enter folder name" ng-model="newFolderName" class="modalTextInput">
       <input type="submit" text="Add" class="modalSubmit">
     </form>

@@ -29,16 +29,7 @@ angular.module('code.project', ['ui.router'])
 
     $scope.Projects = Projects;
     $scope.updateName = function (name) {
-      $scope.Projects.updateName(name, function () { });
-    };
-
-    $scope.getAllFiles = function () {
-      return $http.get('/api/project/' + $stateParams.projectName)
-        .then(function (res) {
-          $scope.currentProjectId = res.data.id;
-          $scope.files = res.data.files;
-          return $scope.files;
-        });
+      $scope.Projects.updateName(name, function () {});
     };
 
     $scope.goToHome = function () {
