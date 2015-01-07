@@ -5,7 +5,7 @@
   "main": "server/index.js",
   "scripts": {
     "start": "./node_modules/forever/bin/forever start -p ./data/logs -a -o ./data/logs/stdout.log -e ./data/logs/stderr.log server ",
-    "test": "export NODE_ENV='test'; ./node_modules/mocha/bin/mocha -t 5000 server/tests/index --bail",
+    "test": "export NODE_ENV='test'; ./node_modules/mocha/bin/mocha -t 5000 server/tests/index",
     "dev": "./node_modules/nodemon/bin/nodemon.js server"
   },
   "repository": {
@@ -54,6 +54,8 @@
     "express": "^4.10.6",
     "express-session": "^1.9.3",
     "forever": "^0.12.0",
+    "fs": "0.0.2",
+    "jshashes": "^1.0.5",
     "knex": "^0.7.3",
     "livedb": "^0.4.11",
     "livedb-mongo": "^0.4.1",
@@ -63,6 +65,7 @@
     "moment": "^2.8.4",
     "mongodb": "^1.4.26",
     "morgan": "^1.5.0",
+    "multiparty": "^4.1.0",
     "mysql": "^2.5.4",
     "optimist": "^0.6.1",
     "passport": "^0.2.1",
