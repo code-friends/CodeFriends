@@ -48,6 +48,13 @@ chatWS.on('connection', function (ws) {
         });
     }
 
+    if (parsedMsg.message.type === 'New File Created') {
+      console.log('server will send message for all group in project to refresh project data');
+      var projectMsg = {
+        type: 'refresh project'
+      };
+      chatWS.broadcast(JSON.stringify(projectMsg));
+    }
   });
 });
 
