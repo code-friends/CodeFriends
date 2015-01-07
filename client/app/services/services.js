@@ -8,6 +8,12 @@ angular.module('code.services', [])
     var projects = {};
     projects.userProjects = null;
 
+
+    projects.filename = null;
+    projects.updateName = function (name) {
+      this.filename = name;
+    };
+
     projects.getProjects = function () {
       return $http.get('api/project/')
         .then(function (res) {
@@ -49,8 +55,8 @@ angular.module('code.services', [])
     var Auth = {
       isLoggedIn: function (redirectToLogin) {
         return $http.get('/auth/user')
-          .then(function (res) { << << << < HEAD
-            console.log(res.data); === === = >>> >>> > adds file upload from client to server to database 11
+          .then(function (res) {
+            console.log(res.data);
             Auth.userId = res.data.userId;
             Auth.userName = res.data.userName;
             Auth.githubAvatarUrl = res.data.githubAvatarUrl;
