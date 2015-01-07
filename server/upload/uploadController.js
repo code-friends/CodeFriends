@@ -39,6 +39,7 @@ var uploadController = {
       fs.readFile(temportal_path, function (err, data) {
         if (err) throw err;
         fileContent = data.toString();
+        // console.log('fileContent: ', fileContent);
         var str = 'p-' + projectName + '-d' + documentName;
         var documentHash = new Hashes.SHA256().hex(str);
 
