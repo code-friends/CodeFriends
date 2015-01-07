@@ -1,30 +1,15 @@
 <div class='container-fluid nopadding project-view-container'>
+  <!-- toolbar -->
   <div ui-view="toolbar"></div>
-    <!-- New File -->
-    <div class='row-fluid project-container'>
-    <!-- Files -->
-    <div class="col-md-2 col-sm-3 nopadding project-file-structure">
-    <!-- <p ng-repeat="file in files"> -->
-      <!-- <a ui-sref='document({documentPath: file.path})'>File: {{ file.path }}</a> -->
-    <!-- </p> -->
-      <!-- <form ng-submit='addNewFile()'>
-        <input type='text' ng-model='newFileName' name="text" placeholder='New File Name'>
-        <input type='submit' id='submit' value='Create'>
-      </form> -->
-      <div ng-controller="uploadsController">
-        <form class='half-form'>
-          <input type="submit" ng-model="files" ng-file-select="onFileSelect(files)" ng-multiple="true" class="app-prompt-upload" value="Upload Files"/>
-        </form>
-      </div>
-      <h4 class='project-file-structure-header'>Files</h4>
-      <ul class='project-file-structure-list'>
-        <a ng-click="updateName(file.path)"  ui-sref='document({documentPath: file.path})' ng-repeat="file in files">
-        <li class='{{ file.type }}'>
-          <span class="glyphicon glyphicon-{{ file.type }} glyphicon-{{ file.type }}-open" aria-hidden="true"></span> {{ file.name }}
-        </li>
-        </a>
-      </ul>
+  <div class='row-fluid project-container'>
+    <!-- Upload Files -->
+    <div ng-controller="uploadsController">
+      <form class='half-form'>
+        <input type="submit" ng-model="files" ng-file-select="onFileSelect(files)" ng-multiple="true" class="app-prompt-upload" value="Upload Files"/>
+      </form>
     </div>
+    <!-- File Structure -->
+    <div ui-view="fileStructure" class="col-md-2 col-sm-3 nopadding project-file-structure"></div>
     <!-- Document -->
     <div class="padContainer col-md-8 col-sm-6 nopadding" ui-view></div>
     <!-- Chat -->

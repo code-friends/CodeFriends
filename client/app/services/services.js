@@ -128,11 +128,12 @@ angular.module('code.services', [])
 
     files._addNew = function (type) {
       return function (newFileName, projectName, path) {
+        console.log(arguments);
         return $http.post('/api/file', {
             file_name: newFileName,
             project_name: projectName,
             type: type,
-            parent_file: path || null
+            path: path || null
           })
           .then(function () {
             // Get files with added files
