@@ -51,23 +51,35 @@ angular.module('code.services', [])
 
     return projects;
   })
-  .factory('Auth', function ($http, $state) {
+  .factory('Auth', function ($http, $state, $q) {
     var Auth = {
       isLoggedIn: function (redirectToLogin) {
         return $http.get('/auth/user')
           .then(function (res) {
-            console.log(res.data);
             Auth.userId = res.data.userId;
             Auth.userName = res.data.userName;
             Auth.githubAvatarUrl = res.data.githubAvatarUrl;
-            console.log('githubAvatarUrl:', Auth.githubAvatarUrl);
             if (res.data.userId === null && redirectToLogin !== false) {
               $state.go('login');
             }
+            return {
+              'userName': Auth.userName,
+              'userId': Auth.userId,
+              'githubAvatarUrl': Auth.githubAvatarUrl,
+            };
           });
       },
-      logOut: function () {
-
+      getUserName: function () {
+        if (Auth.userName === undefined) {
+          return Auth.isLoggedIn();
+        } else {
+          console.log('Returning Value In Memory');
+          return $q.when({
+            'userName': Auth.userName,
+            'userId': Auth.userId,
+            'githubAvatarUrl': Auth.githubAvatarUrl
+          });
+        }
       },
       userId: null
     };
