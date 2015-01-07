@@ -4,8 +4,14 @@
 angular.module('code.project', ['ui.router'])
   .controller('projectController', function ($scope, $state, $stateParams, $http, Auth, Files, Projects, documentFactory) {
     Auth.isLoggedIn();
+    $scope.username = null;
     $scope.files = [];
     $scope.currentProjectId = null;
+
+    Auth.getUserName()
+      .then(function (userName) {
+        $scope.username = userName;
+      });
 
     $scope.getAllFiles = function () {
       console.log('$stateParams: ', $stateParams);

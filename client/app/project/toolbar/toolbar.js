@@ -42,9 +42,14 @@ angular.module('code.toolbar', ['ui.bootstrap'])
       '3024 Night'
     ];
 
-    $scope.username = Auth.userName;
     $scope.currentProjectName = $stateParams.projectName;
     angular.extend($scope, $state.params);
+    $scope.username = null;
+    Auth.getUserName()
+      .then(function (userInfo) {
+        $scope.username = userInfo.userName;
+      })
+
     var formatThemeName = function (theme) {
       theme = theme.toLowerCase();
       if (theme.split(' ')[0] === 'solarized') return theme;

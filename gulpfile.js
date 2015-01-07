@@ -23,6 +23,7 @@ gulp.task('js', function () {
       './client/lib/angular-bootstrap/ui-bootstrap.js',
       './client/lib/angular-bootstrap/ui-bootstrap-tpls.js',
       './client/lib/angular-ui-router/release/angular-ui-router.js',
+      './client/lib/angular-scroll-glue/src/scrollglue.js',
       './client/lib/jshashes/hashes.js',
       './node_modules/simplewebrtc/simplewebrtc.bundle.js',
       './client/assets/js/share.js',
