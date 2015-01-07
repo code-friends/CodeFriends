@@ -71,7 +71,7 @@
         })
         .state('document', {
           parent: 'project',
-          url: 'document/:documentName',
+          url: 'document/:documentPath',
           templateUrl: '/app/project/document/document.html',
           controller: 'documentController'
         });

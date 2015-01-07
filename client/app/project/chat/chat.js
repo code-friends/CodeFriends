@@ -8,7 +8,7 @@ angular.module('code.chat', ['ui.router', 'ngSanitize', 'luegg.directives'])
     Auth.getUserName()
       .then(function (userInfo) {
         $scope.username = userInfo.userName;
-      })
+      });
 
     var ws = ngSocket('ws://' + window.location.hostname + ':' + window.config.ports.chat);
     chatFactory.getUsers(roomID)
@@ -36,7 +36,6 @@ angular.module('code.chat', ['ui.router', 'ngSanitize', 'luegg.directives'])
     });
 
     ws.onMessage(function (msg) {
-      console.log(JSON.parse(msg.data));
       msg = JSON.parse(msg.data);
       if (msg.roomID === roomID) {
         if (msg.type === 'msgHistory') {
