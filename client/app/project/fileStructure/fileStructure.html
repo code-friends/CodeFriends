@@ -1,0 +1,16 @@
+<script type="text/ng-template" id="fileStructureTree">
+    <li class='{{ file.type }}'>
+      <span class="glyphicon glyphicon-{{ file.type }} glyphicon-{{ file.type }}-open" aria-hidden="true"></span> {{ file.name }}
+    </li>
+    <ul ng-if="Object.keys(file.files).length !== 0">
+        <a ui-sref='document({documentName: file.name})' ng-repeat="file in file.files" ng-include="'fileStructureTree'">           
+        </a>
+    </ul>
+</script>
+
+<div>
+  <h4 class='project-file-structure-header'>Files</h4>
+  <ul class='project-file-structure-list'>
+    <a  ui-sref='document({documentName: file.name})' ng-repeat="file in project" ng-include="'fileStructureTree'"></a>
+  </ul>
+</div>
