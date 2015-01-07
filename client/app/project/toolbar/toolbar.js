@@ -89,7 +89,7 @@ angular.module('code.toolbar', ['ui.bootstrap'])
       });
     };
   })
-  .controller('modalProjectController', function ($scope, $stateParams, $modalInstance, Files, Projects) {
+  .controller('modalProjectController', function ($scope, $stateParams, $modalInstance, Files, Projects, ngSocket) {
     $scope.filesInProject = Files.files;
     $scope.folderSelected = 'Specify a folder';
 
@@ -97,6 +97,8 @@ angular.module('code.toolbar', ['ui.bootstrap'])
     $scope.status = {
       isopen: false
     };
+
+    var ws = ngSocket('ws://' + window.location.hostname + ':' + window.config.ports.chat);
 
     $scope.toggleDropdown = function ($event) {
       $event.preventDefault();
@@ -119,9 +121,16 @@ angular.module('code.toolbar', ['ui.bootstrap'])
 
     $scope.addFile = function () {
       $modalInstance.close();
+      console.log($scope.newFileName, $stateParams.projectName, $scope.folderSelectedPath);
       Files.addNewFile($scope.newFileName, $stateParams.projectName, $scope.folderSelectedPath)
         .then(function () {
           console.log('New File Created');
+          ws.send({
+            type: 'New File Created',
+            newFileName: $scope.newFileName,
+            projectName: $stateParams.projectName,
+            folderSelectedPath: $scope.folderSelectedPath
+          });
         });
     };
 

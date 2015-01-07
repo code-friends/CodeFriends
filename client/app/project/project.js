@@ -2,11 +2,20 @@
 /*jshint browser:true */
 'use strict';
 angular.module('code.project', ['ui.router'])
-  .controller('projectController', function ($scope, $state, $stateParams, $http, Auth, Files, Projects, documentFactory) {
+  .controller('projectController', function ($scope, ngSocket, $state, $stateParams, $http, Auth, Files, Projects, documentFactory) {
     Auth.isLoggedIn();
     $scope.username = null;
     $scope.files = [];
     $scope.currentProjectId = null;
+
+    var ws = ngSocket('ws://' + window.location.hostname + ':' + window.config.ports.chat);
+
+    ws.onMessage(function (msg) {
+      var parsedMsg = JSON.parse(msg.data);
+      if (parsedMsg.type === 'refresh project') {
+        $scope.getAllFiles();
+      }
+    });
 
     Auth.getUserName()
       .then(function (userName) {
@@ -29,7 +38,9 @@ angular.module('code.project', ['ui.router'])
 
     $scope.Projects = Projects;
     $scope.updateName = function (name) {
-      $scope.Projects.updateName(name, function () {});
+      $scope.Projects.updateName(name, function () {
+        console.log('Projects.filename', Projects.filename);
+      });
     };
 
     $scope.goToHome = function () {
@@ -47,6 +58,8 @@ angular.module('code.project', ['ui.router'])
             matchBrackets: true,
             theme: 'solarized dark'
           });
+          console.log('doug codemirror', cm);
+          console.log($scope.newFileName, $stateParams.projectName, cm);
           documentFactory.goToDocument($scope.newFileName, $stateParams.projectName, cm);
         });
 
