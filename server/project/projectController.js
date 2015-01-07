@@ -122,7 +122,6 @@ projectController.addUser = function (req, res) {
           withRelated: ['user']
         })
         .then(function (model) {
-          // console.log('model', model);
           return model
             .related('user')
             .create({

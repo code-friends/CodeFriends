@@ -36,29 +36,25 @@ var uploadController = {
 
     form.on('file', function (name, file) {
       var temportal_path = file.path;
-      console.log('file: ', file);
       fs.readFile(temportal_path, function (err, data) {
         if (err) throw err;
         fileContent = data.toString();
-        // console.log(fileContent);
-
         var str = 'p-' + projectName + '-d' + documentName;
         var documentHash = new Hashes.SHA256().hex(str);
-        // console.log('fileContent:', fileContent);
-        // console.log(documentHash);
+
         backend.submit('documents', documentHash, {
             create: {
               type: 'text',
               data: fileContent
             }
           },
+
           function (err, version, transformedByOps, snapshot) {
+
             if (err) {
               console.log('ERROR: ', err);
             }
-            console.log('version: ', version);
-            console.log('transformedByOps: ', transformedByOps);
-            console.log('snapshot: ', snapshot);
+
             var fileInfo = {
               projectName: projectName,
               fileName: documentName,
@@ -68,8 +64,6 @@ var uploadController = {
             };
             fileController._createNewFileOrFolder(fileInfo)
               .then(function (newFileStructre) {
-                console.log('newFileStructre');
-                console.log(newFileStructre);
                 res.json(newFileStructre);
               })
               .catch(function (err) {
@@ -77,7 +71,9 @@ var uploadController = {
                 res.status(400).end();
               });
           });
+
       });
+
     });
 
     form.on('close', function () {
@@ -88,14 +84,8 @@ var uploadController = {
       if (err) {
         console.log('err: ', err);
       }
-      console.log('fields: ', fields);
-      console.log('file: ', file);
-      console.log('req.body.project_name: ', req.body.project_name);
-      console.log(req.body.project_name);
-      console.log(req.param('project_name'));
       projectName = fields.project_name[0] || req.body.project_name;
       documentName = fields.file_name[0] || file.originalFilename;
-      console.log('documentName: ', documentName);
 
     });
   }

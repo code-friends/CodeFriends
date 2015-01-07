@@ -50,7 +50,7 @@ var fileController = {
     var path = fileInfo.path;
     var userId = fileInfo.userId || null;
 
-    console.log('projectName: ', projectName, ', fileName: ', fileName, ', projectId: ', projectId, ', type: ', type, ', path: ', path, 'userId: ', userId);
+    // console.log('projectName: ', projectName, ', fileName: ', fileName, ', projectId: ', projectId, ', type: ', type, ', path: ', path, 'userId: ', userId);
 
     return new Q()
       .then(function () {
