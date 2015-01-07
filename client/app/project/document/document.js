@@ -7,8 +7,6 @@ angular.module('code.document', ['ui.router'])
     $scope.documentName = $stateParams.documentName;
     $scope.theme = ToolbarDocument.theme;
 
-    console.log('$stateParams:', $stateParams);
-
     // Setup Code Editor
     var cm = CodeMirror.fromTextArea(document.getElementById('pad'), {
       mode: 'javascript',
