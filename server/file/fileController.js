@@ -15,7 +15,6 @@ var mongoIndex = function (str) {
 };
 
 var fileController = {
-
   createNewFileOrFolder: function (req, res) {
     var projectName = req.body.project_name || req.param('project_name');
     var fileName = req.body.file_name || req.param('file_name');
@@ -42,16 +41,12 @@ var fileController = {
       });
   },
   _createNewFileOrFolder: function (fileInfo) {
-
     var projectName = fileInfo.projectName;
     var fileName = fileInfo.fileName;
     var type = fileInfo.type;
     var projectId = fileInfo.projectId || null;
     var path = fileInfo.path;
     var userId = fileInfo.userId || null;
-
-    // console.log('projectName: ', projectName, ', fileName: ', fileName, ', projectId: ', projectId, ', type: ', type, ', path: ', path, 'userId: ', userId);
-
     return new Q()
       .then(function () {
         // Check if name is valid (no white space)
@@ -209,6 +204,7 @@ var fileController = {
               })
               .then(function (projectFileStructure) {
                 db.close();
+                projectFileStructure.paths = fileController.getPathsForFileStructure(projectFileStructure);
                 return projectFileStructure;
               });
           })
@@ -216,6 +212,19 @@ var fileController = {
             console.log('Error Connecting to MongoDB', error);
           });
       });
+  },
+  getPathsForFileStructure: function (fileStructure) {
+    var paths = [];
+    var getPaths = function (_fileStructure) {
+      _.each(_fileStructure, function (fileOrFolder) {
+        paths.push(fileOrFolder.path);
+        if (fileOrFolder.type === 'folder') {
+          getPaths(fileOrFolder.files);
+        }
+      });
+    };
+    getPaths(fileStructure.files);
+    return paths;
   }
 };
 

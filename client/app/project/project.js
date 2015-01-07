@@ -14,27 +14,22 @@ angular.module('code.project', ['ui.router'])
       });
 
     $scope.getAllFiles = function () {
-      console.log('$stateParams: ', $stateParams);
-      return $http.get('/api/project/' + $stateParams.projectName)
-        .then(function (res) {
-          $scope.currentProjectId = res.data.id;
-          $scope.currentProjectName = res.data.project_name; //change eventually to project id
-          console.log('$scope.currentProjectId: ', $scope.currentProjectId);
-          console.log('res: ', res);
-          $scope.files = res.data.files;
-          console.log('$scope.files!!', $scope.files);
+      return Projects.getProject($stateParams.projectName)
+        .then(function (project) {
+          $scope.currentProjectId = project.id;
+          $scope.currentProjectName = project.project_name; //change eventually to project id
+          $scope.files = project.files;
+          console.log($scope.files);
           return $scope.files;
         })
         .catch(function (err) {
-          console.log('COULD NOT GET SINGLE PROJECT', err);
+          console.log('Could Not Get Project', err);
         });
     };
 
     $scope.Projects = Projects;
     $scope.updateName = function (name) {
-      $scope.Projects.updateName(name, function () {
-        console.log('Projects.filename', Projects.filename);
-      });
+      $scope.Projects.updateName(name, function () { });
     };
 
     $scope.getAllFiles = function () {
@@ -42,7 +37,6 @@ angular.module('code.project', ['ui.router'])
         .then(function (res) {
           $scope.currentProjectId = res.data.id;
           $scope.files = res.data.files;
-          console.log('$scope.files!!', $scope.files);
           return $scope.files;
         });
     };
@@ -54,7 +48,6 @@ angular.module('code.project', ['ui.router'])
     $scope.addNewFile = function () {
       return Files.addNewFile($scope.newFileName, $stateParams.projectName)
         .then(function (files) {
-          console.log('Files:', files);
           $scope.files = files;
           var cm = CodeMirror.fromTextArea(document.getElementById('pad'), {
             mode: 'javascript',
@@ -68,7 +61,6 @@ angular.module('code.project', ['ui.router'])
 
       Files.getAllFiles($stateParams.projectName)
         .then(function (files) {
-          console.log('Files:', files);
           $scope.files = files;
         });
 
@@ -79,7 +71,6 @@ angular.module('code.project', ['ui.router'])
           parent_file: null
         })
         .then(function () {
-          console.log('Created New File');
           return $scope.getAllFiles();
         });
     };

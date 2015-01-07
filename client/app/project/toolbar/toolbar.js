@@ -48,7 +48,7 @@ angular.module('code.toolbar', ['ui.bootstrap'])
     Auth.getUserName()
       .then(function (userInfo) {
         $scope.username = userInfo.userName;
-      })
+      });
 
     var formatThemeName = function (theme) {
       theme = theme.toLowerCase();
@@ -56,9 +56,9 @@ angular.module('code.toolbar', ['ui.bootstrap'])
       return theme.replace(' ', '-');
     };
 
-    $scope.downloadFile = function (event) {
+    $scope.downloadFile = function () {
       window.location = '/api/download/projectName/' +
-        $state.params.projectName + '/fileName/' + $state.params.documentName;
+        $state.params.projectName + '/fileName/' + $state.params.documentPath;
     };
 
     $scope.changeEditorTheme = function (event) {
