@@ -30,9 +30,9 @@
   <!-- Chat Message -->
   <div class='chat-content-container chat-container'>
     <h4 class="chatSubTitle"> Chat </h4>
-    <div id="chatContent">
+    <div id="chatContent" scroll-glue="!glued">
       <div class="messageContainer" ng-repeat="message in messages">
-        <div class="row">
+        <div id={{message.createdAt}} class="row">
           <div class="col-sm-5"><strong>{{message.username}}</strong> </div>
           <div class="col-sm-7"><div class="timestamp"> {{message.timeAgo}}</div></div>
         </div>

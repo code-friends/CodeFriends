@@ -1,10 +1,15 @@
 /*global angular:true, moment:true */
 'use strict';
 
-angular.module('code.chat', ['ui.router', 'ngSanitize'])
-  .controller('chatController', function ($scope, $state, $http, ngSocket, $stateParams, Auth, $interval, chatFactory) {
+angular.module('code.chat', ['ui.router', 'ngSanitize', 'luegg.directives'])
+  .controller('chatController', function ($location, $anchorScroll, $document, $window, $scope, $state, $http, ngSocket, $stateParams, Auth, $interval, chatFactory) {
     var roomID = $stateParams.projectName;
-    var username = Auth.userName;
+    $scope.username = Auth.username;
+    Auth.getUserName()
+      .then(function (userInfo) {
+        $scope.username = userInfo.userName;
+      })
+
     var ws = ngSocket('ws://' + window.location.hostname + ':' + window.config.ports.chat);
     chatFactory.getUsers(roomID)
       .then(function (data) {
@@ -31,6 +36,7 @@ angular.module('code.chat', ['ui.router', 'ngSanitize'])
     });
 
     ws.onMessage(function (msg) {
+      console.log(JSON.parse(msg.data));
       msg = JSON.parse(msg.data);
       if (msg.roomID === roomID) {
         if (msg.type === 'msgHistory') {
@@ -47,15 +53,17 @@ angular.module('code.chat', ['ui.router', 'ngSanitize'])
             username: msg.message.username,
             roomID: msg.message.roomID,
             message: msg.message.message,
-            createdAt: theDate
+            createdAt: msg.message.createdAt,
+            timeAgo: theDate
           });
         }
       }
     });
+
     $scope.sendChat = function () {
       var params = {
         type: 'message',
-        username: username,
+        username: $scope.username,
         roomID: roomID,
         message: $scope.chatMessage,
         createdAt: Date.now()
