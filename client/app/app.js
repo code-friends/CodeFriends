@@ -54,6 +54,10 @@
           views: {
             '': {
               templateUrl: '/app/project/project.html',
+              // controller: 'projectController'
+            },
+            'fileStructure@project': {
+              templateUrl: '/app/project/fileStructure/fileStructure.html',
               controller: 'projectController'
             },
             'chat@project': {
