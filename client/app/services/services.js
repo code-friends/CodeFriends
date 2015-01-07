@@ -121,22 +121,12 @@ angular.module('code.services', [])
       return $http.get('/api/project/' + projectName)
         .then(function (res) {
           files.files = res.data.files;
-<<<<<<< HEAD
-          console.log(files.files);
-=======
-          console.log("the most up to date copy of files", res.data.files);
->>>>>>> adds chat broadcast
           return res.data.files;
         });
     };
 
     files._addNew = function (type) {
       return function (newFileName, projectName, path) {
-<<<<<<< HEAD
-        console.log(arguments);
-=======
-        console.log("WE MMADE IT TO SERVices.js", newFileName, projectName, "type:", type);
->>>>>>> adds chat broadcast
         return $http.post('/api/file', {
             file_name: newFileName,
             project_name: projectName,
