@@ -165,6 +165,19 @@ describe('File', function () {
       });
   });
 
+  it('should add a new file to the database', function (done) {
+    agent
+      .post('/api/upload')
+      .field('file_name', 'dummyForTest2.js')
+      .field('project_name', project_name)
+      .field('path', '')
+      .attach('testFile', './server/tests/integration/dummyForTest.js')
+      .then(function (res) {
+        expect(res.status).to.equal(200); // 'success' status
+        done();
+      });
+  });
+
   /**
    * This should probably be in project.js, but it's easier to test multiple files
    * here, since we're adding so many of them here

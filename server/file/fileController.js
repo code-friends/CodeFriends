@@ -5,8 +5,6 @@ var mongoClient = Promise.promisifyAll(require('mongodb').MongoClient);
 var Q = require('q');
 var moment = require('moment');
 var _ = require('lodash');
-var multiparty = require('multiparty');
-
 var ProjectCollection = require('../models').collections.ProjectCollection;
 // var Project = require('../models').models.Project;
 
