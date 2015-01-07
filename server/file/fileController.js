@@ -72,7 +72,8 @@ var fileController = {
           name: fileName,
           created: moment().format(config.get('timeFormat')),
           author: userId,
-          type: type
+          type: type,
+          path: path + '/' + fileName
         };
         if (type === 'folder') {
           newAddition.files = {};
