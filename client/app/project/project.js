@@ -6,8 +6,12 @@ angular.module('code.project', ['ui.router'])
     Auth.isLoggedIn();
     $scope.username = null;
     $scope.files = [];
-<<<<<<< HEAD
     $scope.currentProjectId = null;
+
+    Auth.getUserName()
+      .then(function (userName) {
+        $scope.username = userName;
+      });
 
     $scope.getAllFiles = function () {
       console.log('$stateParams: ', $stateParams);
@@ -42,13 +46,6 @@ angular.module('code.project', ['ui.router'])
           return $scope.files;
         });
     };
-=======
-
-    Auth.getUserName()
-      .then(function (userName) {
-        $scope.username = userName;
-      });
->>>>>>> adds shadow and css to video
 
     $scope.goToHome = function () {
       $state.go('home');
