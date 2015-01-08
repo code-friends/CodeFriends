@@ -1,10 +1,9 @@
 /*global angular:true */
+'use strict';
+
 angular.module('code.userBox', ['ui.router'])
   .controller('userBox', function ($scope, Auth) {
-    Auth.isLoggedIn(false)
-      .then(function () {
-        $scope.userLoggedIn = (Auth.userId !== null);
-        $scope.userName = Auth.userName;
-        $scope.githubAvatarUrl = Auth.githubAvatarUrl;
-      });
+    $scope.userLoggedIn = (Auth.userId !== null);
+    $scope.userName = Auth.userName;
+    $scope.githubAvatarUrl = Auth.githubAvatarUrl;
   });

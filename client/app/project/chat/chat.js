@@ -4,11 +4,7 @@
 angular.module('code.chat', ['ui.router', 'ngSanitize', 'luegg.directives'])
   .controller('chatController', function ($location, $anchorScroll, $document, $window, $scope, $state, $http, ngSocket, $stateParams, Auth, $interval, chatFactory) {
     var roomID = $stateParams.projectName;
-    $scope.username = Auth.username;
-    Auth.getUserName()
-      .then(function (userInfo) {
-        $scope.username = userInfo.userName;
-      });
+    $scope.username = Auth.userName;
 
     var ws = ngSocket('ws://' + window.location.hostname + ':' + window.config.ports.chat);
     chatFactory.getUsers(roomID)

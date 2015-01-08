@@ -22,7 +22,7 @@
     <div class="col-sm-6">{{ project.project_name }}</div>
     <div class="col-sm-2">
       <span ng-repeat="user in project.user">
-        <img class='avatar-48' src='{{user.githubAvatarUrl}}&s=48'/>
+        <img class='avatar-48' ng-src='{{ user.githubAvatarUrl }}&s=48&id=projects'/>
       </span>
     </div>
     <div class="col-sm-2">{{ project.createString }}</div>
