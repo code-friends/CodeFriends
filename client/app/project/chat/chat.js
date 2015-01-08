@@ -19,7 +19,7 @@ angular.module('code.chat', ['ui.router', 'ngSanitize', 'luegg.directives'])
       }
     };
 
-    $interval(updateTime, 30000);
+    $interval(updateTime, 15000);
 
     SocketFactory.joinedRoom(roomID);
 
