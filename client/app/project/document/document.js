@@ -27,8 +27,17 @@ angular.module('code.document', ['ui.router'])
       goToDocument: function (projectName, documentPath, codeMirror) {
         var ws = new WebSocket('ws://' + window.location.hostname + ':' + window.config.ports.editor);
         var sjs = new window.sharejs.Connection(ws);
+        /**
+         * Look in getDocumentHash before changing this
+         */
+        if (documentPath[0] !== '/') {
+          documentPath = '/' + documentPath;
+        }
+        console.log('projectId:' , $stateParams.projectId);
+        console.log('documentPath:', documentPath);
         var str = 'p-' + $stateParams.projectId + '-d' + documentPath;
         var documentHash = new Hashes.SHA256().hex(str);
+
         var doc = sjs.get('documents', documentHash);
         doc.subscribe();
         doc.whenReady(function () {
