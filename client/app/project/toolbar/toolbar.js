@@ -42,13 +42,10 @@ angular.module('code.toolbar', ['ui.bootstrap'])
       '3024 Night'
     ];
 
-    $scope.currentProjectName = $stateParams.projectName;
     angular.extend($scope, $state.params);
-    $scope.username = null;
-    Auth.getUserName()
-      .then(function (userInfo) {
-        $scope.username = userInfo.userName;
-      });
+    $scope.currentProjectName = $stateParams.projectName;
+    $scope.username = Auth.userName;
+    $scope.githubAvatarUrl = Auth.githubAvatarUrl;
 
     var formatThemeName = function (theme) {
       theme = theme.toLowerCase();
@@ -57,8 +54,14 @@ angular.module('code.toolbar', ['ui.bootstrap'])
     };
 
     $scope.downloadFile = function () {
-      window.location = '/api/download/projectName/' +
-        $state.params.projectName + '/fileName/' + $state.params.documentPath;
+      var url = '/api/file/download/projectName/' + $state.params.projectName + '/fileName';
+      if ($state.params.documentPath[0] === '/') {
+        url += $state.params.documentPath;
+      }
+      else {
+        url += '/' + $state.params.documentPath;
+      }
+      window.location = url;
     };
 
     $scope.downloadProjectZip = function () {

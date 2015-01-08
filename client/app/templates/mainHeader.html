@@ -10,7 +10,7 @@
       <a ng-show='!userLoggedIn' class='userName navbar-brand dropdown-toggle' href='/#/login'>Login</a>
       <li ng-show='userLoggedIn' class='dropdown' dropdown>
         <a class='userName navbar-brand dropdown-toggle' dropdown-toggle>
-          <img ng-show='userLoggedIn' class='avatar-72 profile-image' src="{{ githubAvatarUrl }}&s=72">
+          <img ng-show='userLoggedIn' class='avatar-72 profile-image' ng-src="{{ githubAvatarUrl }}&s=72&id=userBoxHeader">
           <span class=''>{{userName}}</span>
         </a>
         <ul class="dropdown-menu ">

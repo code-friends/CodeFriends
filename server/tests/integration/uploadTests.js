@@ -19,7 +19,7 @@ describe('Upload', function () {
 
   it('should add a new file to the database', function (done) {
     agent
-      .post('/api/upload')
+      .post('/api/file/upload')
       .field('file_name', 'dummyForTest3.js')
       .field('project_name', 'basketball')
       .field('path', '')

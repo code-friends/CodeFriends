@@ -7,7 +7,7 @@ var JSZip = require('jszip');
 var Q = require('q');
 
 var getProject = require('./getProject');
-var getFileContents = require('../download/downloadController')._getFileContents;
+var getFileContents = require('../file/downloadController')._getFileContents;
 var getFileStructure = require('../file/fileController').getFileStructure;
 var getPathsForFileStructure = require('../file/fileController').getPathsForFileStructure;
 
