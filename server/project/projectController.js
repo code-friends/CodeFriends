@@ -5,6 +5,7 @@ var _ = require('lodash');
 
 var models = require('../models.js').models;
 var getFileStructure = require('../file/fileController').getFileStructure;
+var getPathsForFileStructure = require('../file/fileController').getPathsForFileStructure;
 var getProject = require('./getProject');
 var getUser = require('./getUser');
 var getProjectZip = require('./getProjectZip');
@@ -73,6 +74,7 @@ projectController.getSpecificProject = function (req, res) {
         .then(function (fileStructure) {
           var project_json = project.toJSON();
           project_json.files = fileStructure.files;
+          project_json.paths = getPathsForFileStructure(fileStructure.files);
           res.json(project_json);
         });
     })
