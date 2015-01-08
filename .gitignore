@@ -17,6 +17,10 @@ config/*
 ### OSX ###
 .DS_Store
 
+# Ignore .nws and zips
+*.nw
+*.zip
+
 data/*
 data/**/*
 data/logs/*
