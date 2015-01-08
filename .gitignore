@@ -21,3 +21,8 @@ data/*
 data/**/*
 data/logs/*
 data/logs/**/*
+
+# Ignore Fabfile
+fabfile.py
+fabfile.pyc
+**/*.pyc
