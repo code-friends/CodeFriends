@@ -40,7 +40,6 @@ authController.signup = function (req, res) {
     res.status(400).end(); // Client Error
     return;
   }
-
   new UserCollection()
     .query('where', 'email', '=', email)
     .fetchOne()

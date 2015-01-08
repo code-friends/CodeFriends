@@ -89,7 +89,6 @@ describe('User', function () {
         githubAccessToken: 'thisIsMyGithubAccessToken',
         githubAvatarUrl: 'thisIsMyGithubAvatarUrl'
       })
-      .expect(200)
       .end(function (err, res) {
         var _user = res.body;
         agent
