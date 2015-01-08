@@ -1,11 +1,10 @@
 <script type="text/ng-template" id="fileStructureTree">
     <li class='{{ file.type }}'>
       <span class="glyphicon glyphicon-{{ file.type }} glyphicon-{{ file.type }}-open" aria-hidden="true"></span> {{ file.name }}
+      <ul ng-if="Object.keys(file.files).length !== 0" class="nested-folder">
+          <a ui-sref='document({documentName: file.name})' ng-repeat="file in file.files" ng-include="'fileStructureTree'"></a>
+      </ul>
     </li>
-    <ul ng-if="Object.keys(file.files).length !== 0">
-        <a ui-sref='document({documentPath: file.path })' ng-repeat="file in file.files" ng-include="'fileStructureTree'">
-        </a>
-    </ul>
 </script>
 
 <div>

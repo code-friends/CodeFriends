@@ -7,7 +7,7 @@
       </button>
       <ul class="dropdown-menu" role="menu">
         <li ng-click="getFolderPath($event)">root</li>
-        <li ng-repeat="folder in filesInProject | getFoldersFromProject | orderBy:'name'" ng-click="getFolderPath($event)">{{ folder.name }}</li>
+        <li ng-repeat="folder in folderPaths" ng-click="getFolderPath($event)">{{ folder }}</li>
       </ul>
     </div>
     <form ng-submit="addFolder()" class="addFileForm">
