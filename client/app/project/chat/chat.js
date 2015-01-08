@@ -26,7 +26,7 @@ angular.module('code.chat', ['ui.router', 'ngSanitize', 'luegg.directives'])
 
     $interval(function () {
       updateTime();
-    }, 5000);
+    }, 55000);
 
     ws.onOpen(function () {
       ws.send({
