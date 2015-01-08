@@ -13,18 +13,6 @@ angular.module('code.services', [])
       this.filename = name;
     };
 
-    projects.getProjectId = function (projectName) {
-      for (var i in projects) {
-        if (projects.hasOwnProperty(i)) {
-          if (projects[i].project_name === projectName) {
-            console.log(projects[i]);
-            return projects[i].id;
-          }
-        }
-      }
-      return null;
-    };
-
     projects.getProject = function (projectName) {
       return $http.get('/api/project/' + projectName)
         .then(function (res) {

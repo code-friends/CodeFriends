@@ -37,6 +37,7 @@
     "bootstrap-social": "~4.8.0",
     "angular-scroll-glue": "~2.0.3",
     "ng-file-upload": "~2.0.5",
-    "lodash": "~2.4.1"
+    "lodash": "~2.4.1",
+    "q": "~2.0.2"
   }
 }
