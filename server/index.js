@@ -51,6 +51,7 @@ app
 
 chatServer.listen(config.get('ports').chat);
 shareJSServer.listen(config.get('ports').editor);
+console.log(config.get('ports'));
 console.log('Chat listening on port:', config.get('ports').chat);
 console.log('Editor listening on port:', config.get('ports').editor);
 
