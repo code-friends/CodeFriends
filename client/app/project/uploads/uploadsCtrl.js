@@ -8,7 +8,7 @@ angular.module('code.uploads', ['ui.router'])
       var uploadFile = function (fileIndex) {
         return $upload.upload({
             method: 'POST',
-            url: '/api/upload',
+            url: '/api/file/upload',
             data: {
               file_name: files[fileIndex].name,
               project_name: $stateParams.projectName,

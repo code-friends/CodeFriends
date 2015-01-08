@@ -54,8 +54,14 @@ angular.module('code.toolbar', ['ui.bootstrap'])
     };
 
     $scope.downloadFile = function () {
-      window.location = '/api/download/projectName/' +
-        $state.params.projectName + '/fileName/' + $state.params.documentPath;
+      var url = '/api/file/download/projectName/' + $state.params.projectName + '/fileName';
+      if ($state.params.documentPath[0] === '/') {
+        url += $state.params.documentPath;
+      }
+      else {
+        url += '/' + $state.params.documentPath;
+      }
+      window.location = url;
     };
 
     $scope.downloadProjectZip = function () {

@@ -14,6 +14,14 @@
           <li ng-click="openAddFolderModal()">Add Folder</li>
           <li ng-click='downloadFile()'>Download Current File</li>
           <li ng-click='downloadProjectZip()'>Download Project</li>
+          <li class='form-container'>
+            <!-- Upload Files -->
+            <div ng-controller="uploadsController">
+              <form class='half-form'>
+                <input type="submit" ng-model="files" ng-file-select="onFileSelect(files)" ng-multiple="true" class="app-prompt-upload" value="Upload Files"/>
+              </form>
+            </div>
+          </li>
         </ul>
       </li>
       <li class='dropdown' dropdown>
