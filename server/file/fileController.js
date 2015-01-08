@@ -210,7 +210,8 @@ var fileController = {
           });
       });
   },
-  getPathsForFileStructure: function (fileStructure) {
+  getPathsForFileStructure: function (fileStructure, isFilesAttribute) {
+    isFilesAttribute = isFilesAttribute || false;
     var paths = [];
     var getPaths = function (_fileStructure) {
       _.each(_fileStructure, function (fileOrFolder) {
@@ -220,7 +221,8 @@ var fileController = {
         }
       });
     };
-    getPaths(fileStructure.files);
+    if (!isFilesAttribute) getPaths(fileStructure.files); // default
+    if (isFilesAttribute) getPaths(fileStructure);
     return paths;
   }
 };

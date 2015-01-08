@@ -7,40 +7,36 @@
   height: calc(100vh - #{$toolbar-height});
 
   .project-file-structure-list {
-    margin: 0;
-    padding-left: 0;
     li {
-      border: solid 1px #f9f9f9;
+      // border: solid 1px #f9f9f9;
       padding: 0.5em;
       cursor: pointer;
       color: #444;
+      // padding-left: 10%;
       .glyphicon {
         width: 20px;
       }
       a {
         text-decoration: none;
-        color: #444;
       }
       &.folder {
-        background: #fafafa;
-        border-color: #f3f3f3;
+        // background: #fafafa;
+        // border-color: #f3f3f3;
       }
       &:hover {
-        background: #f9f9f9;
-        border-color: #f2f2f2;
+        // background: #f9f9f9;
+        // border-color: #f2f2f2;
       }
     }
-    ul {
-      padding-left: 0;
+    .nested-folder {
       li {
-        padding-left: 10%;
+        padding-left: calc(#{$toolbar-width} * 0.10);
+      }
+      a > li{        
+        &:first-child {
+          margin-top: 0.4em;
+        }
       }
     }
-    // .nested1 {
-    //   @include file-padding(10%);
-    // }
-    // .nested2 {
-    //   @include file-padding(20%);
-    // }
   }
 }
