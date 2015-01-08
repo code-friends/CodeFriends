@@ -71,6 +71,67 @@ angular.module('code.services', [])
 
     return projects;
   })
+  .factory('SocketFactory', function (ngSocket, $stateParams) {
+    var socketConnection = {};
+    var locationName = window.location.hostname;
+    var chatPort = window.config.ports.chat;
+    console.log('SocketFactory init');
+    var ws = ngSocket('ws://' + locationName + ':' + chatPort);
+
+    // Send joinedRoom message to the server
+    ws.onOpen(function () {
+      ws.send({
+        type: 'joinRoom',
+        roomID: $stateParams.projectName
+      });
+    });
+    // May need to be used later. 
+    socketConnection.joinedRoom = function (roomID) {
+      ws.onOpen(function () {
+        // Listen to the onOpen event triggered by the server
+      });
+    };
+    socketConnection.onRefreshProject = function (callback) {
+      ws.onMessage(function (msg) {
+        var parsedMsg = JSON.parse(msg.data);
+        if (parsedMsg.type === 'refresh project') {
+          callback(parsedMsg);
+        }
+      });
+    };
+
+    socketConnection.onMessageHistory = function (callback, roomID) {
+      ws.onMessage(function (msg) {
+        msg = JSON.parse(msg.data);
+        if (msg.roomID === roomID) {
+          if (msg.type === 'msgHistory') {
+            for (var i = 0; i < msg.messages.length; i++) {
+              msg.messages[i].timeAgo = moment(msg.messages[i].createdAt).fromNow();
+              callback(msg.messages[i]);
+            }
+          }
+        }
+      });
+    };
+
+    socketConnection.onChat = function (callback, roomID) {
+      ws.onMessage(function (msg) {
+        var parsedMsg = JSON.parse(msg.data);
+        if (parsedMsg.hasOwnProperty('message')) {
+          if (parsedMsg.message.roomID === roomID) {
+            var theDate = moment(parsedMsg.message.createdAt).fromNow();
+            callback(parsedMsg.message);
+          }
+        }
+      });
+    };
+
+    socketConnection.sendChat = function (chatParams) {
+      ws.send(chatParams);
+    };
+
+    return socketConnection;
+  })
   .factory('Auth', function ($http, $state, $q) {
     var Auth = {
       isLoggedIn: function (redirectToLogin) {
