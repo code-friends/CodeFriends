@@ -13,18 +13,6 @@ angular.module('code.services', [])
       this.filename = name;
     };
 
-    projects.getProjectId = function (projectName) {
-      for (var i in projects) {
-        if (projects.hasOwnProperty(i)) {
-          if (projects[i].project_name === projectName) {
-            console.log(projects[i]);
-            return projects[i].id;
-          }
-        }
-      }
-      return null;
-    };
-
     projects.getProject = function (projectName) {
       return $http.get('/api/project/' + projectName)
         .then(function (res) {
@@ -121,14 +109,12 @@ angular.module('code.services', [])
       return $http.get('/api/project/' + projectName)
         .then(function (res) {
           files.files = res.data.files;
-          console.log(files.files);
           return res.data.files;
         });
     };
 
     files._addNew = function (type) {
       return function (newFileName, projectName, path) {
-        console.log(arguments);
         return $http.post('/api/file', {
             file_name: newFileName,
             project_name: projectName,
@@ -137,7 +123,8 @@ angular.module('code.services', [])
           })
           .then(function () {
             // Get files with added files
-            return files.getAllFiles();
+            console.log(projectName);
+            return files.getAllFiles(projectName);
           });
       };
     };

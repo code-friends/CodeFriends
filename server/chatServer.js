@@ -48,6 +48,12 @@ chatWS.on('connection', function (ws) {
         });
     }
 
+    if (parsedMsg.message.type === 'project structure changed') {
+      var projectMsg = {
+        type: 'refresh project'
+      };
+      chatWS.broadcast(JSON.stringify(projectMsg));
+    }
   });
 });
 
