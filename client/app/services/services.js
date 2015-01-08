@@ -91,13 +91,18 @@ angular.module('code.services', [])
         // Listen to the onOpen event triggered by the server
       });
     };
+
     socketConnection.onRefreshProject = function (callback) {
       ws.onMessage(function (msg) {
         var parsedMsg = JSON.parse(msg.data);
         if (parsedMsg.type === 'refresh project') {
-          callback(parsedMsg);
+          callback();
         }
       });
+    };
+
+    socketConnection.send = function (msg) {
+      ws.send(msg);
     };
 
     socketConnection.onMessageHistory = function (callback, roomID) {
@@ -141,7 +146,7 @@ angular.module('code.services', [])
             Auth.userName = res.data.userName;
             Auth.githubAvatarUrl = res.data.githubAvatarUrl;
             if (res.data.userId === null) {
-              if(redirectToLogin !== false) {
+              if (redirectToLogin !== false) {
                 return $state.go('login');
               }
               return false;

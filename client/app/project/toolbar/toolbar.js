@@ -13,7 +13,7 @@ angular.module('code.toolbar', ['ui.bootstrap'])
   //     return folders;
   //   };
   // })
-  .controller('toolbarController', function ($scope, $state, $stateParams, $http, ToolbarDocument, $modal, Auth) {
+  .controller('toolbarController', function (SocketFactory, $scope, $state, $stateParams, $http, ToolbarDocument, $modal, Auth) {
     $scope.themes = [
       'Default',
       'Ambiance',
@@ -57,8 +57,7 @@ angular.module('code.toolbar', ['ui.bootstrap'])
       var url = '/api/file/download/projectName/' + $state.params.projectName + '/fileName';
       if ($state.params.documentPath[0] === '/') {
         url += $state.params.documentPath;
-      }
-      else {
+      } else {
         url += '/' + $state.params.documentPath;
       }
       window.location = url;
@@ -96,7 +95,7 @@ angular.module('code.toolbar', ['ui.bootstrap'])
       });
     };
   })
-  .controller('modalProjectController', function ($scope, $stateParams, $modalInstance, Files, Projects, ProjectFactory) {
+  .controller('modalProjectController', function ($scope, $stateParams, $modalInstance, Files, Projects, ProjectFactory, SocketFactory) {
     $scope.filesInProject = ProjectFactory.files;
     $scope.folderPaths = ProjectFactory.folderPaths;
     // currently hacky way of changing drop down button, set in getFolderPath()
@@ -134,13 +133,10 @@ angular.module('code.toolbar', ['ui.bootstrap'])
       $modalInstance.close();
       Files.addNewFile($scope.newFileName, $stateParams.projectName, $scope.folderSelected)
         .then(function () {
-          console.log('New File Created');
-          ws.send({
-            type: 'project structure changed',
-            newFileName: $scope.newFileName,
-            projectName: $stateParams.projectName,
-            folderSelectedPath: $scope.folderSelectedPath
+          SocketFactory.send({
+            type: 'project structure changed'
           });
+          console.log('New File Created');
         });
     };
 
@@ -149,11 +145,8 @@ angular.module('code.toolbar', ['ui.bootstrap'])
       Files.addNewFolder($scope.newFolderName, $stateParams.projectName, $scope.folderSelected)
         .then(function () {
           console.log('New Folder Created');
-          ws.send({
-            type: 'project structure changed',
-            newFileName: $scope.newFileName,
-            projectName: $stateParams.projectName,
-            folderSelectedPath: $scope.folderSelectedPath
+          SocketFactory.send({
+            type: 'project structure changed'
           });
         });
     };
