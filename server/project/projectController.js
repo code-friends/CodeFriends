@@ -35,7 +35,7 @@ projectController.post = function (req, res) {
         });
     })
     .then(function (model) {
-      res.json(model.toJSON());
+      res.status(201).json(model.toJSON());
     });
 };
 

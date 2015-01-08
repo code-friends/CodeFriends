@@ -48,12 +48,38 @@ describe('Project', function () {
       .send({
         project_name: 'tennis'
       })
-      .expect(200)
+      .expect(201)
       .end(function (err, res) {
         var _project = res.body;
         agent
           .get('/api/project/' + _project.project_name)
           .expect(200)
+          .end(function (err, res) {
+            var project = res.body;
+            project.should.have.property('id');
+            project.should.have.property('project_name');
+            project.project_name.should.equal(_project.project_name);
+            project.should.have.property('created_at');
+            project.should.have.property('updated_at');
+            project.should.have.property('user');
+            project.user.should.be.instanceof(Array);
+            done();
+          });
+      });
+  });
+
+  it('should add all files to the project when a .zip is passed in the POST request', function (done) {
+    agent
+      .post('/api/project')
+      .send({
+        project_name: 'zipExample'
+      })
+      .expect(201)
+      .end(function (err, res) {
+        var _project = res.body;
+        agent
+          .get('/api/project/' + _project.project_name)
+          .expect(201)
           .end(function (err, res) {
             var project = res.body;
             project.should.have.property('id');

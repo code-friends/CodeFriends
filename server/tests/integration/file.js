@@ -28,7 +28,8 @@ describe('File', function () {
       .send({
         project_name: project_name,
       })
-      .end(function (err, res) {
+      .expect(200)
+      .then(function (res) {
         var fileStructure = res.body;
         expect(fileStructure.files).to.be.a('object');
         done();
@@ -43,7 +44,8 @@ describe('File', function () {
         file_name: 'main.js',
         type: 'file',
       })
-      .end(function (err, res) {
+      .expect(201)
+      .then(function (res) {
         var fileStructure = res.body;
         var fileKey = 'main.js'.replace('.', '');
         expect(fileStructure.files).to.be.a('object');
@@ -75,7 +77,8 @@ describe('File', function () {
         file_name: 'example',
         type: 'folder',
       })
-      .end(function (err, res) {
+      .expect(201)
+      .then(function (res) {
         var fileStructure = res.body;
         var fileKey = 'example'.replace('.', '');
         expect(fileStructure.files).to.be.a('object');
@@ -94,7 +97,8 @@ describe('File', function () {
         type: 'file',
         path: '/example'
       })
-      .end(function (err, res) {
+      .expect(201)
+      .then(function (res) {
         var fileStructure = res.body;
         var folderKey = 'example'.replace('.', '');
         var fileKey = 'index.js'.replace('.', '');
@@ -115,7 +119,8 @@ describe('File', function () {
         type: 'folder',
         path: '/example'
       })
-      .end(function (err, res) {
+      .expect(201)
+      .then(function (res) {
         var fileStructure = res.body;
         var folderKey = 'example'.replace('.', '');
         var fileKey = 'child'.replace('.', '');
@@ -137,7 +142,8 @@ describe('File', function () {
         type: 'file',
         path: '/example/child'
       })
-      .end(function (err, res) {
+      .expect(201)
+      .then(function (res) {
         var fileStructure = res.body;
         var folderKey = 'example'.replace('.', '');
         var folderKey2 = 'child'.replace('.', '');
@@ -157,7 +163,7 @@ describe('File', function () {
     agent
       .get('/api/project/' + project_name)
       .expect(200)
-      .end(function (err, res) {
+      .then(function (res) {
         var project = res.body;
         var fileKey = 'main.js'.replace('.', '');
         project.should.have.property('id');
@@ -174,9 +180,24 @@ describe('File', function () {
       .field('file_name', 'dummyForTest2.js')
       .field('project_name', project_name)
       .field('path', '')
-      .attach('testFile', './server/tests/integration/dummyForTest.js')
+      .attach('testFile', './server/tests/test-files/dummyForTest.js')
+      .expect(201)
       .then(function (res) {
-        expect(res.status).to.equal(200); // 'success' status
+        expect(res.body.files.dummyForTest2js).to.be.an('object');
+        expect(res.body.files.dummyForTest2js.name).to.equal('dummyForTest2.js');
+        done();
+      });
+  });
+
+  it('should download a file in the database', function (done) {
+    // '/api/file/download/projectName/' + $state.params.projectName + '/fileName';
+    agent
+      .get('/api/file/download/projectName/' + project_name + '/fileName/dummyForTest2.js')
+      .expect(200)
+      .expect('Content-disposition', 'attachment; filename=dummyForTest2.js')
+      .then(function (res) {
+        var fileContents = fs.readFileSync('./server/tests/test-files/dummyForTest.js');
+        expect(res.text).to.equal(fileContents.toString());
         done();
       });
   });
@@ -201,12 +222,14 @@ describe('File', function () {
          * way to do it. Sincerely Yours, Jorge.
          */
         var zipString = res.text;
-        var fileContents = fs.readFileSync('./server/tests/integration/dummyForTest.js');
+        var fileContents = fs.readFileSync('./server/tests/test-files/dummyForTest.js');
         expect(zipString.substring(fileContents)).to.not.equal(-1);
         expect(zipString.substring('dummyForTest2.js')).to.not.equal(-1);
         expect(zipString.substring('main.js')).to.not.equal(-1);
         done();
       });
   });
+
+
 
 });
