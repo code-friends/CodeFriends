@@ -1,6 +1,5 @@
 /*global angular:true */
 'use strict';
-
 (function () {
   angular.module('code', [
       'ui.router',

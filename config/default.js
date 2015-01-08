@@ -15,14 +15,14 @@ var config = {
     'password': '',
     'database': 'code_friends'
   },
-  'mongo': 'mongodb://localhost:27017/codeFriends?auto_reconnect',
+  'mongo': 'mongodb://10.8.29.230:27017/codeFriends?auto_reconnect',
   'ports': {
     'http': 8000,
     'editor': 9000,
     'chat': 9001,
     'video': 8005
   },
-  'url': '127.0.0.1',
+  'url': '10.8.29.230',
   'github': {
     'clientID': '364ea3bc2b086177fd27',
     'clientSecret': '2dce4e81ad618474f5c822b4567200b941a6c1b1',
