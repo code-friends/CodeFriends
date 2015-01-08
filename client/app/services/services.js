@@ -13,12 +13,25 @@ angular.module('code.services', [])
       this.filename = name;
     };
 
-    projects.getProject = function (projectName) {
-      return $http.get('/api/project/' + projectName)
-        .then(function (res) {
-          return res.data;
-        });
+    projects.getProjectId = function (projectName) {
+      for (var i in projects) {
+        if (projects.hasOwnProperty(i)) {
+          if (projects[i].project_name === projectName) {
+            console.log(projects[i]);
+            return projects[i].id;
+          }
+        }
+      }
+      return null;
     };
+
+    // very similar to Files.getAllFiles below, refactor Projects and Files factory to projectsListing and project factory
+    // projects.getProject = function (projectName) {
+    //   return $http.get('/api/project/' + projectName)
+    //     .then(function (res) {
+    //       return res.data;
+    //     });
+    // };
 
     projects.getProjects = function () {
       return $http.get('api/project/')
@@ -131,4 +144,53 @@ angular.module('code.services', [])
     files.addNewFile = files._addNew('file');
     files.addNewFolder = files._addNew('folder');
     return files;
+  })
+  .factory('ToolbarDocument', function ($rootScope) {
+    var ToolbarDocument = {
+      changeTheme: function (theme) {
+        ToolbarDocument.theme = theme;
+        $rootScope.$broadcast('theme:changed', theme);
+        $rootScope.$emit('theme:changed', theme);
+      },
+      theme: 'default'
+    };
+    return ToolbarDocument;
+  })
+  // factory to get data for a single project
+  .factory('ProjectFactory', function ($http) {
+    var project = {};
+
+    // returns all project data & caches files, id and name
+    // calls folderPaths
+    project.getProject = function (projectName) {
+      return $http.get('/api/project/' + projectName)
+        .then(function (res) {
+          project.files = res.files;
+          project.projectId = res.id;
+          project.projectName = res.project_name;
+          // project.getFolderPaths(res.files);
+          return res.data;
+        });
+    };
+
+    project.getFolderPaths = function (projectObj) {
+      var paths = [];
+      var recursive = function (project) {
+        for (var file in project) {
+          if (project[file].type === 'folder') {
+            paths.push(project[file].path);
+          }
+          if (typeof project[file].files === 'object' && !Array.isArray(project[file].files)) {
+            if (Object.keys(project[file].files).length !== 0) {
+              recursive(project[file].files);
+            }
+          }
+        }
+      };
+      recursive(projectObj);
+      project.folderPaths = paths;
+      return paths;
+    };
+
+    return project;
   });

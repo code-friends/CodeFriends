@@ -8,8 +8,7 @@ var app = require('../../index');
 var agent = request.agent(app);
 var login = require('./login')(agent);
 var fs = Promise.promisifyAll(require('fs'));
-var JSZip = require('JSZip');
-var utf8 = require('utf8');
+var JSZip = require('jszip');
 
 describe('File', function () {
 

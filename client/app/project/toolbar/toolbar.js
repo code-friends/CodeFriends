@@ -2,17 +2,17 @@
 'use strict';
 
 angular.module('code.toolbar', ['ui.bootstrap'])
-  .filter('getFoldersFromProject', function () {
-    return function (project) {
-      var folders = [];
-      for (var file in project) {
-        if (project[file].type === 'folder') {
-          folders.push(project[file]);
-        }
-      }
-      return folders;
-    };
-  })
+  // .filter('getFoldersFromProject', function () {
+  //   return function (project) {
+  //     var folders = [];
+  //     for (var file in project) {
+  //       if (project[file].type === 'folder') {
+  //         folders.push(project[file]);
+  //       }
+  //     }
+  //     return folders;
+  //   };
+  // })
   .controller('toolbarController', function ($scope, $state, $stateParams, $http, ToolbarDocument, $modal, Auth) {
     $scope.themes = [
       'Default',
@@ -93,16 +93,23 @@ angular.module('code.toolbar', ['ui.bootstrap'])
       });
     };
   })
-  .controller('modalProjectController', function ($scope, $stateParams, $modalInstance, Files, Projects, ngSocket) {
-    $scope.filesInProject = Files.files;
+  .controller('modalProjectController', function ($scope, $stateParams, $modalInstance, Files, Projects, ProjectFactory) {
+    $scope.filesInProject = ProjectFactory.files;
+    $scope.folderPaths = ProjectFactory.folderPaths;
+    // currently hacky way of changing drop down button, set in getFolderPath()
     $scope.folderSelected = 'Specify a folder';
-
 
     $scope.status = {
       isopen: false
     };
 
-    var ws = ngSocket('ws://' + window.location.hostname + ':' + window.config.ports.chat);
+    $scope.init = function () {
+      ProjectFactory.getProject($stateParams.projectName)
+        .then(function (project) {
+          $scope.filesInProject = project.files;
+          $scope.folderPaths = ProjectFactory.getFolderPaths(project.files);
+        });
+    };
 
     $scope.toggleDropdown = function ($event) {
       $event.preventDefault();
@@ -112,20 +119,17 @@ angular.module('code.toolbar', ['ui.bootstrap'])
 
     $scope.getFolderPath = function ($event) {
       $scope.folderSelected = $event.target.innerText;
-      //only working for one level of folders now from root dir, not nested folders
 
-      //if root return nothing
+      //if root set to undefined, Factory expects nothing for root dir
       if ($scope.folderSelected === 'root') {
-        return;
+        $scope.folderSelected = undefined;
       }
-      console.log('filessss', $scope.filesInProject);
-      $scope.folderSelectedPath = '/' + $scope.folderSelected;
-      return;
+      return $scope.folderSelected;
     };
 
     $scope.addFile = function () {
       $modalInstance.close();
-      Files.addNewFile($scope.newFileName, $stateParams.projectName, $scope.folderSelectedPath)
+      Files.addNewFile($scope.newFileName, $stateParams.projectName, $scope.folderSelected)
         .then(function () {
           console.log('New File Created');
           ws.send({
@@ -139,7 +143,7 @@ angular.module('code.toolbar', ['ui.bootstrap'])
 
     $scope.addFolder = function () {
       $modalInstance.close();
-      Files.addNewFolder($scope.newFolderName, $stateParams.projectName, $scope.folderSelectedPath)
+      Files.addNewFolder($scope.newFolderName, $stateParams.projectName, $scope.folderSelected)
         .then(function () {
           console.log('New Folder Created');
           ws.send({
@@ -155,4 +159,6 @@ angular.module('code.toolbar', ['ui.bootstrap'])
       $modalInstance.close();
       Projects.addUser($scope.addedUserName, $stateParams.projectName);
     };
+
+    $scope.init();
   });
