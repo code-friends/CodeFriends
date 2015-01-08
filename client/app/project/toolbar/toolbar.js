@@ -61,10 +61,6 @@ angular.module('code.toolbar', ['ui.bootstrap'])
         $state.params.projectName + '/fileName/' + $state.params.documentPath;
     };
 
-    $scope.downloadProjectZip = function () {
-      window.location = '/api/project/download/' + $state.params.projectName;
-    };
-
     $scope.changeEditorTheme = function (event) {
       ToolbarDocument.changeTheme(formatThemeName(event.target.innerText));
     };

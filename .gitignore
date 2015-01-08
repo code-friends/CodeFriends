@@ -1,6 +1,3 @@
-!*
-!*.*
-
 # Dependency directory
 node_modules
 client/lib
@@ -21,8 +18,3 @@ data/*
 data/**/*
 data/logs/*
 data/logs/**/*
-
-# Ignore Fabfile
-fabfile.py
-fabfile.pyc
-**/*.pyc
