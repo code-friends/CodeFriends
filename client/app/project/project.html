@@ -2,12 +2,6 @@
   <!-- toolbar -->
   <div ui-view="toolbar"></div>
   <div class='row-fluid project-container'>
-    <!-- Upload Files -->
-    <div ng-controller="uploadsController">
-      <form class='half-form'>
-        <input type="submit" ng-model="files" ng-file-select="onFileSelect(files)" ng-multiple="true" class="app-prompt-upload" value="Upload Files"/>
-      </form>
-    </div>
     <!-- File Structure -->
     <div ui-view="fileStructure" class="col-md-2 col-sm-3 nopadding project-file-structure"></div>
     <!-- Document -->

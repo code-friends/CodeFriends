@@ -170,7 +170,7 @@ describe('File', function () {
 
   it('should add a new file to the database', function (done) {
     agent
-      .post('/api/upload')
+      .post('/api/file/upload')
       .field('file_name', 'dummyForTest2.js')
       .field('project_name', project_name)
       .field('path', '')
@@ -190,7 +190,7 @@ describe('File', function () {
       .get('/api/project/download/' + project_name)
       .expect(200)
       .expect('content-type', 'application/zip')
-      .expect('Content-disposition', 'attachment; filename=' + project_name)
+      .expect('Content-disposition', 'attachment; filename=' + project_name + '.zip')
       .then(function (res) {
         /**
          * This test it not very good
