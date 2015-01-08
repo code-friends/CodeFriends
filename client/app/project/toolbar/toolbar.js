@@ -42,13 +42,10 @@ angular.module('code.toolbar', ['ui.bootstrap'])
       '3024 Night'
     ];
 
-    $scope.currentProjectName = $stateParams.projectName;
     angular.extend($scope, $state.params);
-    $scope.username = null;
-    Auth.getUserName()
-      .then(function (userInfo) {
-        $scope.username = userInfo.userName;
-      });
+    $scope.currentProjectName = $stateParams.projectName;
+    $scope.username = Auth.userName;
+    $scope.githubAvatarUrl = Auth.githubAvatarUrl;
 
     var formatThemeName = function (theme) {
       theme = theme.toLowerCase();
