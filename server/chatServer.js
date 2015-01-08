@@ -48,8 +48,7 @@ chatWS.on('connection', function (ws) {
         });
     }
 
-    if (parsedMsg.message.type === 'New File Created') {
-      console.log('server will send message for all group in project to refresh project data');
+    if (parsedMsg.message.type === 'project structure changed') {
       var projectMsg = {
         type: 'refresh project'
       };

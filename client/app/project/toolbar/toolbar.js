@@ -121,12 +121,11 @@ angular.module('code.toolbar', ['ui.bootstrap'])
 
     $scope.addFile = function () {
       $modalInstance.close();
-      console.log($scope.newFileName, $stateParams.projectName, $scope.folderSelectedPath);
       Files.addNewFile($scope.newFileName, $stateParams.projectName, $scope.folderSelectedPath)
         .then(function () {
           console.log('New File Created');
           ws.send({
-            type: 'New File Created',
+            type: 'project structure changed',
             newFileName: $scope.newFileName,
             projectName: $stateParams.projectName,
             folderSelectedPath: $scope.folderSelectedPath
@@ -139,6 +138,12 @@ angular.module('code.toolbar', ['ui.bootstrap'])
       Files.addNewFolder($scope.newFolderName, $stateParams.projectName, $scope.folderSelectedPath)
         .then(function () {
           console.log('New Folder Created');
+          ws.send({
+            type: 'project structure changed',
+            newFileName: $scope.newFileName,
+            projectName: $stateParams.projectName,
+            folderSelectedPath: $scope.folderSelectedPath
+          });
         });
     };
 
