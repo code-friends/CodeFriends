@@ -21,6 +21,10 @@ data/*
 data/**/*
 data/logs/*
 data/logs/**/*
+data/tmp/*
+data/tmp/**/*
+!data/logs/.gitkeep
+!data/tmp/.gitkeep
 
 # Ignore Fabfile
 fabfile.py
