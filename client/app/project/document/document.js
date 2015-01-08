@@ -33,11 +33,8 @@ angular.module('code.document', ['ui.router'])
         if (documentPath[0] !== '/') {
           documentPath = '/' + documentPath;
         }
-        console.log('projectId:' , $stateParams.projectId);
-        console.log('documentPath:', documentPath);
         var str = 'p-' + $stateParams.projectId + '-d' + documentPath;
         var documentHash = new Hashes.SHA256().hex(str);
-
         var doc = sjs.get('documents', documentHash);
         doc.subscribe();
         doc.whenReady(function () {
