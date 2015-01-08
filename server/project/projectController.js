@@ -159,7 +159,7 @@ projectController.delete = function (req, res) {
 projectController.downloadSpecificProject = function (req, res) {
   return getProjectZip(req.params.project_name_or_id)
     .then(function (zipObject) {
-      res.setHeader('Content-disposition', 'attachment; filename=' + zipObject.name);
+      res.setHeader('Content-disposition', 'attachment; filename=' + zipObject.name + '.zip');
       res.setHeader('content-type', 'application/zip');
       res.sendFile(zipObject.path);
     })

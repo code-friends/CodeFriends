@@ -79,8 +79,11 @@ angular.module('code.services', [])
             Auth.userId = res.data.userId;
             Auth.userName = res.data.userName;
             Auth.githubAvatarUrl = res.data.githubAvatarUrl;
-            if (res.data.userId === null && redirectToLogin !== false) {
-              $state.go('login');
+            if (res.data.userId === null) {
+              if(redirectToLogin !== false) {
+                return $state.go('login');
+              }
+              return false;
             }
             return {
               'userName': Auth.userName,
@@ -136,7 +139,6 @@ angular.module('code.services', [])
           })
           .then(function () {
             // Get files with added files
-            console.log(projectName);
             return files.getAllFiles(projectName);
           });
       };

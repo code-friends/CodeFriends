@@ -2,12 +2,18 @@
   "name": "CodeFriends",
   "version": "1.0.0",
   "description": "Remote pair/group programming environment",
-  "main": "server/index.js",
+  "main": "client/nw.html",
   "scripts": {
     "start": "./node_modules/forever/bin/forever start -p ./data/logs -a -o ./data/logs/stdout.log -e ./data/logs/stderr.log server ",
     "test": "export NODE_ENV='test'; ./node_modules/mocha/bin/mocha -t 5000 server/tests/index",
     "dev": "./node_modules/nodemon/bin/nodemon.js server",
     "clean": "npm install && bower install && node server/deleteAllDatabases && gulp"
+  },
+  "window": {
+    "toolbar": true,
+    "frame"  : true,
+    "width": 800,
+    "height": 600
   },
   "repository": {
     "type": "git",

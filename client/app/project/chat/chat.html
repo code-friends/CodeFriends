@@ -7,7 +7,9 @@
         <div class="thumbnailAndName"class="col-sm-12">
           <table>
             <tr>
-              <td class='image'><img class='avatar-72' src="{{friend.githubAvatarUrl}}&s=72"> </img></td>
+              <td class='image'>
+                <img class='avatar-72' ng-src="{{ friend.githubAvatarUrl }}&s=72&id=chat"></img>
+              </td>
               <td class='name'>
                  <span>{{friend.username}}</span>
               </td>

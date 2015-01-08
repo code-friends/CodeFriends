@@ -15,7 +15,7 @@ var config = {
     'password': '',
     'database': 'code_friends'
   },
-  'mongo': 'mongodb://localhost:27017/codeFriends?auto_reconnect',
+  'mongo': 'mongodb://127.0.0.1:27017/codeFriends?auto_reconnect',
   'ports': {
     'http': 8000,
     'editor': 9000,
