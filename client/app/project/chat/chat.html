@@ -1,14 +1,14 @@
 <div class="chatContainer" ng-controller="chatController">
   <!-- Chat Collaborators -->
   <div class='chat-collaborators-container chat-container'>
-    <h4 class="chatSubTitle"> Collaborators</h4>
+    <h4 class="chatSubTitle"> Collaborators In Room</h4>
     <div class="friendsContainer">
-      <div class='single-friend-container' ng-repeat="friend in users">
+      <div class='single-friend-container' ng-repeat="friend in usersInRoom">
         <div class="thumbnailAndName"class="col-sm-12">
           <table>
             <tr>
               <td class='image'>
-                <img class='avatar-72' ng-src="{{ friend.githubAvatarUrl }}&s=72&id=chat"></img>
+                <img class='avatar-72' ng-src="{{ friend.githubAvatar }}&s=72&id=chat"></img>
               </td>
               <td class='name'>
                  <span>{{friend.username}}</span>
@@ -32,7 +32,7 @@
   <!-- Chat Message -->
   <div class='chat-content-container chat-container'>
     <h4 class="chatSubTitle"> Chat </h4>
-    <div id="chatContent" scroll-glue="!glued">
+    <div class="chatContent" scroll-glue="!glued">
       <div class="messageContainer" ng-repeat="message in messages">
         <div id={{message.createdAt}} class="row">
           <div class="col-sm-5"><strong>{{message.username}}</strong> </div>

@@ -7,16 +7,12 @@ angular.module('code.chat', ['ui.router', 'ngSanitize', 'luegg.directives'])
     $scope.username = Auth.userName;
     $scope.roomID = roomID;
     $scope.messages = [];
+    $scope.usersInRoom = [];
     $scope.emitStartVideo = function () {
       $rootScope.$broadcast('STARTVIDEO');
       var icon = document.getElementById('videoButton');
       icon.className += ' Active';
     };
-
-    chatFactory.getUsers(roomID)
-      .then(function (data) {
-        $scope.users = data.data.user;
-      });
 
     var updateTime = function () {
       for (var i = 0; i < $scope.messages.length; i = i + 1) {
@@ -26,7 +22,10 @@ angular.module('code.chat', ['ui.router', 'ngSanitize', 'luegg.directives'])
 
     $interval(updateTime, 15000);
 
-    SocketFactory.joinedRoom(roomID);
+    SocketFactory.onUserJoined(function (userObj) {
+      $scope.usersInRoom = userObj.userConnections;
+      console.log("CLIENT SIDE USERS IN ROOM", $scope.usersInRoom);
+    }, roomID);
 
     SocketFactory.onMessageHistory(function (eachMessage) {
       $scope.messages.push(eachMessage);
