@@ -15,6 +15,7 @@ var createNewFileOrFolder = require('./fileController')._createNewFileOrFolder;
 
 var uploadController = {
   uploadNewFile: function (req, res) {
+
     var form = new multiparty.Form();
     // Upload file to mongo
     form.parseAsync(req)
@@ -46,7 +47,7 @@ var uploadController = {
          * This currently doesn't support paths (it should)
          * Remove the '/' in that string and replace it with proper paths
          */
-         return uploadController._addFileWithContentToProject(projectName, documentName, userId, fileContent);
+        return uploadController._addFileWithContentToProject(projectName, documentName, userId, fileContent);
       });
   },
   _addFileWithContentToProject: function (projectName, documentName, userId, fileContent) {
@@ -62,7 +63,7 @@ var uploadController = {
             console.log('LiveDB (_addFileWithContentToProject) Document Already Exists', err);
           })
           .then(function () { // err, version, transformedByOps, snapshot
-             var fileInfo = {
+            var fileInfo = {
               projectName: projectName,
               fileName: path.basename(documentName),
               type: 'file', ///need to make flexible to take folders too
@@ -77,48 +78,48 @@ var uploadController = {
       });
   },
   _addAllFilesInZipToProject: function (projectModel, userId, zipFilePathInFileSystem) {
-      return fs.readFileAsync(zipFilePathInFileSystem)
-        .then(function (fileContents) {
-          var zip = new JSZip(fileContents);
-          // Get all files in project using a regular expression
-          var allFiles = zip.file(/./g);
-          allFiles = allFiles.filter(function (file) {
-            return !uploadController.fileShouldBeIgnored(file.name);
-          });
-          var allFilesAreInSameDirectory = uploadController.isEveryFileInSameDirectory(allFiles);
-          if (allFilesAreInSameDirectory) {
-            allFiles = uploadController.removeFirstDirectory(allFiles);
-          }
-          // Add all files to fileStructrue and add contents to database
-          return allFiles.reduce(function (soFar, file) {
-              return soFar.then(function () {
-                var isFolder = (_.last(file.name) === '/');
-                if (isFolder) {
-                  // Write file to file structure
-                  return createNewFileOrFolder({
-                    projectId: projectModel.get('id'),
-                    path: path.dirname(file.name),
-                    fileName: path.basename(file.name),
-                    userId: userId,
-                    type: 'folder'
-                  });
-                }
-                // projectName, documentName, userId, fileContent
-                return uploadController._addFileWithContentToProject(
-                  projectModel.get('project_name'),
-                  file.name,
-                  userId,
-                  file.asText()
-                );
-              });
-          }, new Q());
-        })
-        .catch(function (err) {
-          console.log('Error Creating Files', err);
-        })
-        .then(function () {
-          return projectModel;
+    return fs.readFileAsync(zipFilePathInFileSystem)
+      .then(function (fileContents) {
+        var zip = new JSZip(fileContents);
+        // Get all files in project using a regular expression
+        var allFiles = zip.file(/./g);
+        allFiles = allFiles.filter(function (file) {
+          return !uploadController.fileShouldBeIgnored(file.name);
         });
+        var allFilesAreInSameDirectory = uploadController.isEveryFileInSameDirectory(allFiles);
+        if (allFilesAreInSameDirectory) {
+          allFiles = uploadController.removeFirstDirectory(allFiles);
+        }
+        // Add all files to fileStructrue and add contents to database
+        return allFiles.reduce(function (soFar, file) {
+          return soFar.then(function () {
+            var isFolder = (_.last(file.name) === '/');
+            if (isFolder) {
+              // Write file to file structure
+              return createNewFileOrFolder({
+                projectId: projectModel.get('id'),
+                path: path.dirname(file.name),
+                fileName: path.basename(file.name),
+                userId: userId,
+                type: 'folder'
+              });
+            }
+            // projectName, documentName, userId, fileContent
+            return uploadController._addFileWithContentToProject(
+              projectModel.get('project_name'),
+              file.name,
+              userId,
+              file.asText()
+            );
+          });
+        }, new Q());
+      })
+      .catch(function (err) {
+        console.log('Error Creating Files', err);
+      })
+      .then(function () {
+        return projectModel;
+      });
   },
   fileShouldBeIgnored: function (filePath) {
     if (filePath === '') return true;
@@ -144,11 +145,17 @@ var uploadController = {
     return files;
   },
   /**
+   
    * Determine if all files are in the same directory
+   
    *
+   
    * @param <Array> an array of object with the `name` property
+   
    * @return <Boolean>
+   
    */
+
   isEveryFileInSameDirectory: function (files) {
     var allTopDirectoryNames = _.map(files, function (file) {
       if (file[0] === '/') file = file.substring(1);
@@ -156,6 +163,7 @@ var uploadController = {
     });
     var uniqeDirectories = _.unique(allTopDirectoryNames);
     return uniqeDirectories.length === 1 && uniqeDirectories[0] !== undefined;
+
   }
 };
 
