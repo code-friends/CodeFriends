@@ -1,0 +1,13 @@
+<div>
+  <h1 class="modal-header">Add a new project</h1>
+  <div class="modal-body">
+    <form ng-submit="closeModal()">
+      <input type="text" ng-model="newProjectName" class="modalTextInput" placeholder="Enter project name">
+      <tabset>
+        <tab heading="Upload Zip">zip stuff here</tab>
+        <tab heading="Use Git">use git here</tab>
+      </tabset>
+      <input type="submit" class="modalSubmit" value="Add">
+    </form>
+  </div>
+</div>

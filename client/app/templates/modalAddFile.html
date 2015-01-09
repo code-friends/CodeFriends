@@ -1,7 +1,7 @@
 <div>
   <h1 class="modal-header">Add a file to this project</h1>
   <div class="modal-body">
-    <div class="btn-group" dropdown is-open="status.isopen">
+    <div class="btn-group" dropdown>
       <button type="button" class="btn btn-primary dropdown-toggle modalDropDownButton" dropdown-toggle ng-disabled="disabled">
         {{folderSelected}}<span ng-if="folderSelected === 'Specify a folder'" class="caret"></span>
       </button>
@@ -12,7 +12,7 @@
     </div>
     <form ng-submit="addFile()" class="addFileForm">
       <input type="text" placeholder="Enter file name" ng-model="newFileName" class="modalTextInput">
-      <input type="submit" text="Add" class="modalSubmit">
+      <input type="submit" value="Add" class="modalSubmit">
     </form>
   </div>
 </div>

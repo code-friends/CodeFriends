@@ -13,6 +13,12 @@
   max-width: 1200px;
   margin: 0 auto;
 }
+
+.projects-header {
+  padding: 15px 0px;
+}
+
+
 .new-project-submission-form {
   float: right;
   margin-top: 25px;
@@ -39,4 +45,24 @@ a:last-child {
 // Margin-bottom
 .btn-github-login {
   margin-bottom: 20px;
+}
+
+// add project icon
+.add-icon {
+  background-image: url($add-project-icon-path);
+  width: 38px;
+  height: 38px;
+  background-size: contain;
+  display: inline-block;
+  float: right;
+  .mouseover-text {
+    display: none;
+    width: 97px;
+    top: 114%;
+    left: 81%;
+  }
+  &:hover .mouseover-text{
+    display: inline-block;
+    position: absolute;
+  }
 }
