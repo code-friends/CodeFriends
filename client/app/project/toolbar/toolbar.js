@@ -101,10 +101,6 @@ angular.module('code.toolbar', ['ui.bootstrap'])
     // currently hacky way of changing drop down button, set in getFolderPath()
     $scope.folderSelected = 'Specify a folder';
 
-    $scope.status = {
-      isopen: false
-    };
-
     $scope.init = function () {
       ProjectFactory.getProject($stateParams.projectName)
         .then(function (project) {
@@ -113,11 +109,6 @@ angular.module('code.toolbar', ['ui.bootstrap'])
         });
     };
 
-    $scope.toggleDropdown = function ($event) {
-      $event.preventDefault();
-      $event.stopPropagation();
-      $scope.status.isopen = !$scope.status.isopen;
-    };
 
     $scope.getFolderPath = function ($event) {
       $scope.folderSelected = $event.target.innerText;
