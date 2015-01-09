@@ -8,8 +8,9 @@ angular.module('code.video', ['ui.router', 'ngSanitize'])
     $scope.$on('STARTVIDEO', function () {
       VideoFactory.startLocalVideo();
       var localVideo = document.getElementById('localVideo');
-      localVideo.style.boxShadow = "-3px -3px 3px #222";
+      localVideo.className = 'localVideoActive';
     });
+
     // when it's ready, join if we got a room from the URL
     VideoFactory.on('readyToCall', function (data) {
       console.log("readytoCall", roomID, data);
@@ -45,7 +46,7 @@ angular.module('code.video', ['ui.router', 'ngSanitize'])
         var vol = document.createElement('div');
         vol.id = 'volume_' + peer.id;
         vol.className = 'volume_bar';
-        video.style.boxShadow = "-3px -3px 3px #222";
+        video.style.boxShadow = "-3px -3px 4px #222";
         d.appendChild(vol);
         remotes.appendChild(d);
       }
