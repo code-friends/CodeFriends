@@ -1,6 +1,10 @@
 $input-height: 30px;
 
 //Modal styling, fo input, submit button and dropdown
+.modal-dialog {
+  position: relative;
+  top: 31px;
+}
 .modal-content {
   background-color: $blue-grey-opaque;
   color: white;
