@@ -20,6 +20,8 @@ var downloadController = {
       });
   },
   _getFileContents: function (projectNameOrId, documentPath) {
+    console.log('projectNameOrId: ', projectNameOrId);
+    console.log('documentPath: ', documentPath);
     if (!projectNameOrId) throw new Error('No Project Specified');
     if (typeof documentPath !== 'string') throw new Error('No Document Path Specified');
     return getDocumentHash(projectNameOrId, documentPath)
@@ -45,6 +47,7 @@ var downloadController = {
           });
       })
       .then(function (fileContents) {
+        console.log('fileContents: ', fileContents);
         return fileContents;
       })
       .catch(function (err) {
