@@ -9,6 +9,8 @@ angular.module('code.chat', ['ui.router', 'ngSanitize', 'luegg.directives'])
     $scope.messages = [];
     $scope.emitStartVideo = function () {
       $rootScope.$broadcast('STARTVIDEO');
+      var icon = document.getElementById('videoButton');
+      icon.className += ' Active';
     };
 
     chatFactory.getUsers(roomID)
