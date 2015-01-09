@@ -180,7 +180,7 @@ describe('File', function () {
       .field('file_name', 'dummyForTest2.js')
       .field('project_name', project_name)
       .field('path', '')
-      .attach('testFile', './server/tests/test-files/dummyForTest.js')
+      .attach('file', './server/tests/test-files/dummyForTest.js')
       .expect(201)
       .then(function (res) {
         expect(res.body.files.dummyForTest2js).to.be.an('object');

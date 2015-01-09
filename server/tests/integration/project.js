@@ -7,6 +7,7 @@ var app = require('../../index');
 var agent = request.agent(app);
 var login = require('./login')(agent);
 var _ = require('lodash');
+var expect = require('chai').expect;
 
 describe('Project', function () {
 
@@ -85,8 +86,26 @@ describe('Project', function () {
          */
         .attach('project_file', './server/tests/test-files/zipExampleProject.zip')
         .expect(201)
-        .then(function (res) {
-          done();
+        .then(function () {
+          agent
+            .get('/api/project/' + 'zipProjectExample')
+            .expect(200)
+            .then(function (res) {
+              var files = res.body.files;
+              // example.md
+              files.examplemd.should.be.an.instanceOf(Object);
+              files.examplemd.name.should.equal('example.md');
+              files.examplemd.type.should.equal('file');
+              // exampleFolder
+              files.exampleFolder.name.should.equal('exampleFolder');
+              files.exampleFolder.type.should.equal('folder');
+              files.exampleFolder.files.should.be.an.instanceOf(Object);
+              // exampleFolder/superExample.js
+              files.exampleFolder.files.superExamplejs.should.be.an.instanceOf(Object);
+              files.exampleFolder.files.superExamplejs.name.should.equal('superExample.js');
+              files.exampleFolder.files.superExamplejs.type.should.equal('file');
+              done();
+            });
         });
     });
 
@@ -104,8 +123,22 @@ describe('Project', function () {
          */
         .attach('project_file', './server/tests/test-files/fileExample.zip')
         .expect(201)
-        .then(function (res) {
-          done();
+        .then(function () {
+          agent
+            .get('/api/project/' + 'zipFileExample')
+            .expect(200)
+            .then(function (res) {
+              var files = res.body.files;
+              files.should.have.property('superExamplejs');
+              files.should.have.property('examplemd');
+              files.superExamplejs.should.be.an.instanceOf(Object);
+              files.examplemd.should.be.an.instanceOf(Object);
+              files.superExamplejs.name.should.equal('superExample.js');
+              files.superExamplejs.type.should.equal('file');
+              files.examplemd.name.should.equal('example.md');
+              files.examplemd.type.should.equal('file');
+              done();
+            });
         });
     });
   });
