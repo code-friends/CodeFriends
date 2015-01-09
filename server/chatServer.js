@@ -11,14 +11,16 @@ var chatApp = connect(),
     server: chatServer
   });
 
+var userConnections = {};
+
 chatWS.on('connection', function (ws) {
   console.log('Chat WS: New Connection Established');
   ws.on('message', function (msg) {
     var parsedMsg = JSON.parse(msg);
     var chatRoomName = parsedMsg.message.roomID;
+    var username = parsedMsg.message.username;
     if (parsedMsg.message.type === 'message') {
       var message = parsedMsg.message.message;
-      var username = parsedMsg.message.username;
       var createDate = parsedMsg.message.createdAt;
       mongoClient.connectAsync('mongodb://localhost:27017/codeFriends?auto_reconnect')
         .then(function (db) {
@@ -35,6 +37,13 @@ chatWS.on('connection', function (ws) {
     }
 
     if (parsedMsg.message.type === 'joinRoom') {
+      if (userConnections[chatRoomName] === undefined) {
+        userConnections[chatRoomName] = [];
+      };
+      userConnections[chatRoomName].push({
+        username: parsedMsg.message.username,
+        githubAvatar: parsedMsg.message.githubAvatar
+      });
       mongoClient.connectAsync('mongodb://localhost:27017/codeFriends?auto_reconnect')
         .then(function (db) {
           var chatCollection = Promise.promisifyAll(db.collection(chatRoomName));
@@ -43,6 +52,11 @@ chatWS.on('connection', function (ws) {
               roomID: chatRoomName,
               type: 'msgHistory',
               messages: results
+            }));
+            chatWS.broadcast(JSON.stringify({
+              type: 'refresh users',
+              userConnections: userConnections[chatRoomName],
+              roomID: chatRoomName
             }));
           });
         });
@@ -54,8 +68,29 @@ chatWS.on('connection', function (ws) {
       };
       chatWS.broadcast(JSON.stringify(projectMsg));
     }
+
+    if (parsedMsg.message.type === 'user present') {
+      userConnections[chatRoomName].push({
+        username: parsedMsg.message.username,
+        githubAvatar: parsedMsg.message.githubAvatar
+      });
+      chatWS.broadcast(JSON.stringify({
+        type: 'refresh users',
+        userConnections: userConnections[chatRoomName],
+        roomID: chatRoomName
+      }));
+    }
+    ws.on('close', function () {
+      userConnections[chatRoomName] = [];
+      console.log('Chat WS: Connection Closed');
+      chatWS.broadcast(JSON.stringify({
+        type: 'attendence check',
+        roomID: chatRoomName
+      }));
+    });
   });
 });
+
 
 chatWS.broadcast = function broadcast(data) {
   for (var i in this.clients) {

@@ -71,24 +71,53 @@ angular.module('code.services', [])
 
     return projects;
   })
-  .factory('SocketFactory', function (ngSocket, $stateParams) {
+  .factory('SocketFactory', function (Auth, ngSocket, $stateParams) {
     var socketConnection = {};
     var locationName = window.location.hostname;
     var chatPort = window.config.ports.chat;
     console.log('SocketFactory init');
     var ws = ngSocket('ws://' + locationName + ':' + chatPort);
+    console.log("the USERNAME IS", Auth.userName);
+    console.log("the roomID is", $stateParams.projectName);
+    var username = Auth.userName;
+    var avatar = Auth.githubAvatarUrl;
 
     // Send joinedRoom message to the server
     ws.onOpen(function () {
-      ws.send({
+      var connectionObj = {
         type: 'joinRoom',
-        roomID: $stateParams.projectName
-      });
+        roomID: $stateParams.projectName,
+        username: username,
+        githubAvatar: avatar
+      };
+      ws.send(connectionObj);
     });
-    // May need to be used later. 
-    socketConnection.joinedRoom = function (roomID) {
-      ws.onOpen(function () {
-        // Listen to the onOpen event triggered by the server
+
+    ws.onMessage(function (msg) {
+      msg = JSON.parse(msg.data);
+
+      if (msg.roomID === $stateParams.projectName) {
+        if (msg.type === 'attendence check') {
+          console.log("ATTENDENCE CHECK");
+          ws.send({
+            type: 'user present',
+            roomID: $stateParams.projectName,
+            username: username,
+            githubAvatar: avatar
+          });
+        }
+      }
+    });
+
+    socketConnection.usersOnline = function (callback, roomID) {
+      ws.onMessage(function (msg) {
+        msg = JSON.parse(msg.data);
+        if (msg.roomID === roomID) {
+          if (msg.type === 'refresh users') {
+            console.log('WE GOT TO THE MSG', msg);
+            callback(msg);
+          }
+        }
       });
     };
 
@@ -105,14 +134,14 @@ angular.module('code.services', [])
       ws.send(msg);
     };
 
-    socketConnection.onMessageHistory = function (callback, roomID) {
+    socketConnection.onMessageHistory = function (messagecallback, roomID, usercallback) {
       ws.onMessage(function (msg) {
         msg = JSON.parse(msg.data);
         if (msg.roomID === roomID) {
           if (msg.type === 'msgHistory') {
             for (var i = 0; i < msg.messages.length; i++) {
               msg.messages[i].timeAgo = moment(msg.messages[i].createdAt).fromNow();
-              callback(msg.messages[i]);
+              messagecallback(msg.messages[i]);
             }
           }
         }
