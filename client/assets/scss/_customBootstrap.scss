@@ -8,6 +8,7 @@ $input-height: 30px;
 .modal-content {
   background-color: $blue-grey-opaque;
   color: white;
+  text-align: center;
   .modalDropDownButton {
     background-color: $blue-grey;
     border: none;
@@ -52,36 +53,48 @@ $input-height: 30px;
     color: white;
   }
   .modalSubmit {
-    background-color: $blue-grey;
-    border: none;
-    height: $input-height;
-    border-radius: 4px;
+    // background-color: $blue-grey;
+    background-color: rgba(0, 0, 0, 0);
+    border: 1px solid white;
+    height: 30px;
+    border-radius: 14px;
   }
   .addFileForm {
     margin-top: 5%;
   }
 }
 
-// tabs styling
+// tabs styling in modals
 // $darken-blue-tab-color: darken(#6D91A3, 0.8);
-.nav-tabs > li.active > a {
-  background-color: #4C7284;
-  color: white;
-  &:hover {
-    background-color: #4C7284;
-  }
-  &:focus {
+.modal-dialog {  
+  .nav-tabs > li.active > a {
     background-color: #4C7284;
     color: white;
+    &:hover {
+      background-color: #4C7284;
+    }
+    &:focus {
+      background-color: #4C7284;
+      color: white;
+    }
+  }
+  .nav > li > a:hover {
+    background-color: #6D91A3;
+  }
+  .tab-content {
+    background-color: #4C7284;
+  }
+}  
+
+.createProjectModal {
+  // .modal-content {
+    // width: 65%;
+    // margin: 0 auto;
+  // }
+  #submit-glyphicon {
+    font-size: 2.5em;
   }
 }
-.nav > li > a:hover {
-  background-color: #6D91A3;
-}
-.tab-content {
-  background-color: #4C7284;
-}
-
 
 
 // toolbar styling

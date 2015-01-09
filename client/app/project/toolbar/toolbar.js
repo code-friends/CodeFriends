@@ -2,17 +2,6 @@
 'use strict';
 
 angular.module('code.toolbar', ['ui.bootstrap'])
-  // .filter('getFoldersFromProject', function () {
-  //   return function (project) {
-  //     var folders = [];
-  //     for (var file in project) {
-  //       if (project[file].type === 'folder') {
-  //         folders.push(project[file]);
-  //       }
-  //     }
-  //     return folders;
-  //   };
-  // })
   .controller('toolbarController', function (SocketFactory, $scope, $state, $stateParams, $http, ToolbarDocument, $modal, Auth) {
     $scope.themes = [
       'Default',
@@ -112,16 +101,14 @@ angular.module('code.toolbar', ['ui.bootstrap'])
 
     $scope.getFolderPath = function ($event) {
       $scope.folderSelected = $event.target.innerText;
-
-      //if root set to undefined, Factory expects nothing for root dir
-      if ($scope.folderSelected === 'root') {
-        $scope.folderSelected = undefined;
-      }
       return $scope.folderSelected;
     };
 
     $scope.addFile = function () {
       $modalInstance.close();
+      if ($scope.folderSelected === '/' || $scope.folderSelected === 'Specify a folder') {
+        $scope.folderSelected = undefined;
+      }
       Files.addNewFile($scope.newFileName, $stateParams.projectName, $scope.folderSelected)
         .then(function () {
           SocketFactory.send({
@@ -133,6 +120,9 @@ angular.module('code.toolbar', ['ui.bootstrap'])
 
     $scope.addFolder = function () {
       $modalInstance.close();
+      if ($scope.folderSelected === '/' || $scope.folderSelected === 'Specify a folder') {
+        $scope.folderSelected = undefined;
+      }
       Files.addNewFolder($scope.newFolderName, $stateParams.projectName, $scope.folderSelected)
         .then(function () {
           console.log('New Folder Created');

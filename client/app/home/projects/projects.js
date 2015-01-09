@@ -22,7 +22,7 @@ angular.module('code.projects', ['ui.router'])
       $modal.open({
         templateUrl: '/app/templates/modalCreateProject.html',
         controller: 'createProjectModalController',
-        size: 'lg'
+        size: 'sm'
       }).result.then(function () {
         $scope.init();
       });
@@ -35,6 +35,9 @@ angular.module('code.projects', ['ui.router'])
 
     $scope.closeModal = function () {
       $modalInstance.close();
-      Projects.createProject($scope.newProjectName);
+      // does not send post request if no project name is provided
+      if ($scope.newProjectName !== undefined) {
+        Projects.createProject($scope.newProjectName);
+      }
     };
   });

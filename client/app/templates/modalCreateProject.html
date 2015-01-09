@@ -1,13 +1,20 @@
-<div>
+<div class="createProjectModal">
   <h1 class="modal-header">Add a new project</h1>
   <div class="modal-body">
-    <form ng-submit="closeModal()">
+    <form>
       <input type="text" ng-model="newProjectName" class="modalTextInput" placeholder="Enter project name">
       <tabset>
-        <tab heading="Upload Zip">zip stuff here</tab>
+        <tab heading="Upload Zip">
+          <div ng-controller="uploadsController">
+            <form class='half-form'>
+              <input type="submit" ng-model="files" ng-file-select="onFileSelect(files)" ng-multiple="true" class="app-prompt-upload modalSubmit" value="Upload Files"/>
+            </form>
+          </div>
+        </tab>
         <tab heading="Use Git">use git here</tab>
       </tabset>
-      <input type="submit" class="modalSubmit" value="Add">
+      <span ng-click="closeModal()"><span class="glyphicon glyphicon-plus" id="submit-glyphicon"></span></span>
+      <!-- <input type="submit" class="modalSubmit glyphicon glyphicon-plus"> -->
     </form>
   </div>
 </div>
