@@ -22,9 +22,10 @@ angular.module('code.chat', ['ui.router', 'ngSanitize', 'luegg.directives'])
 
     $interval(updateTime, 15000);
 
-    SocketFactory.onUserJoined(function (userObj) {
+    SocketFactory.usersOnline(function (userObj) {
       $scope.usersInRoom = userObj.userConnections;
-      console.log("CLIENT SIDE USERS IN ROOM", $scope.usersInRoom);
+      var usersOnlineDiv = document.getElementById('gluedChatContent');
+      usersOnlineDiv.className = 'chatContent' + $scope.usersInRoom.length;
     }, roomID);
 
     SocketFactory.onMessageHistory(function (eachMessage) {
@@ -34,7 +35,6 @@ angular.module('code.chat', ['ui.router', 'ngSanitize', 'luegg.directives'])
     SocketFactory.onChat(function (chatMessage) {
       $scope.messages.push(chatMessage);
     }, roomID);
-
   })
   .directive('ngEnter', function (SocketFactory) {
     return function ($scope, element, attrs) {

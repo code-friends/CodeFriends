@@ -32,7 +32,7 @@
   <!-- Chat Message -->
   <div class='chat-content-container chat-container'>
     <h4 class="chatSubTitle"> Chat </h4>
-    <div class="chatContent" scroll-glue="!glued">
+    <div id="gluedChatContent" class="chatContent1" scroll-glue="!glued">
       <div class="messageContainer" ng-repeat="message in messages">
         <div id={{message.createdAt}} class="row">
           <div class="col-sm-5"><strong>{{message.username}}</strong> </div>
