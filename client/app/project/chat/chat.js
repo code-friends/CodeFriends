@@ -2,11 +2,14 @@
 'use strict';
 
 angular.module('code.chat', ['ui.router', 'ngSanitize', 'luegg.directives'])
-  .controller('chatController', function ($location, $anchorScroll, $document, $window, $scope, $state, $http, ngSocket, $stateParams, Auth, $interval, chatFactory, SocketFactory) {
+  .controller('chatController', function ($rootScope, $location, $anchorScroll, $document, $window, $scope, $state, $http, ngSocket, $stateParams, Auth, $interval, chatFactory, SocketFactory) {
     var roomID = $stateParams.projectName;
     $scope.username = Auth.userName;
     $scope.roomID = roomID;
     $scope.messages = [];
+    $scope.emitStartVideo = function () {
+      $rootScope.$broadcast('STARTVIDEO');
+    };
 
     chatFactory.getUsers(roomID)
       .then(function (data) {
