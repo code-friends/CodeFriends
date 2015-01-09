@@ -68,42 +68,46 @@ describe('Project', function () {
       });
   });
 
-  it('should add all files to the project when a .zip is passed in the POST request', function (done) {
-    agent
-      .post('/api/project')
-      .send({
-        project_name: 'zipExample'
-      })
-      .field('project_name', 'zipExample')
-      /**
-       * This .zip contains the following files
-       * zipExampleProject
-       * - example.md
-       * - exampleFolder/superExample.js
-       * - exampleFolder/subExampleFolder/subSuperExampleFolder.js
-       */
-      .attach('project_file', './server/tests/test-files/zipExampleProject.zip')
-      .expect(201)
-      .then(function (res) {
-        // console.log('Project Response');
-        // console.log(res);
-        done();
-        // var _project = res.body;
-        // agent
-        //   .get('/api/project/' + _project.project_name)
-        //   .expect(201)
-        //   .end(function (err, res) {
-        //     var project = res.body;
-        //     project.should.have.property('id');
-        //     project.should.have.property('project_name');
-        //     project.project_name.should.equal(_project.project_name);
-        //     project.should.have.property('created_at');
-        //     project.should.have.property('updated_at');
-        //     project.should.have.property('user');
-        //     project.user.should.be.instanceof(Array);
-        //     done();
-        //   });
-      });
+  describe('Uploading .zips in POST /api/project', function () {
+    it('should add all files in the main folder', function (done) {
+      agent
+        .post('/api/project')
+        .send({
+          project_name: 'zipProjectExample'
+        })
+        .field('project_name', 'zipProjectExample')
+        /**
+         * This .zip contains the following files
+         * zipExampleProject
+         * - example.md
+         * - exampleFolder/superExample.js
+         * - exampleFolder/subExampleFolder/subSuperExampleFolder.js
+         */
+        .attach('project_file', './server/tests/test-files/zipExampleProject.zip')
+        .expect(201)
+        .then(function (res) {
+          done();
+        });
+    });
+
+    it('should add all files in the main folder', function (done) {
+      agent
+        .post('/api/project')
+        .send({
+          project_name: 'zipFileExample'
+        })
+        .field('project_name', 'zipFileExample')
+        /**
+         * This .zip contains the following files
+         * example.md
+         * superExample.js
+         */
+        .attach('project_file', './server/tests/test-files/fileExample.zip')
+        .expect(201)
+        .then(function (res) {
+          done();
+        });
+    });
   });
 
   it('should add a user to a project on PUT /project/addUser', function (done) {
