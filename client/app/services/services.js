@@ -109,7 +109,7 @@ angular.module('code.services', [])
       }
     });
 
-    socketConnection.onUserJoined = function (callback, roomID) {
+    socketConnection.usersOnline = function (callback, roomID) {
       ws.onMessage(function (msg) {
         msg = JSON.parse(msg.data);
         if (msg.roomID === roomID) {
@@ -143,7 +143,6 @@ angular.module('code.services', [])
               msg.messages[i].timeAgo = moment(msg.messages[i].createdAt).fromNow();
               messagecallback(msg.messages[i]);
             }
-            console.log(msg.users);
           }
         }
       });

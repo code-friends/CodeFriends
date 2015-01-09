@@ -82,6 +82,7 @@ chatWS.on('connection', function (ws) {
     }
     ws.on('close', function () {
       userConnections[chatRoomName] = [];
+      console.log('Chat WS: Connection Closed');
       chatWS.broadcast(JSON.stringify({
         type: 'attendence check',
         roomID: chatRoomName
