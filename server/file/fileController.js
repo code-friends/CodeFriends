@@ -237,6 +237,7 @@ var fileController = {
     };
     if (!isFilesAttribute) getPaths(fileStructure.files); // default
     if (isFilesAttribute) getPaths(fileStructure);
+
     return filePaths;
   },
   moveFileInProject: function (req, res) {

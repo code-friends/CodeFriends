@@ -19,6 +19,7 @@ var downloadController = {
         console.log('Error downloading file: ', err);
       });
   },
+
   _getFileContents: function (projectNameOrId, filePath) {
     if (!projectNameOrId) throw new Error('No Project Specified');
     if (typeof filePath !== 'string') throw new Error('No Document Path Specified');
@@ -45,6 +46,7 @@ var downloadController = {
           });
       })
       .then(function (fileContents) {
+        console.log('fileContents: ', fileContents);
         return fileContents;
       })
       .catch(function (err) {
