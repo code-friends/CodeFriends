@@ -248,7 +248,7 @@ describe('File', function () {
       .field('file_name', 'dummyForTest4.js')
       .field('project_name', project_name)
       .field('projectIdOrName', project_name)
-      .field('path', '/example/')
+      .field('path', '/example')
       .field('type', 'file')
       .attach('testFile', './server/tests/test-files/dummyForTest.js')
       .expect(201)
