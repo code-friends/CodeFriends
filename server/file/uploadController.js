@@ -54,7 +54,7 @@ var uploadController = {
                 };
                 fileController._createNewFileOrFolder(fileInfo)
                   .then(function (newFileStructre) {
-                    res.json(newFileStructre);
+                    res.status(201).json(newFileStructre);
                   })
                   .catch(function (err) {
                     console.log('Error Creating File or Folder: ', err);

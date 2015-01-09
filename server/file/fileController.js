@@ -31,7 +31,7 @@ var fileController = {
     }
     fileController._createNewFileOrFolder(fileInfo)
       .then(function (fileStructure) {
-        return res.json(fileStructure);
+        return res.status(201).json(fileStructure);
       })
       .catch(function (err) {
         return res.status(400).send(err.toString()).end();
