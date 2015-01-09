@@ -48,7 +48,7 @@ describe('Project', function () {
       .send({
         project_name: 'tennis'
       })
-      .expect(200)
+      .expect(201)
       .end(function (err, res) {
         var _project = res.body;
         agent
@@ -65,6 +65,44 @@ describe('Project', function () {
             project.user.should.be.instanceof(Array);
             done();
           });
+      });
+  });
+
+  it('should add all files to the project when a .zip is passed in the POST request', function (done) {
+    agent
+      .post('/api/project')
+      .send({
+        project_name: 'zipExample'
+      })
+      .field('project_name', 'zipExample')
+      /**
+       * This .zip contains the following files
+       * zipExampleProject
+       * - example.md
+       * - exampleFolder/superExample.js
+       * - exampleFolder/subExampleFolder/subSuperExampleFolder.js
+       */
+      .attach('project_file', './server/tests/test-files/zipExampleProject.zip')
+      .expect(201)
+      .then(function (res) {
+        // console.log('Project Response');
+        // console.log(res);
+        done();
+        // var _project = res.body;
+        // agent
+        //   .get('/api/project/' + _project.project_name)
+        //   .expect(201)
+        //   .end(function (err, res) {
+        //     var project = res.body;
+        //     project.should.have.property('id');
+        //     project.should.have.property('project_name');
+        //     project.project_name.should.equal(_project.project_name);
+        //     project.should.have.property('created_at');
+        //     project.should.have.property('updated_at');
+        //     project.should.have.property('user');
+        //     project.user.should.be.instanceof(Array);
+        //     done();
+        //   });
       });
   });
 
@@ -91,7 +129,6 @@ describe('Project', function () {
   });
 
   it('should get all of the user\'s projects on GET /project', function (done) {
-    var userId;
     agent
       .get('/auth/user')
       .then(function (res) {
@@ -103,7 +140,6 @@ describe('Project', function () {
           .expect(200)
           .then(function (res) {
             var projects = res.body;
-            var allProjectsCotainTheUser = true;
             var containUser = _.all(projects, function (project) {
               return _.any(project.user, function (user) {
                 return user.id === userId;

@@ -2,6 +2,7 @@
 var Promise = require('bluebird');
 var db = require('../db');
 var _ = require('lodash');
+var Q = require('q');
 
 var models = require('../models.js').models;
 var getFileStructure = require('../file/fileController').getFileStructure;
@@ -9,6 +10,7 @@ var getPathsForFileStructure = require('../file/fileController').getPathsForFile
 var getProject = require('./getProject');
 var getUser = require('./getUser');
 var getProjectZip = require('./getProjectZip');
+var multiparty = Promise.promisifyAll(require('multiparty'));
 
 var projectController = {};
 
@@ -17,25 +19,60 @@ var projectController = {};
  * Adds a new project and adds a the creator to the 'user' property
  */
 projectController.post = function (req, res) {
-  var project_name = req.body.project_name;
-  if (!project_name || !req.user) {
-    res.status(400).end();
-  }
-  new models.Project({
-      project_name: project_name,
+  // Define the handler to be used by multipart form and application/json request
+  var postRequestHandler = function (projectName) {
+    return new Q()
+      .then(function () {
+        if (!projectName) throw new Error('No Project Name Passed');
+        if (!req.user) throw new Error('No User Name Passed');
+      })
+      .then(function () {
+        return new models.Project({
+            project_name: projectName,
+          })
+          .save()
+          .then(function (model) {
+            return model
+              .related('user')
+              .create(req.user)
+              .yield(model);
+          });
+      });
+  };
+
+  var getFieldProperty = function (fields, propertyName) {
+    return _.flatten(_.compact(_.pluck(fields, propertyName)))[0];
+  };
+
+  var contentTypeIsMultipart = req.get('Content-Type').indexOf('multipart/form-data') !== -1;
+  return new Q()
+    .then(function () {
+      // If it's a multipart form
+      if (contentTypeIsMultipart) {
+        var form = new multiparty.Form();
+        return form.parseAsync(req)
+          .then(function (fields) {
+            fields = _.flatten(fields);
+            var projectName = getFieldProperty(fields, 'project_name') || req.body.project_name;
+            var projectFile = getFieldProperty(fields, 'project_file');
+            // console.log('projectFile', projectFile);
+            // console.log('projectName', projectName);
+            return postRequestHandler(projectName)
+              .then(function (projectModel) {
+                // Add All Files Into Project
+                return projectModel;
+              });
+          });
+      }
+      // If it's a json!
+      return postRequestHandler(req.body.project_name);
     })
-    .save()
     .then(function (model) {
-      return model
-        .related('user')
-        .create(req.user)
-        .yield(model)
-        .catch(function (err) {
-          console.log('Error Attaching User:', err);
-        });
+      res.status(201).json(model.toJSON());
     })
-    .then(function (model) {
-      res.json(model.toJSON());
+    .catch(function (err) {
+      console.log('Error Creating Project', err);
+      res.status(400).end();
     });
 };
 
