@@ -3,6 +3,9 @@ var Promise = require('bluebird');
 var db = require('../db');
 var _ = require('lodash');
 var Q = require('q');
+var fs = Promise.promisifyAll(require('fs'));
+var JSZip = require('jszip');
+var path = require('path');
 
 var models = require('../models.js').models;
 var getFileStructure = require('../file/fileController').getFileStructure;
@@ -55,12 +58,27 @@ projectController.post = function (req, res) {
             fields = _.flatten(fields);
             var projectName = getFieldProperty(fields, 'project_name') || req.body.project_name;
             var projectFile = getFieldProperty(fields, 'project_file');
-            // console.log('projectFile', projectFile);
-            // console.log('projectName', projectName);
             return postRequestHandler(projectName)
               .then(function (projectModel) {
-                // Add All Files Into Project
-                return projectModel;
+                // Don't process file if it's not a .zip
+                if (projectFile.headers['content-type'] !== 'application/zip') return projectModel;
+                return fs.readFileAsync(projectFile.path)
+                  .then(function (fileContents) {
+                    var zip = new JSZip(fileContents);
+                    // Get all files in project using a regular expression
+                    var allFiles = zip.file(/./g);
+                    allFiles = allFiles.filter(function (file) {
+                      return !projectController.fileShouldBeIgnored(file.name);
+                    });
+                    var allFilesAreInSameDirectory = projectController.isEveryFileInSameDirectory(allFiles);
+                    console.log('!!!!!!!!!!!!!!!', allFilesAreInSameDirectory);
+                    // Add all files to fileStructrue and add contents to database
+                    allFiles.forEach(function (file) {
+                      console.log('File');
+                      console.log(file.name);
+                    });
+                    return projectModel;
+                  });
               });
           });
       }
@@ -74,6 +92,21 @@ projectController.post = function (req, res) {
       console.log('Error Creating Project', err);
       res.status(400).end();
     });
+};
+
+projectController.fileShouldBeIgnored = function (filePath) {
+  if (path.basename(filePath).indexOf('.DS_Store') !== -1) return true;
+  if (filePath.indexOf('__MACOSX') !== -1) return true;
+  return false;
+};
+
+projectController.isEveryFileInSameDirectory = function (files) {
+  var allTopDirectoryNames = _.map(files, function (file) {
+    if (file[0] === '/') file = file.substring(1);
+    return path.normalize(file.name).split('/')[0];
+  });
+  var uniqeDirectories = _.unique(allTopDirectoryNames);
+  return uniqeDirectories.length === 1 && uniqeDirectories[0] !== undefined;
 };
 
 /**
