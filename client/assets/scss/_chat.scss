@@ -5,7 +5,33 @@ $chat-header-height: $toolbar-height;
   border-left: solid 1px #f2f2f2;
 }
 
-#chatContent{
+.chatContent4{
+  $height-all-headers: $chat-header-height * 3;
+  $height-all-users: $chat-header-height;
+  $height-all: $height-all-headers + $height-all-users;
+  height: calc(100vh - #{$height-all} - #{$toolbar-height} - #{$toolbar-height} - #{$toolbar-height} - #{$toolbar-height});
+  display: block;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  bottom: $toolbar-height;
+  // padding-left: 10px;
+}
+
+.chatContent3{
+  $height-all-headers: $chat-header-height * 3;
+  $height-all-users: $chat-header-height;
+  $height-all: $height-all-headers + $height-all-users;
+  height: calc(100vh - #{$height-all} - #{$toolbar-height} - #{$toolbar-height} - #{$toolbar-height});
+  display: block;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  bottom: $toolbar-height;
+  // padding-left: 10px;
+}
+
+.chatContent2{
   $height-all-headers: $chat-header-height * 3;
   $height-all-users: $chat-header-height;
   $height-all: $height-all-headers + $height-all-users;
@@ -14,9 +40,23 @@ $chat-header-height: $toolbar-height;
   width: 100%;
   overflow-x: hidden;
   overflow-y: scroll;
-  bottom: $toolbar-height; 
+  bottom: $toolbar-height;
   // padding-left: 10px;
 }
+
+.chatContent1{
+  $height-all-headers: $chat-header-height * 3;
+  $height-all-users: $chat-header-height;
+  $height-all: $height-all-headers + $height-all-users;
+  height: calc(100vh - #{$height-all} - #{$toolbar-height});
+  display: block;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  bottom: $toolbar-height;
+  // padding-left: 10px;
+}
+
 
 .chatInputForm{
   width: 100%;
