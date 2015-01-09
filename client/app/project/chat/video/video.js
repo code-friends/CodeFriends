@@ -2,30 +2,21 @@
 'use strict';
 
 angular.module('code.video', ['ui.router', 'ngSanitize'])
-  .controller('videoController', function ($scope, $state, $http, ngSocket, $stateParams, Auth) {
+  .controller('videoController', function ($scope, $state, $http, ngSocket, $stateParams, Auth, VideoFactory) {
     var roomID = $stateParams.projectName;
 
-
-    // create our webrtc connection
-    var webrtc = new SimpleWebRTC({
-      // the id/element dom element that will hold "our" video
-      localVideoEl: 'localVideo',
-      // the id/element dom element that will hold remote videos
-      remoteVideosEl: '',
-      // immediately ask for camera access
-      autoRequestMedia: true,
-      debug: false,
-      detectSpeakingEvents: true,
-      adjustPeerVolume: true,
-      autoAdjustMic: true
+    $scope.$on('STARTVIDEO', function () {
+      VideoFactory.startLocalVideo();
+      var localVideo = document.getElementById('localVideo');
+      localVideo.className = 'localVideoActive';
     });
 
     // when it's ready, join if we got a room from the URL
-    webrtc.on('readyToCall', function (data) {
+    VideoFactory.on('readyToCall', function (data) {
       console.log("readytoCall", roomID, data);
       // you can name it anything
       if (roomID) {
-        webrtc.joinRoom(roomID);
+        VideoFactory.joinRoom(roomID);
       }
     });
 
@@ -39,38 +30,35 @@ angular.module('code.video', ['ui.router', 'ngSanitize'])
         el.style.height = '' + Math.floor((volume + 100) * 100 / 25 - 220) + '%';
       }
     }
-    webrtc.on('channelMessage', function (peer, label, data) {
+    VideoFactory.on('channelMessage', function (peer, label, data) {
       if (data.type == 'volume') {
         showVolume(document.getElementById('volume_' + peer.id), data.volume);
       }
     });
 
-    webrtc.on('videoAdded', function (video, peer) {
+    VideoFactory.on('videoAdded', function (video, peer) {
       var remotes = document.getElementById('remotes');
       if (remotes) {
         var d = document.createElement('div');
         d.className = 'videoContainer';
-        d.id = 'container_' + webrtc.getDomId(peer);
+        d.id = 'container_' + VideoFactory.getDomId(peer);
         d.appendChild(video);
         var vol = document.createElement('div');
         vol.id = 'volume_' + peer.id;
         vol.className = 'volume_bar';
-        video.onclick = function () {
-          video.style.width = video.videoWidth + 'px';
-          video.style.height = video.videoHeight + 'px';
-        };
+        video.style.boxShadow = "-3px -3px 4px #222";
         d.appendChild(vol);
         remotes.appendChild(d);
       }
     });
-    webrtc.on('videoRemoved', function (video, peer) {
+    VideoFactory.on('videoRemoved', function (video, peer) {
       var remotes = document.getElementById('remotes');
-      var el = document.getElementById('container_' + webrtc.getDomId(peer));
+      var el = document.getElementById('container_' + VideoFactory.getDomId(peer));
       if (remotes && el) {
         remotes.removeChild(el);
       }
     });
-    webrtc.on('volumeChange', function (volume, treshold) {
+    VideoFactory.on('volumeChange', function (volume, treshold) {
       //console.log('own volume', volume);
       showVolume(document.getElementById('localVolume'), volume);
     });

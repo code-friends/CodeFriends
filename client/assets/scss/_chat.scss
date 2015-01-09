@@ -102,7 +102,6 @@ $single-friend-height: 36px; // height of gravatar thumbnail
     height: 150px;
     left: -$video-width;
     padding-right: 1px;
-    box-shadow: -3px -3px 3px #222;
     z-index: 999;
     video {
       width: 100%;
@@ -118,6 +117,15 @@ $single-friend-height: 36px; // height of gravatar thumbnail
     right: 0px;
     bottom: 0px;
     background-color: #12acef;
+}
+
+.localVideo {
+  display: none; 
+}
+
+.localVideoActive {
+  box-shadow: -3px -3px 4px #222;
+  display: block;
 }
 
 #remotes{
