@@ -119,6 +119,15 @@ $single-friend-height: 36px; // height of gravatar thumbnail
     background-color: #12acef;
 }
 
+.localVideo {
+  display: none; 
+}
+
+.localVideoActive {
+  box-shadow: -3px -3px 4px #222;
+  display: block;
+}
+
 #remotes{
   position: relative;
   display: block;
