@@ -249,6 +249,7 @@ var fileController = {
     // console.log('fileInfo: ', fileInfo);
     downloadController._getFileContents(fileInfo.projectIdOrName, fileInfo.path)
       .then(function (content) {
+
         fileContent = content;
       })
       .catch(function (err) {
