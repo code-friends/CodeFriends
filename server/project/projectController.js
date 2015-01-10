@@ -1,16 +1,21 @@
+/*jshint node:true, nonew:true */
 'use strict';
 var Promise = require('bluebird');
 var db = require('../db');
 var _ = require('lodash');
 var Q = require('q');
+var multiparty = Promise.promisifyAll(require('multiparty'));
 
+// Models
 var models = require('../models.js').models;
+// File Controller
 var getFileStructure = require('../file/fileController').getFileStructure;
 var getPathsForFileStructure = require('../file/fileController').getPathsForFileStructure;
+var addAllFilesInZipToProject = require('../file/uploadController')._addAllFilesInZipToProject;
+// Utility Functions
 var getProject = require('./getProject');
 var getUser = require('./getUser');
 var getProjectZip = require('./getProjectZip');
-var multiparty = Promise.promisifyAll(require('multiparty'));
 
 var projectController = {};
 
@@ -55,12 +60,12 @@ projectController.post = function (req, res) {
             fields = _.flatten(fields);
             var projectName = getFieldProperty(fields, 'project_name') || req.body.project_name;
             var projectFile = getFieldProperty(fields, 'project_file');
-            // console.log('projectFile', projectFile);
-            // console.log('projectName', projectName);
             return postRequestHandler(projectName)
               .then(function (projectModel) {
-                // Add All Files Into Project
-                return projectModel;
+                // Don't process file if it's not a .zip
+                if (projectFile.headers['content-type'] !== 'application/zip') return projectModel;
+                // Upload .zip
+                return addAllFilesInZipToProject(projectModel, req.user.get('id'), projectFile.path);
               });
           });
       }
