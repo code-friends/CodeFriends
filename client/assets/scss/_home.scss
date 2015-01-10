@@ -1,10 +1,13 @@
+$silver-blue: rgba(30, 76, 97, 0.5);
+$darken-silver-blue: darken(rgba(30, 76, 97, 0.3), 0.5);
+
 .viewport {
   width: 100vw;
   height: 100vh;
 }
 .header-space {
-  position: absolute;
-  top: 58px;
+  // position: absolute;
+  // top: 58px;
 }
 .body {
   // position: absolute;
@@ -14,8 +17,12 @@
   margin: 0 auto;
 }
 
+#projects-body {
+  background-color: $silver-blue;
+  color: white;
+}
 .projects-header {
-  padding: 15px 0px;
+  padding: 25px 0px;
 }
 
 
@@ -27,7 +34,7 @@
   text-transform: uppercase;
   font-weight: 700;
   letter-spacing: 0.05em;
-  padding: 5px;
+  padding: 10px;
 }
 a:last-child {
   .single-project {
@@ -35,11 +42,18 @@ a:last-child {
   }
 }
 .single-project {
-  padding: 10px;
-  border-top: solid 1px #c5c5c5;
+  padding: 13px 0px;
+  border-top: solid 1px #99B0C2;
   &:hover {
-    background: #f7f7f7;
+    background: $darken-silver-blue;
   }
+}
+.timeAgo {
+  font-size: 10px;
+  color: #bbb;
+  display: block;
+  position: relative;
+  top: 1px;
 }
 
 // Margin-bottom

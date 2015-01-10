@@ -35,7 +35,6 @@ angular.module('code.projects', ['ui.router'])
 
     $scope.closeModal = function () {
       $modalInstance.close();
-      // does not send post request if no project name is provided
       if ($scope.newProjectName !== undefined) {
         Projects.createProject($scope.newProjectName);
       }
