@@ -3,6 +3,7 @@
 
 // factory for Projects, Auth, Toolbar
 angular.module('code.services', [])
+  // change this to projectsListingFactory later
   .factory('Projects', function ($http) {
     // gets projects from server, caches projects in factory and allows cb in controller to access projects
     var projects = {};
@@ -31,6 +32,15 @@ angular.module('code.services', [])
     //       return res.data;
     //     });
     // };
+
+    projects.createProject = function (projectName) {
+      return $http.post('/api/project', {
+          project_name: projectName
+        })
+        .then(function (res) {
+          return res.data;
+        });
+    };
 
     projects.getProjects = function () {
       return $http.get('api/project/')

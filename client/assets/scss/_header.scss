@@ -1,6 +1,7 @@
 @import 'colors';
 
 .header {
+  padding: 0 5%;
   // width: 100%;
   // position: fixed;
   // z-index: 99;
@@ -16,17 +17,17 @@
 }
 
 .header, #toolbar {
+  font-size: 0.8em;
+  letter-spacing: 0.13em;
+  font-weight: 400;
   border: 0;
   background: $blue-grey;
   color: white;
-  font-weight: 300;
   font-size: 1.6em;
   $li-padding: 10px;
   cursor: default;
   background-color: $blue-grey;
   color: white;
-  font-size: 1.1em;
-  font-weight: 300;
   z-index: 95;
   height: $toolbar-height;
   border-radius: 0;
@@ -55,7 +56,6 @@
   .navbar-nav > a {
     font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
     color: white;
   }
   .navbar-nav > li > a:hover,
@@ -141,19 +141,24 @@
 .navbar-brand, .navbar-default .navbar-brand {
   color: white;
   #logo-image {
-    background: url('../assets/img/logo.png') no-repeat center center;
+    // background: url('../assets/img/logo.png') no-repeat center center;
+    background: url($shapes-friends-path) no-repeat center center;
     background-size: contain;
-    width: 30px;
+    width: 60px;
     height: 20px;
     display: inline-block;
     float: left;
     margin-top: 2px;
   }
   #logo-text {
+    font-size: 1em;
+    font-weight: 700;
     color: white;
+    letter-spacing: 0.1em;
     display: inline-block;
     margin-left: 5px;
-    // position: relative;
-    // bottom: 12px;
+    text-transform: uppercase;
+    position: relative;
+    top: 3px;
   }
 }
