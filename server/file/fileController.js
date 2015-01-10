@@ -6,6 +6,7 @@ var Q = require('q');
 var moment = require('moment');
 var _ = require('lodash');
 var ProjectCollection = require('../models').collections.ProjectCollection;
+var downloadController = require('./downloadController');
 // var Project = require('../models').models.Project;
 
 var mongoIndex = function (str) {
@@ -229,17 +230,23 @@ var fileController = {
     return paths;
   },
   moveFileInProject: function (req, res) {
+    console.log('hello!!!!');
     var fileInfo = req.body;
     var fileContent;
     var isItValidUrl;
     var fileStructure;
+    // console.log('fileInfo: ', fileInfo);
     downloadController._getFileContents(fileInfo.projectIdOrName, fileInfo.path);
-    // console.log('fileInfo.path: ', fileInfo.path);
     // .then(function (content) {
-    // console.log('content: ', content);
-    // fileContent = content;
-    // console.log('fileContent: ', fileContent);
-    // });
+    //     console.log('-------------------------');
+    //     console.log('content : ', content);
+    //     console.log('-------------------------');
+    //     // fileContent = content;
+    //     // console.log('fileContent: ', fileContent);
+    //   })
+    //   .catch(function (err) {
+    //     console.log('Error moving the file: ', err);
+    //   });
   }
 
   //   return fileController.getFileStructure(fileInfo.projectIdOrName)
