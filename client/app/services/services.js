@@ -4,7 +4,7 @@
 // factory for Projects, Auth, Toolbar
 angular.module('code.services', [])
   // change this to projectsListingFactory later
-  .factory('Projects', function ($http) {
+  .factory('Projects', function ($http, $upload) {
     // gets projects from server, caches projects in factory and allows cb in controller to access projects
     var projects = {};
     projects.userProjects = null;
@@ -33,7 +33,21 @@ angular.module('code.services', [])
     //     });
     // };
 
-    projects.createProject = function (projectName) {
+    projects.createProject = function (projectName, files) {
+      if (files !== undefined && Array.isArray(files) && files.length > 0) {
+        console.log('files at index 0', files[0]);
+        return $upload.upload({
+            method: 'POST',
+            url: '/api/project/',
+            data: {
+              project_name: projectName,
+            },
+            file: files[0]
+          })
+          .catch(function (error) {
+            console.log('Error Uploading File: ', error);
+          });
+      }
       return $http.post('/api/project', {
           project_name: projectName
         })

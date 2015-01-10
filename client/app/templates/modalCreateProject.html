@@ -5,9 +5,8 @@
       <input type="text" ng-model="newProjectName" class="modalTextInput" placeholder="Enter project name">
       <tabset>
         <tab heading="Upload Zip">
-        <!-- changed type of input to file, uploads controller not currently working for zips? -->
-          <div ng-controller="uploadsController">
-            <input type="file" ng-model="files" ng-file-select="onFileSelect(files)" ng-multiple="true" class="app-prompt-upload"/>
+          <div>
+            <input type="file" ng-model="files" ng-file-select="onFileSelect(files)" ng-multiple="false" class="app-prompt-upload"/>
           </div>
         </tab>
         <tab heading="Use Git">use git here</tab>
