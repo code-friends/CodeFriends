@@ -46,6 +46,7 @@ var downloadController = {
           });
       })
       .then(function (fileContents) {
+        // console.log('documentPath: ', documentPath);
         console.log('fileContents: ', fileContents);
         return fileContents;
       })
