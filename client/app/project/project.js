@@ -2,7 +2,7 @@
 /*jshint browser:true */
 'use strict';
 angular.module('code.project', ['ui.router'])
-  .controller('projectController', function ($rootScope, $scope, $state, $stateParams, $http, Auth, Files, ProjectFactory, documentFactory, SocketFactory) {
+  .controller('projectController', function ($scope, $state, $stateParams, Auth, Files, ProjectFactory, documentFactory, SocketFactory) {
     // Auth.username should now be here, since we're making the http request
     // before getting here
     $scope.username = Auth.userName;
