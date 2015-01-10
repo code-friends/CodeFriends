@@ -17,7 +17,6 @@ angular.module('code.services', [])
       for (var i in projects) {
         if (projects.hasOwnProperty(i)) {
           if (projects[i].project_name === projectName) {
-            console.log(projects[i]);
             return projects[i].id;
           }
         }
@@ -75,10 +74,7 @@ angular.module('code.services', [])
     var socketConnection = {};
     var locationName = window.location.hostname;
     var chatPort = window.config.ports.chat;
-    console.log('SocketFactory init');
     var ws = ngSocket('ws://' + locationName + ':' + chatPort);
-    console.log("the USERNAME IS", Auth.userName);
-    console.log("the roomID is", $stateParams.projectName);
     var username = Auth.userName;
     var avatar = Auth.githubAvatarUrl;
 
@@ -98,7 +94,6 @@ angular.module('code.services', [])
 
       if (msg.roomID === $stateParams.projectName) {
         if (msg.type === 'attendence check') {
-          console.log("ATTENDENCE CHECK");
           ws.send({
             type: 'user present',
             roomID: $stateParams.projectName,
@@ -114,7 +109,6 @@ angular.module('code.services', [])
         msg = JSON.parse(msg.data);
         if (msg.roomID === roomID) {
           if (msg.type === 'refresh users') {
-            console.log('WE GOT TO THE MSG', msg);
             callback(msg);
           }
         }

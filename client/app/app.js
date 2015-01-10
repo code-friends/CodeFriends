@@ -100,9 +100,9 @@
         });
     })
     .run(function ($rootScope, $state, $log) {
-        $rootScope.$on('$stateChangeError', function () {
-          // $log.debug('Error $stateChangeError');
-          $state.go('login');
-        });
+      $rootScope.$on('$stateChangeError', function () {
+        // $log.debug('Error $stateChangeError');
+        $state.go('login');
       });
+    });
 })();
