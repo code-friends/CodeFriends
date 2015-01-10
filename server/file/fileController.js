@@ -236,17 +236,17 @@ var fileController = {
     var isItValidUrl;
     var fileStructure;
     // console.log('fileInfo: ', fileInfo);
-    downloadController._getFileContents(fileInfo.projectIdOrName, fileInfo.path);
-    // .then(function (content) {
-    //     console.log('-------------------------');
-    //     console.log('content : ', content);
-    //     console.log('-------------------------');
-    //     // fileContent = content;
-    //     // console.log('fileContent: ', fileContent);
-    //   })
-    //   .catch(function (err) {
-    //     console.log('Error moving the file: ', err);
-    //   });
+    downloadController._getFileContents(fileInfo.projectIdOrName, fileInfo.path)
+      .then(function (content) {
+        console.log('-------------------------');
+        console.log('content : ', content);
+        console.log('-------------------------');
+        fileContent = content;
+        console.log('DID WE GET THE CONTENT???: ', fileContent);
+      })
+      .catch(function (err) {
+        console.log('Error moving the file: ', err);
+      });
   }
 
   //   return fileController.getFileStructure(fileInfo.projectIdOrName)
