@@ -6,10 +6,7 @@ angular.module('code.document', ['ui.router'])
     $scope.projectName = $stateParams.projectName;
     $scope.documentPath = $stateParams.documentPath;
     $scope.theme = ToolbarDocument.theme;
-    $scope.$on("DOUGISCOOL", function () {
-        console.log("IM HERERERERERERERE");
-      })
-      // Setup Code Editor
+    // Setup Code Editor
     var cm = CodeMirror.fromTextArea(document.getElementById('pad'), {
       mode: 'javascript',
       value: 'alert(\'hello world\')',
