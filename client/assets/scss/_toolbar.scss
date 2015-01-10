@@ -2,6 +2,9 @@
 
 // toolbar styling
 #toolbar {
+  // font-size: 0.8em;
+  // letter-spacing: 0.15em;
+  // font-weight: 400;
   #logo-image {
     // position: relative;
     // top: 5px;
@@ -26,6 +29,13 @@
       //     visibility: visible;
       //   }
       // }
+      ul {
+        font-family: $Proxima-font-stack;
+        font-size: 0.7em;
+        font-size: 0.6em;
+        letter-spacing: 0.06em;
+        font-weight: 300;
+      }
     }
   }
   // ul li ul
