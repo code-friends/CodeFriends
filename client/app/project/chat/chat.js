@@ -8,6 +8,9 @@ angular.module('code.chat', ['ui.router', 'ngSanitize', 'luegg.directives'])
     $scope.roomID = roomID;
     $scope.messages = [];
     $scope.usersInRoom = [];
+    $scope.$on("DOUGISCOOL", function () {
+      console.log("chat heard it here");
+    });
     $scope.emitStartVideo = function () {
       $rootScope.$broadcast('STARTVIDEO');
       var icon = document.getElementById('videoButton');
