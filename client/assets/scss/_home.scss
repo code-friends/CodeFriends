@@ -20,6 +20,7 @@ $darken-silver-blue: darken(rgba(30, 76, 97, 0.3), 0.5);
 #projects-body {
   background-color: $silver-blue;
   color: white;
+  min-height: 100vh;
 }
 .projects-header {
   padding: 25px 0px;
