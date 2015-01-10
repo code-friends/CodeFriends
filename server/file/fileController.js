@@ -44,6 +44,7 @@ var fileController = {
     var projectId = fileInfo.projectId || null;
     var path = fileInfo.path;
     var userId = fileInfo.userId || null;
+    var fileContents = fileInfo.fileContents || null;
     return new Q()
       .then(function () {
         // Check if name is valid (no white space)
@@ -57,7 +58,7 @@ var fileController = {
       .then(function (fileStructure) {
         // Check if path exists
         if (!fileController._isPathValid(fileStructure, path, fileName)) {
-          throw new Error('File Already Exists');
+          throw new Error('Path is Invalid or File Already Exists');
         }
         // Create Object with author, timeCreated
         var newAddition = {
@@ -107,6 +108,7 @@ var fileController = {
     return !(/\s/g.test(fileName) || /\//g.test(fileName));
   },
   _appendToFileStructure: function (fileStructure, path, fileName, newAddition) {
+    if (path === '.') path = '';
     fileController._getSubFileStructure(fileStructure, path, function (subFileStructure) {
       if (!fileController._isFileInFileStructre(subFileStructure)) {
         subFileStructure.files[mongoIndex(fileName)] = newAddition;
@@ -141,6 +143,7 @@ var fileController = {
    */
   _isPathValid: function (fileStructure, path, fileName) {
     if (path === '') return !fileController._isFileInFileStructre(fileStructure, fileName);
+    if (path === '.') return !fileController._isFileInFileStructre(fileStructure, fileName);
     var isValidPath = false;
     fileController._getSubFileStructure(fileStructure, path, function (subFileStructure) {
       if (!fileController._isFileInFileStructre(subFileStructure, fileName)) {

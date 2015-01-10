@@ -35,7 +35,7 @@ var downloadController = {
                   }
                 })
                 .catch(function (err) {
-                  console.log('Document Already Exists', err);
+                  console.log('LiveDB (_getFileContents) Document Already Exists', err);
                 })
                 .then(function () {
                   return ''; // This document is empty
