@@ -4,9 +4,6 @@ var Promise = require('bluebird');
 var db = require('../db');
 var _ = require('lodash');
 var Q = require('q');
-var fs = Promise.promisifyAll(require('fs'));
-var JSZip = require('jszip');
-var path = require('path');
 var multiparty = Promise.promisifyAll(require('multiparty'));
 
 // Models
@@ -14,7 +11,7 @@ var models = require('../models.js').models;
 // File Controller
 var getFileStructure = require('../file/fileController').getFileStructure;
 var getPathsForFileStructure = require('../file/fileController').getPathsForFileStructure;
-var createNewFileOrFolder = require('../file/fileController')._createNewFileOrFolder;
+var addAllFilesInZipToProject = require('../file/uploadController')._addAllFilesInZipToProject;
 // Utility Functions
 var getProject = require('./getProject');
 var getUser = require('./getUser');
@@ -67,40 +64,8 @@ projectController.post = function (req, res) {
               .then(function (projectModel) {
                 // Don't process file if it's not a .zip
                 if (projectFile.headers['content-type'] !== 'application/zip') return projectModel;
-                return fs.readFileAsync(projectFile.path)
-                  .then(function (fileContents) {
-                    var zip = new JSZip(fileContents);
-                    // Get all files in project using a regular expression
-                    var allFiles = zip.file(/./g);
-                    allFiles = allFiles.filter(function (file) {
-                      return !projectController.fileShouldBeIgnored(file.name);
-                    });
-                    var allFilesAreInSameDirectory = projectController.isEveryFileInSameDirectory(allFiles);
-                    if (allFilesAreInSameDirectory) {
-                      allFiles = projectController.removeFirstDirectory(allFiles);
-                    }
-                    // Add all files to fileStructrue and add contents to database
-                    return allFiles.reduce(function (soFar, file) {
-                      return soFar.then(function () {
-                        // Write file to file structure
-                        return createNewFileOrFolder({
-                          projectId: projectModel.get('id'),
-                          path: path.dirname(file.name),
-                          fileName: path.basename(file.name),
-                          userId: req.user.get('id'),
-                          // file.dir always return false
-                          // type: ((file.dir) ? 'folder' : 'file' )
-                          type: ((_.last(file.name) === '/') ? 'folder' : 'file')
-                        });
-                      });
-                    }, new Q());
-                  })
-                  .catch(function (err) {
-                    console.log('Error Creating Files', err);
-                  })
-                  .then(function () {
-                    return projectModel;
-                  });
+                // Upload .zip
+                return addAllFilesInZipToProject(projectModel, req.user.get('id'), projectFile.path);
               });
           });
       }
@@ -114,46 +79,6 @@ projectController.post = function (req, res) {
       console.log('Error Creating Project', err);
       res.status(400).end();
     });
-};
-
-projectController.fileShouldBeIgnored = function (filePath) {
-  if (filePath === '') return true;
-  if (path.basename(filePath).indexOf('.DS_Store') !== -1) return true;
-  if (filePath.indexOf('__MACOSX') !== -1) return true;
-  return false;
-};
-
-/**
- * Remove first directory from all files
- *
- * @param <Array> an array of object with the `name` property
- * @return <Array>
- */
-projectController.removeFirstDirectory = function (_files) {
-  var files = _files.slice();
-  files.filter(function (file) {
-    if (file.name[0] === '/') file.name = file.name.substring(1);
-    var fileParts = file.name.split('/');
-    fileParts.shift();
-    file.name = fileParts.join('/');
-    return file;
-  });
-  return files;
-};
-
-/**
- * Determine if all files are in the same directory
- *
- * @param <Array> an array of object with the `name` property
- * @return <Boolean>
- */
-projectController.isEveryFileInSameDirectory = function (files) {
-  var allTopDirectoryNames = _.map(files, function (file) {
-    if (file[0] === '/') file = file.substring(1);
-    return path.normalize(file.name).split('/')[0];
-  });
-  var uniqeDirectories = _.unique(allTopDirectoryNames);
-  return uniqeDirectories.length === 1 && uniqeDirectories[0] !== undefined;
 };
 
 /**

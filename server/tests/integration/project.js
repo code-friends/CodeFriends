@@ -1,13 +1,15 @@
 /*global describe:true, it:true, before: true */
 'use strict';
 
+var Promise = require('bluebird');
 var request = require('supertest-as-promised');
 var ProjectCollection = require('../../models').collections.ProjectCollection;
 var app = require('../../index');
 var agent = request.agent(app);
 var login = require('./login')(agent);
 var _ = require('lodash');
-var expect = require('chai').expect;
+var fs = Promise.promisifyAll(require('fs'));
+var path = require('path');
 
 describe('Project', function () {
 
@@ -87,26 +89,49 @@ describe('Project', function () {
         .attach('project_file', './server/tests/test-files/zipExampleProject.zip')
         .expect(201)
         .then(function () {
-          agent
+          return agent
             .get('/api/project/' + 'zipProjectExample')
-            .expect(200)
-            .then(function (res) {
-              var files = res.body.files;
-              // example.md
-              files.examplemd.should.be.an.instanceOf(Object);
-              files.examplemd.name.should.equal('example.md');
-              files.examplemd.type.should.equal('file');
-              // exampleFolder
-              files.exampleFolder.name.should.equal('exampleFolder');
-              files.exampleFolder.type.should.equal('folder');
-              files.exampleFolder.files.should.be.an.instanceOf(Object);
-              // exampleFolder/superExample.js
-              files.exampleFolder.files.superExamplejs.should.be.an.instanceOf(Object);
-              files.exampleFolder.files.superExamplejs.name.should.equal('superExample.js');
-              files.exampleFolder.files.superExamplejs.type.should.equal('file');
-              done();
-            });
+            .expect(200);
+        })
+        .then(function (res) {
+          var files = res.body.files;
+          // example.md
+          files.examplemd.should.be.an.instanceOf(Object);
+          files.examplemd.name.should.equal('example.md');
+          files.examplemd.type.should.equal('file');
+          // exampleFolder
+          files.exampleFolder.name.should.equal('exampleFolder');
+          files.exampleFolder.type.should.equal('folder');
+          files.exampleFolder.files.should.be.an.instanceOf(Object);
+          // exampleFolder/superExample.js
+          files.exampleFolder.files.superExamplejs.should.be.an.instanceOf(Object);
+          files.exampleFolder.files.superExamplejs.name.should.equal('superExample.js');
+          files.exampleFolder.files.superExamplejs.type.should.equal('file');
+          return true;
+        })
+        .then(function () {
+          return agent
+            .get('/api/file/download/projectName/' + 'zipProjectExample' + '/fileName/example.md')
+            .expect(200);
+        })
+        .then(function (res) {
+          var fileContents = res.text;
+          var filePath = path.resolve(__dirname, '../test-files/zipExampleProject/example.md');
+          var exampleMdFileContents = fs.readFileSync(filePath);
+          fileContents.should.equal(exampleMdFileContents.toString());
+          // Load File In Sub Directory
+          // return agent
+          //   .get('/api/file/download/projectName/' + 'zipProjectExample' + '/fileName/exampleFolder/superExample.js')
+          //   .expect(200);
+          done();
         });
+        // .then(function (res) {
+        //   var fileContents = res.text;
+        //   var filePath = path.resolve(__dirname, '../test-files/zipExampleProject/exampleFolder/superExample.js');
+        //   var exampleMdFileContents = fs.readFileSync(filePath);
+        //   fileContents.should.equal(exampleMdFileContents.toString());
+        //   done();
+        // });
     });
 
     it('should add all files in the main folder', function (done) {
@@ -124,21 +149,30 @@ describe('Project', function () {
         .attach('project_file', './server/tests/test-files/fileExample.zip')
         .expect(201)
         .then(function () {
-          agent
+          return agent
             .get('/api/project/' + 'zipFileExample')
-            .expect(200)
-            .then(function (res) {
-              var files = res.body.files;
-              files.should.have.property('superExamplejs');
-              files.should.have.property('examplemd');
-              files.superExamplejs.should.be.an.instanceOf(Object);
-              files.examplemd.should.be.an.instanceOf(Object);
-              files.superExamplejs.name.should.equal('superExample.js');
-              files.superExamplejs.type.should.equal('file');
-              files.examplemd.name.should.equal('example.md');
-              files.examplemd.type.should.equal('file');
-              done();
-            });
+            .expect(200);
+        })
+        .then(function (res) {
+          var files = res.body.files;
+          files.should.have.property('superExamplejs');
+          files.should.have.property('examplemd');
+          files.superExamplejs.should.be.an.instanceOf(Object);
+          files.examplemd.should.be.an.instanceOf(Object);
+          files.superExamplejs.name.should.equal('superExample.js');
+          files.superExamplejs.type.should.equal('file');
+          files.examplemd.name.should.equal('example.md');
+          files.examplemd.type.should.equal('file');
+          return agent
+            .get('/api/file/download/projectName/' + 'zipFileExample' + '/fileName/superExample.js')
+            .expect(200);
+        })
+        .then(function (res) {
+          var fileContent = res.text;
+          var filePath = path.resolve(__dirname, '../test-files/zipExampleProject/superExample.js');
+          var superExampleJSfileContents = fs.readFileSync(filePath);
+          fileContent.should.equal(superExampleJSfileContents.toString());
+          done();
         });
     });
   });
