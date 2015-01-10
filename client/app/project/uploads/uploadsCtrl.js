@@ -3,7 +3,6 @@
 
 angular.module('code.uploads', ['ui.router'])
   .controller('uploadsController', function ($scope, $state, $stateParams, $http, $upload) {
-
     $scope.onFileSelect = function (files) {
       var uploadFile = function (fileIndex) {
         return $upload.upload({

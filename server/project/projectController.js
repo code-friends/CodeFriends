@@ -42,13 +42,15 @@ projectController.post = function (req, res) {
               .create(req.user)
               .yield(model);
           });
+      })
+      .catch(function (err) {
+        console.log('Error Adding Project To Datbase', err);
       });
   };
 
   var getFieldProperty = function (fields, propertyName) {
     return _.flatten(_.compact(_.pluck(fields, propertyName)))[0];
   };
-
   var contentTypeIsMultipart = req.get('Content-Type').indexOf('multipart/form-data') !== -1;
   return new Q()
     .then(function () {
@@ -56,10 +58,14 @@ projectController.post = function (req, res) {
       if (contentTypeIsMultipart) {
         var form = new multiparty.Form();
         return form.parseAsync(req)
-          .then(function (fields) {
+          .then(function (fields, files) {
+            console.log('fields', fields);
+            console.log('files', files);
             fields = _.flatten(fields);
             var projectName = getFieldProperty(fields, 'project_name') || req.body.project_name;
-            var projectFile = getFieldProperty(fields, 'project_file');
+            var projectFile = getFieldProperty(fields, 'project_file') || getFieldProperty(fields, 'file');
+            console.log('projectFile');
+            console.log(projectFile);
             return postRequestHandler(projectName)
               .then(function (projectModel) {
                 // Don't process file if it's not a .zip
