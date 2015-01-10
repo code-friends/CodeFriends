@@ -241,7 +241,6 @@ var fileController = {
     return filePaths;
   },
   moveFileInProject: function (req, res) {
-    console.log('hello!!!!');
     var fileInfo = req.body;
     var fileContent;
     var isItValidUrl;
@@ -249,7 +248,6 @@ var fileController = {
     // console.log('fileInfo: ', fileInfo);
     downloadController._getFileContents(fileInfo.projectIdOrName, fileInfo.path)
       .then(function (content) {
-
         fileContent = content;
       })
       .catch(function (err) {

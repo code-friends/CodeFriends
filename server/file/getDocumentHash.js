@@ -46,17 +46,15 @@ var getDocumentHash = function (projectNameOrId, filePath) {
        */
       if (filePath[0] !== '/') {
         filePath = '/' + filePath;
-      } << << << < HEAD
+      }
       var str = 'p-' + projectId + '-d' + filePath;
       var filePathHash = new Hashes.SHA256().hex(str);
-      return filePathHash; === === =
-      var str = 'p-' + projectId + '-d' + documentPath;
-      console.log('GET HASH projectNameOrId: ', projectId);
-      console.log('GET HASH documentPath: ', documentPath);
-      console.log('GET HASH str: ', str);
-      var documentHash = new Hashes.SHA256().hex(str);
+      return filePathHash;
+
+
       console.log('GET HASH documentHash: ', documentHash);
-      return documentHash; >>> >>> > rewrites server tests 4
+      return documentHash;
+
     });
 };
 
