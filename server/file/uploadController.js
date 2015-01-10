@@ -22,8 +22,8 @@ var uploadController = {
       .then(function (fields) {
         var file = uploadController.getFieldProperty(fields, 'file');
         var projectName = uploadController.getFieldProperty(fields, 'project_name') || req.body.project_name;
-        var documentName = uploadController.getFieldProperty(fields, 'file_name') || file.originalFilename;
-        return uploadController._addFileFromFileSytemToProject(projectName, documentName, req.user.get('id'), file.path)
+        var filePath = uploadController.getFieldProperty(fields, 'file_name') || file.originalFilename;
+        return uploadController._addFileFromFileSytemToProject(projectName, filePath, req.user.get('id'), file.path)
           .then(function (newFileStructre) {
             res.status(201).json(newFileStructre);
           })
@@ -39,7 +39,8 @@ var uploadController = {
   getFieldProperty: function (fields, propertyName) {
     return _.flatten(_.compact(_.pluck(fields, propertyName)))[0];
   },
-  _addFileFromFileSytemToProject: function (projectName, documentName, userId, fileSystemFilePathToReadFileFrom) {
+  _addFileFromFileSytemToProject: function (projectName, filePath, userId, fileSystemFilePathToReadFileFrom) {
+
     return fs.readFileAsync(fileSystemFilePathToReadFileFrom)
       .then(function (fileBuffer) {
         var fileContent = fileBuffer.toString();
@@ -47,11 +48,11 @@ var uploadController = {
          * This currently doesn't support paths (it should)
          * Remove the '/' in that string and replace it with proper paths
          */
-        return uploadController._addFileWithContentToProject(projectName, documentName, userId, fileContent);
+        return uploadController._addFileWithContentToProject(projectName, filePath, userId, fileContent);
       });
   },
-  _addFileWithContentToProject: function (projectName, documentName, userId, fileContent) {
-    return getDocumentHash(projectName, documentName)
+  _addFileWithContentToProject: function (projectName, filePath, userId, fileContent) {
+    return getDocumentHash(projectName, filePath)
       .then(function (documentHash) {
         return backend.submitAsync('documents', documentHash, {
             create: {
@@ -65,9 +66,9 @@ var uploadController = {
           .then(function () { // err, version, transformedByOps, snapshot
             var fileInfo = {
               projectName: projectName,
-              fileName: path.basename(documentName),
+              fileName: path.basename(filePath),
               type: 'file', ///need to make flexible to take folders too
-              path: path.dirname(documentName),
+              path: path.dirname(filePath),
               userId: userId
             };
             return fileController._createNewFileOrFolder(fileInfo);
@@ -104,7 +105,7 @@ var uploadController = {
                 type: 'folder'
               });
             }
-            // projectName, documentName, userId, fileContent
+            // projectName, filePath, userId, fileContent
             return uploadController._addFileWithContentToProject(
               projectModel.get('project_name'),
               file.name,
@@ -144,18 +145,12 @@ var uploadController = {
     });
     return files;
   },
-  /**
-   
+  /** 
    * Determine if all files are in the same directory
-   
    *
-   
    * @param <Array> an array of object with the `name` property
-   
    * @return <Boolean>
-   
    */
-
   isEveryFileInSameDirectory: function (files) {
     var allTopDirectoryNames = _.map(files, function (file) {
       if (file[0] === '/') file = file.substring(1);

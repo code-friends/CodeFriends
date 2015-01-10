@@ -49,11 +49,7 @@ var getDocumentHash = function (projectNameOrId, documentPath) {
         documentPath = '/' + documentPath;
       }
       var str = 'p-' + projectId + '-d' + documentPath;
-      console.log('GET HASH projectNameOrId: ', projectId);
-      console.log('GET HASH documentPath: ', documentPath);
-      console.log('GET HASH str: ', str);
       var documentHash = new Hashes.SHA256().hex(str);
-      console.log('GET HASH documentHash: ', documentHash);
       return documentHash;
     });
 };

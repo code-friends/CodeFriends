@@ -8,10 +8,10 @@ var downloadController = {
   downloadFile: function (req, res) {
     var parsedUrl = req.params[0].split('/');
     var projectName = parsedUrl[1];
-    var documentPath = parsedUrl[3];
-    return downloadController._getFileContents(projectName, documentPath)
+    var filePath = parsedUrl[3];
+    return downloadController._getFileContents(projectName, filePath)
       .then(function (fileContents) {
-        var fileName = downloadController._getFileNameFromPath(documentPath);
+        var fileName = downloadController._getFileNameFromPath(filePath);
         res.setHeader('Content-disposition', 'attachment; filename=' + fileName);
         res.send(fileContents);
       })
@@ -19,16 +19,13 @@ var downloadController = {
         console.log('Error downloading file: ', err);
       });
   },
-  _getFileContents: function (projectNameOrId, documentPath) {
+  _getFileContents: function (projectNameOrId, filePath) {
     // console.log('projectNameOrId: ', projectNameOrId);
-    // console.log('documentPath: ', documentPath);
+    // console.log('filePath: ', filePath);
     if (!projectNameOrId) throw new Error('No Project Specified');
-    if (typeof documentPath !== 'string') throw new Error('No Document Path Specified');
-    return getDocumentHash(projectNameOrId, documentPath)
+    if (typeof filePath !== 'string') throw new Error('No Document Path Specified');
+    return getDocumentHash(projectNameOrId, filePath)
       .then(function (documentHash) {
-        console.log('GET FILE CONTESTS projectNameOrId: ', projectNameOrId);
-        console.log('GET FILE CONTESTS documentPath: ', documentPath);
-        console.log('GET FILE CONTESTS documentHash: ', documentHash);
         return backend.fetchAsync('documents', documentHash)
           .then(function (file) {
             // If the file is empty or not found, create an empty file
@@ -50,8 +47,7 @@ var downloadController = {
           });
       })
       .then(function (fileContents) {
-        // console.log('documentPath: ', documentPath);
-        console.log('fileContents: ', fileContents);
+        // console.log('filePath: ', filePath);
         return fileContents;
       })
       .catch(function (err) {

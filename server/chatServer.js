@@ -1,4 +1,6 @@
 'use strict';
+
+var config = require('config');
 var WebSocketServer = require('ws').Server;
 var http = require('http');
 var connect = require('connect');
@@ -22,7 +24,7 @@ chatWS.on('connection', function (ws) {
     if (parsedMsg.message.type === 'message') {
       var message = parsedMsg.message.message;
       var createDate = parsedMsg.message.createdAt;
-      mongoClient.connectAsync('mongodb://localhost:27017/codeFriends?auto_reconnect')
+      mongoClient.connectAsync(config.get('mongo'))
         .then(function (db) {
           var chatCollection = Promise.promisifyAll(db.collection(chatRoomName));
           chatCollection.insertAsync({
@@ -44,7 +46,7 @@ chatWS.on('connection', function (ws) {
         username: parsedMsg.message.username,
         githubAvatar: parsedMsg.message.githubAvatar
       });
-      mongoClient.connectAsync('mongodb://localhost:27017/codeFriends?auto_reconnect')
+      mongoClient.connectAsync(config.get('mongo'))
         .then(function (db) {
           var chatCollection = Promise.promisifyAll(db.collection(chatRoomName));
           chatCollection.find().toArray(function (err, results) {
