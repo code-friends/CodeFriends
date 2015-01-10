@@ -16,7 +16,7 @@ describe('Code Friends', function () {
   require('./db.tests.js');
   require('./integration');
 
-    // Delete All Test Tables
+  // Delete All Test Tables
   after(function (done) {
     deleteAllDatabases()
       .then(function () {

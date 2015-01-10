@@ -230,7 +230,6 @@ var fileController = {
     return paths;
   },
   moveFileInProject: function (req, res) {
-    console.log('hello!!!!');
     var fileInfo = req.body;
     var fileContent;
     var isItValidUrl;
@@ -238,11 +237,7 @@ var fileController = {
     // console.log('fileInfo: ', fileInfo);
     downloadController._getFileContents(fileInfo.projectIdOrName, fileInfo.path)
       .then(function (content) {
-        console.log('-------------------------');
-        console.log('content : ', content);
-        console.log('-------------------------');
         fileContent = content;
-        console.log('DID WE GET THE CONTENT???: ', fileContent);
       })
       .catch(function (err) {
         console.log('Error moving the file: ', err);

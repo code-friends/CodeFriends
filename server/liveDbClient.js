@@ -1,7 +1,8 @@
+var config = require('config');
 var Promise = require('bluebird');
 var liveDBMongoClient = require('livedb-mongo');
 var livedb = require('livedb');
-var db = liveDBMongoClient('mongodb://localhost:27017/codeFriends?auto_reconnect', {
+var db = liveDBMongoClient(config.get('mongo'), {
 	safe: true
 });
 var backend = Promise.promisifyAll(livedb.client(db));
