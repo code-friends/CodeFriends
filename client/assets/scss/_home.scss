@@ -1,10 +1,13 @@
+$silver-blue: rgba(30, 76, 97, 0.5);
+$darken-silver-blue: darken(rgba(30, 76, 97, 0.3), 0.5);
+
 .viewport {
   width: 100vw;
   height: 100vh;
 }
 .header-space {
-  position: absolute;
-  top: 58px;
+  // position: absolute;
+  // top: 58px;
 }
 .body {
   // position: absolute;
@@ -13,6 +16,16 @@
   max-width: 1200px;
   margin: 0 auto;
 }
+
+#projects-body {
+  background-color: $silver-blue;
+  color: white;
+}
+.projects-header {
+  padding: 25px 0px;
+}
+
+
 .new-project-submission-form {
   float: right;
   margin-top: 25px;
@@ -21,7 +34,7 @@
   text-transform: uppercase;
   font-weight: 700;
   letter-spacing: 0.05em;
-  padding: 5px;
+  padding: 10px;
 }
 a:last-child {
   .single-project {
@@ -29,14 +42,41 @@ a:last-child {
   }
 }
 .single-project {
-  padding: 10px;
-  border-top: solid 1px #c5c5c5;
+  padding: 13px 0px;
+  border-top: solid 1px #99B0C2;
   &:hover {
-    background: #f7f7f7;
+    background: $darken-silver-blue;
   }
+}
+.timeAgo {
+  font-size: 10px;
+  color: #bbb;
+  display: block;
+  position: relative;
+  top: 1px;
 }
 
 // Margin-bottom
 .btn-github-login {
   margin-bottom: 20px;
+}
+
+// add project icon
+.add-icon {
+  background-image: url($add-project-icon-path);
+  width: 38px;
+  height: 38px;
+  background-size: contain;
+  display: inline-block;
+  float: right;
+  .mouseover-text {
+    display: none;
+    width: 97px;
+    top: 114%;
+    left: 81%;
+  }
+  &:hover .mouseover-text{
+    display: inline-block;
+    position: absolute;
+  }
 }

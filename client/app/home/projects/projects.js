@@ -3,33 +3,40 @@
 'use strict';
 
 angular.module('code.projects', ['ui.router'])
-  .controller('projectsController', function ($scope, $state, $http, Projects, chatFactory) {
+  .controller('projectsController', function ($scope, $state, $http, Projects, chatFactory, $modal) {
     // on project state initialize, get projects
     $scope.init = function () {
-      Projects.getProjects()
+      return Projects.getProjects()
         .then(function (projects) {
           $scope.projects = projects;
+          return $scope.projects;
         });
 
     };
 
-    $scope.createProject = function () {
-      return $http.post('/api/project', {
-          project_name: $scope.newProjectName
-        })
-        .then(function (res) {
-          return res.data;
-        })
-        .then(function () {
-          return Projects.getProjects()
-            .then(function (projects) {
-              $scope.projects = projects;
-            });
-        })
-        .then(function () {
-          $scope.init();
-        });
-      $scope.init();
+    $scope.createProject = function (projectName) {
+      return Projects.createProject(projectName);
     };
+
+    $scope.openCreateProjectModal = function () {
+      $modal.open({
+        templateUrl: '/app/templates/modalCreateProject.html',
+        controller: 'createProjectModalController',
+        size: 'sm'
+      }).result.then(function () {
+        $scope.init();
+      });
+    };
+
     $scope.init();
+  })
+  .controller('createProjectModalController', function ($scope, $modalInstance, Projects) {
+
+
+    $scope.closeModal = function () {
+      $modalInstance.close();
+      if ($scope.newProjectName !== undefined) {
+        Projects.createProject($scope.newProjectName);
+      }
+    };
   });

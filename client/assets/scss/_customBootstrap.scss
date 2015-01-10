@@ -1,9 +1,31 @@
 $input-height: 30px;
 
 //Modal styling, fo input, submit button and dropdown
+.modal-dialog {
+  position: relative;
+  top: 31px;
+}
 .modal-content {
-  background-color: $blue-grey-opaque;
+  background-color: $blue-grey;
   color: white;
+  text-align: center;
+  font-weight: 100;
+  ::-webkit-input-placeholder {
+    text-align: center;
+  }
+  :-moz-placeholder {
+    text-align: center;
+  }
+  ::-moz-placeholder {
+    text-align: center;
+  }
+  :-ms-input-placeholder {
+    text-align: center;
+  }
+  .modal-header {
+    border-bottom: 0;
+    font-weight: 100;
+  }
   .modalDropDownButton {
     background-color: $blue-grey;
     border: none;
@@ -36,24 +58,100 @@ $input-height: 30px;
     }
   }
   .modalTextInput {
-    background-color: $blue-grey;
+    background-color: $dark-blue-grey;
     border: none;
     outline: none;
     height: $input-height;
     border-radius: 4px;
     padding: 9px;
-    width: 80%;
+    width: 100%;
+    text-align: center;
   }
   ::-webkit-input-placeholder {
     color: white;
   }
-  .modalSubmit {
-    background-color: $blue-grey;
-    border: none;
-    height: $input-height;
-    border-radius: 4px;
-  }
+  // .modalSubmit {
+    // border: 1px solid white;
+    // height: 30px;
+    // border-radius: 14px;
+  // }
   .addFileForm {
     margin-top: 5%;
   }
+  .glyphicon-plus {
+    margin-top: 8%;
+    margin-bottom: 4%;
+    font-size: 2.3em;
+  }
+}
+
+// tabs styling in modals
+.modal-dialog {  
+  .nav-tabs > li.active > a {
+    background-color: $dark-blue-grey;
+    color: white;
+    font-weight: 300;
+    &:hover {
+      background-color: $dark-blue-grey;
+    }
+    &:focus {
+      background-color: $dark-blue-grey;
+      color: white;
+    }
+  }
+  .tab-content {
+    background-color: $dark-blue-grey;
+    .active {
+      height: 60px;
+    }
+  }
+  .nav-tabs {
+    margin-top: 10%;
+    border-bottom: 1px solid #466D80;
+    li {
+      width: 50%;
+      a {
+        font-weight: 300;
+        border: 0;
+        &:hover {
+          font-weight: 300;
+          background-color: $darken-blue-grey;
+          border: 0;
+        }
+      }
+    }
+  }
+  // active tab
+  .nav-tabs > li.active > a {
+    border: 1px solid #466D80;
+    border-bottom: 0;
+  }
+}  
+
+.createProjectModal {
+  input[type="file"] {
+    width: 162px;
+    margin: 0 auto;
+  }
+  .upload-icon {
+    background-image: url($upload-icon-path);
+    background-size: contain;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-size: 30px 30px;
+  }
+  // .modalSubmit {
+  //   margin-top: 10%;
+  //   margin-bottom: 6%;
+  //   background-color: rgba(255, 255, 255, 0.1);
+  //   padding: 2% 5% 2% 5%;
+  //   border-radius: 17px;
+  // }
+}
+
+
+// toolbar styling
+#toolbar .dropdown-menu {
+  width: 100%;
 }

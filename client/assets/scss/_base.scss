@@ -6,8 +6,8 @@ html {
   height: 100%;
 }
 body {
-  font-family: $font-stack;
-  font-size: 1.2em;
+  font-family: $Proxima-font-stack;
+  font-size: 1.3em;
 }
 a {
   text-decoration: none;
@@ -21,6 +21,11 @@ ul {
   list-style: none;
   padding: 0;
 }
+h1, h2, h3, h4, h5, h6 {
+  font-family: $Brandon-font-stack;
+  text-transform: uppercase;
+  font-weight: 400;
+}
 
 h4 {
   text-transform: uppercase;
@@ -30,9 +35,14 @@ h4 {
   margin: 0;
 }
 
+.header, #toolbar {
+  font-family: $Brandon-font-stack;
+}
+
 .avatar-48 {
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
 }
 
 .avatar-72 {
@@ -42,4 +52,9 @@ h4 {
 
 .tab-content {
   padding-top: 20px;
+}
+
+button {
+  background: none;
+  border: 0;
 }
