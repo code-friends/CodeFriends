@@ -45,9 +45,8 @@ var fileController = {
     var fileName = fileInfo.fileName;
     var type = fileInfo.type;
     var projectId = fileInfo.projectId || null;
-    var path = fileInfo.path;
+    var filePath = fileInfo.path;
     var userId = fileInfo.userId || null;
-    var fileContents = fileInfo.fileContents || null;
     return new Q()
       .then(function () {
         // Check if name is valid (no white space)
@@ -60,7 +59,7 @@ var fileController = {
       })
       .then(function (fileStructure) {
         // Check if path exists
-        if (!fileController._isPathValid(fileStructure, path, fileName)) {
+        if (!fileController._isPathValid(fileStructure, filePath, fileName)) {
           throw new Error('Path is Invalid or File Already Exists');
         }
         // Create Object with author, timeCreated
@@ -69,12 +68,12 @@ var fileController = {
           created: moment().format(config.get('timeFormat')),
           author: userId,
           type: type,
-          path: path + '/' + fileName
+          path: filePath + '/' + fileName
         };
         if (type === 'folder') {
           newAddition.files = {};
         }
-        var updatedFileStructure = fileController._appendToFileStructure(fileStructure, path, fileName, newAddition);
+        var updatedFileStructure = fileController._appendToFileStructure(fileStructure, filePath, fileName, newAddition);
         // Update file structure for whole project in mongo
         return fileController._updateFileStructure(updatedFileStructure);
       });
