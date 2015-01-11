@@ -118,22 +118,22 @@ var fileController = {
     });
     return fileStructure;
   },
-  _getSubFileStructure: function (fileStructure, path, cb) {
-    var _path = path.split('/').filter(function (str) {
+  _getSubFileStructure: function (fileStructure, filePath, cb) {
+    var _filePath = filePath.split('/').filter(function (str) {
       return str.length > 0;
     });
-    var traverseFileStructure = function (_fileStructure, pathStructure) {
-      if (pathStructure.length === 0) {
+    var traverseFileStructure = function (_fileStructure, filePathStructure) {
+      if (filePathStructure.length === 0) {
         cb(_fileStructure);
         return true;
       }
-      if (_fileStructure.files[mongoIndex(pathStructure[0])]) {
-        var subFileStructure = _fileStructure.files[mongoIndex(pathStructure[0])];
-        return traverseFileStructure(subFileStructure, pathStructure.splice(1));
+      if (_fileStructure.files[mongoIndex(filePathStructure[0])]) {
+        var subFileStructure = _fileStructure.files[mongoIndex(filePathStructure[0])];
+        return traverseFileStructure(subFileStructure, filePathStructure.splice(1));
       }
       return false;
     };
-    return traverseFileStructure(fileStructure, _path);
+    return traverseFileStructure(fileStructure, _filePath);
   },
   /**
    * Check if a given path if valid within a fileStructure
