@@ -8,7 +8,6 @@ var JSZip = require('jszip');
 var path = require('path');
 var Q = require('q');
 
-var fileController = require('../file/fileController');
 var getDocumentHash = require('../file/getDocumentHash');
 var backend = require('../liveDbClient');
 var createNewFileOrFolder = require('./fileController')._createNewFileOrFolder;
@@ -66,12 +65,11 @@ var uploadController = {
           .then(function () { // err, version, transformedByOps, snapshot
             var fileInfo = {
               projectName: projectName,
-              fileName: path.basename(filePath),
+              filePath: filePath,
               type: 'file', ///need to make flexible to take folders too
-              path: path.dirname(filePath),
               userId: userId
             };
-            return fileController._createNewFileOrFolder(fileInfo);
+            return createNewFileOrFolder(fileInfo);
           });
       })
       .catch(function (err) {
@@ -99,8 +97,7 @@ var uploadController = {
               // Write file to file structure
               return createNewFileOrFolder({
                 projectId: projectModel.get('id'),
-                path: path.dirname(file.name),
-                fileName: path.basename(file.name),
+                filePath: file.name,
                 userId: userId,
                 type: 'folder'
               });
@@ -145,7 +142,7 @@ var uploadController = {
     });
     return files;
   },
-  /** 
+  /**
    * Determine if all files are in the same directory
    *
    * @param <Array> an array of object with the `name` property

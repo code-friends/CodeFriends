@@ -21,13 +21,12 @@ var fileController = {
     var fileName = req.body.file_name || req.param('file_name');
     var type = req.body.type || req.param('type');
     var projectId = req.body.project_id || req.param('project_id') || null;
-    var path = req.body.path || req.param('path') || '';
+    var fileDirname = req.body.path || req.param('path') || '';
     var fileInfo = {
       projectName: projectName,
-      fileName: fileName,
+      filePath: path.join(fileDirname, fileName),
       type: type,
       projectId: projectId,
-      path: path
     };
     if (type !== 'file' && type !== 'folder') {
       return res.status(400).send('Invalid File Type Specified').end();
@@ -42,15 +41,14 @@ var fileController = {
   },
   _createNewFileOrFolder: function (fileInfo) {
     var projectName = fileInfo.projectName;
-    var fileName = fileInfo.fileName;
     var type = fileInfo.type;
     var projectId = fileInfo.projectId || null;
-    var filePath = fileInfo.path;
+    var filePath = fileInfo.filePath;
     var userId = fileInfo.userId || null;
     return new Q()
       .then(function () {
         // Check if name is valid (no white space)
-        if (!fileController._isValidFileName(fileName)) {
+        if (!fileController._isValidFileName(path.basename(filePath))) {
           throw new Error('Invalid File Name');
         }
       })
@@ -59,21 +57,21 @@ var fileController = {
       })
       .then(function (fileStructure) {
         // Check if path exists
-        if (!fileController._isPathValid(fileStructure, path.join(filePath, fileName))) {
+        if (!fileController._isPathValid(fileStructure, filePath)) {
           throw new Error('Path is Invalid or File Already Exists');
         }
         // Create Object with author, timeCreated
         var newAddition = {
-          name: fileName,
+          name: path.basename(filePath),
           created: moment().format(config.get('timeFormat')),
           author: userId,
           type: type,
-          path: filePath + '/' + fileName
+          path: filePath
         };
         if (type === 'folder') {
           newAddition.files = {};
         }
-        var updatedFileStructure = fileController._appendToFileStructure(fileStructure, filePath, fileName, newAddition);
+        var updatedFileStructure = fileController._appendToFileStructure(fileStructure, filePath, newAddition);
         // Update file structure for whole project in mongo
         return fileController._updateFileStructure(updatedFileStructure);
       });
@@ -109,9 +107,11 @@ var fileController = {
   _isValidFileName: function (fileName) {
     return !(/\s/g.test(fileName) || /\//g.test(fileName));
   },
-  _appendToFileStructure: function (fileStructure, path, fileName, newAddition) {
-    if (path === '.') path = '';
-    fileController._getSubFileStructure(fileStructure, path, function (subFileStructure) {
+  _appendToFileStructure: function (fileStructure, filePath, newAddition) {
+    var fileDirname = path.dirname(filePath);
+    var fileName = path.basename(filePath);
+    if (fileDirname === '.') fileDirname = '';
+    fileController._getSubFileStructure(fileStructure, fileDirname, function (subFileStructure) {
       if (!fileController._isFileInFileStructre(subFileStructure)) {
         subFileStructure.files[mongoIndex(fileName)] = newAddition;
       }
