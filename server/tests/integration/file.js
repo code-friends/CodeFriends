@@ -144,6 +144,7 @@ describe('File', function () {
       .expect(201)
       .then(function (res) {
         var fileStructure = res.body;
+        // console.log('find the path in the fileStructure for jorge.js: fileStructure', fileStructure.files.example.files.child);
         var folderKey = 'example'.replace('.', '');
         var folderKey2 = 'child'.replace('.', '');
         var fileKey = 'jorge.js'.replace('.', '');
@@ -173,17 +174,40 @@ describe('File', function () {
       });
   });
 
-  it('should add a new file to the database', function (done) {
+  //it is grabbing content
+  //traversing the dom to grab the right object
+  //it's deleting the object
+  //traversing the dom to insert
+  it('should upload a new file to the database', function (done) {
     agent
-      .post('/api/file/upload')
+      .post('/api/file/upload/')
       .field('file_name', 'dummyForTest2.js')
       .field('project_name', project_name)
       .field('path', '')
+      .field('type', 'file')
       .attach('file', './server/tests/test-files/dummyForTest.js')
       .expect(201)
       .then(function (res) {
         expect(res.body.files.dummyForTest2js).to.be.an('object');
         expect(res.body.files.dummyForTest2js.name).to.equal('dummyForTest2.js');
+        done();
+      });
+  });
+
+  xit('should upload a new file to a folder in the database', function (done) {
+    agent
+      .post('/api/file/upload/')
+      .field('file_name', 'dummyForTest4.js')
+      .field('project_name', project_name)
+      .field('projectIdOrName', project_name)
+      .field('path', 'example/dummyForTest4.js')
+      .field('type', 'file')
+      .attach('file', './server/tests/test-files/dummyForTest.js')
+      .expect(201)
+      .then(function (res) {
+        // console.log('res.body: ', res.body.files.example);
+        expect(res.body.files.example.files.dummyForTest4js).to.be.an('object');
+        expect(res.body.files.example.files.dummyForTest4js.name).to.equal('dummyForTest4.js');
         done();
       });
   });
@@ -194,6 +218,19 @@ describe('File', function () {
       .get('/api/file/download/projectName/' + project_name + '/fileName/dummyForTest2.js')
       .expect(200)
       .expect('Content-disposition', 'attachment; filename=dummyForTest2.js')
+      .then(function (res) {
+        var fileContents = fs.readFileSync('./server/tests/test-files/dummyForTest.js');
+        expect(res.text).to.equal(fileContents.toString());
+        done();
+      });
+  });
+
+  // This has to do with paths and fileNames not working together correctly
+  xit('should download a file in the database that is not in the root folder', function (done) {
+    agent
+      .get('/api/file/download/projectName/' + project_name + '/fileName/example/dummyForTest4.js')
+      .expect(200)
+      .expect('Content-disposition', 'attachment; filename=dummyForTest4.js')
       .then(function (res) {
         var fileContents = fs.readFileSync('./server/tests/test-files/dummyForTest.js');
         expect(res.text).to.equal(fileContents.toString());
@@ -229,6 +266,24 @@ describe('File', function () {
       });
   });
 
-
+  xit('should move a file on PUT /api/file/move', function (done) {
+    agent
+      .put('/api/file/move')
+      .send({
+        projectName: project_name,
+        fileName: 'dummyForTest4.js',
+        type: 'file',
+        path: '/example/dummyForTest4.js',
+        newPath: '/dummyForTest4.js',
+        projectIdOrName: project_name,
+      })
+      .expect(201)
+      .then(function (res) {
+        // expect(zipString.substring(fileContents)).to.not.equal(-1);
+        // expect(zipString.substring('dummyForTest2.js')).to.not.equal(-1);
+        // expect(zipString.substring('main.js')).to.not.equal(-1);
+        done();
+      });
+  });
 
 });

@@ -14,6 +14,7 @@ var Hashes = require('jshashes');
  * @return <Promise> -> <String> (documentHash)
  */
 var getDocumentHash = function (projectNameOrId, documentPath) {
+
   if (typeof documentPath !== 'string') throw new Error('Document Path is Not A String');
   return new Q()
     .then(function () {
@@ -54,3 +55,11 @@ var getDocumentHash = function (projectNameOrId, documentPath) {
 };
 
 module.exports = getDocumentHash;
+
+// 40d5ea3b220fa8a50fee32c32c2579a08f9f26df6923a614c493f4bbc5ac627f
+// 40d5ea3b220fa8a50fee32c32c2579a08f9f26df6923a614c493f4bbc5ac627f
+// 40d5ea3b220fa8a50fee32c32c2579a08f9f26df6923a614c493f4bbc5ac627f
+// 40d5ea3b220fa8a50fee32c32c2579a08f9f26df6923a614c493f4bbc5ac627f
+// 40d5ea3b220fa8a50fee32c32c2579a08f9f26df6923a614c493f4bbc5ac627f
+// 40d5ea3b220fa8a50fee32c32c2579a08f9f26df6923a614c493f4bbc5ac627f
+// 40d5ea3b220fa8a50fee32c32c2579a08f9f26df6923a614c493f4bbc5ac627f

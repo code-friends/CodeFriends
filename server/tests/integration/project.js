@@ -125,13 +125,13 @@ describe('Project', function () {
           //   .expect(200);
           done();
         });
-        // .then(function (res) {
-        //   var fileContents = res.text;
-        //   var filePath = path.resolve(__dirname, '../test-files/zipExampleProject/exampleFolder/superExample.js');
-        //   var exampleMdFileContents = fs.readFileSync(filePath);
-        //   fileContents.should.equal(exampleMdFileContents.toString());
-        //   done();
-        // });
+      // .then(function (res) {
+      //   var fileContents = res.text;
+      //   var filePath = path.resolve(__dirname, '../test-files/zipExampleProject/exampleFolder/superExample.js');
+      //   var exampleMdFileContents = fs.readFileSync(filePath);
+      //   fileContents.should.equal(exampleMdFileContents.toString());
+      //   done();
+      // });
     });
 
     it('should add all files in the main folder', function (done) {

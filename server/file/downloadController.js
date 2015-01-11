@@ -8,10 +8,10 @@ var downloadController = {
   downloadFile: function (req, res) {
     var parsedUrl = req.params[0].split('/');
     var projectName = parsedUrl[1];
-    var documentPath = parsedUrl[3];
-    return downloadController._getFileContents(projectName, documentPath)
+    var filePath = parsedUrl[3];
+    return downloadController._getFileContents(projectName, filePath)
       .then(function (fileContents) {
-        var fileName = downloadController._getFileNameFromPath(documentPath);
+        var fileName = downloadController._getFileNameFromPath(filePath);
         res.setHeader('Content-disposition', 'attachment; filename=' + fileName);
         res.send(fileContents);
       })
@@ -19,10 +19,12 @@ var downloadController = {
         console.log('Error downloading file: ', err);
       });
   },
-  _getFileContents: function (projectNameOrId, documentPath) {
+  _getFileContents: function (projectNameOrId, filePath) {
+    // console.log('projectNameOrId: ', projectNameOrId);
+    // console.log('filePath: ', filePath);
     if (!projectNameOrId) throw new Error('No Project Specified');
-    if (typeof documentPath !== 'string') throw new Error('No Document Path Specified');
-    return getDocumentHash(projectNameOrId, documentPath)
+    if (typeof filePath !== 'string') throw new Error('No Document Path Specified');
+    return getDocumentHash(projectNameOrId, filePath)
       .then(function (documentHash) {
         return backend.fetchAsync('documents', documentHash)
           .then(function (file) {
@@ -45,6 +47,7 @@ var downloadController = {
           });
       })
       .then(function (fileContents) {
+        // console.log('filePath: ', filePath);
         return fileContents;
       })
       .catch(function (err) {
