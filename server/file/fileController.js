@@ -59,7 +59,7 @@ var fileController = {
       })
       .then(function (fileStructure) {
         // Check if path exists
-        if (!fileController._isPathValid(fileStructure, filePath, fileName)) {
+        if (!fileController._isPathValid(fileStructure, path.join(filePath, fileName))) {
           throw new Error('Path is Invalid or File Already Exists');
         }
         // Create Object with author, timeCreated
@@ -143,8 +143,7 @@ var fileController = {
    * @param <String> name of file
    * @return <Boolean>
    */
-  _isPathValid: function (fileStructure, _fileDirname, _fileName) {
-    var filePath = path.join(_fileDirname, _fileName);
+  _isPathValid: function (fileStructure, filePath) {
     var fileDirname = path.dirname(filePath);
     var fileName = path.basename(filePath);
     if (fileDirname === '') return !fileController._isFileInFileStructre(fileStructure, fileName);
