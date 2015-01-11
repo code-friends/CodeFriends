@@ -5,6 +5,8 @@ var mongoClient = Promise.promisifyAll(require('mongodb').MongoClient);
 var Q = require('q');
 var moment = require('moment');
 var _ = require('lodash');
+var path = require('path');
+
 var ProjectCollection = require('../models').collections.ProjectCollection;
 var downloadController = require('./downloadController');
 // var Project = require('../models').models.Project;
@@ -142,11 +144,14 @@ var fileController = {
    * @param <String> name of file
    * @return <Boolean>
    */
-  _isPathValid: function (fileStructure, path, fileName) {
-    if (path === '') return !fileController._isFileInFileStructre(fileStructure, fileName);
-    if (path === '.') return !fileController._isFileInFileStructre(fileStructure, fileName);
+  _isPathValid: function (fileStructure, _fileDirname, _fileName) {
+    var filePath = path.join(_fileDirname, _fileName);
+    var fileDirname = path.dirname(filePath);
+    var fileName = path.basename(filePath);
+    if (fileDirname === '') return !fileController._isFileInFileStructre(fileStructure, fileName);
+    if (fileDirname === '.') return !fileController._isFileInFileStructre(fileStructure, fileName);
     var isValidPath = false;
-    fileController._getSubFileStructure(fileStructure, path, function (subFileStructure) {
+    fileController._getSubFileStructure(fileStructure, fileDirname, function (subFileStructure) {
       if (!fileController._isFileInFileStructre(subFileStructure, fileName)) {
         isValidPath = true;
       }

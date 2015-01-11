@@ -58,14 +58,10 @@ projectController.post = function (req, res) {
       if (contentTypeIsMultipart) {
         var form = new multiparty.Form();
         return form.parseAsync(req)
-          .then(function (fields, files) {
-            console.log('fields', fields);
-            console.log('files', files);
+          .then(function (fields) {
             fields = _.flatten(fields);
             var projectName = getFieldProperty(fields, 'project_name') || req.body.project_name;
             var projectFile = getFieldProperty(fields, 'project_file') || getFieldProperty(fields, 'file');
-            console.log('projectFile');
-            console.log(projectFile);
             return postRequestHandler(projectName)
               .then(function (projectModel) {
                 // Don't process file if it's not a .zip
