@@ -48,7 +48,7 @@ var fileController = {
     return new Q()
       .then(function () {
         // Check if name is valid (no white space)
-        if (!fileController._isValidFileName(path.basename(filePath))) {
+        if (!fileController._isValidFileName(filePath)) {
           throw new Error('Invalid File Name');
         }
       })
@@ -104,28 +104,27 @@ var fileController = {
           });
       });
   },
-  _isValidFileName: function (fileName) {
+  _isValidFileName: function (filePath) {
+    var fileName = path.basename(filePath);
     return !(/\s/g.test(fileName) || /\//g.test(fileName));
   },
   _appendToFileStructure: function (fileStructure, filePath, newAddition) {
     var fileDirname = path.dirname(filePath);
     var fileName = path.basename(filePath);
     if (fileDirname === '.') fileDirname = '';
-    fileController._getSubFileStructure(fileStructure, fileDirname, function (subFileStructure) {
-      if (!fileController._isFileInFileStructre(subFileStructure)) {
+    var subFileStructure = fileController._getSubFileStructure(fileStructure, fileDirname);
+    if (!fileController._isFileInFileStructre(subFileStructure)) {
         subFileStructure.files[mongoIndex(fileName)] = newAddition;
-      }
-    });
+    }
     return fileStructure;
   },
-  _getSubFileStructure: function (fileStructure, filePath, cb) {
+  _getSubFileStructure: function (fileStructure, filePath) {
     var _filePath = filePath.split('/').filter(function (str) {
       return str.length > 0;
     });
     var traverseFileStructure = function (_fileStructure, filePathStructure) {
       if (filePathStructure.length === 0) {
-        cb(_fileStructure);
-        return true;
+        return _fileStructure;
       }
       if (_fileStructure.files[mongoIndex(filePathStructure[0])]) {
         var subFileStructure = _fileStructure.files[mongoIndex(filePathStructure[0])];
@@ -145,16 +144,10 @@ var fileController = {
    */
   _isPathValid: function (fileStructure, filePath) {
     var fileDirname = path.dirname(filePath);
-    var fileName = path.basename(filePath);
-    if (fileDirname === '') return !fileController._isFileInFileStructre(fileStructure, fileName);
-    if (fileDirname === '.') return !fileController._isFileInFileStructre(fileStructure, fileName);
-    var isValidPath = false;
-    fileController._getSubFileStructure(fileStructure, fileDirname, function (subFileStructure) {
-      if (!fileController._isFileInFileStructre(subFileStructure, fileName)) {
-        isValidPath = true;
-      }
-    });
-    return isValidPath;
+    if (fileDirname === '') return !fileController._isFileInFileStructre(fileStructure, filePath);
+    if (fileDirname === '.') return !fileController._isFileInFileStructre(fileStructure, filePath);
+    var subFileStructure = fileController._getSubFileStructure(fileStructure, fileDirname);
+    return !fileController._isFileInFileStructre(subFileStructure, filePath);
   },
   /**
    * Returns if file is in the root of the fileStructure
@@ -162,7 +155,8 @@ var fileController = {
    * @param <Object> (fileStructure)
    * @return <Boolean>
    */
-  _isFileInFileStructre: function (fileStructure, fileName) {
+  _isFileInFileStructre: function (fileStructure, filePath) {
+    var fileName = path.basename(filePath);
     return _.any(fileStructure.files, function (file) {
       return file.name === fileName;
     });

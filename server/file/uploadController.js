@@ -14,7 +14,6 @@ var createNewFileOrFolder = require('./fileController')._createNewFileOrFolder;
 
 var uploadController = {
   uploadNewFile: function (req, res) {
-
     var form = new multiparty.Form();
     // Upload file to mongo
     form.parseAsync(req)
@@ -39,7 +38,6 @@ var uploadController = {
     return _.flatten(_.compact(_.pluck(fields, propertyName)))[0];
   },
   _addFileFromFileSytemToProject: function (projectName, filePath, userId, fileSystemFilePathToReadFileFrom) {
-
     return fs.readFileAsync(fileSystemFilePathToReadFileFrom)
       .then(function (fileBuffer) {
         var fileContent = fileBuffer.toString();
