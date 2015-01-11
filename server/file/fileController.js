@@ -153,6 +153,12 @@ var fileController = {
     });
     return isValidPath;
   },
+  /**
+   * Returns if file is in the root of the fileStructure
+   *
+   * @param <Object> (fileStructure)
+   * @return <Boolean>
+   */
   _isFileInFileStructre: function (fileStructure, fileName) {
     return _.any(fileStructure.files, function (file) {
       return file.name === fileName;
@@ -216,10 +222,10 @@ var fileController = {
   },
   getPathsForFileStructure: function (fileStructure, isFilesAttribute) {
     isFilesAttribute = isFilesAttribute || false;
-    var paths = [];
+    var filePaths = [];
     var getPaths = function (_fileStructure) {
       _.each(_fileStructure, function (fileOrFolder) {
-        paths.push(fileOrFolder.path);
+        filePaths.push(fileOrFolder.path);
         if (fileOrFolder.type === 'folder') {
           getPaths(fileOrFolder.files);
         }
@@ -227,7 +233,7 @@ var fileController = {
     };
     if (!isFilesAttribute) getPaths(fileStructure.files); // default
     if (isFilesAttribute) getPaths(fileStructure);
-    return paths;
+    return filePaths;
   },
   moveFileInProject: function (req, res) {
     var fileInfo = req.body;
@@ -242,6 +248,7 @@ var fileController = {
       .catch(function (err) {
         console.log('Error moving the file: ', err);
       });
+    return filePaths;
   }
 
   //   return fileController.getFileStructure(fileInfo.projectIdOrName)

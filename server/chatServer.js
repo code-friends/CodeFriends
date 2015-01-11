@@ -41,7 +41,7 @@ chatWS.on('connection', function (ws) {
     if (parsedMsg.message.type === 'joinRoom') {
       if (userConnections[chatRoomName] === undefined) {
         userConnections[chatRoomName] = [];
-      };
+      }
       userConnections[chatRoomName].push({
         username: parsedMsg.message.username,
         githubAvatar: parsedMsg.message.githubAvatar

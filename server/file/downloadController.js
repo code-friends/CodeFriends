@@ -20,17 +20,15 @@ var downloadController = {
       });
   },
   _getFileContents: function (projectNameOrId, filePath) {
-    // console.log('projectNameOrId: ', projectNameOrId);
-    // console.log('filePath: ', filePath);
     if (!projectNameOrId) throw new Error('No Project Specified');
     if (typeof filePath !== 'string') throw new Error('No Document Path Specified');
     return getDocumentHash(projectNameOrId, filePath)
-      .then(function (documentHash) {
-        return backend.fetchAsync('documents', documentHash)
+      .then(function (filePathHash) {
+        return backend.fetchAsync('documents', filePathHash)
           .then(function (file) {
             // If the file is empty or not found, create an empty file
             if (file.data === undefined) {
-              return backend.submitAsync('documents', documentHash, {
+              return backend.submitAsync('documents', filePathHash, {
                   create: {
                     type: 'text',
                     data: ''
@@ -54,8 +52,8 @@ var downloadController = {
         console.log('Error Fetching Document', err);
       });
   },
-  _getFileNameFromPath: function (path) {
-    return _.last(path.split('/'));
+  _getFileNameFromPath: function (filePath) {
+    return _.last(filePath.split('/'));
   }
 };
 

@@ -1,5 +1,7 @@
-var config = require('config');
+'use strict';
+
 var Promise = require('bluebird');
+var config = require('config');
 var liveDBMongoClient = require('livedb-mongo');
 var livedb = require('livedb');
 var db = liveDBMongoClient(config.get('mongo'), {
