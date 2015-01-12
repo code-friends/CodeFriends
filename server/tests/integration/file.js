@@ -32,6 +32,10 @@ describe('File', function () {
         var fileStructure = res.body;
         expect(fileStructure.files).to.be.a('object');
         done();
+      })
+      .catch(function (err) {
+        throw new Error(err);
+        done();
       });
   });
 
@@ -51,6 +55,10 @@ describe('File', function () {
         expect(fileStructure.files[fileKey]).to.be.a('object');
         expect(fileStructure.files[fileKey].name).to.equal('main.js');
         done();
+      })
+      .catch(function (err) {
+        throw new Error(err);
+        done();
       });
   });
 
@@ -64,6 +72,10 @@ describe('File', function () {
       })
       .expect(400)
       .then(function () {
+        done();
+      })
+      .catch(function (err) {
+        throw new Error(err);
         done();
       });
   });
@@ -83,6 +95,10 @@ describe('File', function () {
         expect(fileStructure.files).to.be.a('object');
         expect(fileStructure.files[fileKey]).to.be.a('object');
         expect(fileStructure.files[fileKey].name).to.equal('example');
+        done();
+      })
+      .catch(function (err) {
+        throw new Error(err);
         done();
       });
   });
@@ -106,6 +122,10 @@ describe('File', function () {
         expect(fileStructure.files[folderKey].name).to.equal('example');
         expect(fileStructure.files[folderKey].files[fileKey].name).to.equal('index.js');
         done();
+      })
+      .catch(function (err) {
+        throw new Error(err);
+        done();
       });
   });
 
@@ -128,6 +148,10 @@ describe('File', function () {
         expect(fileStructure.files[folderKey].name).to.equal('example');
         expect(fileStructure.files[folderKey].files[fileKey].name).to.equal('child');
         expect(fileStructure.files[folderKey].files[fileKey].type).to.equal('folder');
+        done();
+      })
+      .catch(function (err) {
+        throw new Error(err);
         done();
       });
   });
@@ -156,6 +180,10 @@ describe('File', function () {
         expect(fileStructure.files[folderKey].files[folderKey2].files[fileKey].name).to.equal('jorge.js');
         expect(fileStructure.files[folderKey].files[folderKey2].files[fileKey].type).to.equal('file');
         done();
+      })
+      .catch(function (err) {
+        throw new Error(err);
+        done();
       });
   });
 
@@ -170,6 +198,10 @@ describe('File', function () {
         project.should.have.property('files');
         project.files.should.be.instanceof(Object);
         project.files[fileKey].name.should.equal('main.js');
+        done();
+      })
+      .catch(function (err) {
+        throw new Error(err);
         done();
       });
   });
@@ -190,6 +222,10 @@ describe('File', function () {
       .then(function (res) {
         expect(res.body.files.dummyForTest2js).to.be.an('object');
         expect(res.body.files.dummyForTest2js.name).to.equal('dummyForTest2.js');
+        done();
+      })
+      .catch(function (err) {
+        throw new Error(err);
         done();
       });
   });
@@ -221,6 +257,10 @@ describe('File', function () {
       .then(function (res) {
         var fileContents = fs.readFileSync('./server/tests/test-files/dummyForTest.js');
         expect(res.text).to.equal(fileContents.toString());
+        done();
+      })
+      .catch(function (err) {
+        throw new Error(err);
         done();
       });
   });
@@ -263,6 +303,10 @@ describe('File', function () {
         expect(zipString.substring('dummyForTest2.js')).to.not.equal(-1);
         expect(zipString.substring('main.js')).to.not.equal(-1);
         done();
+      })
+      .catch(function (err) {
+        throw new Error(err);
+        done();
       });
   });
 
@@ -282,6 +326,10 @@ describe('File', function () {
         // expect(zipString.substring(fileContents)).to.not.equal(-1);
         // expect(zipString.substring('dummyForTest2.js')).to.not.equal(-1);
         // expect(zipString.substring('main.js')).to.not.equal(-1);
+        done();
+      })
+      .catch(function (err) {
+        throw new Error(err);
         done();
       });
   });

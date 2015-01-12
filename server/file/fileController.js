@@ -112,9 +112,9 @@ var fileController = {
     var fileDirname = path.dirname(filePath);
     var fileName = path.basename(filePath);
     if (fileDirname === '.') fileDirname = '';
-    var subFileStructure = fileController._getSubFileStructure(fileStructure, fileDirname);
-    if (!fileController._isFileInFileStructre(subFileStructure)) {
-        subFileStructure.files[mongoIndex(fileName)] = newAddition;
+    if (!fileController._isFileInFileStructre(fileStructure, filePath)) {
+      var subFileStructure = fileController._getSubFileStructure(fileStructure, fileDirname);
+      subFileStructure.files[mongoIndex(fileName)] = newAddition;
     }
     return fileStructure;
   },
@@ -146,8 +146,7 @@ var fileController = {
     var fileDirname = path.dirname(filePath);
     if (fileDirname === '') return !fileController._isFileInFileStructre(fileStructure, filePath);
     if (fileDirname === '.') return !fileController._isFileInFileStructre(fileStructure, filePath);
-    var subFileStructure = fileController._getSubFileStructure(fileStructure, fileDirname);
-    return !fileController._isFileInFileStructre(subFileStructure, filePath);
+    return !fileController._isFileInFileStructre(fileStructure, filePath);
   },
   /**
    * Returns if file is in the root of the fileStructure
@@ -157,7 +156,12 @@ var fileController = {
    */
   _isFileInFileStructre: function (fileStructure, filePath) {
     var fileName = path.basename(filePath);
-    return _.any(fileStructure.files, function (file) {
+    var fileDirname = path.dirname(filePath);
+    var subFileStructure = fileStructure;
+    if (fileDirname !== '.') {
+      subFileStructure = fileController._getSubFileStructure(fileStructure, fileDirname);
+    }
+    return _.any(subFileStructure.files, function (file) {
       return file.name === fileName;
     });
   },
