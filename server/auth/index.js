@@ -28,7 +28,7 @@ passport.use(new GitHubStrategy({
     // I'm not exactly sure when we use an accessToken and a refreshToken
     if (accessToken !== null) {
       new UserCollection()
-        .query('where', 'githubAccessToken', '=', accessToken)
+        .query('where', 'github_access_token', '=', accessToken)
         .fetchOne()
         .then(function (user) {
           if (!user) throw new Error('No User Found');

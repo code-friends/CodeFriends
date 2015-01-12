@@ -50,8 +50,8 @@ var uploadController = {
   },
   _addFileWithContentToProject: function (projectName, filePath, userId, fileContent) {
     return getDocumentHash(projectName, filePath)
-      .then(function (documentHash) {
-        return backend.submitAsync('documents', documentHash, {
+      .then(function (filePathHash) {
+        return backend.submitAsync('documents', filePathHash, {
             create: {
               type: 'text',
               data: fileContent

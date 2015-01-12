@@ -235,7 +235,6 @@ describe('File', function () {
       .attach('file', './server/tests/test-files/dummyForTest.js')
       .expect(201)
       .then(function (res) {
-        // console.log('res.body: ', res.body.files.example);
         expect(res.body.files.example.files.dummyForTest4js).to.be.an('object');
         expect(res.body.files.example.files.dummyForTest4js.name).to.equal('dummyForTest4.js');
         done();

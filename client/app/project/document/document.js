@@ -24,18 +24,18 @@ angular.module('code.document', ['ui.router'])
   })
   .factory('documentFactory', function (Projects, $state, $stateParams) {
     return {
-      goToDocument: function (projectName, documentPath, codeMirror) {
+      goToDocument: function (projectName, filePath, codeMirror) {
         var ws = new WebSocket('ws://' + window.location.hostname + ':' + window.config.ports.editor);
         var sjs = new window.sharejs.Connection(ws);
         /**
          * Look in getDocumentHash before changing this
          */
-        if (documentPath[0] !== '/') {
-          documentPath = '/' + documentPath;
+        if (filePath[0] !== '/') {
+          filePath = '/' + filePath;
         }
-        var str = 'p-' + $stateParams.projectId + '-d' + documentPath;
-        var documentHash = new Hashes.SHA256().hex(str);
-        var doc = sjs.get('documents', documentHash);
+        var str = 'p-' + $stateParams.projectId + '-d' + filePath;
+        var filePathHash = new Hashes.SHA256().hex(str);
+        var doc = sjs.get('documents', filePathHash);
         doc.subscribe();
         doc.whenReady(function () {
           if (!doc.type) {

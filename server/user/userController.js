@@ -1,10 +1,12 @@
-var express = require('express');
+'use strict';
+
 var models = require('../models.js').models;
-var collections = require('../models.js').collections;
 
 var userController = {};
 
-/////////////////////////////////////////    POST    /////////////////////////////////////////
+/**
+ * Create User
+ */
 userController.post = function (req, res) {
 
   // console.log(req.body);
@@ -16,10 +18,12 @@ userController.post = function (req, res) {
   var githubAccessToken = req.body.githubAccessToken;
   var githubAvatarUrl = req.body.githubAvatarUrl;
 
-  if (!username || !githubId || !githubName || !githubEmail || !githubLocation || !githubAccessToken || !githubAvatarUrl) {
+  if (!username || !githubId || !githubName || !githubEmail ||
+    !githubLocation || !githubAccessToken || !githubAvatarUrl
+  ) {
     res.status(400).end();
   }
-  var newUser = new models.User({
+  new models.User({
       username: username,
       githubId: githubId,
       githubName: githubName,

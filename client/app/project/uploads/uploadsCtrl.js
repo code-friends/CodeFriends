@@ -9,9 +9,8 @@ angular.module('code.uploads', ['ui.router'])
             method: 'POST',
             url: '/api/file/upload',
             data: {
-              file_name: files[fileIndex].name,
-              project_name: $stateParams.projectName,
-              parent_file: null
+              filePath: files[fileIndex].name,
+              projectName: $stateParams.projectName,
             },
             file: files[fileIndex]
           })
@@ -28,7 +27,8 @@ angular.module('code.uploads', ['ui.router'])
       };
       uploadFile(0)
         .then(function () {
-          console.log('All Files UPloaded');
+          console.log('All Files Uploaded');
+          // TODO: Add Socket .send
         });
     };
     //get request to reload with updated files

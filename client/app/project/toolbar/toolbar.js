@@ -111,10 +111,10 @@ angular.module('code.toolbar', ['ui.bootstrap'])
       }
       Files.addNewFile($scope.newFileName, $stateParams.projectName, $scope.folderSelected)
         .then(function () {
+          console.log('New File Created');
           SocketFactory.send({
             type: 'project structure changed'
           });
-          console.log('New File Created');
         });
     };
 

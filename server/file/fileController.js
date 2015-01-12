@@ -35,6 +35,7 @@ var fileController = {
         return res.status(201).json(fileStructure);
       })
       .catch(function (err) {
+        console.log('Error Creating File or Folder:', err);
         return res.status(400).send(err.toString()).end();
       });
   },

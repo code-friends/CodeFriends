@@ -18,9 +18,9 @@ angular.module('code.project', ['ui.router'])
       return ProjectFactory.getProject($stateParams.projectName)
         .then(function (project) {
           $scope.currentProjectId = project.id;
-          $scope.currentProjectName = project.project_name; //change eventually to project id
+          $scope.currentProjectName = project.projectName; //change eventually to project id
           $scope.files = project.files;
-          if (typeof $state.params.documentName === 'undefined') {
+          if (typeof $state.params.documentPath === 'undefined') {
             var firstFile;
             angular.forEach(project.files, function (file) {
               if (file.type === 'file') {
@@ -28,11 +28,13 @@ angular.module('code.project', ['ui.router'])
                 return;
               }
             });
-            $state.go('document', {
-              'projectName': $state.params.projectName,
-              'projectId': $state.params.projectId,
-              'documentPath': firstFile.path
-            });
+            if (firstFile && firstFile.path) {
+              $state.go('document', {
+                'projectName': $state.params.projectName,
+                'projectId': $state.params.projectId,
+                'documentPath': firstFile.path
+              });
+            }
           }
           return $scope.files;
         })

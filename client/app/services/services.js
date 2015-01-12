@@ -17,7 +17,7 @@ angular.module('code.services', [])
     projects.getProjectId = function (projectName) {
       for (var i in projects) {
         if (projects.hasOwnProperty(i)) {
-          if (projects[i].project_name === projectName) {
+          if (projects[i].projectName === projectName) {
             return projects[i].id;
           }
         }
@@ -25,22 +25,13 @@ angular.module('code.services', [])
       return null;
     };
 
-    // very similar to Files.getAllFiles below, refactor Projects and Files factory to projectsListing and project factory
-    // projects.getProject = function (projectName) {
-    //   return $http.get('/api/project/' + projectName)
-    //     .then(function (res) {
-    //       return res.data;
-    //     });
-    // };
-
     projects.createProject = function (projectName, files) {
       if (files !== undefined && Array.isArray(files) && files.length > 0) {
-        console.log('files at index 0', files[0]);
         return $upload.upload({
             method: 'POST',
             url: '/api/project/',
             data: {
-              project_name: projectName,
+              projectName: projectName,
             },
             file: files[0]
           })
@@ -49,7 +40,7 @@ angular.module('code.services', [])
           });
       }
       return $http.post('/api/project', {
-          project_name: projectName
+          projectName: projectName
         })
         .then(function (res) {
           return res.data;
@@ -69,9 +60,9 @@ angular.module('code.services', [])
           });
           // Add Create String
           angular.forEach(projects, function (theProject) {
-            theProject.createString = moment(theProject.created_at).format('MMM Do YY');
-            theProject.updateString = moment(theProject.updated_at).format('MMM Do YY');
-            theProject.timeAgoString = moment(theProject.updated_at).fromNow();
+            theProject.createString = moment(theProject.createdAt).format('MMM Do YY');
+            theProject.updateString = moment(theProject.updatedAt).format('MMM Do YY');
+            theProject.timeAgoString = moment(theProject.updatedAt).fromNow();
           });
           return projects;
         })
@@ -85,10 +76,10 @@ angular.module('code.services', [])
     projects.addUser = function (userName, projectName) {
       return $http.put('api/project/addUser', {
           newUserName: userName,
-          project_name: projectName
+          projectName: projectName
         })
         .catch(function (error) {
-          console.log('error!!!!', error);
+          console.log('Error Adding User', error);
         });
     };
 
@@ -265,15 +256,18 @@ angular.module('code.services', [])
 
     files._addNew = function (type) {
       return function (newFileName, projectName, path) {
+        var filePath = (path || '') + '/' + newFileName;
         return $http.post('/api/file', {
-            file_name: newFileName,
-            project_name: projectName,
+            filePath: filePath,
+            projectName: projectName,
             type: type,
-            path: path || null
           })
           .then(function () {
             // Get files with added files
             return files.getAllFiles(projectName);
+          })
+          .catch(function (err) {
+            console.log('Error POSTing new file', err);
           });
       };
     };
@@ -303,7 +297,7 @@ angular.module('code.services', [])
         .then(function (res) {
           project.files = res.files;
           project.projectId = res.id;
-          project.projectName = res.project_name;
+          project.projectName = res.projectName;
           // project.getFolderPaths(res.files);
           return res.data;
         });

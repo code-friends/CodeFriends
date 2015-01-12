@@ -62,7 +62,7 @@
           }
         })
         .state('project', {
-          url: '/project/:projectName/:projectId',
+          url: '/project/:projectId/:projectName/',
           views: {
             '': {
               templateUrl: '/app/project/project.html',

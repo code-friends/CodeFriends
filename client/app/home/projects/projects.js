@@ -11,7 +11,6 @@ angular.module('code.projects', ['ui.router'])
           $scope.projects = projects;
           return $scope.projects;
         });
-
     };
 
     $scope.createProject = function (projectName) {
@@ -32,15 +31,13 @@ angular.module('code.projects', ['ui.router'])
   })
   .controller('createProjectModalController', function ($scope, $modalInstance, $upload, Projects) {
 
-    $scope.files;
+    $scope.files = null;
 
     $scope.onFileSelect = function (files) {
       $scope.files = files;
     };
 
     $scope.closeModal = function () {
-      console.log('closeModal');
-      console.log($scope.files);
       if ($scope.newProjectName !== undefined) {
         Projects.createProject($scope.newProjectName, $scope.files)
           .then(function () {

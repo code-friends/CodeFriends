@@ -46,7 +46,7 @@ angular.module('code.video', ['ui.router', 'ngSanitize'])
         var vol = document.createElement('div');
         vol.id = 'volume_' + peer.id;
         vol.className = 'volume_bar';
-        video.style.boxShadow = "-3px -3px 4px #222";
+        video.style.boxShadow = '-3px -3px 4px #222';
         d.appendChild(vol);
         remotes.appendChild(d);
       }
@@ -59,7 +59,6 @@ angular.module('code.video', ['ui.router', 'ngSanitize'])
       }
     });
     VideoFactory.on('volumeChange', function (volume, treshold) {
-      //console.log('own volume', volume);
       showVolume(document.getElementById('localVolume'), volume);
     });
   });
