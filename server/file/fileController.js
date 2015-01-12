@@ -17,14 +17,13 @@ var mongoIndex = function (str) {
 
 var fileController = {
   createNewFileOrFolder: function (req, res) {
-    var projectName = req.body.project_name || req.param('project_name');
-    var fileName = req.body.file_name || req.param('file_name');
+    var projectName = req.body.project_name || req.param('projectName');
     var type = req.body.type || req.param('type');
-    var projectId = req.body.project_id || req.param('project_id') || null;
-    var fileDirname = req.body.path || req.param('path') || '';
+    var projectId = req.body.project_id || req.param('projectId') || null;
+    var filePath = req.body.filePath || req.param('filePath') || '';
     var fileInfo = {
       projectName: projectName,
-      filePath: path.join(fileDirname, fileName),
+      filePath: filePath,
       type: type,
       projectId: projectId,
     };
@@ -166,7 +165,7 @@ var fileController = {
     });
   },
   get: function (req, res) {
-    var project_name = req.body.project_name;
+    var project_name = req.body.projectName;
     return fileController.getFileStructure(null, project_name)
       .then(function (fileStructure) {
         return res.json(fileStructure);

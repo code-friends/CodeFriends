@@ -13,7 +13,7 @@ describe('File', function () {
 
   // agent persists cookies and sessions
 
-  var project_name = 'basketball';
+  var projectName = 'basketball';
   before(function (done) {
     login()
       .then(function () {
@@ -25,7 +25,7 @@ describe('File', function () {
     agent
       .get('/api/file/')
       .send({
-        project_name: project_name,
+        projectName: projectName,
       })
       .expect(200)
       .then(function (res) {
@@ -43,8 +43,8 @@ describe('File', function () {
     agent
       .post('/api/file')
       .send({
-        project_name: project_name,
-        file_name: 'main.js',
+        projectName: projectName,
+        filePath: '/main.js',
         type: 'file',
       })
       .expect(201)
@@ -66,8 +66,8 @@ describe('File', function () {
     agent
       .post('/api/file')
       .send({
-        project_name: project_name,
-        file_name: 'main.js',
+        projectName: projectName,
+        filePath: 'main.js',
         type: 'file',
       })
       .expect(400)
@@ -84,8 +84,8 @@ describe('File', function () {
     agent
       .post('/api/file')
       .send({
-        project_name: project_name,
-        file_name: 'example',
+        projectName: projectName,
+        filePath: '/example',
         type: 'folder',
       })
       .expect(201)
@@ -107,10 +107,9 @@ describe('File', function () {
     agent
       .post('/api/file')
       .send({
-        project_name: project_name,
-        file_name: 'index.js',
+        projectName: projectName,
+        filePath: '/example/index.js',
         type: 'file',
-        path: '/example'
       })
       .expect(201)
       .then(function (res) {
@@ -133,10 +132,9 @@ describe('File', function () {
     agent
       .post('/api/file')
       .send({
-        project_name: project_name,
-        file_name: 'child',
+        projectName: projectName,
+        filePath: '/example/child',
         type: 'folder',
-        path: '/example'
       })
       .expect(201)
       .then(function (res) {
@@ -160,15 +158,13 @@ describe('File', function () {
     agent
       .post('/api/file')
       .send({
-        project_name: project_name,
-        file_name: 'jorge.js',
+        projectName: projectName,
+        filePath: '/example/child/jorge.js',
         type: 'file',
-        path: '/example/child'
       })
       .expect(201)
       .then(function (res) {
         var fileStructure = res.body;
-        // console.log('find the path in the fileStructure for jorge.js: fileStructure', fileStructure.files.example.files.child);
         var folderKey = 'example'.replace('.', '');
         var folderKey2 = 'child'.replace('.', '');
         var fileKey = 'jorge.js'.replace('.', '');
@@ -189,7 +185,7 @@ describe('File', function () {
 
   it('should get the file structure when requesting a project through GET', function (done) {
     agent
-      .get('/api/project/' + project_name)
+      .get('/api/project/' + projectName)
       .expect(200)
       .then(function (res) {
         var project = res.body;
@@ -213,9 +209,8 @@ describe('File', function () {
   it('should upload a new file to the database', function (done) {
     agent
       .post('/api/file/upload/')
-      .field('file_name', 'dummyForTest2.js')
-      .field('project_name', project_name)
-      .field('path', '')
+      .field('filePath', '/dummyForTest2.js')
+      .field('projectName', projectName)
       .field('type', 'file')
       .attach('file', './server/tests/test-files/dummyForTest.js')
       .expect(201)
@@ -233,10 +228,9 @@ describe('File', function () {
   xit('should upload a new file to a folder in the database', function (done) {
     agent
       .post('/api/file/upload/')
-      .field('file_name', 'dummyForTest4.js')
-      .field('project_name', project_name)
-      .field('projectIdOrName', project_name)
-      .field('path', 'example/dummyForTest4.js')
+      .field('projectName', projectName)
+      .field('projectIdOrName', projectName)
+      .field('filePathath', '/example/dummyForTest4.js')
       .field('type', 'file')
       .attach('file', './server/tests/test-files/dummyForTest.js')
       .expect(201)
@@ -251,7 +245,7 @@ describe('File', function () {
   it('should download a file in the database', function (done) {
     // '/api/file/download/projectName/' + $state.params.projectName + '/fileName';
     agent
-      .get('/api/file/download/projectName/' + project_name + '/fileName/dummyForTest2.js')
+      .get('/api/file/download/projectName/' + projectName + '/fileName/dummyForTest2.js')
       .expect(200)
       .expect('Content-disposition', 'attachment; filename=dummyForTest2.js')
       .then(function (res) {
@@ -268,7 +262,7 @@ describe('File', function () {
   // This has to do with paths and fileNames not working together correctly
   xit('should download a file in the database that is not in the root folder', function (done) {
     agent
-      .get('/api/file/download/projectName/' + project_name + '/fileName/example/dummyForTest4.js')
+      .get('/api/file/download/projectName/' + projectName + '/fileName/example/dummyForTest4.js')
       .expect(200)
       .expect('Content-disposition', 'attachment; filename=dummyForTest4.js')
       .then(function (res) {
@@ -284,10 +278,10 @@ describe('File', function () {
    */
   it('should download a project on GET /api/project/download/:project_name_or_id', function (done) {
     agent
-      .get('/api/project/download/' + project_name)
+      .get('/api/project/download/' + projectName)
       .expect(200)
       .expect('content-type', 'application/zip')
-      .expect('Content-disposition', 'attachment; filename=' + project_name + '.zip')
+      .expect('Content-disposition', 'attachment; filename=' + projectName + '.zip')
       .then(function (res) {
         /**
          * This test it not very good
@@ -314,12 +308,11 @@ describe('File', function () {
     agent
       .put('/api/file/move')
       .send({
-        projectName: project_name,
-        fileName: 'dummyForTest4.js',
+        projectName: projectName,
         type: 'file',
-        path: '/example/dummyForTest4.js',
+        filePath: '/example/dummyForTest4.js',
         newPath: '/dummyForTest4.js',
-        projectIdOrName: project_name,
+        projectIdOrName: projectName,
       })
       .expect(201)
       .then(function (res) {

@@ -3,6 +3,7 @@
 var backend = require('../liveDbClient');
 var getDocumentHash = require('../file/getDocumentHash');
 var _ = require('lodash');
+var path = require('path');
 
 var downloadController = {
   downloadFile: function (req, res) {
@@ -11,7 +12,7 @@ var downloadController = {
     var filePath = parsedUrl[3];
     return downloadController._getFileContents(projectName, filePath)
       .then(function (fileContents) {
-        var fileName = downloadController._getFileNameFromPath(filePath);
+        var fileName = path.basename(filePath);
         res.setHeader('Content-disposition', 'attachment; filename=' + fileName);
         res.send(fileContents);
       })
@@ -51,9 +52,6 @@ var downloadController = {
       .catch(function (err) {
         console.log('Error Fetching Document', err);
       });
-  },
-  _getFileNameFromPath: function (filePath) {
-    return _.last(filePath.split('/'));
   }
 };
 

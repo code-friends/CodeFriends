@@ -19,8 +19,8 @@ var uploadController = {
     form.parseAsync(req)
       .then(function (fields) {
         var file = uploadController.getFieldProperty(fields, 'file');
-        var projectName = uploadController.getFieldProperty(fields, 'project_name') || req.body.project_name;
-        var filePath = uploadController.getFieldProperty(fields, 'file_name') || file.originalFilename;
+        var projectName = uploadController.getFieldProperty(fields, 'projectName') || req.body.projectName;
+        var filePath = uploadController.getFieldProperty(fields, 'filePath') || file.originalFilename;
         return uploadController._addFileFromFileSytemToProject(projectName, filePath, req.user.get('id'), file.path)
           .then(function (newFileStructre) {
             res.status(201).json(newFileStructre);
