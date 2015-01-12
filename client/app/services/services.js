@@ -256,7 +256,10 @@ angular.module('code.services', [])
 
     files._addNew = function (type) {
       return function (newFileName, projectName, path) {
-        var filePath = (path || '') + '/' + newFileName;
+        var filePath = newFileName;
+        if (path) {
+          filePath = path + '/' + newFileName;
+        }
         return $http.post('/api/file', {
             filePath: filePath,
             projectName: projectName,

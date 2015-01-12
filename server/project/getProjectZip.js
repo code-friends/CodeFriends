@@ -36,7 +36,7 @@ var getProjectZip = function (projectNameOrId) {
       allFileContents.forEach(function (file) {
         var filePath = file.value.path;
         var fileContents = file.value.fileContents;
-        projectArchive.file(filePath, fileContents);
+        projectArchive.folder(projectName).file(filePath, fileContents);
       });
       var nodebuffer = projectArchive.generate({ type: 'nodebuffer', createFolders: true });
       var zipPath = path.resolve(__dirname, '../', config.get('tmpDirectory'), projectName + '.zip');
