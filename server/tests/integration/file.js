@@ -209,12 +209,9 @@ describe('File', function () {
   //traversing the dom to insert
   it('should upload a new file to the database', function (done) {
     agent
-      .post('/api/file/upload/') << << << < HEAD
+      .post('/api/file/upload/')
       .field('filePath', '/dummyForTest2.js')
-      .field('projectName', projectName) === === =
-      .field('file_name', 'dummyForTest2.js')
-      .field('project_name', project_name)
-      .field('path', '') >>> >>> > begins changing variables from fileName to filePath 1
+      .field('projectName', projectName)
       .field('type', 'file')
       .attach('file', './server/tests/test-files/dummyForTest.js')
       .expect(201)
@@ -245,45 +242,13 @@ describe('File', function () {
       });
   });
 
-  xit('should upload a new file to a folder in the database', function (done) {
-    agent
-      << << << < HEAD
-      .post('/api/file/upload') === === =
-      .post('/api/file/upload/') >>> >>> > begins changing variables from fileName to filePath 1
-      .field('file_name', 'dummyForTest4.js')
-      .field('project_name', project_name)
-      .field('projectIdOrName', project_name)
-      .field('path', 'example/dummyForTest4.js')
-      .field('type', 'file')
-      .attach('file', './server/tests/test-files/dummyForTest.js')
-      .expect(201)
-      .then(function (res) {
-        // console.log('res.body: ', res.body.files.example);
-        expect(res.body.files.example.files.dummyForTest4js).to.be.an('object');
-        expect(res.body.files.example.files.dummyForTest4js.name).to.equal('dummyForTest4.js');
-        done();
-      });
-  });
-
+  // This has to do with paths and fileNames not working together correctly
   it('should download a file in the database', function (done) {
     // '/api/file/download/projectName/' + $state.params.projectName + '/fileName';
     agent
-      .get('/api/file/download/projectName/' + project_name + '/fileName/dummyForTest2.js')
-      .expect(200)
-      .expect('Content-disposition', 'attachment; filename=dummyForTest2.js')
-      .then(function (res) {
-        var fileContents = fs.readFileSync('./server/tests/test-files/dummyForTest.js');
-        expect(res.text).to.equal(fileContents.toString());
-        done();
-      });
-  });
-
-  // This has to do with paths and fileNames not working together correctly
-  xit('should download a file in the database that is not in the root folder', function (done) {
-    agent
       .get('/api/file/download/projectName/' + projectName + '/fileName/dummyForTest2.js')
       .expect(200)
-      .expect('Content-disposition', 'attachment; filename=dummyForTest4.js')
+      .expect('Content-disposition', 'attachment; filename=dummyForTest2.js')
       .then(function (res) {
         var fileContents = fs.readFileSync('./server/tests/test-files/dummyForTest.js');
         expect(res.text).to.equal(fileContents.toString());
@@ -294,6 +259,7 @@ describe('File', function () {
         done();
       });
   });
+
 
   // This has to do with paths and fileNames not working together correctly
   it('should download a file in the database that is not in the root folder', function (done) {
@@ -340,7 +306,7 @@ describe('File', function () {
       });
   });
 
-  xit('should move a file on PUT /api/file/move', function (done) {
+  it('should move a file on PUT /api/file/move', function (done) {
     agent
       .put('/api/file/move')
       .send({
