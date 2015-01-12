@@ -16,7 +16,7 @@ describe('Project', function () {
   before(function (done) {
     return new ProjectCollection()
       .create({
-        'project_name': 'car'
+        'projectName': 'car'
       })
       .then(function (_project) {
         global.project = _project;
@@ -25,19 +25,19 @@ describe('Project', function () {
       .then(function () {
         return new ProjectCollection()
           .create({
-            'project_name': 'motorcycle'
+            'projectName': 'motorcycle'
           });
       })
       .then(function () {
         return new ProjectCollection()
           .create({
-            'project_name': 'plane'
+            'projectName': 'plane'
           });
       })
       .then(function () {
         return new ProjectCollection()
           .create({
-            'project_name': 'basketball'
+            'projectName': 'basketball'
           });
       })
       .then(function () {
@@ -55,15 +55,15 @@ describe('Project', function () {
       .end(function (err, res) {
         var _project = res.body;
         agent
-          .get('/api/project/' + _project.project_name)
+          .get('/api/project/' + _project.projectName)
           .expect(200)
           .end(function (err, res) {
             var project = res.body;
             project.should.have.property('id');
-            project.should.have.property('project_name');
-            project.project_name.should.equal(_project.project_name);
-            project.should.have.property('created_at');
-            project.should.have.property('updated_at');
+            project.should.have.property('projectName');
+            project.projectName.should.equal(_project.projectName);
+            project.should.have.property('createdAt');
+            project.should.have.property('updatedAt');
             project.should.have.property('user');
             project.user.should.be.instanceof(Array);
             done();
@@ -188,9 +188,9 @@ describe('Project', function () {
         var project = res.body;
         project.should.be.instanceof(Object);
         project.should.have.property('id');
-        project.should.have.property('project_name');
-        project.should.have.property('created_at');
-        project.should.have.property('updated_at');
+        project.should.have.property('projectName');
+        project.should.have.property('createdAt');
+        project.should.have.property('updatedAt');
         project.should.have.property('user');
         project.user.should.be.instanceof(Array);
         project.user.length.should.equal(1);
@@ -219,9 +219,9 @@ describe('Project', function () {
             containUser.should.equal(true);
             projects.should.be.instanceof(Array);
             projects[0].should.have.property('id');
-            projects[0].should.have.property('project_name');
-            projects[0].should.have.property('created_at');
-            projects[0].should.have.property('updated_at');
+            projects[0].should.have.property('projectName');
+            projects[0].should.have.property('createdAt');
+            projects[0].should.have.property('updatedAt');
             projects[0].should.have.property('user');
             done();
           });
@@ -229,18 +229,18 @@ describe('Project', function () {
   });
 
   //SHOULD THIS BE AN OBJECT OR IS THERE A SITUATION WHERE THERE COULD BE MORE THAN ONE????
-  it('should get a specific project on GET /project/:project_name', function (done) {
+  it('should get a specific project on GET /project/:projectName', function (done) {
     agent
-      .get('/api/project/' + global.project.get('project_name'))
+      .get('/api/project/' + global.project.get('projectName'))
       .expect(200)
       .end(function (err, res) {
         var projectResponse = res.body;
         projectResponse.should.be.instanceof(Object);
         projectResponse.should.have.property('id');
-        projectResponse.should.have.property('project_name');
-        projectResponse.project_name.should.equal(global.project.get('project_name'));
-        projectResponse.should.have.property('created_at');
-        projectResponse.should.have.property('updated_at');
+        projectResponse.should.have.property('projectName');
+        projectResponse.projectName.should.equal(global.project.get('projectName'));
+        projectResponse.should.have.property('createdAt');
+        projectResponse.should.have.property('updatedAt');
         projectResponse.should.have.property('user');
         projectResponse.should.have.property('files');
         projectResponse.user.should.be.instanceof(Array);
@@ -255,10 +255,10 @@ describe('Project', function () {
         var projectResponse = res.body;
         projectResponse.should.be.instanceof(Object);
         projectResponse.should.have.property('id');
-        projectResponse.should.have.property('project_name');
-        projectResponse.project_name.should.equal(global.project.get('project_name'));
-        projectResponse.should.have.property('created_at');
-        projectResponse.should.have.property('updated_at');
+        projectResponse.should.have.property('projectName');
+        projectResponse.projectName.should.equal(global.project.get('projectName'));
+        projectResponse.should.have.property('createdAt');
+        projectResponse.should.have.property('updatedAt');
         projectResponse.should.have.property('user');
         projectResponse.user.should.be.instanceof(Array);
         done();

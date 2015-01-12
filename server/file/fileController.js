@@ -165,8 +165,8 @@ var fileController = {
     });
   },
   get: function (req, res) {
-    var project_name = req.body.projectName;
-    return fileController.getFileStructure(null, project_name)
+    var projectName = req.body.projectName;
+    return fileController.getFileStructure(null, projectName)
       .then(function (fileStructure) {
         return res.json(fileStructure);
       });
@@ -194,13 +194,13 @@ var fileController = {
           .then(function (db) {
             var projectCollection = Promise.promisifyAll(db.collection('project_file_structre'));
             return projectCollection.findOneAsync({
-                project_id: project.get('id')
+                projectId: project.get('id')
               })
               .then(function (projectFileStructure) {
                 // Create empty project if nothing is found
                 if (projectFileStructure === null) {
                   return projectCollection.insertAsync({
-                      project_id: project.get('id'),
+                      projectId: project.get('id'),
                       files: {}
                     })
                     .then(function (projectFileStructure) {

@@ -1,12 +1,12 @@
 /*global describe:true, it:true */
 'use strict';
 
+var Promise = require('bluebird');
 var UserCollection = require('../models.js').collections.UserCollection;
 var ProjectCollection = require('../models.js').collections.ProjectCollection;
 var expect = require('chai').expect;
 var should = require('should');
 var _ = require('lodash');
-var Promise = require('bluebird');
 
 describe('Database', function () {
 
@@ -38,7 +38,7 @@ describe('Database', function () {
     it('should create a new project', function (done) {
       new ProjectCollection()
         .create({
-          'project_name': 'car'
+          'projectName': 'car'
         })
         .then(function () {
           return ProjectCollection
@@ -46,11 +46,12 @@ describe('Database', function () {
             .fetch();
         })
         .then(function (coll) {
-          var _projectName = _.last(coll.toJSON()).project_name;
+          var _projectName = _.last(coll.toJSON()).projectName;
           expect(_projectName).to.equal('car');
           done();
         })
-        .catch(function () {
+        .catch(function (err) {
+          console.log(err);
           expect(false).to.equal(true);
           done();
         });
@@ -82,7 +83,7 @@ describe('Database', function () {
           });
         })
         .then(function (_user) {
-          expect(_user.toJSON().project[0].project_name).to.equal('car');
+          expect(_user.toJSON().project[0].projectName).to.equal('car');
           done();
         })
         .catch(function () {

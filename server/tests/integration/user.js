@@ -47,8 +47,8 @@ describe('User', function () {
         users[0].should.have.property('githubLocation');
         users[0].should.have.property('githubAccessToken');
         users[0].should.have.property('githubAvatarUrl');
-        users[0].should.have.property('created_at');
-        users[0].should.have.property('updated_at');
+        users[0].should.have.property('createdAt');
+        users[0].should.have.property('updatedAt');
         users[0].should.have.property('project');
         done();
       });
@@ -69,8 +69,8 @@ describe('User', function () {
         user.should.have.property('githubLocation');
         user.should.have.property('githubAccessToken');
         user.should.have.property('githubAvatarUrl');
-        user.should.have.property('created_at');
-        user.should.have.property('updated_at');
+        user.should.have.property('createdAt');
+        user.should.have.property('updatedAt');
         user.should.have.property('project');
         user.project.should.be.instanceof(Array);
         done();
@@ -105,8 +105,8 @@ describe('User', function () {
             user.should.have.property('githubLocation');
             user.should.have.property('githubAccessToken');
             user.should.have.property('githubAvatarUrl');
-            user.should.have.property('created_at');
-            user.should.have.property('updated_at');
+            user.should.have.property('createdAt');
+            user.should.have.property('updatedAt');
             user.should.have.property('project');
             user.project.should.be.instanceof(Array);
             done();

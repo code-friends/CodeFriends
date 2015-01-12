@@ -33,7 +33,7 @@ projectController.post = function (req, res) {
       })
       .then(function () {
         return new models.Project({
-            project_name: projectName,
+            projectName: projectName,
           })
           .save()
           .then(function (model) {
@@ -130,7 +130,7 @@ projectController.getSpecificProject = function (req, res) {
 /**
  * Add a user to a project
  *
- * @param project_name <String>
+ * @param projectName <String>
  * @param newUserName <String>
  */
 projectController.addUser = function (req, res) {
@@ -179,7 +179,7 @@ projectController.delete = function (req, res) {
       if (model === null) {
         throw new Error('No model found for that id');
       }
-      return db('projects_users')
+      return db('projectsToUsers')
         .where('project_id', '=', model.get('id'))
         .del()
         .then(function () {

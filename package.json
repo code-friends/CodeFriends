@@ -5,13 +5,14 @@
   "main": "client/nw.html",
   "scripts": {
     "start": "./node_modules/forever/bin/forever start -p ./data/logs -a -o ./data/logs/stdout.log -e ./data/logs/stderr.log server ",
-    "test": "export NODE_ENV='test'; ./node_modules/mocha/bin/mocha -t 5000 server/tests/index",
+    "test": "export NODE_ENV='test'; ./node_modules/mocha/bin/mocha -t 2000 server/tests/index",
     "dev": "./node_modules/nodemon/bin/nodemon.js server",
-    "clean": "npm install && bower install && node server/deleteAllDatabases && gulp"
+    "clean": "npm install && bower install && node server/deleteAllDatabases && gulp",
+    "clean-test": "export NODE_ENV='test'; node server/deleteAllDatabases"
   },
   "window": {
     "toolbar": true,
-    "frame"  : true,
+    "frame": true,
     "width": 800,
     "height": 600
   },
@@ -69,6 +70,7 @@
     "livedb": "^0.4.11",
     "livedb-mongo": "^0.4.1",
     "lodash": "^2.4.1",
+    "lodash-contrib": "^241.4.14",
     "marked": "^0.3.2",
     "mkdirp": "^0.5.0",
     "mocha": "^2.0.1",
@@ -89,6 +91,7 @@
     "simplewebrtc": "^1.11.2",
     "stream": "0.0.2",
     "supertest-as-promised": "^1.0.0",
+    "underscore.string": "^2.4.0",
     "ws": "^0.6.3"
   }
 }

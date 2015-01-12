@@ -19,12 +19,12 @@ db.createAllTables = db.schema.hasTable('users').then(function (exists) {
         user.string('username', 255);
         user.string('email', 255);
         user.string('password', 255);
-        user.string('githubId', 255);
-        user.string('githubName', 255);
-        user.string('githubEmail', 255);
-        user.string('githubLocation', 255);
-        user.string('githubAccessToken', 255);
-        user.string('githubAvatarUrl', 255);
+        user.string('github_id', 255);
+        user.string('github_name', 255);
+        user.string('github_email', 255);
+        user.string('github_location', 255);
+        user.string('github_access_token', 255);
+        user.string('github_avatar_url', 255);
         user.timestamps();
       })
       .then(function () {
@@ -63,10 +63,10 @@ db.createAllTables = db.schema.hasTable('users').then(function (exists) {
           projectsUsers.timestamps();
         })
         .then(function () {
-          console.log('created table: user_projects');
+          console.log('created table: projects_users');
         })
         .catch(function (error) {
-          console.log('error creating user_projects: ', error);
+          console.log('error creating projects_users: ', error);
         });
     }
   });

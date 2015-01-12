@@ -1,11 +1,29 @@
+'use strict';
+
 var db = require('./db.js');
 var bookshelf = require('bookshelf')(db);
 var moment = require('moment');
 var bcrypt = require('bcrypt-nodejs');
 var bluebird = require('bluebird');
+var _ = require('lodash');
+    _.str = require('underscore.string');
 
 //define models
 var models = {};
+
+models._parse = function(attrs) {
+  return _.reduce(attrs, function(memo, val, key) {
+    memo[_.str.camelize(key)] = val;
+    return memo;
+  }, {});
+};
+
+models._format = function(attrs) {
+  return _.reduce(attrs, function(memo, val, key) {
+    memo[_.str.underscored(key)] = val;
+    return memo;
+  }, {});
+};
 
 models.User = bookshelf.Model.extend({
   tableName: 'users',
@@ -16,6 +34,8 @@ models.User = bookshelf.Model.extend({
   project: function () {
     return this.belongsToMany(models.Project);
   },
+  parse: models._parse,
+  format: models._format,
   addPassword: function (model) {
     var cipher = bluebird.promisify(bcrypt.hash);
     return cipher(model.attributes.password, null, null)
@@ -40,7 +60,9 @@ models.Project = bookshelf.Model.extend({
   hasTimestamps: true,
   user: function () {
     return this.belongsToMany(models.User);
-  }
+  },
+  parse: models._parse,
+  format: models._format
 });
 
 //define collections

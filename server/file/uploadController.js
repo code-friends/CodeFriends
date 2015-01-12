@@ -102,7 +102,7 @@ var uploadController = {
             }
             // projectName, filePath, userId, fileContent
             return uploadController._addFileWithContentToProject(
-              projectModel.get('project_name'),
+              projectModel.get('projectName'),
               file.name,
               userId,
               file.asText()
