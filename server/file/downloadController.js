@@ -2,14 +2,13 @@
 'use strict';
 var backend = require('../liveDbClient');
 var getDocumentHash = require('../file/getDocumentHash');
-var _ = require('lodash');
 var path = require('path');
 
 var downloadController = {
   downloadFile: function (req, res) {
     var parsedUrl = req.params[0].split('/');
     var projectName = parsedUrl[1];
-    var filePath = parsedUrl[3];
+    var filePath = parsedUrl.slice(3).join('/');
     return downloadController._getFileContents(projectName, filePath)
       .then(function (fileContents) {
         var fileName = path.basename(filePath);

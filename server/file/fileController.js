@@ -17,9 +17,9 @@ var mongoIndex = function (str) {
 
 var fileController = {
   createNewFileOrFolder: function (req, res) {
-    var projectName = req.body.project_name || req.param('projectName');
+    var projectName = req.body.projectName || req.param('projectName');
     var type = req.body.type || req.param('type');
-    var projectId = req.body.project_id || req.param('projectId') || null;
+    var projectId = req.body.projectId || req.param('projectId') || null;
     var filePath = req.body.filePath || req.param('filePath') || '';
     var fileInfo = {
       projectName: projectName,

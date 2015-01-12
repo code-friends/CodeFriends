@@ -49,7 +49,7 @@ describe('Project', function () {
     agent
       .post('/api/project')
       .send({
-        project_name: 'tennis'
+        projectName: 'tennis'
       })
       .expect(201)
       .end(function (err, res) {
@@ -76,9 +76,9 @@ describe('Project', function () {
       agent
         .post('/api/project')
         .send({
-          project_name: 'zipProjectExample'
+          projectName: 'zipProjectExample'
         })
-        .field('project_name', 'zipProjectExample')
+        .field('projectName', 'zipProjectExample')
         /**
          * This .zip contains the following files
          * zipExampleProject
@@ -86,7 +86,7 @@ describe('Project', function () {
          * - exampleFolder/superExample.js
          * - exampleFolder/subExampleFolder/subSuperExampleFolder.js
          */
-        .attach('project_file', './server/tests/test-files/zipExampleProject.zip')
+        .attach('projectFile', './server/tests/test-files/zipExampleProject.zip')
         .expect(201)
         .then(function () {
           return agent
@@ -138,15 +138,15 @@ describe('Project', function () {
       agent
         .post('/api/project')
         .send({
-          project_name: 'zipFileExample'
+          projectName: 'zipFileExample'
         })
-        .field('project_name', 'zipFileExample')
+        .field('projectName', 'zipFileExample')
         /**
          * This .zip contains the following files
          * example.md
          * superExample.js
          */
-        .attach('project_file', './server/tests/test-files/fileExample.zip')
+        .attach('projectFile', './server/tests/test-files/fileExample.zip')
         .expect(201)
         .then(function () {
           return agent
@@ -182,7 +182,7 @@ describe('Project', function () {
       .put('/api/project/addUser')
       .send({
         newUserName: 'Chase',
-        project_name: 'basketball'
+        projectName: 'basketball'
       })
       .expect(200)
       .end(function (err, res) {
@@ -278,13 +278,13 @@ describe('Project', function () {
           .expect(200)
           .end(function (err, res) {
             var projects = res.body;
-            var project_with_id_1 = projects.filter(function (proj) {
+            var projectWithID1 = projects.filter(function (proj) {
               if (proj.id === 1) {
                 return true;
               }
               return false;
             });
-            project_with_id_1.length.should.equal(0);
+            projectWithID1.length.should.equal(0);
             done();
           });
       });

@@ -60,8 +60,8 @@ projectController.post = function (req, res) {
         return form.parseAsync(req)
           .then(function (fields) {
             fields = _.flatten(fields);
-            var projectName = getFieldProperty(fields, 'project_name') || req.body.project_name;
-            var projectFile = getFieldProperty(fields, 'project_file') || getFieldProperty(fields, 'file');
+            var projectName = getFieldProperty(fields, 'projectName') || req.body.projectName;
+            var projectFile = getFieldProperty(fields, 'projectFile') || getFieldProperty(fields, 'file');
             return postRequestHandler(projectName)
               .then(function (projectModel) {
                 // Don't process file if it's not a .zip
@@ -72,7 +72,7 @@ projectController.post = function (req, res) {
           });
       }
       // If it's a json!
-      return postRequestHandler(req.body.project_name);
+      return postRequestHandler(req.body.projectName);
     })
     .then(function (model) {
       res.status(201).json(model.toJSON());
@@ -112,14 +112,14 @@ projectController.getAllProjects = function (req, res) {
  */
 projectController.getSpecificProject = function (req, res) {
   //only get the requested project if the user has a relation with it
-  return getProject(req.params.project_name_or_id)
+  return getProject(req.params.projectNameOrId)
     .then(function (project) {
       return getFileStructure(project.get('id'))
         .then(function (fileStructure) {
-          var project_json = project.toJSON();
-          project_json.files = fileStructure.files;
-          project_json.paths = getPathsForFileStructure(fileStructure.files);
-          res.json(project_json);
+          var projectJSON = project.toJSON();
+          projectJSON.files = fileStructure.files;
+          projectJSON.paths = getPathsForFileStructure(fileStructure.files);
+          res.json(projectJSON);
         });
     })
     .catch(function (err) {
@@ -134,7 +134,7 @@ projectController.getSpecificProject = function (req, res) {
  * @param newUserName <String>
  */
 projectController.addUser = function (req, res) {
-  var project_name = req.body.project_name;
+  var projectName = req.body.projectName;
   var newUserName = req.body.newUserName;
   //only only add the user if the person that requested the addition is a listed user of the project
   return getUser(newUserName)
@@ -145,7 +145,7 @@ projectController.addUser = function (req, res) {
       return user;
     })
     .then(function (queriedUser) {
-      return getProject(project_name)
+      return getProject(projectName)
         .then(function (model) {
           return model
             .related('user')
@@ -201,7 +201,7 @@ projectController.delete = function (req, res) {
  * Download a project as a .zip
  */
 projectController.downloadSpecificProject = function (req, res) {
-  return getProjectZip(req.params.project_name_or_id)
+  return getProjectZip(req.params.projectNameOrId)
     .then(function (zipObject) {
       res.setHeader('Content-disposition', 'attachment; filename=' + zipObject.name + '.zip');
       res.setHeader('content-type', 'application/zip');

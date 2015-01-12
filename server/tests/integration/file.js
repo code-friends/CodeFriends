@@ -225,12 +225,12 @@ describe('File', function () {
       });
   });
 
-  xit('should upload a new file to a folder in the database', function (done) {
+  it('should upload a new file to a folder in the database', function (done) {
     agent
       .post('/api/file/upload/')
       .field('projectName', projectName)
       .field('projectIdOrName', projectName)
-      .field('filePathath', '/example/dummyForTest4.js')
+      .field('filePath', '/example/dummyForTest4.js')
       .field('type', 'file')
       .attach('file', './server/tests/test-files/dummyForTest.js')
       .expect(201)
@@ -260,7 +260,7 @@ describe('File', function () {
   });
 
   // This has to do with paths and fileNames not working together correctly
-  xit('should download a file in the database that is not in the root folder', function (done) {
+  it('should download a file in the database that is not in the root folder', function (done) {
     agent
       .get('/api/file/download/projectName/' + projectName + '/fileName/example/dummyForTest4.js')
       .expect(200)
@@ -276,7 +276,7 @@ describe('File', function () {
    * This should probably be in project.js, but it's easier to test multiple files
    * here, since we're adding so many of them here
    */
-  it('should download a project on GET /api/project/download/:project_name_or_id', function (done) {
+  it('should download a project on GET /api/project/download/:projectNameOrId', function (done) {
     agent
       .get('/api/project/download/' + projectName)
       .expect(200)
