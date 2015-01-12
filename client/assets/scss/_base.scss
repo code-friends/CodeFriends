@@ -1,26 +1,35 @@
 * {
   box-sizing: border-box;
 }
+
 html {
   font-size: 62.5%;
   height: 100%;
+  padding: 0;
+  margin: 0;
 }
+
 body {
   font-family: $Proxima-font-stack;
   font-size: 1.3em;
+  padding: 0;
+  margin: 0;
 }
+
 a {
   text-decoration: none;
   color: inherit;
-}
-a:hover {
+  &:hover {
     text-decoration: none;
     color: inherit;
   }
+}
+
 ul {
   list-style: none;
   padding: 0;
 }
+
 h1, h2, h3, h4, h5, h6 {
   font-family: $Brandon-font-stack;
   text-transform: uppercase;
@@ -33,10 +42,6 @@ h4 {
   letter-spacing: 0.05em;
   padding: 1.33em;
   margin: 0;
-}
-
-.header, #toolbar {
-  font-family: $Brandon-font-stack;
 }
 
 .avatar-48 {

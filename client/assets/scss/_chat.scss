@@ -1,64 +1,60 @@
 $chat-header-height: $toolbar-height;
+$chat-container-height: calc(100vh - #{$toolbar-height});
+
+$height-all-headers: $chat-header-height * 3;
+$height-all-users: $chat-header-height;
+$height-all: $height-all-headers + $height-all-users;
+
+$single-friend-height: 36px; // height of gravatar thumbnail
+
+@mixin chatContentHeight($number-of-users) {
+  $total-toolbar-height: $toolbar-height * $number-of-users;
+  height: calc(100vh - #{$height-all} - #{$total-toolbar-height});
+}
 
 .chat-container-container {
-  height: calc(100vh - #{$toolbar-height};
+  height: $chat-container-height;
   border-left: solid 1px #f2f2f2;
 }
 
-.chatContent4{
-  $height-all-headers: $chat-header-height * 3;
-  $height-all-users: $chat-header-height;
-  $height-all: $height-all-headers + $height-all-users;
-  height: calc(100vh - #{$height-all} - #{$toolbar-height} - #{$toolbar-height} - #{$toolbar-height} - #{$toolbar-height});
+.chatContent4 {
   display: block;
   width: 100%;
   overflow-x: hidden;
   overflow-y: scroll;
   bottom: $toolbar-height;
-  // padding-left: 10px;
+  @include chatContentHeight(4);
 }
 
-.chatContent3{
-  $height-all-headers: $chat-header-height * 3;
-  $height-all-users: $chat-header-height;
-  $height-all: $height-all-headers + $height-all-users;
-  height: calc(100vh - #{$height-all} - #{$toolbar-height} - #{$toolbar-height} - #{$toolbar-height});
+.chatContent3 {
   display: block;
   width: 100%;
   overflow-x: hidden;
   overflow-y: scroll;
   bottom: $toolbar-height;
-  // padding-left: 10px;
+  @include chatContentHeight(3);
 }
 
-.chatContent2{
-  $height-all-headers: $chat-header-height * 3;
-  $height-all-users: $chat-header-height;
-  $height-all: $height-all-headers + $height-all-users;
-  height: calc(100vh - #{$height-all} - #{$toolbar-height} - #{$toolbar-height});
+.chatContent2 {
   display: block;
   width: 100%;
   overflow-x: hidden;
   overflow-y: scroll;
   bottom: $toolbar-height;
-  // padding-left: 10px;
+  @include chatContentHeight(2);
 }
 
-.chatContent1{
-  $height-all-headers: $chat-header-height * 3;
-  $height-all-users: $chat-header-height;
-  $height-all: $height-all-headers + $height-all-users;
-  height: calc(100vh - #{$height-all} - #{$toolbar-height});
+.chatContent1 {
   display: block;
   width: 100%;
   overflow-x: hidden;
   overflow-y: scroll;
   bottom: $toolbar-height;
-  // padding-left: 10px;
+  @include chatContentHeight(1);
 }
 
 
-.chatInputForm{
+.chatInputForm {
   width: 100%;
   position: relative;
   display: block; 
@@ -85,7 +81,7 @@ $chat-header-height: $toolbar-height;
   color: #bbb;
 }
 
-.messageContainer{
+.messageContainer {
   padding: 5px;
   border-bottom: 1px solid #f7f7f7;
   &:hover {
@@ -93,7 +89,7 @@ $chat-header-height: $toolbar-height;
   }
 }
 
-.messageText{
+.messageText {
   a{
     color: #0000EE
   }
@@ -102,7 +98,7 @@ $chat-header-height: $toolbar-height;
   }
 }
 
-.thumbnailAndName{
+.thumbnailAndName {
   padding-right: 0px;
   margin-right: 0px;
   table {
@@ -113,14 +109,7 @@ $chat-header-height: $toolbar-height;
   }
 }
 
-.chatMediaButtons{
-  // float: right;
-  // padding-right: 5px;
-}
-
-$single-friend-height: 36px; // height of gravatar thumbnail
-.friendsContainer{
-  // margin-left: 10px;
+.friendsContainer  {
   max-height: $single-friend-height * 5;
   overflow-y: scroll;
   .single-friend-container {
@@ -128,8 +117,7 @@ $single-friend-height: 36px; // height of gravatar thumbnail
   }
 }
 
-.chatSubTitle{
-  // margin-left: 5px;
+.chatSubTitle {
   border-top: solid 1px #f7f7f7;
   border-bottom: solid 1px #f7f7f7;
   height: $chat-header-height;
@@ -146,10 +134,9 @@ $single-friend-height: 36px; // height of gravatar thumbnail
     video {
       width: 100%;
       height: 100%;
-
-
   }
 }
+
 .volume_bar {
     position: absolute;
     width: 5px;
@@ -168,7 +155,7 @@ $single-friend-height: 36px; // height of gravatar thumbnail
   display: block;
 }
 
-.Active {
+.active {
   color: green; 
 }
 

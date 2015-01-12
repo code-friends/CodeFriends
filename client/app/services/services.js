@@ -26,6 +26,7 @@ angular.module('code.services', [])
     };
 
     projects.createProject = function (projectName, files) {
+      console.log('projectName', projectName);
       if (files !== undefined && Array.isArray(files) && files.length > 0) {
         return $upload.upload({
             method: 'POST',

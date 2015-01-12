@@ -1,20 +1,7 @@
-$Lato-font-stack: 'Lato', Helvetica, sans-serif;
-$Brandon-font-stack: "brandon-grotesque", sans-serif;
-$Proxima-font-stack: "proxima-nova", sans-serif;
-@import 'colors';
+// global variables for paths, colors, type, and UI dimensions
+@import 'globals';
 
-$toolbar-height: 41px;
-$toolbar-width: 239px;
-$video-height: 150px;
-$video-width: 200px;
-
-$shapes-friends-path: '../assets/img/friends.png';
-$add-project-icon-path: '../assets/img/add-project.png';
-$upload-icon-path: '../assets/img/upload-icon.png';
-
-
-@import '../../lib/normalize.css/normalize.css';
-// @import '../../lib/bootstrap-sass-official/assets/stylesheets/bootstrap';
+@import '#{$lib-path}normalize.css/normalize.css';
 @import '../../lib/bootstrap-sass-official/assets/stylesheets/bootstrap/variables';
 @import '../../lib/bootstrap-sass-official/assets/stylesheets/bootstrap/mixins';
 @import '../../lib/bootstrap-sass-official/assets/stylesheets/bootstrap/grid';
@@ -27,8 +14,7 @@ $upload-icon-path: '../assets/img/upload-icon.png';
 @import '../../lib/bootstrap-sass-official/assets/stylesheets/bootstrap/dropdowns';
 @import '../../lib/bootstrap-social/bootstrap-social';
 
-$bootrap-icon-path: '../../lib/bootstrap-sass-official/assets/fonts/bootstrap/';
-// Import the fonts
+// bootstrap glyphicons
 @font-face {
   font-family: 'Glyphicons Halflings';
   src: url('#{$bootrap-icon-path}#{$icon-font-name}.eot');
@@ -38,13 +24,15 @@ $bootrap-icon-path: '../../lib/bootstrap-sass-official/assets/fonts/bootstrap/';
        url('#{$bootrap-icon-path}#{$icon-font-name}.svg##{$icon-font-svg-id}') format('svg');
 }
 
-@import '_codemirror.scss';
+@import 'codemirror';
 @import 'codemirror-themes/index';
-@import '_customBootstrap.scss';
+@import 'custom-bootstrap';
 
 @import 'base';
 @import 'header';
 @import 'landing';
 @import 'home';
+// Project view styling
 @import 'project';
-@import 'toolbar';
+@import 'chat';
+@import 'project-file-structure';

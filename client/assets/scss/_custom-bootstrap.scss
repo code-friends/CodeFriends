@@ -1,17 +1,20 @@
 $input-height: 30px;
 
-//Modal styling, fo input, submit button and dropdown
+// Modal styling: input, submit button, and dropdown
 .modal-dialog {
   position: relative;
   top: 31px;
 }
+
 .modal-content {
   background-color: $blue-grey;
   color: white;
   text-align: center;
   font-weight: 100;
+  border-radius: 0;
   ::-webkit-input-placeholder {
     text-align: center;
+    color: white;
   }
   :-moz-placeholder {
     text-align: center;
@@ -25,6 +28,11 @@ $input-height: 30px;
   .modal-header {
     border-bottom: 0;
     font-weight: 100;
+    margin: 0;
+    font-size: 1.25em;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    padding: 1.5em 0.8em 0.8em;
   }
   .modalDropDownButton {
     background-color: $blue-grey;
@@ -53,7 +61,7 @@ $input-height: 30px;
         padding-bottom: 10px;
       }
       &:hover {
-        background-color: $darken-blue-grey;
+        background-color: $darkened-blue-grey;
       }
     }
   }
@@ -66,15 +74,8 @@ $input-height: 30px;
     padding: 9px;
     width: 100%;
     text-align: center;
-  }
-  ::-webkit-input-placeholder {
     color: white;
   }
-  // .modalSubmit {
-    // border: 1px solid white;
-    // height: 30px;
-    // border-radius: 14px;
-  // }
   .addFileForm {
     margin-top: 5%;
   }
@@ -82,10 +83,21 @@ $input-height: 30px;
     margin-top: 8%;
     margin-bottom: 4%;
     font-size: 2.3em;
+    color: white;
   }
 }
 
-// tabs styling in modals
+
+// Tabs
+.tab-content .active {
+  color: #000;
+}
+
+
+
+
+
+// Tabs styling in modals
 .modal-dialog {  
   .nav-tabs > li.active > a {
     background-color: $dark-blue-grey;
@@ -115,13 +127,13 @@ $input-height: 30px;
         border: 0;
         &:hover {
           font-weight: 300;
-          background-color: $darken-blue-grey;
+          background-color: $darkened-blue-grey;
           border: 0;
         }
       }
     }
   }
-  // active tab
+  // Active tab
   .nav-tabs > li.active > a {
     border: 1px solid #466D80;
     border-bottom: 0;
@@ -141,17 +153,9 @@ $input-height: 30px;
     height: 30px;
     background-size: 30px 30px;
   }
-  // .modalSubmit {
-  //   margin-top: 10%;
-  //   margin-bottom: 6%;
-  //   background-color: rgba(255, 255, 255, 0.1);
-  //   padding: 2% 5% 2% 5%;
-  //   border-radius: 17px;
-  // }
 }
 
 
-// toolbar styling
 #toolbar .dropdown-menu {
   width: 100%;
 }

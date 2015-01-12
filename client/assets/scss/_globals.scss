@@ -1,0 +1,28 @@
+// Paths
+$img-path: '../assets/img/';
+$lib-path: '../../lib/';
+$bootstrap-stylesheets-path: '#{$lib-path}bootstrap-sass-official/assets/stylesheets/bootstrap/';
+$bootrap-icon-path: '#{$lib-path}bootstrap-sass-official/assets/fonts/bootstrap/';
+
+$shapes-friends-path: '#{$img-path}friends.png';
+$add-project-icon-path: '#{$img-path}add-project.png';
+$upload-icon-path: '#{$img-path}upload-icon.png';
+
+// Type
+$Lato-font-stack: 'Lato', Helvetica, sans-serif;
+$Brandon-font-stack: "brandon-grotesque", sans-serif;
+$Proxima-font-stack: "proxima-nova", sans-serif;
+
+// Colors
+// $dark-blue: #1e4c61;
+$blue-grey: #607D8B;
+$dark-blue-grey: #4C7284;
+$darkened-blue-grey: darken($blue-grey, 10);
+$silver-blue: rgba(30, 76, 97, 0.5);
+$darken-silver-blue: darken(rgba(30, 76, 97, 0.3), 0.5);
+
+// UI dimensions
+$toolbar-height: 41px;
+$toolbar-width: 239px;
+$video-height: 150px;
+$video-width: 200px;
