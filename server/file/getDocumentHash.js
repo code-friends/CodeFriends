@@ -13,9 +13,8 @@ var Hashes = require('jshashes');
  * @param <String> (projectName)
  * @return <Promise> -> <String> (documentHash)
  */
-var getDocumentHash = function (projectNameOrId, documentPath) {
-
-  if (typeof documentPath !== 'string') throw new Error('Document Path is Not A String');
+var getDocumentHash = function (projectNameOrId, filePath) {
+  if (typeof filePath !== 'string') throw new Error('Document Path is Not A String');
   return new Q()
     .then(function () {
       if (typeof projectNameOrId === 'number') {
@@ -45,21 +44,13 @@ var getDocumentHash = function (projectNameOrId, documentPath) {
       /**
        * Check to see if this is a proper path
        */
-      if (documentPath[0] !== '/') {
-        documentPath = '/' + documentPath;
+      if (filePath[0] !== '/') {
+        filePath = '/' + filePath;
       }
-      var str = 'p-' + projectId + '-d' + documentPath;
-      var documentHash = new Hashes.SHA256().hex(str);
-      return documentHash;
+      var str = 'p-' + projectId + '-d' + filePath;
+      var filePathHash = new Hashes.SHA256().hex(str);
+      return filePathHash;
     });
 };
 
 module.exports = getDocumentHash;
-
-// 40d5ea3b220fa8a50fee32c32c2579a08f9f26df6923a614c493f4bbc5ac627f
-// 40d5ea3b220fa8a50fee32c32c2579a08f9f26df6923a614c493f4bbc5ac627f
-// 40d5ea3b220fa8a50fee32c32c2579a08f9f26df6923a614c493f4bbc5ac627f
-// 40d5ea3b220fa8a50fee32c32c2579a08f9f26df6923a614c493f4bbc5ac627f
-// 40d5ea3b220fa8a50fee32c32c2579a08f9f26df6923a614c493f4bbc5ac627f
-// 40d5ea3b220fa8a50fee32c32c2579a08f9f26df6923a614c493f4bbc5ac627f
-// 40d5ea3b220fa8a50fee32c32c2579a08f9f26df6923a614c493f4bbc5ac627f
