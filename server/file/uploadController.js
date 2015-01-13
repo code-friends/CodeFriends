@@ -38,14 +38,33 @@ var uploadController = {
     return _.flatten(_.compact(_.pluck(fields, propertyName)))[0];
   },
   _addFileFromFileSytemToProject: function (projectName, filePath, userId, fileSystemFilePathToReadFileFrom) {
-    return fs.readFileAsync(fileSystemFilePathToReadFileFrom)
-      .then(function (fileBuffer) {
-        var fileContent = fileBuffer.toString();
-        /**
-         * This currently doesn't support paths (it should)
-         * Remove the '/' in that string and replace it with proper paths
-         */
-        return uploadController._addFileWithContentToProject(projectName, filePath, userId, fileContent);
+    return fs.lstatAsync(fileSystemFilePathToReadFileFrom)
+      .then(function (fileStat) {
+        if (fileStat.isDirectory()) {
+          return createNewFileOrFolder({
+            projectName : projectName,
+            filePath : filePath,
+            userId : userId,
+            type : 'folder'
+          });
+        }
+        if (fileStat.isFile()) {
+          return fs.readFileAsync(fileSystemFilePathToReadFileFrom)
+            .then(function (fileBuffer) {
+              var fileContent = fileBuffer.toString();
+              /**
+               * This currently doesn't support paths (it should)
+               * Remove the '/' in that string and replace it with proper paths
+               */
+              return uploadController._addFileWithContentToProject(projectName, filePath, userId, fileContent)
+                .catch(function (err) {
+                  console.log('Error adding file (with content) to project', err);
+                });
+            });
+        }
+      })
+      .catch(function (err) {
+        console.log('Error reading file from file system', err);
       });
   },
   _addFileWithContentToProject: function (projectName, filePath, userId, fileContent) {
@@ -67,7 +86,10 @@ var uploadController = {
               type: 'file', ///need to make flexible to take folders too
               userId: userId
             };
-            return createNewFileOrFolder(fileInfo);
+            return createNewFileOrFolder(fileInfo)
+              .catch(function (err) {
+                console.log('Error creating new file or folder', err);
+              });
           });
       })
       .catch(function (err) {
@@ -79,10 +101,7 @@ var uploadController = {
       .then(function (fileContents) {
         var zip = new JSZip(fileContents);
         // Get all files in project using a regular expression
-        var allFiles = zip.file(/./g);
-        allFiles = allFiles.filter(function (file) {
-          return !uploadController.fileShouldBeIgnored(file.name);
-        });
+        var allFiles = uploadController.filterIgnoredFiles(zip.file(/./g));
         var allFilesAreInSameDirectory = uploadController.isEveryFileInSameDirectory(allFiles);
         if (allFilesAreInSameDirectory) {
           allFiles = uploadController.removeFirstDirectory(allFiles);
@@ -117,7 +136,20 @@ var uploadController = {
         return projectModel;
       });
   },
+  filterIgnoredFiles: function (files) {
+    return files.filter(function (file) {
+      var name;
+      if (typeof file === 'string') {
+        name = file;
+      } else {
+        name = file.name;
+      }
+      return !uploadController.fileShouldBeIgnored(name);
+    });
+  },
   fileShouldBeIgnored: function (filePath) {
+    var topDirectory = path.dirname(filePath).split('/')[0];
+    if (topDirectory === '.git' || path.basename(filePath) === '.git') return true;
     if (filePath === '') return true;
     if (path.basename(filePath).indexOf('.DS_Store') !== -1) return true;
     if (filePath.indexOf('__MACOSX') !== -1) return true;
