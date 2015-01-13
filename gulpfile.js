@@ -42,7 +42,7 @@ gulp.task('js', function () {
       './client/app/templates/mainHeader.js',
       './client/app/templates/modalCreateProject.js',
       './client/app/templates/modalAddToProject.js',
-      './client/app/project/uploads/uploadsCtrl.js',
+      './client/app/project/uploads/uploads.js',
       './client/app/project/downloads/downloadsCtrl.js',
       './client/app/app.js',
       './client/lib/ngSocket/dist/ngSocket.js',
