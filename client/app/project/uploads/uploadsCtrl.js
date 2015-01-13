@@ -1,7 +1,7 @@
 /*global angular:true */
 'use strict';
 
-angular.module('code.uploads', ['ui.router'])
+angular.module('codeFriends.uploads', ['ui.router'])
   .controller('uploadsController', function ($scope, $state, $stateParams, $http, $upload) {
     $scope.onFileSelect = function (files) {
       var uploadFile = function (fileIndex) {

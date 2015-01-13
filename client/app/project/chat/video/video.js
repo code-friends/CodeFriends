@@ -1,7 +1,7 @@
 /*global angular:true */
 'use strict';
 
-angular.module('code.video', ['ui.router', 'ngSanitize'])
+angular.module('codeFriends.video', ['ui.router', 'ngSanitize'])
   .controller('videoController', function ($scope, $state, $http, ngSocket, $stateParams, Auth, VideoFactory) {
     var roomID = $stateParams.projectName;
 

@@ -1,6 +1,7 @@
 /*global angular:true, CodeMirror:true */
 /*jshint browser:true */
 'use strict';
+
 angular.module('code.project', ['ui.router'])
   .controller('projectController', function ($scope, $state, $stateParams, Auth, Files, ProjectFactory, documentFactory, SocketFactory, $window) {
     // Auth.username should now be here, since we're making the http request

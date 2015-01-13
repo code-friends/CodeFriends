@@ -88,7 +88,7 @@ angular.module('code.toolbar', ['ui.bootstrap'])
       });
     };
   })
-  .controller('modalProjectController', function ($scope, $stateParams, $modalInstance, Files, Projects, ProjectFactory, SocketFactory) {
+  .controller('modalProjectController', function ($scope, $stateParams, $modalInstance, Files, ProjectsFactory, ProjectFactory, SocketFactory) {
     $scope.filesInProject = ProjectFactory.files;
     $scope.folderPaths = ProjectFactory.folderPaths;
     // currently hacky way of changing drop down button, set in getFolderPath()
@@ -138,7 +138,7 @@ angular.module('code.toolbar', ['ui.bootstrap'])
 
     $scope.addUser = function () {
       $modalInstance.close();
-      Projects.addUser($scope.addedUserName, $stateParams.projectName);
+      ProjectsFactory.addUser($scope.addedUserName, $stateParams.projectName);
     };
 
     $scope.init();

@@ -1,17 +1,19 @@
-<div class="createProjectModal">
-  <h1 class="modal-header">Add a new project</h1>
-  <div class="modal-body">
-    <form ng-submit="closeModal()">
-      <input type="text" ng-model="newProjectName" class="modalTextInput" placeholder="Enter project name">
-      <tabset>
-        <tab heading="Upload Zip">
-          <div>
-            <input type="file" ng-model="files" ng-file-select="onFileSelect(files)" ng-multiple="false" class="app-prompt-upload"/>
-          </div>
-        </tab>
-        <tab heading="Use Git">use git here</tab>
-      </tabset>
-      <button type="submit" class="glyphicon glyphicon-plus"></button>
-    </form>
+<div ng-controller="createProjectModalController">
+  <div class="createProjectModal">
+    <h1 class="modal-header">Add a new project</h1>
+    <div class="modal-body">
+      <form ng-submit="closeModal()">
+        <input type="text" ng-model="newProjectName" class="modalTextInput" placeholder="Enter project name">
+        <tabset>
+          <tab heading="Upload Zip">
+            <div>
+              <input type="file" ng-model="files" ng-file-select="onFileSelect(files)" ng-multiple="false" class="app-prompt-upload"/>
+            </div>
+          </tab>
+          <tab heading="Use Git">use git here</tab>
+        </tabset>
+        <button type="submit" class="glyphicon glyphicon-plus"></button>
+      </form>
+    </div>
   </div>
 </div>

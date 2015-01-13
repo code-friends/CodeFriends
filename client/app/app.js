@@ -1,23 +1,23 @@
 /*global angular:true */
-'use strict';
 (function () {
-  angular.module('code', [
+  'use strict';
+  angular.module('codeFriends', [
       'ui.router',
       'angularFileUpload',
-      'code.userBox',
-      'code.landing',
-      'code.home',
-      'code.login',
-      'code.project',
-      'code.projects',
-      'code.toolbar',
-      'code.uploads',
-      'code.downloads',
-      'code.document',
-      'code.services',
-      'code.chat',
-      'code.video',
-      'code.mainHeaderDirective',
+      'codeFriends.projects',
+      'codeFriends.userBox',
+      'codeFriends.landing',
+      'codeFriends.login',
+      'codeFriends.project',
+      'codeFriends.toolbar',
+      'codeFriends.uploads',
+      'codeFriends.downloads',
+      'codeFriends.document',
+      'codeFriends.services',
+      'codeFriends.chat',
+      'codeFriends.video',
+      'codeFriends.mainHeaderDirective',
+      'codeFriends.createProjectModalController',
       'ngSocket'
     ])
     .config(function ($stateProvider, $urlRouterProvider) {
@@ -49,8 +49,7 @@
           url: '/home',
           views: {
             '': {
-              templateUrl: '/app/home/home.html',
-              controller: 'homeController',
+              templateUrl: '/app/home/home.html'
             },
             'projects@home': {
               templateUrl: '/app/home/projects/projects.html',

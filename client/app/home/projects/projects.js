@@ -1,48 +1,41 @@
 /*global angular:true, moment:true */
+(function () {
+  'use strict';
 
-'use strict';
+  angular.module('codeFriends.projects', ['ui.router'])
+    .controller('projectsController', Projects);
 
-angular.module('code.projects', ['ui.router'])
-  .controller('projectsController', function ($scope, $state, $http, Projects, $modal) {
-    // on project state initialize, get projects
-    $scope.init = function () {
-      return Projects.getProjects()
+  Projects.$inject = ['$http', 'ProjectsFactory', 'chatFactory', '$modal', '$timeout'];
+
+  function Projects($http, ProjectsFactory, chatFactory, $modal, $timeout) {
+    var vm = this;
+    vm.projects = null;
+    vm.createProject = createProject;
+    vm.openCreateProjectModal = openCreateProjectModal;
+
+
+    function init() {
+      return ProjectsFactory.getProjects()
         .then(function (projects) {
-          $scope.projects = projects;
-          return $scope.projects;
+          vm.projects = projects;
+          return vm.projects;
         });
-    };
+    }
 
-    $scope.createProject = function (projectName) {
-      return Projects.createProject(projectName);
-    };
+    function createProject(projectName) {
+      return ProjectsFactory.createProject(projectName);
+    }
 
-    $scope.openCreateProjectModal = function () {
+    function openCreateProjectModal() {
       $modal.open({
         templateUrl: '/app/templates/modalCreateProject.html',
         controller: 'createProjectModalController',
         size: 'sm'
       }).result.then(function () {
-        $scope.init();
+        vm.init();
       });
-    };
+    }
 
-    $scope.init();
-  })
-  .controller('createProjectModalController', function ($scope, $modalInstance, $upload, Projects) {
-    $scope.files = null;
-    $scope.onFileSelect = function (files) {
-      $scope.files = files;
-    };
-
-    $scope.closeModal = function () {
-      console.log('closeModal');
-      console.log($scope.files);
-      if ($scope.newProjectName !== undefined) {
-        Projects.createProject($scope.newProjectName, $scope.files)
-          .then(function () {
-            $modalInstance.close();
-          });
-      }
-    };
-  });
+    init();
+  }
+})();

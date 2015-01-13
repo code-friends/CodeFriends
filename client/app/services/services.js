@@ -2,9 +2,9 @@
 'use strict';
 
 // factory for Projects, Auth, Toolbar
-angular.module('code.services', [])
+angular.module('codeFriends.services', [])
   // change this to projectsListingFactory later
-  .factory('Projects', function ($http, $upload) {
+  .factory('ProjectsFactory', function ($http, $upload) {
     // gets projects from server, caches projects in factory and allows cb in controller to access projects
     var projects = {};
     projects.userProjects = null;

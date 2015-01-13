@@ -1,4 +1,3 @@
 /*global angular:true */
-angular.module('code.landing', ['ui.router'])
-	.controller('landingController', function ($scope, $state, $http) {
-	});
+angular.module('codeFriends.landing', ['ui.router'])
+  .controller('landingController', function ($scope, $state, $http) {});

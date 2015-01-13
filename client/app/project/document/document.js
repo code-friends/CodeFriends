@@ -3,7 +3,6 @@
 'use strict';
 angular.module('code.document', ['ui.router'])
   .controller('documentController', function ($rootScope, $http, $scope, $stateParams, ToolbarDocument, documentFactory) {
-
     $scope.projectName = $stateParams.projectName;
     $scope.fileExtensionCode;
     $scope.documentPath = $stateParams.documentPath;
@@ -57,7 +56,7 @@ angular.module('code.document', ['ui.router'])
     });
 
   })
-  .factory('documentFactory', function (Projects, $state, $stateParams) {
+  .factory('documentFactory', function ($state, $stateParams) {
     return {
       languageList: {
         "C#": {
