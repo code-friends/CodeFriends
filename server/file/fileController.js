@@ -320,12 +320,10 @@ var fileController = {
 
 
   moveObjectProperty: function (oldPath, newPath, object) {
-    console.log('object at beginning: ', object.files);
     var oldPathArray = oldPath.split('/').splice(1, oldPath.length);
     var newPathArray = newPath.split('/').splice(1, newPath.length);
-    // console.log('oldPathArray: ', oldPathArray);
-    // console.log('newPathArray: ', newPathArray);
-    var baseObject = object.files[oldPathArray[0]];
+    var firstBaseObject = object.files[oldPathArray[0]];
+    var secondBaseObject = object.files[oldPathArray[0]];
     var storageForFileToMove;
 
     var deleteProperty = function (round, urlArray, obj, index) {
@@ -350,28 +348,17 @@ var fileController = {
       }
       deleteProperty(round + 1, urlArray, objToPass, index + 1);
     };
-    deleteProperty(1, oldPathArray, baseObject, 1);
-    console.log('object after deleting property: ', object.files);
-    console.log('storageForFileToMove: ', storageForFileToMove);
+    deleteProperty(1, oldPathArray, firstBaseObject, 1);
 
     var addProperty = function (round, urlArray, obj, index) {
-      var totalRounds = urlArray.length - 1;
-
-      // console.log('totalRounds: ', totalRounds);
-      // console.log('round: ', round);
-      // console.log('urlArray: ', urlArray);
-      // console.log('obj: ', obj);
-      // console.log('index: ', index);
+      var totalRounds = urlArray.length - 1 || 1;
 
       if (round === totalRounds) {
-        var objKey = urlArray[index];
-        // console.log('obj in base case of addProperty: ', obj);
-        // console.log('objKey: ', objKey);
-        // console.log('property we are adding: ', storageForFileToMove);
+
+        var objKey = urlArray[index].replace('.', '');
         obj.files[objKey] = storageForFileToMove;
         return;
       }
-
       var objToPass;
       var objKey = urlArray[index];
       if (obj.type === 'folder') {
@@ -384,10 +371,11 @@ var fileController = {
       }
       addProperty(round + 1, urlArray, objToPass, index + 1);
     };
-    addProperty(1, newPathArray, baseObject, 1);
-    console.log('object after adding property: ', object);
+    addProperty(1, newPathArray, object, 0);
 
-    return object.fileStructure;
+    console.log('object.files after adding property: ', object.files);
+
+    return object;
   }
 
 };
