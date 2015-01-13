@@ -1,8 +1,9 @@
 .initial-landing-view {
   background-color: #86CCCC;
 }
+
 .landing-two {
-  color: $dark-blue;
+  color: $dark-blue-grey;
   text-align: center;
   display: block; 
   #greeting-image {
@@ -23,18 +24,17 @@
     margin: 0;
   }
   p {
-  font-size: 1.4em;
+    font-size: 1.4em;
   }
-
 }
 
 video#bgvid {
-position: relative; 
-min-width: 100%; 
-min-height: 100%;
-display: block; 
-width: auto;
-height: auto;
-z-index: 100;
-background-size: cover;
+  position: relative; 
+  min-width: 100%; 
+  min-height: 100%;
+  display: block; 
+  width: auto;
+  height: auto;
+  z-index: 100;
+  background-size: cover;
 }

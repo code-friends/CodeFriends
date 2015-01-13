@@ -1,22 +1,9 @@
-@import 'colors';
-
-.header {
-  padding: 0 5%;
-  // width: 100%;
-  // position: fixed;
-  // z-index: 99;
-  .wrapper {
-    // padding: 11px 60px 7px;
-  }
-  .user-box-region {
-    // float: right;
-  }
-  .logo-region {
-    // display: inline-block;
-  }
+.header, #toolbar {
+  font-family: $Brandon-font-stack;
 }
 
 .header, #toolbar {
+  $li-padding: 10px;
   font-size: 0.8em;
   letter-spacing: 0.13em;
   font-weight: 400;
@@ -24,7 +11,6 @@
   background: $blue-grey;
   color: white;
   font-size: 1.6em;
-  $li-padding: 10px;
   cursor: default;
   background-color: $blue-grey;
   color: white;
@@ -34,7 +20,7 @@
   margin-bottom: 0;
   .navbar-brand {
     &:hover, &:focus {
-      background: $darken-blue-grey;
+      background: $darkened-blue-grey;
     }
   }
   &.navbar {
@@ -45,12 +31,12 @@
   .nav .open > a:hover,
   .nav .open > a:focus {
     color: white;
-    background: $darken-blue-grey;
+    background: $darkened-blue-grey;
   }
   .navbar-nav > .open > a,
   .navbar-nav > .open > a:hover,
   .navbar-nav > .open > a:focus, {
-    background: $darken-blue-grey;
+    background: $darkened-blue-grey;
   }
   .navbar-nav > li > a,
   .navbar-nav > a {
@@ -66,13 +52,14 @@
     .dropdown-menu {
       border-radius: 0;
       li {
+        font-family: $Proxima-font-stack;
         padding: 7px 10px;
         &.divider {
           background: none;
           height: 0;
           padding-top: 0;
           padding-bottom: 0;
-          border-bottom: 1px solid $darken-blue-grey;
+          border-bottom: 1px solid $darkened-blue-grey;
         }
         &.dropdown-header {
           color: #d7d7d7;
@@ -92,10 +79,14 @@
             text-align: left;
             height: 100%;
             padding: 7px 10px;
+            color: white;
+            // font-family: $Proxima-font-stack;
+            font-size: 1em;
+            letter-spacing: 0.06em;
+            font-weight: 300;
           }
         }
       }
-
     }
   }
   &.navbar-default{
@@ -109,7 +100,7 @@
       background: $blue-grey;
       li {
         &:hover {
-          background: $darken-blue-grey;
+          background: $darkened-blue-grey;
         }
       }
     }
@@ -125,7 +116,7 @@
     cursor: pointer;
     &:hover {
       color: white;
-      background: $darken-blue-grey;
+      background: $darkened-blue-grey;
     }
   }
   .profile-image {
@@ -141,7 +132,6 @@
 .navbar-brand, .navbar-default .navbar-brand {
   color: white;
   #logo-image {
-    // background: url('../assets/img/logo.png') no-repeat center center;
     background: url($shapes-friends-path) no-repeat center center;
     background-size: contain;
     width: 60px;
@@ -160,5 +150,34 @@
     text-transform: uppercase;
     position: relative;
     top: 3px;
+  }
+}
+
+
+// Toolbar styling
+#toolbar {
+  ul {
+    li {
+      cursor: pointer;
+      ul {
+        font-family: $Proxima-font-stack;
+        font-size: 0.6em;
+        letter-spacing: 0.06em;
+        font-weight: 300;
+      }
+    }
+  }
+  // ul li ul
+  .first-dropDown, .second-dropDown {
+    li {
+      background: $blue-grey;
+    }
+  }
+}
+
+#toolbar-user {
+  float: right;
+  ul {
+    float: right;
   }
 }

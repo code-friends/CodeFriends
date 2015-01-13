@@ -1,18 +1,9 @@
-$silver-blue: rgba(30, 76, 97, 0.5);
-$darken-silver-blue: darken(rgba(30, 76, 97, 0.3), 0.5);
-
 .viewport {
   width: 100vw;
   height: 100vh;
 }
-.header-space {
-  // position: absolute;
-  // top: 58px;
-}
+
 .body {
-  // position: absolute;
-  // left: 5%;
-  // top: 5%;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -22,6 +13,7 @@ $darken-silver-blue: darken(rgba(30, 76, 97, 0.3), 0.5);
   color: white;
   min-height: 100vh;
 }
+
 .projects-header {
   padding: 25px 0px;
 }
@@ -31,17 +23,20 @@ $darken-silver-blue: darken(rgba(30, 76, 97, 0.3), 0.5);
   float: right;
   margin-top: 25px;
 }
+
 .single-project-head {
   text-transform: uppercase;
   font-weight: 700;
   letter-spacing: 0.05em;
   padding: 10px;
 }
+
 a:last-child {
   .single-project {
     border-bottom: solid 1px #c5c5c5;
   }
 }
+
 .single-project {
   padding: 13px 0px;
   border-top: solid 1px #99B0C2;
@@ -49,6 +44,7 @@ a:last-child {
     background: $darken-silver-blue;
   }
 }
+
 .timeAgo {
   font-size: 10px;
   color: #677889;
@@ -57,12 +53,10 @@ a:last-child {
   top: 1px;
 }
 
-// Margin-bottom
 .btn-github-login {
   margin-bottom: 20px;
 }
 
-// add project icon
 .add-icon {
   background-image: url($add-project-icon-path);
   width: 38px;

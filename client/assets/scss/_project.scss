@@ -1,7 +1,3 @@
-@import 'chat';
-@import 'toolbar';
-@import 'project-file-structure';
-
 .project-view-container {
   height: 100vh;
   overflow: hidden;
@@ -14,7 +10,7 @@
   overflow: hidden;
 }
 
-// editor
+// Editor
 .padContainer {
   font-size: 1.3em;
   height: 100%;
