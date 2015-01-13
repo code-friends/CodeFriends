@@ -3,7 +3,7 @@
 
 (function () {
   'use strict';
-  angular.module('codeFriends.project', ['ui.router'])
+  angular.module('codeFriends.project', [])
     .controller('projectController', Project);
 
   Project.$inject = ['$state', '$stateParams', 'Auth', 'Files', 'ProjectFactory', 'documentFactory', 'SocketFactory'];

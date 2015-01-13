@@ -2,7 +2,7 @@
 (function () {
   'use strict';
 
-  angular.module('codeFriends.userBox', ['ui.router'])
+  angular.module('codeFriends.userBox', [])
     .controller('userBox', UserBox);
 
   UserBox.$inject = ['Auth'];

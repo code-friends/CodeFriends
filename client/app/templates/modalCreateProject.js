@@ -1,5 +1,5 @@
 (function () {
-  angular.module('codeFriends.createProjectModalController', [])
+  angular.module('codeFriends.projects')
     .controller('createProjectModalController', ['$scope', '$modalInstance', '$upload', 'ProjectsFactory', function ($scope, $modalInstance, $upload, ProjectsFactory) {
       $scope.files = null;
       $scope.files = null;
