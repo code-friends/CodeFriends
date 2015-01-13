@@ -1,12 +1,15 @@
-<div class='container-fluid nopadding project-view-container'>
-  <!-- toolbar -->
-  <div ui-view="toolbar"></div>
-  <div class='row-fluid project-container'>
-    <!-- File Structure -->
-    <div ui-view="fileStructure" class="col-md-2 col-sm-3 nopadding project-file-structure"></div>
-    <!-- Document -->
-    <div class="padContainer col-md-8 col-sm-6 nopadding" ui-view></div>
-    <!-- Chat -->
-    <div class="col-md-2 col-sm-3 nopadding chat-container-container" ui-view="chat"></div>
+<div ng-controller="projectController as project">  
+  <div class='container-fluid nopadding project-view-container'>
+    <!-- toolbar -->
+    <div ui-view="toolbar"></div>
+    <div class='row-fluid project-container'>
+      <!-- File Structure -->
+      <!-- fs uses model from projectController -->
+      <div ui-view="fileStructure" class="col-md-2 col-sm-3 nopadding project-file-structure"></div>
+      <!-- Document -->
+      <div class="padContainer col-md-8 col-sm-6 nopadding" ui-view></div>
+      <!-- Chat -->
+      <div class="col-md-2 col-sm-3 nopadding chat-container-container" ui-view="chat"></div>
+    </div>
   </div>
-</div>
+</div>  
