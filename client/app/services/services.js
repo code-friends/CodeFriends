@@ -2,91 +2,91 @@
 'use strict';
 
 // factory for Projects, Auth, Toolbar
-angular.module('codeFriends.services', [])
+angular.module('codeFriends.services')
   // change this to projectsListingFactory later
-  .factory('ProjectsFactory', function ($http, $upload) {
-    // gets projects from server, caches projects in factory and allows cb in controller to access projects
-    var projects = {};
-    projects.userProjects = null;
-    projects.filename = null;
+  // .factory('ProjectsFactory', function ($http, $upload) {
+  //   // gets projects from server, caches projects in factory and allows cb in controller to access projects
+  //   var projects = {};
+  //   projects.userProjects = null;
+  //   projects.filename = null;
 
-    projects.updateName = function (name) {
-      this.filename = name;
-    };
+//   projects.updateName = function (name) {
+//     this.filename = name;
+//   };
 
-    projects.getProjectId = function (projectName) {
-      for (var i in projects) {
-        if (projects.hasOwnProperty(i)) {
-          if (projects[i].projectName === projectName) {
-            return projects[i].id;
-          }
-        }
-      }
-      return null;
-    };
+//   projects.getProjectId = function (projectName) {
+//     for (var i in projects) {
+//       if (projects.hasOwnProperty(i)) {
+//         if (projects[i].projectName === projectName) {
+//           return projects[i].id;
+//         }
+//       }
+//     }
+//     return null;
+//   };
 
-    projects.createProject = function (projectName, files) {
-      console.log('projectName', projectName);
-      if (files !== undefined && Array.isArray(files) && files.length > 0) {
-        return $upload.upload({
-            method: 'POST',
-            url: '/api/project/',
-            data: {
-              projectName: projectName,
-            },
-            file: files[0]
-          })
-          .catch(function (error) {
-            console.log('Error Uploading File: ', error);
-          });
-      }
-      return $http.post('/api/project', {
-          projectName: projectName
-        })
-        .then(function (res) {
-          return res.data;
-        });
-    };
+//   projects.createProject = function (projectName, files) {
+//     console.log('projectName', projectName);
+//     if (files !== undefined && Array.isArray(files) && files.length > 0) {
+//       return $upload.upload({
+//           method: 'POST',
+//           url: '/api/project/',
+//           data: {
+//             projectName: projectName,
+//           },
+//           file: files[0]
+//         })
+//         .catch(function (error) {
+//           console.log('Error Uploading File: ', error);
+//         });
+//     }
+//     return $http.post('/api/project', {
+//         projectName: projectName
+//       })
+//       .then(function (res) {
+//         return res.data;
+//       });
+//   };
 
-    projects.getProjects = function () {
-      return $http.get('api/project/')
-        .then(function (res) {
-          var projects = res.data;
-          // Add all avatars
-          projects.forEach(function (project) {
-            project.avatars = [];
-            project.user.forEach(function (user) {
-              project.avatars.push(user.githubAvatarUrl);
-            });
-          });
-          // Add Create String
-          angular.forEach(projects, function (theProject) {
-            theProject.createString = moment(theProject.createdAt).format('MMM Do YY');
-            theProject.updateString = moment(theProject.updatedAt).format('MMM Do YY');
-            theProject.timeAgoString = moment(theProject.updatedAt).fromNow();
-          });
-          return projects;
-        })
-        .then(function (_projects) {
-          projects.userProjects = _projects;
-          return _projects;
+//   projects.getProjects = function () {
+//     return $http.get('api/project/')
+//       .then(function (res) {
+//         var projects = res.data;
+//         // Add all avatars
+//         projects.forEach(function (project) {
+//           project.avatars = [];
+//           project.user.forEach(function (user) {
+//             project.avatars.push(user.githubAvatarUrl);
+//           });
+//         });
+//         // Add Create String
+//         angular.forEach(projects, function (theProject) {
+//           theProject.createString = moment(theProject.createdAt).format('MMM Do YY');
+//           theProject.updateString = moment(theProject.updatedAt).format('MMM Do YY');
+//           theProject.timeAgoString = moment(theProject.updatedAt).fromNow();
+//         });
+//         return projects;
+//       })
+//       .then(function (_projects) {
+//         projects.userProjects = _projects;
+//         return _projects;
 
-        });
-    };
+//       });
+//   };
 
-    projects.addUser = function (userName, projectName) {
-      return $http.put('api/project/addUser', {
-          newUserName: userName,
-          projectName: projectName
-        })
-        .catch(function (error) {
-          console.log('Error Adding User', error);
-        });
-    };
+//   projects.addUser = function (userName, projectName) {
+//     return $http.put('api/project/addUser', {
+//         newUserName: userName,
+//         projectName: projectName
+//       })
+//       .catch(function (error) {
+//         console.log('Error Adding User', error);
+//       });
+//   };
 
-    return projects;
-  })
-  .factory('SocketFactory', function (Auth, ngSocket, $stateParams) {
+//   return projects;
+// })
+.factory('SocketFactory', function (Auth, ngSocket, $stateParams) {
     var socketConnection = {};
     var locationName = window.location.hostname;
     var chatPort = window.config.ports.chat;

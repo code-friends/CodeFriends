@@ -10,7 +10,7 @@
       'codeFriends.toolbar',
       'codeFriends.uploads',
       'codeFriends.document', //not yet refactored
-      'codeFriends.services', // not yet refactored
+      'codeFriends.services', // working on it
       'codeFriends.chat', //not yet refactored
       'codeFriends.video', // not yet refactored
       'codeFriends.mainHeader',

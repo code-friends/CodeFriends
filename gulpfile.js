@@ -31,6 +31,7 @@ gulp.task('js', function () {
       './node_modules/share-codemirror/share-codemirror.js',
       './client/lib/codemirror/mode/javascript/javascript.js',
       './client/app/services/services.js',
+      './client/app/services/projectListFactory.js',
       './client/app/home/projects/projects.js',
       './client/app/home/home.js',
       './client/app/userBox.js',

@@ -5,9 +5,9 @@
   angular.module('codeFriends.projects', ['ui.router'])
     .controller('ProjectsController', ProjectsController);
 
-  ProjectsController.$inject = ['$http', 'ProjectsFactory', 'chatFactory', '$modal', '$timeout'];
+  ProjectsController.$inject = ['$http', 'ProjectListFactory', 'chatFactory', '$modal', '$timeout'];
 
-  function ProjectsController($http, ProjectsFactory, chatFactory, $modal, $timeout) {
+  function ProjectsController($http, ProjectListFactory, chatFactory, $modal, $timeout) {
     var vm = this;
     vm.projects = null;
     vm.createProject = createProject;
@@ -15,7 +15,7 @@
 
 
     function init() {
-      return ProjectsFactory.getProjects()
+      return ProjectListFactory.getProjects()
         .then(function (projects) {
           vm.projects = projects;
           return vm.projects;
@@ -23,7 +23,7 @@
     }
 
     function createProject(projectName) {
-      return ProjectsFactory.createProject(projectName);
+      return ProjectListFactory.createProject(projectName);
     }
 
     function openCreateProjectModal() {
