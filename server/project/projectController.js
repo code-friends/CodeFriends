@@ -61,9 +61,7 @@ projectController.post = function (req, res) {
       if (contentTypeIsMultipart) {
         var form = new multiparty.Form();
         return form.parseAsync(req)
-          .then(function (fields, files) {
-            console.log('fields', fields);
-            console.log('files', files);
+          .then(function (fields) {
             fields = _.flatten(fields);
             var projectName = getFieldProperty(fields, 'projectName') || req.body.projectName;
             var projectFile = getFieldProperty(fields, 'projectFile') || getFieldProperty(fields, 'file');
