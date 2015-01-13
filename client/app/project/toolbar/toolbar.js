@@ -1,9 +1,26 @@
 /*global angular:true */
-'use strict';
 
-angular.module('code.toolbar', ['ui.bootstrap'])
-  .controller('toolbarController', function ($rootScope, SocketFactory, $scope, $state, $stateParams, $http, ToolbarDocument, $modal, Auth) {
-    $scope.themes = [
+(function () {
+  'use strict';
+  angular.module('codeFriends.toolbar', ['ui.bootstrap'])
+    .controller('toolbarController', Toolbar);
+
+  Toolbar.$inject = ['$rootScope', 'SocketFactory', '$state', '$stateParams', '$http', 'ToolbarDocument', '$modal', 'Auth'];
+
+
+  function Toolbar($rootScope, SocketFactory, $state, $stateParams, $http, ToolbarDocument, $modal, Auth) {
+    var vm = this;
+    vm.currentProjectName = $stateParams.projectName;
+    vm.username = Auth.userName;
+    vm.githubAvatarUrl = Auth.githubAvatarUrl;
+    vm.downloadFile = downloadFile;
+    vm.downloadProjectZip = downloadProjectZip;
+    vm.changeEditorTheme = changeEditorTheme;
+    vm.openAddFileModal = openAddFileModal;
+    vm.openAddFolderModal = openAddFolderModal;
+    vm.openAddUserModal = openAddUserModal;
+    vm.emitCompile = emitCompile;
+    vm.themes = [
       'Default',
       'Ambiance',
       'Base16 Dark',
@@ -31,22 +48,12 @@ angular.module('code.toolbar', ['ui.bootstrap'])
       '3024 Night'
     ];
 
-    angular.extend($scope, $state.params);
-    $scope.currentProjectName = $stateParams.projectName;
-    $scope.username = Auth.userName;
-    $scope.githubAvatarUrl = Auth.githubAvatarUrl;
 
-    var formatThemeName = function (theme) {
-      theme = theme.toLowerCase();
-      if (theme.split(' ')[0] === 'solarized') return theme;
-      return theme.replace(' ', '-');
-    };
-
-    $scope.emitCompile = function () {
+    function emitCompile() {
       $rootScope.$broadcast('compile code');
-    };
+    }
 
-    $scope.downloadFile = function () {
+    function downloadFile() {
       var url = '/api/file/download/projectName/' + $state.params.projectName + '/fileName';
       if ($state.params.documentPath[0] === '/') {
         url += $state.params.documentPath;
@@ -54,92 +61,46 @@ angular.module('code.toolbar', ['ui.bootstrap'])
         url += '/' + $state.params.documentPath;
       }
       window.location = url;
-    };
+    }
 
-    $scope.downloadProjectZip = function () {
+    function formatThemeName(theme) {
+      theme = theme.toLowerCase();
+      if (theme.split(' ')[0] === 'solarized') return theme;
+      return theme.replace(' ', '-');
+    }
+
+    function downloadProjectZip() {
       window.location = '/api/project/download/' + $state.params.projectName;
-    };
+    }
 
-    $scope.changeEditorTheme = function (event) {
+    function changeEditorTheme(event) {
       ToolbarDocument.changeTheme(formatThemeName(event.target.innerText));
-    };
+    }
 
-    $scope.openAddFileModal = function () {
+    function openAddFileModal() {
+      console.log('hereeee');
       $modal.open({
         templateUrl: '/app/templates/modalAddFile.html',
-        controller: 'modalProjectController',
+        controller: 'addToProjectModalController',
         size: 'sm'
       });
-    };
+    }
 
-    $scope.openAddFolderModal = function () {
+    function openAddFolderModal() {
       $modal.open({
         templateUrl: '/app/templates/modalAddFolder.html',
-        controller: 'modalProjectController',
+        controller: 'addToProjectModalController',
         size: 'sm'
       });
-    };
+    }
 
-    $scope.openAddUserModal = function () {
+    function openAddUserModal() {
       $modal.open({
         templateUrl: '/app/templates/modalAddUser.html',
-        controller: 'modalProjectController',
+        controller: 'addToProjectModalController',
         size: 'sm'
       });
-    };
-  })
-  .controller('modalProjectController', function ($scope, $stateParams, $modalInstance, Files, ProjectsFactory, ProjectFactory, SocketFactory) {
-    $scope.filesInProject = ProjectFactory.files;
-    $scope.folderPaths = ProjectFactory.folderPaths;
-    // currently hacky way of changing drop down button, set in getFolderPath()
-    $scope.folderSelected = 'Specify a folder';
+    }
 
-    $scope.init = function () {
-      ProjectFactory.getProject($stateParams.projectName)
-        .then(function (project) {
-          $scope.filesInProject = project.files;
-          $scope.folderPaths = ProjectFactory.getFolderPaths(project.files);
-        });
-    };
-
-
-    $scope.getFolderPath = function ($event) {
-      $scope.folderSelected = $event.target.innerText;
-      return $scope.folderSelected;
-    };
-
-    $scope.addFile = function () {
-      $modalInstance.close();
-      if ($scope.folderSelected === '/' || $scope.folderSelected === 'Specify a folder') {
-        $scope.folderSelected = undefined;
-      }
-      Files.addNewFile($scope.newFileName, $stateParams.projectName, $scope.folderSelected)
-        .then(function () {
-          console.log('New File Created');
-          SocketFactory.send({
-            type: 'project structure changed'
-          });
-        });
-    };
-
-    $scope.addFolder = function () {
-      $modalInstance.close();
-      if ($scope.folderSelected === '/' || $scope.folderSelected === 'Specify a folder') {
-        $scope.folderSelected = undefined;
-      }
-      Files.addNewFolder($scope.newFolderName, $stateParams.projectName, $scope.folderSelected)
-        .then(function () {
-          console.log('New Folder Created');
-          SocketFactory.send({
-            type: 'project structure changed'
-          });
-        });
-    };
-
-    $scope.addUser = function () {
-      $modalInstance.close();
-      ProjectsFactory.addUser($scope.addedUserName, $stateParams.projectName);
-    };
-
-    $scope.init();
-  });
+  }
+})();

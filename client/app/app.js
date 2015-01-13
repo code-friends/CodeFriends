@@ -4,7 +4,6 @@
   angular.module('codeFriends', [
       'ui.router',
       'angularFileUpload',
-      // module dependencies are passed down to following modules, ui.router in codeFriends.projects passes down
       'codeFriends.projects',
       'codeFriends.userBox',
       'codeFriends.project',

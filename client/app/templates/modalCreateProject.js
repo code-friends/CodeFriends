@@ -1,4 +1,7 @@
+/*global angular:true */
+
 (function () {
+  'use strict';
   angular.module('codeFriends.projects')
     .controller('createProjectModalController', ['$scope', '$modalInstance', '$upload', 'ProjectsFactory', function ($scope, $modalInstance, $upload, ProjectsFactory) {
       $scope.files = null;
@@ -20,35 +23,4 @@
       };
 
     }]);
-  //   .controller('createProjectModalController', createProjectModalController);
-
-  // createProjectModalController.$inject = ['$modalInstance', '$upload', 'ProjectsFactory'];
-  // console.log('Done Injecting');
-
-  // function createProjectModalController($modalInstance, $upload, ProjectsFactory) {
-
-  //   console.log('0. $modalInstance', $modalInstance);
-
-  //   var vm = this;
-  //   vm.files = null;
-  //   vm.onFileSelect = onFileSelect;
-  //   vm.closeModal = closeModal;
-
-  //   function onFileSelect(files) {
-  //     vm.files = files;
-  //   }
-
-  //   function closeModal($modalInstance) {
-  //     console.log('1. $modalInstance', $modalInstance);
-  //     if (vm.newProjectName !== undefined) {
-  //       console.log('2. $modalInstance', $modalInstance);
-  //       ProjectsFactory.createProject(vm.newProjectName, vm.files)
-  //         .then(function () {
-  //           console.log('3. $modalInstance', $modalInstance);
-  //           $modalInstance.close();
-  //         });
-  //     }
-  //   }
-  //   console.log('End createProjectModalController');
-  // }
 })();
