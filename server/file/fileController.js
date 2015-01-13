@@ -75,7 +75,7 @@ var fileController = {
       })
       .then(function (fileStructure) {
         // Check if path exists
-        if (!fileController._isPathValid(fileStructure, filePath)) {
+        if (!fileController._isPathValidAndFileDoesNotExistAtPath(fileStructure, filePath)) {
           throw new Error('Path is Invalid or File Already Exists');
         }
         // Create Object with author, timeCreated
@@ -158,7 +158,7 @@ var fileController = {
    * @param <String> name of file
    * @return <Boolean>
    */
-  _isPathValid: function (fileStructure, filePath) {
+  _isPathValidAndFileDoesNotExistAtPath: function (fileStructure, filePath) {
     var fileDirname = path.dirname(filePath);
     if (fileDirname === '') return !fileController._isFileInFileStructre(fileStructure, filePath);
     if (fileDirname === '.') return !fileController._isFileInFileStructre(fileStructure, filePath);
@@ -250,9 +250,9 @@ var fileController = {
 
     var fileInfo = req.body;
     var fileContent;
-    var isItValidUrl;
     var fileStructure;
-    // console.log('fileInfo: ', fileInfo);
+    var oldPath = fileInfo.filePath;
+    var newPath = fileInfo.newPath;
     downloadController._getFileContents(fileInfo.projectIdOrName, fileInfo.filePath)
       .then(function (content) {
         fileContent = content;
@@ -260,29 +260,28 @@ var fileController = {
       .catch(function (err) {
         console.log('Error moving the file: ', err);
       });
-    // return filePaths;
+
     return fileController.getFileStructure(null, fileInfo.projectIdOrName)
       .then(function (currentFileStructure) {
         // console.log('currentFileStructure: ', currentFileStructure);
         fileStructure = currentFileStructure;
-      })
-      .then(function () {
-        return fileController._isPathValid(fileStructure, fileInfo.filePath)
+        return fileController._isPathValidAndFileDoesNotExistAtPath(fileStructure, fileInfo.filePath);
       })
       .then(function (validOrNot) {
-        console.log('validOrNot: ', validOrNot);
-        isItValidUrl = validOrNot;
+        //this test needs to be stronger eventually. Right now it expexts the above function to send a false, meaning
+        //that something is currently at that path so it is not available to place new files
+        if (validOrNot === false) {
+          return fileController.moveObjectProperty(oldPath, newPath, fileStructure);
+        }
+      })
+      .then(function (newFileStructureToAdd) {
+        console.log('newFileStructureToAdd: ', newFileStructureToAdd);
+        // return fileController._updateFileStructure(newFileStructureToAdd); //may not need return
+      })
+      .catch(function (err) {
+        console.log('Hello World #1', err);
       });
-    //     .then(function (fileStructure) {
-    //       console.log('fileStructure: ', fileStructure);
-    //       console.log('fileContent: ', fileContent);
 
-    //       return fileController.moveObjectProperty(fileInfo.oldUrl, fileInfo.newUrl, fileStructure);
-    //     });
-    // }
-    //     .then(function (newFileStructureToAdd) {
-    //       return fileController._updateFileStructure(newFileStructureToAdd); //may not need return
-    //     })
     //     .then(function () {
     //       return getDocumentHash(projectName, documentName)
     //         .then(function (documentHash) {
@@ -317,69 +316,78 @@ var fileController = {
     //           console.log('Error uploading file', err);
     //         });
     //     })
-    // },
+  },
 
 
-    // moveObjectProperty: function (oldUrl, newUrl, object) {
-    //   console.log('object at beginning: ', object);
+  moveObjectProperty: function (oldPath, newPath, object) {
+    console.log('object at beginning: ', object.files);
+    var oldPathArray = oldPath.split('/').splice(1, oldPath.length);
+    var newPathArray = newPath.split('/').splice(1, newPath.length);
+    // console.log('oldPathArray: ', oldPathArray);
+    // console.log('newPathArray: ', newPathArray);
+    var baseObject = object.files[oldPathArray[0]];
+    var storageForFileToMove;
 
-    //   var oldUrlArray = oldUrl.split('/');
-    //   var newUrlArray = newUrl.split('/');
-    //   var baseObject = object.fileStructure.files[oldUrlArray[0]];
-    //   var storageForFileToMove;
+    var deleteProperty = function (round, urlArray, obj, index) {
 
-    //   var deleteProperty = function (round, urlArray, obj, index) {
-    //     var totalRounds = oldUrlArray.length - 1;
+      var totalRounds = oldPathArray.length - 1;
 
-    //     if (round === totalRounds) {
-    //       var objKey = oldUrlArray[index];
-    //       storageForFileToMove = obj.files[objKey];
-    //       delete obj.files[objKey];
-    //       return;
-    //     }
-    //     var objToPass;
-    //     var objKey = oldUrlArray[index];
-    //     if (obj.type === 'folder') {
-    //       var temp = obj.files;
-    //       objToPass = temp[objKey];
-    //     } else if (obj.type === 'file') {
-    //       objToPass = obj[objKey];
-    //     } else {
-    //       console.log('Error traversing file. Check if file path exists.');
-    //     }
-    //     deleteProperty(round + 1, urlArray, objToPass, index + 1);
-    //   };
-    //   deleteProperty(1, oldUrlArray, baseObject, 1);
-    //   console.log('object after deleting property: ', object);
+      if (round === totalRounds) {
+        var objKey = oldPathArray[index].replace('.', '');
+        storageForFileToMove = obj.files[objKey];
+        delete obj.files[objKey];
+        return;
+      }
+      var objToPass;
+      var objKey = oldPathArray[index];
+      if (obj.type === 'folder') {
+        var temp = obj.files;
+        objToPass = temp[objKey];
+      } else if (obj.type === 'file') {
+        objToPass = obj[objKey];
+      } else {
+        console.log('Error traversing file. Check if file path exists.');
+      }
+      deleteProperty(round + 1, urlArray, objToPass, index + 1);
+    };
+    deleteProperty(1, oldPathArray, baseObject, 1);
+    console.log('object after deleting property: ', object.files);
+    console.log('storageForFileToMove: ', storageForFileToMove);
 
-    //   var addProperty = function (round, urlArray, obj, index) {
-    //     var totalRounds = urlArray.length - 1;
+    var addProperty = function (round, urlArray, obj, index) {
+      var totalRounds = urlArray.length - 1;
 
-    //     if (round === totalRounds) {
-    //       var objKey = urlArray[index];
-    //       console.log('obj in base case of addProperty: ', obj);
-    //       console.log('objKey: ', objKey);
-    //       console.log('property we are adding: ', storageForFileToMove);
-    //       obj.files[objKey] = storageForFileToMove;
-    //       return;
-    //     }
+      // console.log('totalRounds: ', totalRounds);
+      // console.log('round: ', round);
+      // console.log('urlArray: ', urlArray);
+      // console.log('obj: ', obj);
+      // console.log('index: ', index);
 
-    //     var objToPass;
-    //     var objKey = urlArray[index];
-    //     if (obj.type === 'folder') {
-    //       var temp = obj.files;
-    //       objToPass = temp[objKey];
-    //     } else if (obj.type === 'file') {
-    //       objToPass = obj[objKey];
-    //     } else {
-    //       console.log('Error traversing file. Check if file path exists.');
-    //     }
-    //     addProperty(round + 1, urlArray, objToPass, index + 1);
-    //   };
-    //   addProperty(1, newUrlArray, baseObject, 1);
-    //   console.log('object after adding property: ', object);
+      if (round === totalRounds) {
+        var objKey = urlArray[index];
+        // console.log('obj in base case of addProperty: ', obj);
+        // console.log('objKey: ', objKey);
+        // console.log('property we are adding: ', storageForFileToMove);
+        obj.files[objKey] = storageForFileToMove;
+        return;
+      }
 
-    //   return object.fileStructure;
+      var objToPass;
+      var objKey = urlArray[index];
+      if (obj.type === 'folder') {
+        var temp = obj.files;
+        objToPass = temp[objKey];
+      } else if (obj.type === 'file') {
+        objToPass = obj[objKey];
+      } else {
+        console.log('Error traversing file. Check if file path exists.');
+      }
+      addProperty(round + 1, urlArray, objToPass, index + 1);
+    };
+    addProperty(1, newPathArray, baseObject, 1);
+    console.log('object after adding property: ', object);
+
+    return object.fileStructure;
   }
 
 };
