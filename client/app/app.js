@@ -9,7 +9,6 @@
       'codeFriends.project',
       'codeFriends.toolbar',
       'codeFriends.uploads',
-      'codeFriends.downloads',
       'codeFriends.document',
       'codeFriends.services',
       'codeFriends.chat',
