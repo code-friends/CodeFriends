@@ -12,8 +12,8 @@ before_script:
   - mysql -e 'create database code_friends;'
   - mysql -e 'create database code_friends_test;'
 node_js:
-  - 0.10
-  - 0.11
+  - '0.10'
+  - '0.11'
 branches:
    only:
      - master
