@@ -2,14 +2,32 @@
 /*jshint browser:true */
 'use strict';
 angular.module('code.document', ['ui.router'])
-  .controller('documentController', function ($rootScope, $scope, $stateParams, ToolbarDocument, documentFactory) {
+  .controller('documentController', function ($rootScope, $http, $scope, $stateParams, ToolbarDocument, documentFactory) {
     $rootScope.$on('compile code', function () {
-      console.log($scope.cm.getValue());
-      var fn = window[$scope.cm.getValue()];
-      eval($scope.cm.getValue());
+      console.log("hi there");
+      $http.post('https://compile.remoteinterview.io/compile/', {
+        "language": 4,
+        "code": $scope.cm.getValue()
+      }).
+      success(function (data, status, headers, config) {
+        var output = data.output.split(/\n/g);
+        // This shoul only happend if the language is JavaScript
+        output.forEach(function (o) {
+          console.log('Python Output:', o);
+        });
+      }).
+      error(function (data, status, headers, config) {
+        console.log(data);
+        // called asynchronously if an error occurs
+        // or server returns response with an error status.
+      });
+
+
     });
+
     $scope.projectName = $stateParams.projectName;
-    $scope.documentPath = $stateParams.documentPath;
+    $scope.documentPath =
+      $stateParams.documentPath;
     $scope.theme = ToolbarDocument.theme;
 
     // Setup Code Editor
