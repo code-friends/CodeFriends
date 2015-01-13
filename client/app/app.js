@@ -6,8 +6,6 @@
       'angularFileUpload',
       'codeFriends.projects',
       'codeFriends.userBox',
-      'codeFriends.landing',
-      'codeFriends.login',
       'codeFriends.project',
       'codeFriends.toolbar',
       'codeFriends.uploads',
@@ -37,12 +35,10 @@
       $stateProvider
         .state('landing', {
           templateUrl: '/app/landing/landing.html',
-          controller: 'landingController',
           url: '/'
         })
         .state('login', {
           templateUrl: '/app/login/login.html',
-          controller: 'loginController',
           url: '/login',
         })
         .state('home', {

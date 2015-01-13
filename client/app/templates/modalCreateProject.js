@@ -2,6 +2,8 @@
   angular.module('codeFriends.createProjectModalController', [])
     .controller('createProjectModalController', ['$scope', '$modalInstance', '$upload', 'ProjectsFactory', function ($scope, $modalInstance, $upload, ProjectsFactory) {
       $scope.files = null;
+      $scope.files = null;
+
       $scope.onFileSelect = function (files) {
         $scope.files = files;
       };
