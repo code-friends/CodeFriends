@@ -372,8 +372,16 @@ var fileController = {
       addProperty(round + 1, urlArray, objToPass, index + 1);
     };
     addProperty(1, newPathArray, object, 0);
-
     console.log('object.files after adding property: ', object.files);
+
+    //change paths property to reflect new filestructure
+    object.paths.push(newPath);
+    for (var i = 0; i < object.paths.length; i++) {
+      if (object.paths[i] === oldPath) {
+        object.paths.splice(i, 1);
+        break;
+      }
+    }
 
     return object;
   }
