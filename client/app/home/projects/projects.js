@@ -32,7 +32,7 @@
         controller: 'createProjectModalController',
         size: 'sm'
       }).result.then(function () {
-        vm.init();
+        init();
       });
     }
 
