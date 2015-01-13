@@ -7,7 +7,7 @@ var moment = require('moment');
 var _ = require('lodash');
 var path = require('path');
 
-var ProjectCollection = require('../models').collections.ProjectCollection;
+var getProject = require('../project/getProject');
 var downloadController = require('./downloadController');
 // var Project = require('../models').models.Project;
 
@@ -36,7 +36,7 @@ var fileController = {
       })
       .catch(function (err) {
         console.log('Error Creating File or Folder:', err);
-        return res.status(400).send(err.toString()).end();
+        return res.status(400).end();
       });
   },
   _createNewFileOrFolder: function (fileInfo) {
@@ -53,7 +53,10 @@ var fileController = {
         }
       })
       .then(function () {
-        return fileController.getFileStructure(projectId, projectName);
+        return fileController.getFileStructure(projectId || projectName);
+      })
+      .catch(function () {
+        console.log('Error Getting File Structure');
       })
       .then(function (fileStructure) {
         // Check if path exists
@@ -167,27 +170,14 @@ var fileController = {
   },
   get: function (req, res) {
     var projectName = req.body.projectName;
-    return fileController.getFileStructure(null, projectName)
+    return fileController.getFileStructure(projectName)
       .then(function (fileStructure) {
         return res.json(fileStructure);
       });
   },
-  getFileStructure: function (projectId, projectName) {
+  getFileStructure: function (projectIdOrName) {
     return new Q().then(function () {
-        if (projectId !== null && projectId !== undefined) { // If project ID
-          // Check if project ID exists
-          return ProjectCollection
-            .query('where', 'id', '=', projectId)
-            .fetchOne();
-        }
-        // If project name
-        if (projectName !== null && projectName !== undefined) {
-          // Get project ID
-          return ProjectCollection
-            .query('where', 'project_name', '=', projectName)
-            .fetchOne();
-        }
-        throw new Error('No Project ID or name specified');
+        return getProject(projectIdOrName);
       })
       .then(function (project) {
         // Get project structure form mongo

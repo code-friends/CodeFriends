@@ -176,6 +176,37 @@ describe('Project', function () {
     });
   });
 
+  describe('Cloning git repos through POST /api/project', function () {
+
+    it('should add all files into a project when a git url is passed to it', function (done) {
+       agent
+        .post('/api/project')
+        .send({
+          projectName: 'gitCloneExample',
+          gitRepoUrl: 'https://github.com/thejsj/twittler.git'
+        })
+        .then(function () {
+          return agent
+            .get('/api/project/' + 'gitCloneExample')
+            .expect(200);
+        })
+        .then(function (res) {
+          var files = res.body.files;
+          files.should.have.property('indexhtml');
+          files.should.have.property('data_generatorjs');
+          files.src.files.js.files.should.have.property('appjs');
+          files.src.files.js.files.appjs.should.be.an.instanceOf(Object);
+          files.indexhtml.should.be.an.instanceOf(Object);
+          files.indexhtml.name.should.equal('index.html');
+          files.indexhtml.type.should.equal('file');
+          files.src.files.js.files.appjs.name.should.equal('app.js');
+          files.src.files.js.files.appjs.type.should.equal('file');
+          done();
+        });
+    });
+
+  });
+
   it('should add a user to a project on PUT /project/addUser', function (done) {
     agent
       .put('/api/project/addUser')
@@ -247,6 +278,7 @@ describe('Project', function () {
         done();
       });
   });
+
   it('should get a specific project on GET /project/:id', function (done) {
     agent
       .get('/api/project/' + global.project.get('id'))

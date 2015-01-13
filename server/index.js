@@ -1,8 +1,6 @@
 'use strict';
 
 var config = require('config');
-var fs = require('fs');
-var https = require('https');
 
 console.log('config:', config);
 
@@ -29,7 +27,6 @@ app
     extended: true
   }))
   .use(bodyParser.json())
-  // .use(morgan('dev'))
   .use(session({
     secret: 'zfnzkwjehgweghw',
     resave: false,
@@ -47,7 +44,6 @@ app
   .listen(config.get('ports').http, function () {
     console.log('Server listening on port:', config.get('ports').http);
   });
-
 
 chatServer.listen(config.get('ports').chat);
 shareJSServer.listen(config.get('ports').editor);

@@ -16,7 +16,7 @@ var getProjectZip = function (projectNameOrId) {
   return getProject(projectNameOrId)
     .then(function (_project) {
       project = _project;
-      return getFileStructure(project.get('id'), project.get('projectName'))
+      return getFileStructure(project.get('id'))
          .then(function (fileStructure) {
           var paths = getPathsForFileStructure(fileStructure);
           return Q.allSettled(paths.map(function (path) {

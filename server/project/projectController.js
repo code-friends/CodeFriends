@@ -8,10 +8,13 @@ var multiparty = Promise.promisifyAll(require('multiparty'));
 
 // Models
 var models = require('../models.js').models;
+
 // File Controller
 var getFileStructure = require('../file/fileController').getFileStructure;
 var getPathsForFileStructure = require('../file/fileController').getPathsForFileStructure;
 var addAllFilesInZipToProject = require('../file/uploadController')._addAllFilesInZipToProject;
+var cloneGitRepositoryToProject = require('../file/cloneGitRepositoryToProject');
+
 // Utility Functions
 var getProject = require('./getProject');
 var getUser = require('./getUser');
@@ -71,6 +74,19 @@ projectController.post = function (req, res) {
                 // Upload .zip
                 return addAllFilesInZipToProject(projectModel, req.user.get('id'), projectFile.path);
               });
+          });
+      }
+      // If the user has passed a git repository
+      if (typeof req.body.gitRepoUrl === 'string') {
+        return postRequestHandler(req.body.projectName)
+          .then(function (projectModel) {
+            return cloneGitRepositoryToProject(projectModel, req.user.get('id'), req.body.gitRepoUrl)
+              .then(function () {
+                return projectModel;
+              });
+          })
+          .then(function (projectModel) {
+            return projectModel;
           });
       }
       // If it's a json!

@@ -3,7 +3,7 @@
 var models = require('../models.js').models;
 
 var getProject = function (projectNameOrId) {
-   return models.Project
+  return models.Project
     .query({
       where: {
         project_name: projectNameOrId
