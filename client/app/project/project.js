@@ -13,6 +13,7 @@
     vm.username = Auth.userName;
     vm.files = [];
     vm.currentProjectId = null;
+    vm.currentProjectName = null;
     vm.getProject = getProject;
     vm.escapeBackSlash = escapeBackSlash;
 
@@ -56,6 +57,5 @@
       str = str.replace(/(\/)/g, '%2F');
       return str;
     }
-
   }
 })();
