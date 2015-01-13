@@ -2,12 +2,16 @@
 /*jshint browser:true */
 'use strict';
 angular.module('code.project', ['ui.router'])
-  .controller('projectController', function ($scope, $state, $stateParams, Auth, Files, ProjectFactory, documentFactory, SocketFactory) {
+  .controller('projectController', function ($scope, $state, $stateParams, Auth, Files, ProjectFactory, documentFactory, SocketFactory, $window) {
     // Auth.username should now be here, since we're making the http request
     // before getting here
     $scope.username = Auth.userName;
     $scope.files = [];
     $scope.currentProjectId = null;
+    $scope.escapeBackSlash = function (str) {
+      str = str.replace(/(\/)/g, '%2F');
+      return str;
+    };
 
     SocketFactory.onRefreshProject(function () {
       $scope.getProject();
