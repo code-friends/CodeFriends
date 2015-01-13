@@ -1,7 +1,7 @@
 /*global angular:true */
 'use strict';
 
-angular.module('codeFriends.mainHeaderDirective', [])
+angular.module('codeFriends.mainHeader', [])
   .directive('cfMainHeader', function (Auth) {
     var $scope = {
       'hello': [1, 2, 3, 4, ]

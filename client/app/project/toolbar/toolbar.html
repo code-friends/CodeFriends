@@ -1,4 +1,4 @@
-<div ng-controller="toolbarController as toolbar">
+<div ng-controller="ToolbarController as toolbar">
   <div id="toolbar" class="navbar navbar-default navbar-static">
     <div class="container-fluid">
       <div class="navbar-header">
@@ -16,7 +16,7 @@
             <li ng-click='toolbar.downloadProjectZip()'>Download Project</li>
             <li class='form-container'>
               <!-- Upload Files -->
-              <div ng-controller="uploadsController">
+              <div ng-controller="UploadsController">
                 <form class='half-form'>
                   <input type="submit" ng-model="files" ng-file-select="onFileSelect(files)" ng-multiple="true" class="app-prompt-upload" value="Upload Files"/>
                 </form>
@@ -56,7 +56,7 @@
           <a href='#' ng-click="toolbar.emitCompile()" class='dropdown-toggle' dropdown-toggle>Run</a>
         </li>
       </ul>
-      <ul class='nav navbar-nav navbar-right' ng-controller='userBox'>
+      <ul class='nav navbar-nav navbar-right' ng-controller='UserBoxController'>
         <li class='dropdown' dropdown>
           <a href='#' class='dropdown-toggle' dropdown-toggle>
             <img class='avatar-72 profile-image' ng-src="{{ toolbar.githubAvatarUrl }}&s=72">

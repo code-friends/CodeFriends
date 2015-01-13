@@ -9,12 +9,11 @@
       'codeFriends.project',
       'codeFriends.toolbar',
       'codeFriends.uploads',
-      'codeFriends.document',
-      'codeFriends.services',
-      'codeFriends.chat',
-      'codeFriends.video',
-      'codeFriends.mainHeaderDirective',
-      // 'codeFriends.createProjectModalController',
+      'codeFriends.document', //not yet refactored
+      'codeFriends.services', // not yet refactored
+      'codeFriends.chat', //not yet refactored
+      'codeFriends.video', // not yet refactored
+      'codeFriends.mainHeader',
       'ngSocket'
     ])
     .config(function ($stateProvider, $urlRouterProvider) {
@@ -48,7 +47,7 @@
             },
             'projects@home': {
               templateUrl: '/app/home/projects/projects.html',
-              controller: 'projectsController'
+              controller: 'ProjectsController'
             }
           },
           resolve: {
@@ -60,11 +59,10 @@
           views: {
             '': {
               templateUrl: '/app/project/project.html',
-              // controller: 'projectController'
             },
             'fileStructure@project': {
               templateUrl: '/app/project/fileStructure/fileStructure.html',
-              controller: 'projectController'
+              controller: 'ProjectController'
             },
             'chat@project': {
               templateUrl: '/app/project/chat/chat.html',
@@ -72,7 +70,7 @@
             },
             'toolbar@project': {
               templateUrl: '/app/project/toolbar/toolbar.html',
-              controller: 'toolbarController'
+              controller: 'ToolbarController'
             },
             'video@project': {
               templateUrl: '/app/project/chat/video/video.html',

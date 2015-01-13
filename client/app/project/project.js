@@ -4,11 +4,11 @@
 (function () {
   'use strict';
   angular.module('codeFriends.project', [])
-    .controller('projectController', Project);
+    .controller('ProjectController', ProjectController);
 
-  Project.$inject = ['$state', '$stateParams', 'Auth', 'Files', 'ProjectFactory', 'documentFactory', 'SocketFactory'];
+  ProjectController.$inject = ['$state', '$stateParams', 'Auth', 'Files', 'ProjectFactory', 'documentFactory', 'SocketFactory'];
 
-  function Project($state, $stateParams, Auth, Files, ProjectFactory, documentFactory, SocketFactory) {
+  function ProjectController($state, $stateParams, Auth, Files, ProjectFactory, documentFactory, SocketFactory) {
     var vm = this;
     vm.username = Auth.userName;
     vm.files = [];

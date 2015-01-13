@@ -3,12 +3,12 @@
 (function () {
   'use strict';
   angular.module('codeFriends.toolbar', ['ui.bootstrap'])
-    .controller('toolbarController', Toolbar);
+    .controller('ToolbarController', ToolbarController);
 
-  Toolbar.$inject = ['$rootScope', 'SocketFactory', '$state', '$stateParams', '$http', 'ToolbarDocument', '$modal', 'Auth'];
+  ToolbarController.$inject = ['$rootScope', 'SocketFactory', '$state', '$stateParams', '$http', 'ToolbarDocument', '$modal', 'Auth'];
 
 
-  function Toolbar($rootScope, SocketFactory, $state, $stateParams, $http, ToolbarDocument, $modal, Auth) {
+  function ToolbarController($rootScope, SocketFactory, $state, $stateParams, $http, ToolbarDocument, $modal, Auth) {
     var vm = this;
     vm.currentProjectName = $stateParams.projectName;
     vm.username = Auth.userName;

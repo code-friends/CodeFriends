@@ -39,7 +39,7 @@ gulp.task('js', function () {
       './client/app/project/chat/chat.js',
       './client/app/project/chat/video/video.js',
       './client/app/project/toolbar/toolbar.js',
-      './client/app/templates/mainHeader.js',
+      './client/app/templates/mainHeaderDirective.js',
       './client/app/templates/modalCreateProject.js',
       './client/app/templates/modalAddToProject.js',
       './client/app/project/uploads/uploads.js',

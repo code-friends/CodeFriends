@@ -3,11 +3,11 @@
   'use strict';
 
   angular.module('codeFriends.projects', ['ui.router'])
-    .controller('projectsController', Projects);
+    .controller('ProjectsController', ProjectsController);
 
-  Projects.$inject = ['$http', 'ProjectsFactory', 'chatFactory', '$modal', '$timeout'];
+  ProjectsController.$inject = ['$http', 'ProjectsFactory', 'chatFactory', '$modal', '$timeout'];
 
-  function Projects($http, ProjectsFactory, chatFactory, $modal, $timeout) {
+  function ProjectsController($http, ProjectsFactory, chatFactory, $modal, $timeout) {
     var vm = this;
     vm.projects = null;
     vm.createProject = createProject;
