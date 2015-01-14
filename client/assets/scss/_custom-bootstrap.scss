@@ -75,6 +75,8 @@ $input-height: 30px;
     width: 100%;
     text-align: center;
     color: white;
+    @include placeholder-color(rgba(255, 255, 255, 0.7));
+    font-family: Monaco, monospace;
   }
   .addFileForm {
     margin-top: 5%;
@@ -84,21 +86,17 @@ $input-height: 30px;
     margin-bottom: 4%;
     font-size: 2.3em;
     color: white;
+    cursor: pointer;
   }
 }
-
 
 // Tabs
 .tab-content .active {
   color: #000;
 }
 
-
-
-
-
 // Tabs styling in modals
-.modal-dialog {  
+.modal-dialog {
   .nav-tabs > li.active > a {
     background-color: $dark-blue-grey;
     color: white;
@@ -138,7 +136,7 @@ $input-height: 30px;
     border: 1px solid #466D80;
     border-bottom: 0;
   }
-}  
+}
 
 .createProjectModal {
   input[type="file"] {
@@ -155,17 +153,23 @@ $input-height: 30px;
   }
 }
 
-
 #toolbar .dropdown-menu {
   width: 100%;
 }
 
-
-
-
-.delete-project-glyphicon {  
+.delete-project-glyphicon {
   position: relative;
   left: 86%;
   top: -19px;
   font-size: 1.2em;
+  padding: 8px;
+  border-radius: 15px;
+  background-color: rgba(red, 0);
+  transition-property: background-color;
+  transition-duration: 200ms;
+  &:hover {
+    background-color: rgba(red, 8);
+    transition-property: background-color;
+    transition-duration: 200ms;
+  }
 }

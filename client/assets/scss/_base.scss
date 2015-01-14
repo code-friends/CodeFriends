@@ -7,6 +7,7 @@ html {
   height: 100%;
   padding: 0;
   margin: 0;
+  background-color: $silver-blue;
 }
 
 body {
@@ -58,19 +59,11 @@ h4 {
 
 .tab-content {
   padding-top: 20px;
-  $light-grey: #aaa;
-  ::-webkit-input-placeholder {
-    color: $light-grey;
-  }
-  :-moz-placeholder { /* Firefox 18- */
-     color: $light-grey;
-  }
-  ::-moz-placeholder {  /* Firefox 19+ */
-     color: $light-grey;
-  }
-  :-ms-input-placeholder {
-     color: $light-grey;
-  }
+  @include placeholder-color($light-grey);
+}
+
+.main-view {
+  overflow-x: hidden;
 }
 
 button {
