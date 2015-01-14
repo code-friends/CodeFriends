@@ -10,9 +10,11 @@ var path = require('path');
 var getProject = require('../project/getProject');
 var downloadController = require('./downloadController');
 // var Project = require('../models').models.Project;
+var getDocumentHash = require('../file/getDocumentHash');
+var backend = require('../liveDbClient');
 
 var mongoIndex = function (str) {
-  return str.replace(/\./g,'');
+  return str.replace(/\./g, '');
 };
 
 var fileController = {
@@ -188,13 +190,7 @@ var fileController = {
         return res.json(fileStructure);
       });
   },
-<<<<<<< HEAD
   getFileStructure: function (projectIdOrName) {
-=======
-  getFileStructure: function (projectId, projectName) {
-    console.log('projectId: ', projectId);
-    console.log('projectName: ', projectName);
->>>>>>> adds ability to move files 1
     return new Q().then(function () {
         return getProject(projectIdOrName);
       })
@@ -253,20 +249,29 @@ var fileController = {
     var fileStructure;
     var oldPath = fileInfo.filePath;
     var newPath = fileInfo.newPath;
+    /**
+     * get and save file contents at the current location (before we start changing things)
+     */
     downloadController._getFileContents(fileInfo.projectIdOrName, fileInfo.filePath)
       .then(function (content) {
         fileContent = content;
       })
       .catch(function (err) {
         console.log('Error moving the file: ', err);
-      });
-
-    return fileController.getFileStructure(null, fileInfo.projectIdOrName)
+      })
+      /**
+       * get and save file structure
+       */
+      .then(function () {
+        return fileController.getFileStructure(null, fileInfo.projectIdOrName);
+      })
       .then(function (currentFileStructure) {
-        // console.log('currentFileStructure: ', currentFileStructure);
         fileStructure = currentFileStructure;
         return fileController._isPathValidAndFileDoesNotExistAtPath(fileStructure, fileInfo.filePath);
       })
+      /**
+       * take the old file structure, update it, and then pass it into 'updateFileStructure' function to be saved
+       */
       .then(function (validOrNot) {
         //this test needs to be stronger eventually. Right now it expexts the above function to send a false, meaning
         //that something is currently at that path so it is not available to place new files
@@ -275,11 +280,50 @@ var fileController = {
         }
       })
       .then(function (newFileStructureToAdd) {
-        console.log('newFileStructureToAdd: ', newFileStructureToAdd);
-        // return fileController._updateFileStructure(newFileStructureToAdd); //may not need return
+        return fileController._updateFileStructure(newFileStructureToAdd);
+      })
+      /**
+       * create a new file
+       */
+      .then(function (newFileStructre) {
+        var newFileInfo = {
+          projectName: fileInfo.projectName,
+          type: fileInfo.type,
+          projectId: fileInfo.projectId,
+          filePath: fileInfo.filePath,
+          userId: req.user.id
+        };
+        return fileController._createNewFileOrFolder(fileInfo);
+      })
+      /**
+       * write the file content saved at the beginning of 'moveFileInProject' with a new hash
+       */
+      .then(function () {
+        return getDocumentHash(fileInfo.projectName, newPath);
+      })
+      .then(function (newHash) {
+        return backend.submitAsync('documents', newHash, {
+            create: {
+              type: 'text',
+              data: fileContent
+            }
+          })
+          .catch(function (err) {
+            console.log('Document Already Exists', err);
+          });
+      })
+      .then(function () {
+        return getDocumentHash(fileInfo.projectName, oldPath);
+      })
+      .then(function (oldHash) {
+        return backend.submitAsync
+      })
+      .then(function (dbResponse) {
+        res.status(201).json(dbResponse);
       })
       .catch(function (err) {
         console.log('Hello World #1', err);
+        res.status(400).end();
       });
 
     //     .then(function () {
@@ -372,7 +416,7 @@ var fileController = {
       addProperty(round + 1, urlArray, objToPass, index + 1);
     };
     addProperty(1, newPathArray, object, 0);
-    console.log('object.files after adding property: ', object.files);
+    // console.log('object.files after adding property: ', object.files);
 
     //change paths property to reflect new filestructure
     object.paths.push(newPath);
