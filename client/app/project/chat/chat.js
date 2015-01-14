@@ -1,18 +1,28 @@
 /*global angular:true, moment:true */
-'use strict';
 
-angular.module('codeFriends.chat', ['ui.router', 'ngSanitize', 'luegg.directives'])
-  .controller('chatController', function ($rootScope, $location, $anchorScroll, $document, $window, $scope, $state, $http, ngSocket, $stateParams, AuthFactory, $interval, SocketFactory) {
+(function () {
+  'use strict';
+
+  angular.module('codeFriends.chat', ['ngSanitize', 'luegg.directives'])
+    .controller('ChatController', ChatController)
+    .directive('ngEnter', ngEnter);
+
+  ChatController.$inject = ['$scope', '$rootScope', '$location', '$anchorScroll', '$document', '$window', '$state', '$http', 'ngSocket', '$stateParams', 'AuthFactory', '$interval', 'SocketFactory'];
+
+  function ChatController($scope, $rootScope, $location, $anchorScroll, $document, $window, $state, $http, ngSocket, $stateParams, AuthFactory, $interval, SocketFactory) {
     var roomID = $stateParams.projectName;
     $scope.username = AuthFactory.userName;
     $scope.roomID = roomID;
     $scope.messages = [];
     $scope.usersInRoom = [];
-    $scope.emitStartVideo = function () {
+    $scope.emitStartVideo = emitStartVideo;
+
+
+    function emitStartVideo() {
       $rootScope.$broadcast('STARTVIDEO');
       var icon = document.getElementById('videoButton');
       icon.className += ' active';
-    };
+    }
 
     var updateTime = function () {
       for (var i = 0; i < $scope.messages.length; i = i + 1) {
@@ -35,8 +45,13 @@ angular.module('codeFriends.chat', ['ui.router', 'ngSanitize', 'luegg.directives
     SocketFactory.onChat(function (chatMessage) {
       $scope.messages.push(chatMessage);
     }, roomID);
-  })
-  .directive('ngEnter', function (SocketFactory) {
+
+  }
+
+  ngEnter.$inject = ['SocketFactory'];
+
+  function ngEnter(SocketFactory) {
+
     return function ($scope, element, attrs) {
       element.bind('keydown keypress', function (event) {
         if (event.which === 13) {
@@ -56,4 +71,6 @@ angular.module('codeFriends.chat', ['ui.router', 'ngSanitize', 'luegg.directives
         }
       });
     };
-  });
+  }
+
+})();

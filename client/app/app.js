@@ -11,8 +11,8 @@
       'codeFriends.toolbar',
       'codeFriends.uploads',
       'codeFriends.document',
-      'codeFriends.chat', //not yet refactored
-      'codeFriends.video', // not yet refactored
+      'codeFriends.chat',
+      'codeFriends.video',
       'codeFriends.mainHeader',
       'ngSocket'
     ])
@@ -66,7 +66,7 @@
             },
             'chat@project': {
               templateUrl: '/app/project/chat/chat.html',
-              controller: 'chatController'
+              controller: 'ChatController'
             },
             'toolbar@project': {
               templateUrl: '/app/project/toolbar/toolbar.html',
@@ -74,7 +74,7 @@
             },
             'video@project': {
               templateUrl: '/app/project/chat/video/video.html',
-              controller: 'videoController'
+              controller: 'VideoController'
             }
           },
           resolve: {
