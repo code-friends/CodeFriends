@@ -212,18 +212,18 @@ angular.module('codeFriends.services')
 //     };
 //     return Auth;
 //   })
-.factory('ToolbarDocument', function ($rootScope) {
-    var ToolbarDocument = {
-      changeTheme: function (theme) {
-        ToolbarDocument.theme = theme;
-        $rootScope.$broadcast('theme:changed', theme);
-        $rootScope.$emit('theme:changed', theme);
-      },
-      theme: 'default'
-    };
-    return ToolbarDocument;
-  })
-  .factory('VideoFactory', function () {
+// .factory('ToolbarDocument', function ($rootScope) {
+//   var ToolbarDocument = {
+//     changeTheme: function (theme) {
+//       ToolbarDocument.theme = theme;
+//       $rootScope.$broadcast('theme:changed', theme);
+//       $rootScope.$emit('theme:changed', theme);
+//     },
+//     theme: 'default'
+//   };
+//   return ToolbarDocument;
+// })
+.factory('VideoFactory', function () {
 
     var webrtc = new SimpleWebRTC({
       // the id/element dom element that will hold "our" video

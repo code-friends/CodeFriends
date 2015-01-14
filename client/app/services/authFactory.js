@@ -11,8 +11,8 @@
 
     var factory = {
       userId: null,
-      userName: null,
-      githubAvatarUrl: null,
+      // userName: null,
+      // githubAvatarUrl: null,
       isLoggedIn: isLoggedIn,
       getUserName: getUserName
     };
@@ -54,41 +54,3 @@
   }
 
 })();
-
-
-// .factory('AuthFactory', function ($http, $state, $q) {
-//     var AuthFactory = {
-//       isLoggedIn: function (redirectToLogin) {
-//         return $http.get('/auth/user')
-//           .then(function (res) {
-//             AuthFactory.userId = res.data.userId;
-//             AuthFactory.userName = res.data.userName;
-//             AuthFactory.githubAvatarUrl = res.data.githubAvatarUrl;
-//             if (res.data.userId === null) {
-//               if (redirectToLogin !== false) {
-//                 return $state.go('login');
-//               }
-//               return false;
-//             }
-//             return {
-//               'userName': AuthFactory.userName,
-//               'userId': AuthFactory.userId,
-//               'githubAvatarUrl': AuthFactory.githubAvatarUrl,
-//             };
-//           });
-//       },
-//       getUserName: function () {
-//         if (AuthFactory.userName === undefined) {
-//           return AuthFactory.isLoggedIn();
-//         } else {
-//           return $q.when({
-//             'userName': AuthFactory.userName,
-//             'userId': AuthFactory.userId,
-//             'githubAvatarUrl': AuthFactory.githubAvatarUrl
-//           });
-//         }
-//       },
-//       userId: null
-//     };
-//     return AuthFactory;
-//   })
