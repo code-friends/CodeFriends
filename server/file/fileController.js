@@ -117,8 +117,14 @@ var fileController = {
           })
           .then(function () {
             return projectCollection.findOneAsync({
-              _id: fileStructure._id
-            });
+                _id: fileStructure._id
+              })
+              .then(function (fileStructure) {
+                return fileStructure;
+              })
+              .catch(function (err) {
+                console.log('Cannot Find Collection With ID', err);
+              });
           });
       });
   },
@@ -161,6 +167,8 @@ var fileController = {
    * @return <Boolean>
    */
   _isPathValidAndFileDoesNotExistAtPath: function (fileStructure, filePath) {
+    // console.log('fileStructure in _isPathValidAndFileDoesNotExistAtPath: ', fileStructure);
+    // console.log('filePath in _isPathValidAndFileDoesNotExistAtPath: ', filePath);
     var fileDirname = path.dirname(filePath);
     if (fileDirname === '') return !fileController._isFileInFileStructre(fileStructure, filePath);
     if (fileDirname === '.') return !fileController._isFileInFileStructre(fileStructure, filePath);
@@ -264,22 +272,30 @@ var fileController = {
        * get and save file structure
        */
       .then(function () {
-        return fileController.getFileStructure(null, fileInfo.projectIdOrName);
+        return fileController.getFileStructure(fileInfo.projectIdOrName);
       })
       .then(function (currentFileStructure) {
         fileStructure = currentFileStructure;
-        return fileController._isPathValidAndFileDoesNotExistAtPath(fileStructure, fileInfo.filePath);
+        return fileController._isPathValidAndFileDoesNotExistAtPath(currentFileStructure, fileInfo.filePath);
       })
       /**
        * take the old file structure, update it, and then pass it into 'updateFileStructure' function to be saved
        */
       .then(function (validOrNot) {
+        // console.log('validOrNot: ', validOrNot);
         if (validOrNot === false) {
           return fileController.moveObjectProperty(oldPath, newPath, fileStructure);
         }
+        throw new Error('File Is Not Valid');
+      })
+      .catch(function (err) {
+        console.log('Error Moving Object Property', err);
       })
       .then(function (newFileStructureToAdd) {
         return fileController._updateFileStructure(newFileStructureToAdd);
+      })
+      .catch(function (err) {
+        console.log('Error Updating File Structure', err);
       })
       /**
        * create a new file
@@ -294,6 +310,9 @@ var fileController = {
           userId: req.user.id
         };
         return fileController._createNewFileOrFolder(fileInfo);
+      })
+      .catch(function (err) {
+        console.log('Error Creating New File', err);
       })
       /**
        * write the file content saved at the beginning of 'moveFileInProject' with a new hash

@@ -182,7 +182,7 @@ describe('Project', function () {
     this.timeout(15000);
 
     it('should add all files into a project when a git url (https) is passed to it', function (done) {
-       agent
+      agent
         .post('/api/project')
         .send({
           projectName: 'gitCloneExample',
@@ -209,7 +209,7 @@ describe('Project', function () {
     });
 
     xit('should add all files into a project when a git (git) url is passed to it', function (done) {
-       agent
+      agent
         .post('/api/project')
         .send({
           projectName: 'gitCloneExampleRecurssion',
@@ -238,7 +238,7 @@ describe('Project', function () {
     // This causes our function to break, since it's too large and too many Mongo connection are mde
     // createNewFileOrFolder needs to be re-factored so that updateFileStructure is only called one
     it('should add all files into a project when a larger git repo url is passed to it', function (done) {
-       agent
+      agent
         .post('/api/project')
         .send({
           projectName: 'gitCloneExampleCodeFriends',

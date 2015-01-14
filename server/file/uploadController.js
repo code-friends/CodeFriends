@@ -24,6 +24,9 @@ var uploadController = {
         var filePath = uploadController.getFieldProperty(fields, 'filePath') || file.originalFilename;
         return uploadController._addFileFromFileSytemToProject(projectName, filePath, req.user.get('id'), file.path)
           .then(function (newFileStructre) {
+            return updateFileStructure(newFileStructre);
+          })
+          .then(function (newFileStructre) {
             res.status(201).json(newFileStructre);
           })
           .catch(function (err) {
@@ -31,129 +34,6 @@ var uploadController = {
             res.status(400).end();
           });
       })
-      .catch(function (err) {
-        console.log('Error Parsing Form', err);
-      });
-  },
-  getFieldProperty: function (fields, propertyName) {
-    return _.flatten(_.compact(_.pluck(fields, propertyName)))[0];
-  },
-  _addFileFromFileSytemToProject: function (projectName, filePath, userId, fileSystemFilePathToReadFileFrom) {
-    return fs.readFileAsync(fileSystemFilePathToReadFileFrom)
-      .then(function (fileBuffer) {
-        var fileContent = fileBuffer.toString();
-        /**
-         * This currently doesn't support paths (it should)
-         * Remove the '/' in that string and replace it with proper paths
-         */
-        return uploadController._addFileWithContentToProject(projectName, filePath, userId, fileContent);
-      });
-  },
-  _addFileWithContentToProject: function (projectName, filePath, userId, fileContent) {
-    return getDocumentHash(projectName, filePath)
-      .then(function (filePathHash) {
-        return backend.submitAsync('documents', filePathHash, {
-            create: {
-              type: 'text',
-              data: fileContent
-            }
-          })
-          .catch(function (err) {
-            console.log('LiveDB (_addFileWithContentToProject) Document Already Exists', err);
-          })
-          .then(function () { // err, version, transformedByOps, snapshot
-            var fileInfo = {
-              projectName: projectName,
-              filePath: filePath,
-              type: 'file', ///need to make flexible to take folders too
-              userId: userId
-            };
-            return createNewFileOrFolder(fileInfo);
-          });
-      })
-      .catch(function (err) {
-        console.log('Error uploading file', err);
-      });
-  },
-  _addAllFilesInZipToProject: function (projectModel, userId, zipFilePathInFileSystem) {
-    return fs.readFileAsync(zipFilePathInFileSystem)
-      .then(function (fileContents) {
-          var zip = new JSZip(fileContents);
-          // Get all files in project using a regular expression
-          var allFiles = zip.file(/./g);
-          allFiles = allFiles.filter(function (file) {
-            return !uploadController.fileShouldBeIgnored(file.name);
-          });
-        },
-        _addFileWithContentToProject: function (projectName, filePath, userId, fileContent) {
-          return getDocumentHash(projectName, filePath)
-            .then(function (filePathHash) {
-              return backend.submitAsync('documents', filePathHash, {
-                  create: {
-                    type: 'text',
-                    data: fileContent
-                  }
-                })
-                .catch(function (err) {
-                  console.log('LiveDB (_addFileWithContentToProject) Document Already Exists', err);
-                })
-                .then(function () { // err, version, transformedByOps, snapshot
-                  var fileInfo = {
-                    projectName: projectName,
-                    filePath: filePath,
-                    type: 'file', ///need to make flexible to take folders too
-                    userId: userId
-                  };
-                  return createNewFileOrFolder(fileInfo);
-                });
-            })
-            .catch(function (err) {
-              console.log('Error uploading file', err);
-            });
-        },
-        _addAllFilesInZipToProject: function (projectModel, userId, zipFilePathInFileSystem) {
-          return fs.readFileAsync(zipFilePathInFileSystem)
-            .then(function (fileContents) {
-              var zip = new JSZip(fileContents);
-              // Get all files in project using a regular expression
-              var allFiles = zip.file(/./g);
-              allFiles = allFiles.filter(function (file) {
-                return !uploadController.fileShouldBeIgnored(file.name);
-              });
-              var allFilesAreInSameDirectory = uploadController.isEveryFileInSameDirectory(allFiles);
-              if (allFilesAreInSameDirectory) {
-                allFiles = uploadController.removeFirstDirectory(allFiles);
-              }
-              // Add all files to fileStructrue and add contents to database
-              return allFiles.reduce(function (soFar, file) {
-                return soFar.then(function () {
-                  var isFolder = (_.last(file.name) === '/');
-                  if (isFolder) {
-                    // Write file to file structure
-                    return createNewFileOrFolder({
-                      projectId: projectModel.get('id'),
-                      filePath: file.name,
-                      userId: userId,
-                      type: 'folder'
-                    });
-                  }
-                  // projectName, filePath, userId, fileContent
-                  return uploadController._addFileWithContentToProject(
-                    projectModel.get('projectName'),
-                    file.name,
-                    userId,
-                    file.asText()
-                  );
-                });
-              }, new Q());
-            })
-            .catch(function (err) {
-              console.log('Error Creating Files', err);
-            })
-            .then(function () {
-              return projectModel;
-            });
-        })
       .catch(function (err) {
         console.log('Error Parsing Form', err);
       });
@@ -331,6 +211,7 @@ var uploadController = {
     });
     var uniqeDirectories = _.unique(allTopDirectoryNames);
     return uniqeDirectories.length === 1 && uniqeDirectories[0] !== undefined;
+
   }
 };
 

@@ -21,7 +21,6 @@ var updateFileStructure = require('./fileController')._updateFileStructure;
  * @return <Object> return a nativeFileStructure
  */
 var cloneGitRepositoryToProject = function (project, userId, gitRepoUrl) {
-  console.log('cloneGitRepositoryToProject');
   if (typeof project !== 'object') throw new Error('project should be a model');
   if (!isGitUrl(gitRepoUrl)) throw new Error('URL provided is not a valid git repository URL');
   var gitRepoPath = path.resolve(__dirname, '../', config.get('gitRepositoriesDirectory'), '' + project.get('id'));
@@ -54,7 +53,6 @@ var cloneGitRepositoryToProject = function (project, userId, gitRepoUrl) {
         .then(function (newFileStructure) {
           return updateFileStructure(newFileStructure)
             .then(function (fileStructure) {
-              console.log('fileStructure', fileStructure);
               return fileStructure;
             });
         });

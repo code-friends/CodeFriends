@@ -215,6 +215,13 @@ describe('File', function () {
       .attach('file', './server/tests/test-files/dummyForTest.js')
       .expect(201)
       .then(function (res) {
+        return agent
+          .get('/api/file/')
+          .send({
+            projectName: projectName,
+          });
+      })
+      .then(function (res) {
         expect(res.body.files.dummyForTest2js).to.be.an('object');
         expect(res.body.files.dummyForTest2js.name).to.equal('dummyForTest2.js');
         done();
@@ -229,7 +236,6 @@ describe('File', function () {
     agent
       .post('/api/file/upload/')
       .field('projectName', projectName)
-      .field('projectIdOrName', projectName)
       .field('filePath', '/example/dummyForTest4.js')
       .field('type', 'file')
       .attach('file', './server/tests/test-files/dummyForTest.js')
@@ -402,7 +408,7 @@ describe('File', function () {
               expect(textAtNewPath).to.equal(textInOriginalFile);
             })
             .catch(function (err) {
-          console.log('File content should have been deleted at old path but was not: ', err);
+              console.log('File content should have been deleted at old path but was not: ', err);
               done();
             });
         })
