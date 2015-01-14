@@ -323,7 +323,7 @@ var fileController = {
         });
       })
       .then(function (dbResponse) {
-      // console.log('dbResponse: ', dbResponse);
+        // console.log('dbResponse: ', dbResponse);
         res.status(201).json(fileStructureForRes);
       })
       .catch(function (err) {
