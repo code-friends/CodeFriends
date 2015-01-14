@@ -28,8 +28,15 @@ gulp.task('js', function () {
       './node_modules/simplewebrtc/simplewebrtc.bundle.js',
       './node_modules/share/webclient/share.js',
       './client/lib/codemirror/lib/codemirror.js',
-      './node_modules/share-codemirror/share-codemirror.js',
+      './client/lib/codemirror/mode/meta.js',
       './client/lib/codemirror/mode/javascript/javascript.js',
+      './client/lib/codemirror/mode/php/php.js',
+      './client/lib/codemirror/mode/ruby/ruby.js',
+      './client/lib/codemirror/mode/css/css.js',
+      './client/lib/codemirror/mode/xml/xml.js',
+      './client/lib/codemirror/mode/htmlmixed/htmlmixed.js',
+      './client/lib/codemirror/mode/htmlembedded/htmlembedded.js',
+      './node_modules/share-codemirror/share-codemirror.js',
       './client/app/services/projectListFactory.js',
       './client/app/services/socketFactory.js',
       './client/app/services/authFactory.js',
@@ -54,7 +61,7 @@ gulp.task('js', function () {
       './client/lib/ngSocket/dist/ngSocket.js',
       './client/lib/moment/moment.js',
       './client/lib/angular-sanitize/angular-sanitize.js',
-      './client/lib/ng-file-upload/angular-file-upload.js'
+      './client/lib/ng-file-upload/angular-file-upload.js',
     ])
     .pipe(concat('main.js'))
     // .pipe(uglify())
