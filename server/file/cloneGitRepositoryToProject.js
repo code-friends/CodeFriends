@@ -2,7 +2,7 @@
 var Promise = require('bluebird');
 var config = require('config');
 var nodegit = require('nodegit');
-var isGitUrl = require('is-git-url');
+var isGitUrl = require('./isGitUrl');
 var path = require('path');
 var wrench = Promise.promisifyAll(require('wrench'));
 var rmdirAsync = Promise.promisify(require('rimraf'));
@@ -17,6 +17,7 @@ var Q = require('q');
  * @return <Object> return a nativeFileStructure
  */
 var cloneGitRepositoryToProject = function (project, userId, gitRepoUrl) {
+  console.log('gitRepoUrl', gitRepoUrl);
   if (typeof project !== 'object') throw new Error('project should be a model');
   if (!isGitUrl(gitRepoUrl)) throw new Error('URL provided is not a valid git repository URL');
   var gitRepoPath = path.resolve(__dirname, '../', config.get('gitRepositoriesDirectory'), '' + project.get('id'));

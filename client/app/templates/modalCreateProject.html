@@ -4,12 +4,18 @@
     <form ng-submit="closeModal()">
       <input type="text" ng-model="newProjectName" class="modalTextInput" placeholder="Enter project name">
       <tabset>
-        <tab heading="Upload Zip">
+        <tab heading="Upload .zip" select="changeCurrentTab('zipFile')">
           <div>
-            <input type="file" ng-model="files" ng-file-select="onFileSelect(files)" ng-multiple="false" class="app-prompt-upload"/>
+            <input type="file" ng-model='files' ng-file-select="onFileSelect(files)" ng-multiple="false" class="app-prompt-upload"/>
           </div>
         </tab>
-        <tab heading="Use Git">use git here</tab>
+        <tab heading="Clone git repo" select="changeCurrentTab('gitRepoUrl')">
+          <form>
+            <div class="form-group">
+              <label for="gitRepoUrl">Git Repo</label>
+              <input type="text" id="gitRepoUrl" ng-model="gitRepoUrl" ng-change="updateGitRepo(gitRepoUrl)" class="form-control" placeholder="git@github.com:code-friends/CodeFriends.git"/>
+            </div>
+        </tab>
       </tabset>
       <button type="submit" class="glyphicon glyphicon-plus"></button>
     </form>
