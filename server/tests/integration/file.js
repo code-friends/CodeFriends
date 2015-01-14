@@ -340,10 +340,24 @@ describe('File', function () {
             var textAtNewPath = res.text;
             var textInOriginalFile = fs.readFileSync('./server/tests/test-files/dummyForTest.js').toString();
             expect(textAtNewPath).to.equal(textInOriginalFile);
-            done();
           })
           .catch(function (err) {
             console.log('Error getting file for test: ', err);
+            done();
+          });
+      })
+      .then(function (res) {
+        agent
+          .get('/api/file/download/projectName/' + projectName + '/fileName/example/dummyForTest4.js')
+          .expect(200)
+          .expect('Content-disposition', 'attachment; filename=dummyForTest4.js')
+          .then(function (res) {
+            // console.log('res.text: ', res.text);
+            expect(res.text).to.equal('');
+            done();
+          })
+          .catch(function (err) {
+            console.log('File content should have been deleted at old path but was not: ', err);
             done();
           });
       })
