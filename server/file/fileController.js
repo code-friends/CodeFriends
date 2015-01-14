@@ -10,9 +10,11 @@ var path = require('path');
 var getProject = require('../project/getProject');
 var downloadController = require('./downloadController');
 // var Project = require('../models').models.Project;
+var getDocumentHash = require('../file/getDocumentHash');
+var backend = require('../liveDbClient');
 
 var mongoIndex = function (str) {
-  return str.replace(/\./g,'');
+  return str.replace(/\./g, '');
 };
 
 var fileController = {
@@ -75,7 +77,7 @@ var fileController = {
       })
       .then(function (fileStructure) {
         // Check if path exists
-        if (!fileController._isPathValid(fileStructure, filePath)) {
+        if (!fileController._isPathValidAndFileDoesNotExistAtPath(fileStructure, filePath)) {
           throw new Error('Path is Invalid or File Already Exists');
         }
         // Create Object with author, timeCreated
@@ -115,8 +117,14 @@ var fileController = {
           })
           .then(function () {
             return projectCollection.findOneAsync({
-              _id: fileStructure._id
-            });
+                _id: fileStructure._id
+              })
+              .then(function (fileStructure) {
+                return fileStructure;
+              })
+              .catch(function (err) {
+                console.log('Cannot Find Collection With ID', err);
+              });
           });
       });
   },
@@ -153,12 +161,14 @@ var fileController = {
   /**
    * Check if a given path if valid within a fileStructure
    *
-   * @param <Object> fileStructrue queried from mongoDB
+   * @param <Object> fileStructure queried from mongoDB
    * @param <String> path to be queried in fileStructure
    * @param <String> name of file
    * @return <Boolean>
    */
-  _isPathValid: function (fileStructure, filePath) {
+  _isPathValidAndFileDoesNotExistAtPath: function (fileStructure, filePath) {
+    // console.log('fileStructure in _isPathValidAndFileDoesNotExistAtPath: ', fileStructure);
+    // console.log('filePath in _isPathValidAndFileDoesNotExistAtPath: ', filePath);
     var fileDirname = path.dirname(filePath);
     if (fileDirname === '') return !fileController._isFileInFileStructre(fileStructure, filePath);
     if (fileDirname === '.') return !fileController._isFileInFileStructre(fileStructure, filePath);
@@ -237,141 +247,193 @@ var fileController = {
     };
     if (!isFilesAttribute) getPaths(fileStructure.files); // default
     if (isFilesAttribute) getPaths(fileStructure);
+
     return filePaths;
   },
   moveFileInProject: function (req, res) {
+
     var fileInfo = req.body;
     var fileContent;
-    var isItValidUrl;
     var fileStructure;
-    // console.log('fileInfo: ', fileInfo);
-    downloadController._getFileContents(fileInfo.projectIdOrName, fileInfo.path)
+    var oldPath = fileInfo.filePath;
+    var newPath = fileInfo.newPath;
+    var fileStructureForRes;
+    /**
+     * get and save file contents at the current location (before we start changing things)
+     */
+    downloadController._getFileContents(fileInfo.projectIdOrName, fileInfo.filePath)
       .then(function (content) {
         fileContent = content;
       })
       .catch(function (err) {
         console.log('Error moving the file: ', err);
+      })
+      /**
+       * get and save file structure
+       */
+      .then(function () {
+        return fileController.getFileStructure(fileInfo.projectIdOrName);
+      })
+      .then(function (currentFileStructure) {
+        fileStructure = currentFileStructure;
+        return fileController._isPathValidAndFileDoesNotExistAtPath(currentFileStructure, fileInfo.filePath);
+      })
+      /**
+       * take the old file structure, update it, and then pass it into 'updateFileStructure' function to be saved
+       */
+      .then(function (validOrNot) {
+        // console.log('validOrNot: ', validOrNot);
+        if (validOrNot === false) {
+          return fileController.moveObjectProperty(oldPath, newPath, fileStructure);
+        }
+        throw new Error('File Is Not Valid');
+      })
+      .catch(function (err) {
+        console.log('Error Moving Object Property', err);
+      })
+      .then(function (newFileStructureToAdd) {
+        return fileController._updateFileStructure(newFileStructureToAdd);
+      })
+      .catch(function (err) {
+        console.log('Error Updating File Structure', err);
+      })
+      /**
+       * create a new file
+       */
+      .then(function (newFileStructre) {
+        fileStructureForRes = newFileStructre;
+        var newFileInfo = {
+          projectName: fileInfo.projectName,
+          type: fileInfo.type,
+          projectId: fileInfo.projectId,
+          filePath: fileInfo.filePath,
+          userId: req.user.id
+        };
+        return fileController._createNewFileOrFolder(fileInfo);
+      })
+      .catch(function (err) {
+        console.log('Error Creating New File', err);
+      })
+      /**
+       * write the file content saved at the beginning of 'moveFileInProject' with a new hash
+       */
+      .then(function () {
+        return getDocumentHash(fileInfo.projectName, newPath);
+      })
+      .then(function (newHash) {
+        return backend.submitAsync('documents', newHash, {
+            create: {
+              type: 'text',
+              data: fileContent
+            }
+          })
+          .catch(function (err) {
+            console.log('Document Already Exists', err);
+          });
+      })
+      .then(function () {
+        return getDocumentHash(fileInfo.projectName, oldPath);
+      })
+      .then(function (oldHash) {
+        return backend.submitAsync('documents', oldHash, {
+          del: true
+        });
+      })
+      .then(function (dbResponse) {
+        // console.log('dbResponse: ', dbResponse);
+        res.status(201).json(fileStructureForRes);
+      })
+      .catch(function (err) {
+        console.log('Error moving file: ', err);
+        res.status(400).end();
       });
-    return filePaths;
+
+  },
+
+  saveFileStructureAndCheckIfPathIsValid: function () {
+
+  },
+
+  moveObjectProperty: function (oldPath, newPath, object) {
+    var oldPathArray = oldPath.split('/').splice(1, oldPath.length);
+    var newPathArray = newPath.split('/').splice(1, newPath.length);
+    var firstBaseObject = object.files[oldPathArray[0].replace('.', '')];
+    var secondBaseObject = object.files[oldPathArray[0].replace('.', '')];
+    var storageForFileToMove;
+
+    var deleteProperty = function (round, urlArray, obj, index) {
+
+      var totalRounds = oldPathArray.length - 1 || 1;
+
+      if (totalRounds === 1 && oldPathArray.length === 1) {
+        storageForFileToMove = obj;
+        var tempName = oldPathArray[0].replace('.', '');
+        delete object.files[tempName];
+        return;
+      }
+
+      if (round === totalRounds) {
+
+        var objKey = oldPathArray[index].replace('.', '');
+        storageForFileToMove = obj.files[objKey];
+        delete obj.files[objKey];
+        return;
+      }
+      var objToPass;
+      var objKey = oldPathArray[index];
+      if (obj.type === 'folder') {
+        var temp = obj.files;
+        objToPass = temp[objKey];
+      } else if (obj.type === 'file') {
+        objToPass = obj[objKey];
+      } else {
+        console.log('Error traversing file. Check if file path exists.');
+      }
+      deleteProperty(round + 1, urlArray, objToPass, index + 1);
+    };
+    deleteProperty(1, oldPathArray, firstBaseObject, 1);
+
+    var addProperty = function (round, urlArray, obj, index) {
+
+      var totalRounds = urlArray.length - 1 || 1;
+
+      if (totalRounds === 1 && newPathArray.length === 1) {
+        var objKey = newPathArray[0].replace('.', '');
+        obj.files[objKey] = storageForFileToMove;
+        return;
+      }
+
+      if (round === totalRounds) {
+        var objKey = urlArray[index].replace('.', '');
+        obj.files[objKey].files = storageForFileToMove;
+        return;
+      }
+
+      var objToPass;
+      var objKey = urlArray[index];
+      if (obj.type === 'folder') {
+        var temp = obj.files;
+        objToPass = temp[objKey];
+      } else if (obj.type === 'file') {
+        objToPass = obj[objKey];
+      } else {
+        console.log('Error traversing file. Check if file path exists.');
+      }
+      addProperty(round + 1, urlArray, objToPass, index + 1);
+    };
+    addProperty(1, newPathArray, object, 0);
+
+    object.paths.push(newPath);
+    for (var i = 0; i < object.paths.length; i++) {
+      if (object.paths[i] === oldPath) {
+        object.paths.splice(i, 1);
+        break;
+      }
+    }
+    return object;
   }
 
-  //   return fileController.getFileStructure(fileInfo.projectIdOrName)
-  //     .then(function (currentFileStructure) {
-  //       fileStructure = currentFileStructure;
-  //       return fileController._isPathValid(fileStructure, fileInfo.path)
-  //         .then(function (validOrNot) {
-  //           isItValidUrl = validOrNot;
-  //         });
-  //     })
-  //     .then(function (fileStructure) {
-  //       console.log('fileStructure: ', fileStructure);
-  //       console.log('fileContent: ', fileContent);
-
-  //       return fileController.moveObjectProperty(fileInfo.oldUrl, fileInfo.newUrl, fileStructure);
-  //     });
-  // }
-  //     .then(function (newFileStructureToAdd) {
-  //       return fileController._updateFileStructure(newFileStructureToAdd); //may not need return
-  //     })
-  //     .then(function () {
-  //       return getDocumentHash(projectName, documentName)
-  //         .then(function (documentHash) {
-  //           backend.submitAsync('documents', documentHash, {
-  //               create: {
-  //                 type: 'text',
-  //                 data: fileContent
-  //               }
-  //             })
-  //             .catch(function (err) {
-  //               console.log('Document Already Exists', err);
-  //             })
-  //             .then(function () { // err, version, transformedByOps, snapshot
-  //               var fileInfo = {
-  //                 projectName: projectName,
-  //                 fileName: documentName,
-  //                 type: type,
-  //                 path: '',
-  //                 userId: userId
-  //               };
-  //               fileController._createNewFileOrFolder(fileInfo)
-  //                 .then(function (newFileStructre) {
-  //                   res.json(newFileStructre);
-  //                 })
-  //                 .catch(function (err) {
-  //                   console.log('Error Creating File or Folder: ', err);
-  //                   res.status(400).end();
-  //                 });
-  //             });
-  //         })
-  //         .catch(function (err) {
-  //           console.log('Error uploading file', err);
-  //         });
-  //     })
-  // },
-
-
-  // moveObjectProperty: function (oldUrl, newUrl, object) {
-  //   console.log('object at beginning: ', object);
-
-  //   var oldUrlArray = oldUrl.split('/');
-  //   var newUrlArray = newUrl.split('/');
-  //   var baseObject = object.fileStructure.files[oldUrlArray[0]];
-  //   var storageForFileToMove;
-
-  //   var deleteProperty = function (round, urlArray, obj, index) {
-  //     var totalRounds = oldUrlArray.length - 1;
-
-  //     if (round === totalRounds) {
-  //       var objKey = oldUrlArray[index];
-  //       storageForFileToMove = obj.files[objKey];
-  //       delete obj.files[objKey];
-  //       return;
-  //     }
-  //     var objToPass;
-  //     var objKey = oldUrlArray[index];
-  //     if (obj.type === 'folder') {
-  //       var temp = obj.files;
-  //       objToPass = temp[objKey];
-  //     } else if (obj.type === 'file') {
-  //       objToPass = obj[objKey];
-  //     } else {
-  //       console.log('Error traversing file. Check if file path exists.');
-  //     }
-  //     deleteProperty(round + 1, urlArray, objToPass, index + 1);
-  //   };
-  //   deleteProperty(1, oldUrlArray, baseObject, 1);
-  //   console.log('object after deleting property: ', object);
-
-  //   var addProperty = function (round, urlArray, obj, index) {
-  //     var totalRounds = urlArray.length - 1;
-
-  //     if (round === totalRounds) {
-  //       var objKey = urlArray[index];
-  //       console.log('obj in base case of addProperty: ', obj);
-  //       console.log('objKey: ', objKey);
-  //       console.log('property we are adding: ', storageForFileToMove);
-  //       obj.files[objKey] = storageForFileToMove;
-  //       return;
-  //     }
-
-  //     var objToPass;
-  //     var objKey = urlArray[index];
-  //     if (obj.type === 'folder') {
-  //       var temp = obj.files;
-  //       objToPass = temp[objKey];
-  //     } else if (obj.type === 'file') {
-  //       objToPass = obj[objKey];
-  //     } else {
-  //       console.log('Error traversing file. Check if file path exists.');
-  //     }
-  //     addProperty(round + 1, urlArray, objToPass, index + 1);
-  //   };
-  //   addProperty(1, newUrlArray, baseObject, 1);
-  //   console.log('object after adding property: ', object);
-
-  //   return object.fileStructure;
-  // }
-
 };
+
 
 module.exports = fileController;

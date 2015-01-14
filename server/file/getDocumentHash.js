@@ -50,7 +50,18 @@ var getDocumentHash = function (projectNameOrId, filePath) {
       var str = 'p-' + projectId + '-d' + filePath;
       var filePathHash = new Hashes.SHA256().hex(str);
       return filePathHash;
+      console.log('HOHOHOHOHOHOHOHOHOHOH');
+      return documentHash;
+
     });
 };
 
 module.exports = getDocumentHash;
+
+// 40d5ea3b220fa8a50fee32c32c2579a08f9f26df6923a614c493f4bbc5ac627f
+// 40d5ea3b220fa8a50fee32c32c2579a08f9f26df6923a614c493f4bbc5ac627f
+// 40d5ea3b220fa8a50fee32c32c2579a08f9f26df6923a614c493f4bbc5ac627f
+// 40d5ea3b220fa8a50fee32c32c2579a08f9f26df6923a614c493f4bbc5ac627f
+// 40d5ea3b220fa8a50fee32c32c2579a08f9f26df6923a614c493f4bbc5ac627f
+// 40d5ea3b220fa8a50fee32c32c2579a08f9f26df6923a614c493f4bbc5ac627f
+// 40d5ea3b220fa8a50fee32c32c2579a08f9f26df6923a614c493f4bbc5ac627f

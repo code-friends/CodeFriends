@@ -24,6 +24,9 @@ var uploadController = {
         var filePath = uploadController.getFieldProperty(fields, 'filePath') || file.originalFilename;
         return uploadController._addFileFromFileSytemToProject(projectName, filePath, req.user.get('id'), file.path)
           .then(function (newFileStructre) {
+            return updateFileStructure(newFileStructre);
+          })
+          .then(function (newFileStructre) {
             res.status(201).json(newFileStructre);
           })
           .catch(function (err) {
@@ -39,20 +42,20 @@ var uploadController = {
     return _.flatten(_.compact(_.pluck(fields, propertyName)))[0];
   },
   _addFileFromFileSytemToProject: function (
-      projectName,
-      filePath,
-      userId,
-      fileSystemFilePathToReadFileFrom,
-      updatedFileSystem
-    ) {
+    projectName,
+    filePath,
+    userId,
+    fileSystemFilePathToReadFileFrom,
+    updatedFileSystem
+  ) {
     return fs.lstatAsync(fileSystemFilePathToReadFileFrom)
       .then(function (fileStat) {
         if (fileStat.isDirectory()) {
           return createNewFileOrFolder({
-            projectName : projectName,
-            filePath : filePath,
-            userId : userId,
-            type : 'folder',
+            projectName: projectName,
+            filePath: filePath,
+            userId: userId,
+            type: 'folder',
           }, updatedFileSystem);
         }
         if (fileStat.isFile()) {
@@ -64,7 +67,7 @@ var uploadController = {
                * Remove the '/' in that string and replace it with proper paths
                */
               return uploadController._addFileWithContentToProject(
-                projectName, filePath, userId, fileContent, updatedFileSystem
+                  projectName, filePath, userId, fileContent, updatedFileSystem
                 )
                 .catch(function (err) {
                   console.log('Error adding file (with content) to project', err);
@@ -127,30 +130,30 @@ var uploadController = {
         }
         // Add all files to fileStructrue and add contents to database
         return allFiles.reduce(function (soFar, file) {
-          return soFar.then(function (updatedFileStructure) {
-            var isFolder = (_.last(file.name) === '/');
-            if (isFolder) {
-              // Write file to file structure
-              return createNewFileOrFolder({
-                projectId: projectModel.get('id'),
-                filePath: file.name,
-                userId: userId,
-                type: 'folder'
-              }, updatedFileStructure);
-            }
-            // projectName, filePath, userId, fileContent
-            return uploadController._addFileWithContentToProject(
-              projectModel.get('projectName'),
-              file.name,
-              userId,
-              file.asText(),
-              updatedFileStructure
-            );
+            return soFar.then(function (updatedFileStructure) {
+              var isFolder = (_.last(file.name) === '/');
+              if (isFolder) {
+                // Write file to file structure
+                return createNewFileOrFolder({
+                  projectId: projectModel.get('id'),
+                  filePath: file.name,
+                  userId: userId,
+                  type: 'folder'
+                }, updatedFileStructure);
+              }
+              // projectName, filePath, userId, fileContent
+              return uploadController._addFileWithContentToProject(
+                projectModel.get('projectName'),
+                file.name,
+                userId,
+                file.asText(),
+                updatedFileStructure
+              );
+            });
+          }, new Q())
+          .then(function (newFileStructure) {
+            return updateFileStructure(newFileStructure);
           });
-        }, new Q())
-        .then(function (newFileStructure) {
-          return updateFileStructure(newFileStructure);
-        });
       })
       .catch(function (err) {
         console.log('Error Creating Files', err);
