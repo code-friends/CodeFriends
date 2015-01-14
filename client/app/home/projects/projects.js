@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('code.projects', ['ui.router'])
-  .controller('projectsController', function ($scope, $state, $http, Projects, chatFactory, $modal) {
+  .controller('projectsController', function ($scope, $state, $http, Projects, $modal) {
     // on project state initialize, get projects
     $scope.init = function () {
       return Projects.getProjects()

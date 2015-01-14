@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('code.chat', ['ui.router', 'ngSanitize', 'luegg.directives'])
-  .controller('chatController', function ($rootScope, $location, $anchorScroll, $document, $window, $scope, $state, $http, ngSocket, $stateParams, Auth, $interval, chatFactory, SocketFactory) {
+  .controller('chatController', function ($rootScope, $location, $anchorScroll, $document, $window, $scope, $state, $http, ngSocket, $stateParams, Auth, $interval, SocketFactory) {
     var roomID = $stateParams.projectName;
     $scope.username = Auth.userName;
     $scope.roomID = roomID;
@@ -55,12 +55,5 @@ angular.module('code.chat', ['ui.router', 'ngSanitize', 'luegg.directives'])
           event.preventDefault();
         }
       });
-    };
-  })
-  .factory('chatFactory', function ($http) {
-    return {
-      getUsers: function (projectName) {
-        return $http.get('/api/project/' + projectName);
-      }
     };
   });
