@@ -249,6 +249,7 @@ var fileController = {
     var fileStructure;
     var oldPath = fileInfo.filePath;
     var newPath = fileInfo.newPath;
+    var fileStructureForRes;
     /**
      * get and save file contents at the current location (before we start changing things)
      */
@@ -286,6 +287,7 @@ var fileController = {
        * create a new file
        */
       .then(function (newFileStructre) {
+        fileStructureForRes = newFileStructre;
         var newFileInfo = {
           projectName: fileInfo.projectName,
           type: fileInfo.type,
@@ -316,52 +318,27 @@ var fileController = {
         return getDocumentHash(fileInfo.projectName, oldPath);
       })
       .then(function (oldHash) {
-        return backend.submitAsync
+        return backend.submitAsync('documents', oldHash, {
+          del: true
+        }, function (err, version, transformedByOps, snapshot) {
+          if (err) {
+            console.log('Error deleting file content: ', err);
+          }
+          console.log('version: ', version);
+          console.log('transformedByOps: ', transformedByOps);
+          console.log('snapshot: ', snapshot);
+        });
       })
       .then(function (dbResponse) {
-        res.status(201).json(dbResponse);
+        console.log('dbResponse: ', dbResponse);
+        res.status(201).json(fileStructureForRes);
       })
       .catch(function (err) {
-        console.log('Hello World #1', err);
+        console.log('Error moving file: ', err);
         res.status(400).end();
       });
 
-    //     .then(function () {
-    //       return getDocumentHash(projectName, documentName)
-    //         .then(function (documentHash) {
-    //           backend.submitAsync('documents', documentHash, {
-    //               create: {
-    //                 type: 'text',
-    //                 data: fileContent
-    //               }
-    //             })
-    //             .catch(function (err) {
-    //               console.log('Document Already Exists', err);
-    //             })
-    //             .then(function () { // err, version, transformedByOps, snapshot
-    //               var fileInfo = {
-    //                 projectName: projectName,
-    //                 fileName: documentName,
-    //                 type: type,
-    //                 path: '',
-    //                 userId: userId
-    //               };
-    //               fileController._createNewFileOrFolder(fileInfo)
-    //                 .then(function (newFileStructre) {
-    //                   res.json(newFileStructre);
-    //                 })
-    //                 .catch(function (err) {
-    //                   console.log('Error Creating File or Folder: ', err);
-    //                   res.status(400).end();
-    //                 });
-    //             });
-    //         })
-    //         .catch(function (err) {
-    //           console.log('Error uploading file', err);
-    //         });
-    //     })
   },
-
 
   moveObjectProperty: function (oldPath, newPath, object) {
     var oldPathArray = oldPath.split('/').splice(1, oldPath.length);
