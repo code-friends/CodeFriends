@@ -36,8 +36,9 @@
       return null;
     }
 
-    function createProject(projectName, files) {
-      if (files !== undefined && Array.isArray(files) && files.length > 0) {
+    function createProject(projectName, fileObj) {
+      // .zip
+      if (fileObj.type === 'file' && Array.isArray(fileObj.file) && fileObj.files.length > 0) {
         return $upload.upload({
             method: 'POST',
             url: '/api/project/',
@@ -50,6 +51,14 @@
             console.log('Error Uploading File: ', error);
           });
       }
+      // Git Repo
+      if (fileObj.type === 'gitRepoUrl' && typeof fileObj.gitRepoUrl === 'string') {
+        return $http.post('/api/project', {
+          projectName: projectName,
+          gitRepoUrl: fileObj.gitRepoUrl
+        })
+      }
+      // No .zip of gitRepo
       return $http.post('/api/project', {
           projectName: projectName
         })

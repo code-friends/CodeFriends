@@ -27,6 +27,7 @@ var projectController = {};
  * Adds a new project and adds a the creator to the 'user' property
  */
 projectController.post = function (req, res) {
+  console.log('Post Project', req.body);
   // Define the handler to be used by multipart form and application/json request
   var postRequestHandler = function (projectName) {
     return new Q()

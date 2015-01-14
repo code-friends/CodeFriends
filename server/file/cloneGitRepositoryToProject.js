@@ -21,12 +21,15 @@ var updateFileStructure = require('./fileController')._updateFileStructure;
  * @return <Object> return a nativeFileStructure
  */
 var cloneGitRepositoryToProject = function (project, userId, gitRepoUrl) {
+  console.log('cloneGitRepositoryToProject');
   if (typeof project !== 'object') throw new Error('project should be a model');
   if (!isGitUrl(gitRepoUrl)) throw new Error('URL provided is not a valid git repository URL');
   var gitRepoPath = path.resolve(__dirname, '../', config.get('gitRepositoriesDirectory'), '' + project.get('id'));
   return rmdirAsync(gitRepoPath)
     .then(function () {
-      return nodegit.Clone.clone(gitRepoUrl, gitRepoPath, {ignoreCertErrors: 1})
+      return nodegit.Clone.clone(gitRepoUrl, gitRepoPath, {
+          ignoreCertErrors: 1
+        })
         .then(function () {
           return wrench.readdirSyncRecursive(gitRepoPath);
         });
@@ -36,24 +39,25 @@ var cloneGitRepositoryToProject = function (project, userId, gitRepoUrl) {
       var gitRepoPathContents = filterIgnoredFiles(_gitRepoPathContents);
       // Add all files to project
       return gitRepoPathContents.reduce(function (soFar, filePath) {
-        return soFar.then(function (updatedFileStructure) {
-          // projectName, filePath, userId, fileSystemFilePathToReadFileFrom
-          var fileSystemFilePathToReadFileFrom = path.join(gitRepoPath, filePath);
-          return addFileFromFileSytemToProject(
-            project.get('projectName'),
-            filePath,
-            userId,
-            fileSystemFilePathToReadFileFrom,
-            updatedFileStructure
-          );
-        });
-      }, new Q())
-      .then(function (newFileStructure) {
-        return updateFileStructure(newFileStructure)
-          .then(function (fileStructure) {
-            return fileStructure;
+          return soFar.then(function (updatedFileStructure) {
+            // projectName, filePath, userId, fileSystemFilePathToReadFileFrom
+            var fileSystemFilePathToReadFileFrom = path.join(gitRepoPath, filePath);
+            return addFileFromFileSytemToProject(
+              project.get('projectName'),
+              filePath,
+              userId,
+              fileSystemFilePathToReadFileFrom,
+              updatedFileStructure
+            );
           });
-      });
+        }, new Q())
+        .then(function (newFileStructure) {
+          return updateFileStructure(newFileStructure)
+            .then(function (fileStructure) {
+              console.log('fileStructure', fileStructure);
+              return fileStructure;
+            });
+        });
     })
     .catch(function (err) {
       console.log('Error clonning git repo', err);
