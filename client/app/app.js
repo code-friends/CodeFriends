@@ -10,7 +10,7 @@
       'codeFriends.project',
       'codeFriends.toolbar',
       'codeFriends.uploads',
-      'codeFriends.document', //not yet refactored
+      'codeFriends.document',
       'codeFriends.chat', //not yet refactored
       'codeFriends.video', // not yet refactored
       'codeFriends.mainHeader',
@@ -85,7 +85,7 @@
           parent: 'project',
           url: 'document/:documentPath',
           templateUrl: '/app/project/document/document.html',
-          controller: 'documentController',
+          controller: 'DocumentController',
           resolve: {
             authenticated: authenticated
           }

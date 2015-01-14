@@ -37,6 +37,7 @@ gulp.task('js', function () {
       './client/app/services/videoFactory.js',
       './client/app/services/filesFactory.js',
       './client/app/services/projectFactory.js',
+      './client/app/services/documentFactory.js',
       './client/app/home/projects/projects.js',
       './client/app/home/home.js',
       './client/app/userBox.js',

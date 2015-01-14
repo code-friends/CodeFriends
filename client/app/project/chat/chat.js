@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('codeFriends.chat', ['ui.router', 'ngSanitize', 'luegg.directives'])
-  .controller('chatController', function ($rootScope, $location, $anchorScroll, $document, $window, $scope, $state, $http, ngSocket, $stateParams, AuthFactory, $interval, chatFactory, SocketFactory) {
+  .controller('chatController', function ($rootScope, $location, $anchorScroll, $document, $window, $scope, $state, $http, ngSocket, $stateParams, AuthFactory, $interval, SocketFactory) {
     var roomID = $stateParams.projectName;
     $scope.username = AuthFactory.userName;
     $scope.roomID = roomID;
