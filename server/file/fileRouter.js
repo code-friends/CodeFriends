@@ -9,8 +9,9 @@ var fileRouter = express.Router();
 
 fileRouter.post('/', fileController.createNewFileOrFolder);
 fileRouter.get('/', fileController.get);
-fileRouter.post('/upload/', uploadController.uploadNewFile);
 fileRouter.get('/download/*', downloadController.downloadFile);
+fileRouter.get('/fileContent', fileController.get);
+fileRouter.post('/upload/', uploadController.uploadNewFile);
 fileRouter.put('/move', fileController.moveFileInProject);
 
 module.exports = fileRouter;
