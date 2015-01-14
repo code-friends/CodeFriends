@@ -12,7 +12,7 @@ var downloadController = require('./downloadController');
 // var Project = require('../models').models.Project;
 
 var mongoIndex = function (str) {
-  return str.replace('.', '');
+  return str.replace(/\./g,'');
 };
 
 var fileController = {
@@ -75,8 +75,12 @@ var fileController = {
           newAddition.files = {};
         }
         var updatedFileStructure = fileController._appendToFileStructure(fileStructure, filePath, newAddition);
-        // Update file structure for whole project in mongo
-        return fileController._updateFileStructure(updatedFileStructure);
+        // Update file structure for whole project in Mongo
+        return fileController._updateFileStructure(updatedFileStructure)
+          .catch(function (err) {
+            console.log('Error Updating File Structure', err);
+            console.log(updatedFileStructure);
+          });
       });
   },
   /**

@@ -17,7 +17,6 @@ var Q = require('q');
  * @return <Object> return a nativeFileStructure
  */
 var cloneGitRepositoryToProject = function (project, userId, gitRepoUrl) {
-  console.log('gitRepoUrl', gitRepoUrl);
   if (typeof project !== 'object') throw new Error('project should be a model');
   if (!isGitUrl(gitRepoUrl)) throw new Error('URL provided is not a valid git repository URL');
   var gitRepoPath = path.resolve(__dirname, '../', config.get('gitRepositoriesDirectory'), '' + project.get('id'));
