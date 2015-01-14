@@ -1,8 +1,13 @@
 /*global angular:true */
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('codeFriends.video', ['ui.router', 'ngSanitize'])
-  .controller('videoController', function ($scope, $state, $http, ngSocket, $stateParams, AuthFactory, VideoFactory) {
+  angular.module('codeFriends.video', ['ngSanitize'])
+    .controller('VideoController', VideoController);
+
+  VideoController.$inject = ['$scope', '$state', '$http', 'ngSocket', '$stateParams', 'AuthFactory', 'VideoFactory'];
+
+  function VideoController($scope, $state, $http, ngSocket, $stateParams, AuthFactory, VideoFactory) {
     var roomID = $stateParams.projectName;
 
     $scope.$on('STARTVIDEO', function () {
@@ -61,4 +66,6 @@ angular.module('codeFriends.video', ['ui.router', 'ngSanitize'])
     VideoFactory.on('volumeChange', function (volume, treshold) {
       showVolume(document.getElementById('localVolume'), volume);
     });
-  });
+  }
+
+})();
