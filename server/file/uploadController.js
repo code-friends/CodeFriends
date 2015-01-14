@@ -11,6 +11,7 @@ var Q = require('q');
 var getDocumentHash = require('../file/getDocumentHash');
 var backend = require('../liveDbClient');
 var createNewFileOrFolder = require('./fileController')._createNewFileOrFolder;
+var updateFileStructure = require('./fileController')._updateFileStructure;
 
 var uploadController = {
   uploadNewFile: function (req, res) {
@@ -37,7 +38,13 @@ var uploadController = {
   getFieldProperty: function (fields, propertyName) {
     return _.flatten(_.compact(_.pluck(fields, propertyName)))[0];
   },
-  _addFileFromFileSytemToProject: function (projectName, filePath, userId, fileSystemFilePathToReadFileFrom) {
+  _addFileFromFileSytemToProject: function (
+      projectName,
+      filePath,
+      userId,
+      fileSystemFilePathToReadFileFrom,
+      updatedFileSystem
+    ) {
     return fs.lstatAsync(fileSystemFilePathToReadFileFrom)
       .then(function (fileStat) {
         if (fileStat.isDirectory()) {
@@ -45,8 +52,8 @@ var uploadController = {
             projectName : projectName,
             filePath : filePath,
             userId : userId,
-            type : 'folder'
-          });
+            type : 'folder',
+          }, updatedFileSystem);
         }
         if (fileStat.isFile()) {
           return fs.readFileAsync(fileSystemFilePathToReadFileFrom)
@@ -56,7 +63,9 @@ var uploadController = {
                * This currently doesn't support paths (it should)
                * Remove the '/' in that string and replace it with proper paths
                */
-              return uploadController._addFileWithContentToProject(projectName, filePath, userId, fileContent)
+              return uploadController._addFileWithContentToProject(
+                projectName, filePath, userId, fileContent, updatedFileSystem
+                )
                 .catch(function (err) {
                   console.log('Error adding file (with content) to project', err);
                 });
@@ -67,7 +76,17 @@ var uploadController = {
         console.log('Error reading file from file system', err);
       });
   },
-  _addFileWithContentToProject: function (projectName, filePath, userId, fileContent) {
+  /**
+   * Add file with Content to Project
+   *
+   * @param <String> Name of the project
+   * @param <String> filePath with file location '/asdf/as/asdfa/hellojs'
+   * @param <Number> userId
+   * @param <String> fileContent
+   * @param <Object> fileStructure in which to append files to
+   * @return <Object> fileStructure
+   */
+  _addFileWithContentToProject: function (projectName, filePath, userId, fileContent, fileStructureToBeUpdated) {
     return getDocumentHash(projectName, filePath)
       .then(function (filePathHash) {
         return backend.submitAsync('documents', filePathHash, {
@@ -86,7 +105,7 @@ var uploadController = {
               type: 'file', ///need to make flexible to take folders too
               userId: userId
             };
-            return createNewFileOrFolder(fileInfo)
+            return createNewFileOrFolder(fileInfo, fileStructureToBeUpdated)
               .catch(function (err) {
                 console.log('Error creating new file or folder', err);
               });
@@ -108,7 +127,7 @@ var uploadController = {
         }
         // Add all files to fileStructrue and add contents to database
         return allFiles.reduce(function (soFar, file) {
-          return soFar.then(function () {
+          return soFar.then(function (updatedFileStructure) {
             var isFolder = (_.last(file.name) === '/');
             if (isFolder) {
               // Write file to file structure
@@ -117,17 +136,21 @@ var uploadController = {
                 filePath: file.name,
                 userId: userId,
                 type: 'folder'
-              });
+              }, updatedFileStructure);
             }
             // projectName, filePath, userId, fileContent
             return uploadController._addFileWithContentToProject(
               projectModel.get('projectName'),
               file.name,
               userId,
-              file.asText()
+              file.asText(),
+              updatedFileStructure
             );
           });
-        }, new Q());
+        }, new Q())
+        .then(function (newFileStructure) {
+          return updateFileStructure(newFileStructure);
+        });
       })
       .catch(function (err) {
         console.log('Error Creating Files', err);
