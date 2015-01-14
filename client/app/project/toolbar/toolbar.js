@@ -5,9 +5,9 @@
   angular.module('codeFriends.toolbar', ['ui.bootstrap'])
     .controller('ToolbarController', ToolbarController);
 
-  ToolbarController.$inject = ['$rootScope', 'SocketFactory', '$state', '$stateParams', '$http', 'ToolbarDocument', '$modal', 'AuthFactory'];
+  ToolbarController.$inject = ['$rootScope', 'SocketFactory', '$state', '$stateParams', '$http', 'ToolbarFactory', '$modal', 'AuthFactory'];
 
-  function ToolbarController($rootScope, SocketFactory, $state, $stateParams, $http, ToolbarDocument, $modal, AuthFactory) {
+  function ToolbarController($rootScope, SocketFactory, $state, $stateParams, $http, ToolbarFactory, $modal, AuthFactory) {
     var vm = this;
     vm.currentProjectName = $stateParams.projectName;
     vm.username = AuthFactory.userName;
@@ -73,7 +73,7 @@
     }
 
     function changeEditorTheme(event) {
-      ToolbarDocument.changeTheme(formatThemeName(event.target.innerText));
+      ToolbarFactory.changeTheme(formatThemeName(event.target.innerText));
     }
 
     function openAddFileModal() {

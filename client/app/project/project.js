@@ -6,9 +6,9 @@
   angular.module('codeFriends.project', [])
     .controller('ProjectController', ProjectController);
 
-  ProjectController.$inject = ['$state', '$stateParams', 'AuthFactory', 'Files', 'ProjectFactory', 'documentFactory', 'SocketFactory'];
+  ProjectController.$inject = ['$state', '$stateParams', 'AuthFactory', 'ProjectFactory', 'documentFactory', 'SocketFactory'];
 
-  function ProjectController($state, $stateParams, AuthFactory, Files, ProjectFactory, documentFactory, SocketFactory) {
+  function ProjectController($state, $stateParams, AuthFactory, ProjectFactory, documentFactory, SocketFactory) {
     var vm = this;
     vm.username = AuthFactory.userName;
     vm.files = [];

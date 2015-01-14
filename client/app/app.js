@@ -4,13 +4,13 @@
   angular.module('codeFriends', [
       'ui.router',
       'angularFileUpload',
+      'codeFriends.services',
       'codeFriends.projects',
       'codeFriends.userBox',
       'codeFriends.project',
       'codeFriends.toolbar',
       'codeFriends.uploads',
       'codeFriends.document', //not yet refactored
-      'codeFriends.services',
       'codeFriends.chat', //not yet refactored
       'codeFriends.video', // not yet refactored
       'codeFriends.mainHeader',

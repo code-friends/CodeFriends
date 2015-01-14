@@ -2,24 +2,25 @@
 /*jshint browser:true */
 'use strict';
 angular.module('code.document', ['ui.router'])
-  .controller('documentController', function ($rootScope, $http, $scope, $stateParams, ToolbarDocument, documentFactory) {
+  .controller('documentController', function ($rootScope, $http, $scope, $stateParams, ToolbarFactory, documentFactory) {
     $scope.projectName = $stateParams.projectName;
-    $scope.fileExtensionCode;
     $scope.documentPath = $stateParams.documentPath;
-    $scope.theme = ToolbarDocument.theme;
-    $scope.language = "";
+    $scope.theme = ToolbarFactory.theme;
+    $scope.language = '';
     $rootScope.$on('compile code', function () {
       var fileExtension = $scope.documentPath.split('.');
       fileExtension = fileExtension[fileExtension.length - 1];
       var fileExtensionCode;
       for (var i in documentFactory.languageList) {
-        angular.forEach(documentFactory.languageList[i].extensions, function (extensions) {
-          if (extensions === fileExtension) {
-            fileExtensionCode = documentFactory.languageList[i].code;
-            $scope.language = i;
-          }
-        });
-      };
+        if (documentFactory.hasOwnProperty(i)) {
+          angular.forEach(documentFactory.languageList[i].extensions, function (extensions) {
+            if (extensions === fileExtension) {
+              fileExtensionCode = documentFactory.languageList[i].code;
+              $scope.language = i;
+            }
+          });
+        }
+      }
       var postObj = {
         'language': fileExtensionCode,
         'code': $scope.cm.getValue()
@@ -41,6 +42,7 @@ angular.module('code.document', ['ui.router'])
     });
 
 
+    $scope.theme = ToolbarFactory.theme;
     // Setup Code Editor
     $scope.cm = CodeMirror.fromTextArea(document.getElementById('pad'), {
       mode: $scope.cm.findModeByName($scope.documentPath),
@@ -49,8 +51,8 @@ angular.module('code.document', ['ui.router'])
       theme: 'solarized dark'
     });
 
-    documentFactory.goToDocument($scope.projectName, $scope.documentPath, $scope.cm);
     // listens for theme variable changed in ToolbarDocument factory broadcasted by $rootScope
+    documentFactory.goToDocument($scope.projectName, $scope.documentPath, $scope.cm);
     $scope.$on('theme:changed', function (event, theme) {
       $scope.cm.setOption('theme', theme);
     });
@@ -139,15 +141,17 @@ angular.module('code.document', ['ui.router'])
       getFileLanguage: function (fileName, languageList) {
         var fileExtension = fileName.split('.');
         fileExtension = fileExtension[fileExtension.length - 1];
-        console.log("WE GOT HERE FELLAS");
-        var language = "";
+        console.log('WE GOT HERE FELLAS');
+        var language = '';
         for (var i in languageList) {
-          angular.forEach(languageList[i].extensions, function (extensions) {
-            if (extensions === fileExtension) {
-              language = i;
-            }
-          });
-        };
+          if (languageList.hasOwnProperty(i)) {
+            angular.forEach(languageList[i].extensions, function (extensions) {
+              if (extensions === fileExtension) {
+                language = i;
+              }
+            });
+          }
+        }
         language = language.toString().toLowerCase();
         console.log(language);
         return language;

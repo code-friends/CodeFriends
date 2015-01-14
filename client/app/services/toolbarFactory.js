@@ -16,7 +16,7 @@
     return factory;
 
     function changeTheme(theme) {
-      ToolbarDocument.theme = theme;
+      ToolbarFactory.theme = theme;
       $rootScope.$broadcast('theme:changed', theme);
       $rootScope.$emit('theme:changed', theme);
     }
