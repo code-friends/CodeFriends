@@ -1,10 +1,10 @@
 /*global angular:true, moment:true */
 'use strict';
 
-angular.module('code.chat', ['ui.router', 'ngSanitize', 'luegg.directives'])
-  .controller('chatController', function ($rootScope, $location, $anchorScroll, $document, $window, $scope, $state, $http, ngSocket, $stateParams, Auth, $interval, SocketFactory) {
+angular.module('codeFriends.chat', ['ui.router', 'ngSanitize', 'luegg.directives'])
+  .controller('chatController', function ($rootScope, $location, $anchorScroll, $document, $window, $scope, $state, $http, ngSocket, $stateParams, AuthFactory, $interval, chatFactory, SocketFactory) {
     var roomID = $stateParams.projectName;
-    $scope.username = Auth.userName;
+    $scope.username = AuthFactory.userName;
     $scope.roomID = roomID;
     $scope.messages = [];
     $scope.usersInRoom = [];

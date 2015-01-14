@@ -10,7 +10,7 @@
       'codeFriends.toolbar',
       'codeFriends.uploads',
       'codeFriends.document', //not yet refactored
-      'codeFriends.services', // working on it
+      'codeFriends.services',
       'codeFriends.chat', //not yet refactored
       'codeFriends.video', // not yet refactored
       'codeFriends.mainHeader',
@@ -18,9 +18,9 @@
     ])
     .config(function ($stateProvider, $urlRouterProvider) {
       $urlRouterProvider.otherwise('/');
-      var authenticated = ['$q', 'Auth', function ($q, Auth) {
+      var authenticated = ['$q', 'AuthFactory', function ($q, AuthFactory) {
         var deferred = $q.defer();
-        Auth.isLoggedIn(false)
+        AuthFactory.isLoggedIn(false)
           .then(function (isLoggedIn) {
             if (isLoggedIn) {
               deferred.resolve();

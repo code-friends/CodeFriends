@@ -1,18 +1,17 @@
-/*global angular:true, moment:true */
+/*global angular:true */
 (function () {
   'use strict';
 
   angular.module('codeFriends.projects', ['ui.router'])
     .controller('ProjectsController', ProjectsController);
 
-  ProjectsController.$inject = ['$http', 'ProjectListFactory', 'chatFactory', '$modal', '$timeout'];
+  ProjectsController.$inject = ['$http', 'ProjectListFactory', '$modal', '$timeout'];
 
-  function ProjectsController($http, ProjectListFactory, chatFactory, $modal, $timeout) {
+  function ProjectsController($http, ProjectListFactory, $modal, $timeout) {
     var vm = this;
     vm.projects = null;
     vm.createProject = createProject;
     vm.openCreateProjectModal = openCreateProjectModal;
-
 
     function init() {
       return ProjectListFactory.getProjects()

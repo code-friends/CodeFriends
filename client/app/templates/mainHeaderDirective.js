@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('codeFriends.mainHeader', [])
-  .directive('cfMainHeader', function (Auth) {
+  .directive('cfMainHeader', function (AuthFactory) {
     var $scope = {
       'hello': [1, 2, 3, 4, ]
     };

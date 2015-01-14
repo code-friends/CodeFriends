@@ -5,14 +5,13 @@
   angular.module('codeFriends.toolbar', ['ui.bootstrap'])
     .controller('ToolbarController', ToolbarController);
 
-  ToolbarController.$inject = ['$rootScope', 'SocketFactory', '$state', '$stateParams', '$http', 'ToolbarDocument', '$modal', 'Auth'];
+  ToolbarController.$inject = ['$rootScope', 'SocketFactory', '$state', '$stateParams', '$http', 'ToolbarDocument', '$modal', 'AuthFactory'];
 
-
-  function ToolbarController($rootScope, SocketFactory, $state, $stateParams, $http, ToolbarDocument, $modal, Auth) {
+  function ToolbarController($rootScope, SocketFactory, $state, $stateParams, $http, ToolbarDocument, $modal, AuthFactory) {
     var vm = this;
     vm.currentProjectName = $stateParams.projectName;
-    vm.username = Auth.userName;
-    vm.githubAvatarUrl = Auth.githubAvatarUrl;
+    vm.username = AuthFactory.userName;
+    vm.githubAvatarUrl = AuthFactory.githubAvatarUrl;
     vm.downloadFile = downloadFile;
     vm.downloadProjectZip = downloadProjectZip;
     vm.changeEditorTheme = changeEditorTheme;

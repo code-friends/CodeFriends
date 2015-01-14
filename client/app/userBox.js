@@ -5,13 +5,13 @@
   angular.module('codeFriends.userBox', [])
     .controller('UserBoxController', UserBox);
 
-  UserBox.$inject = ['Auth'];
+  UserBox.$inject = ['AuthFactory'];
 
-  function UserBox(Auth) {
+  function UserBox(AuthFactory) {
     var vm = this;
-    vm.userLoggedIn = (Auth.userId !== null);
-    vm.userName = Auth.userName;
-    vm.githubAvatarUrl = Auth.githubAvatarUrl;
+    vm.userLoggedIn = (AuthFactory.userId !== null);
+    vm.userName = AuthFactory.userName;
+    vm.githubAvatarUrl = AuthFactory.githubAvatarUrl;
   }
 
 })();
