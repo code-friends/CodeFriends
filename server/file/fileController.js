@@ -12,7 +12,7 @@ var downloadController = require('./downloadController');
 // var Project = require('../models').models.Project;
 
 var mongoIndex = function (str) {
-  return str.replace('.', '');
+  return str.replace(/\./g,'');
 };
 
 var fileController = {
@@ -31,6 +31,9 @@ var fileController = {
       return res.status(400).send('Invalid File Type Specified').end();
     }
     fileController._createNewFileOrFolder(fileInfo)
+      .then(function (updatedFileStructure) {
+        return fileController._updateFileStructure(updatedFileStructure);
+      })
       .then(function (fileStructure) {
         return res.status(201).json(fileStructure);
       })
@@ -39,7 +42,16 @@ var fileController = {
         return res.status(400).end();
       });
   },
-  _createNewFileOrFolder: function (fileInfo) {
+  /**
+   * Create a new file or folder and append it to the project fileStructure
+   * Optionally, you can pass a fileStructure to append it to. This is intended
+   * for operations in which multiple files will be written to the MongoDB.
+   *
+   * @param <Object> Object with all file info
+   * @param <Object> (Optional) fileStructure to append changes to
+   * @return <Object> fileStructure
+   */
+  _createNewFileOrFolder: function (fileInfo, updatefileStructure) {
     var projectName = fileInfo.projectName;
     var type = fileInfo.type;
     var projectId = fileInfo.projectId || null;
@@ -53,6 +65,9 @@ var fileController = {
         }
       })
       .then(function () {
+        if (updatefileStructure !== undefined) {
+          return updatefileStructure;
+        }
         return fileController.getFileStructure(projectId || projectName);
       })
       .catch(function () {
@@ -74,9 +89,7 @@ var fileController = {
         if (type === 'folder') {
           newAddition.files = {};
         }
-        var updatedFileStructure = fileController._appendToFileStructure(fileStructure, filePath, newAddition);
-        // Update file structure for whole project in mongo
-        return fileController._updateFileStructure(updatedFileStructure);
+        return fileController._appendToFileStructure(fileStructure, filePath, newAddition);
       });
   },
   /**

@@ -177,8 +177,11 @@ describe('Project', function () {
   });
 
   describe('Cloning git repos through POST /api/project', function () {
+    // Increase timeout to 10s
+    var _timeout = this._timeout;
+    this.timeout(15000);
 
-    it('should add all files into a project when a git url is passed to it', function (done) {
+    it('should add all files into a project when a git url (https) is passed to it', function (done) {
        agent
         .post('/api/project')
         .send({
@@ -205,6 +208,63 @@ describe('Project', function () {
         });
     });
 
+    xit('should add all files into a project when a git (git) url is passed to it', function (done) {
+       agent
+        .post('/api/project')
+        .send({
+          projectName: 'gitCloneExampleRecurssion',
+          gitRepoUrl: 'git@github.com:thejsj/recursion.git'
+        })
+        .then(function () {
+          return agent
+            .get('/api/project/' + 'gitCloneExampleRecurssion')
+            .expect(200);
+        })
+        .then(function (res) {
+          var files = res.body.files;
+          files.should.have.property('READMEmd');
+          files.should.have.property('SpecRunnerhtml');
+          files.src.files.should.have.property('stringifyJSONjs');
+          files.src.files.should.be.an.instanceOf(Object);
+          files.SpecRunnerhtml.should.be.an.instanceOf(Object);
+          files.SpecRunnerhtml.name.should.equal('SpecRunner.html');
+          files.SpecRunnerhtml.type.should.equal('file');
+          files.src.files.stringifyJSONjs.name.should.equal('stringifyJSON.js');
+          files.src.files.stringifyJSONjs.type.should.equal('file');
+          done();
+        });
+    });
+
+    // This causes our function to break, since it's too large and too many Mongo connection are mde
+    // createNewFileOrFolder needs to be re-factored so that updateFileStructure is only called one
+    it('should add all files into a project when a larger git repo url is passed to it', function (done) {
+       agent
+        .post('/api/project')
+        .send({
+          projectName: 'gitCloneExampleCodeFriends',
+          gitRepoUrl: 'https://github.com/code-friends/CodeFriends.git'
+        })
+        .then(function () {
+          return agent
+            .get('/api/project/' + 'gitCloneExampleCodeFriends')
+            .expect(200);
+        })
+        .then(function (res) {
+          var files = res.body.files;
+          files.should.have.property('Dockerfile');
+          files.should.have.property('bowerjson');
+          // files.src.files.should.have.property('stringifyJSONjs');
+          // files.src.files.should.be.an.instanceOf(Object);
+          // files.SpecRunnerhtml.should.be.an.instanceOf(Object);
+          // files.SpecRunnerhtml.name.should.equal('SpecRunner.html');
+          // files.SpecRunnerhtml.type.should.equal('file');
+          // files.src.files.stringifyJSONjs.name.should.equal('stringifyJSON.js');
+          // files.src.files.stringifyJSONjs.type.should.equal('file');
+          done();
+        });
+    });
+
+    this.timeout(_timeout);
   });
 
   it('should add a user to a project on PUT /project/addUser', function (done) {
