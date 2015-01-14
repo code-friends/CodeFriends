@@ -5,9 +5,9 @@
   angular.module('codeFriends.projects', ['ui.router'])
     .controller('ProjectsController', ProjectsController);
 
-  ProjectsController.$inject = ['$http', 'ProjectListFactory', '$modal', '$timeout', '$modalInstance'];
+  ProjectsController.$inject = ['$http', 'ProjectListFactory', '$modal', '$timeout'];
 
-  function ProjectsController($http, ProjectListFactory, $modal, $timeout, $modalInstance) {
+  function ProjectsController($http, ProjectListFactory, $modal, $timeout) {
     var vm = this;
     vm.projects = null;
     vm.createProject = createProject;
@@ -62,10 +62,11 @@
         // this might take a while. Git cloning can take a couple of seconds.
         ProjectListFactory.createProject(vm.newProjectName, projectInfoObj)
           .then(function () {
-            $modalInstance.close();
+          //  $modalInstance.close();
           });
       }
     }
     init();
   }
+
 })();
