@@ -1,29 +1,35 @@
 /*global angular:true, CodeMirror:true */
 /*jshint browser:true */
-'use strict';
-angular.module('code.project', ['ui.router'])
-  .controller('projectController', function ($scope, $state, $stateParams, Auth, Files, ProjectFactory, documentFactory, SocketFactory, $window) {
-    // Auth.username should now be here, since we're making the http request
-    // before getting here
-    $scope.username = Auth.userName;
-    $scope.files = [];
-    $scope.currentProjectId = null;
-    $scope.escapeBackSlash = function (str) {
-      str = str.replace(/(\/)/g, '%2F');
-      return str;
-    };
+
+(function () {
+  'use strict';
+  angular.module('codeFriends.project', [])
+    .controller('ProjectController', ProjectController);
+
+  ProjectController.$inject = ['$state', '$stateParams', 'AuthFactory', 'ProjectFactory', 'DocumentFactory', 'SocketFactory'];
+
+  function ProjectController($state, $stateParams, AuthFactory, ProjectFactory, DocumentFactory, SocketFactory) {
+    var vm = this;
+    vm.username = AuthFactory.userName;
+    vm.files = [];
+    vm.currentProjectId = null;
+    vm.currentProjectName = null;
+    vm.getProject = getProject;
+    vm.escapeBackSlash = escapeBackSlash;
+
+    getProject();
 
     SocketFactory.onRefreshProject(function () {
-      $scope.getProject();
+      vm.getProject();
     });
 
     // saves current project id, current project name and files to $scope
-    $scope.getProject = function () {
+    function getProject() {
       return ProjectFactory.getProject($stateParams.projectName)
         .then(function (project) {
-          $scope.currentProjectId = project.id;
-          $scope.currentProjectName = project.projectName; //change eventually to project id
-          $scope.files = project.files;
+          vm.currentProjectId = project.id;
+          vm.currentProjectName = project.projectName;
+          vm.files = project.files;
           if (typeof $state.params.documentPath === 'undefined') {
             var firstFile;
             angular.forEach(project.files, function (file) {
@@ -40,15 +46,16 @@ angular.module('code.project', ['ui.router'])
               });
             }
           }
-          return $scope.files;
+          return vm.files;
         })
         .catch(function (err) {
           console.log('Could Not Get Project', err);
         });
-    };
+    }
 
-    $scope.goToHome = function () {
-      $state.go('home');
-    };
-    $scope.getProject();
-  });
+    function escapeBackSlash(str) {
+      str = str.replace(/(\/)/g, '%2F');
+      return str;
+    }
+  }
+})();

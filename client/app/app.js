@@ -1,30 +1,26 @@
 /*global angular:true */
-'use strict';
 (function () {
-  angular.module('code', [
+  'use strict';
+  angular.module('codeFriends', [
       'ui.router',
       'angularFileUpload',
-      'code.userBox',
-      'code.landing',
-      'code.home',
-      'code.login',
-      'code.project',
-      'code.projects',
-      'code.toolbar',
-      'code.uploads',
-      'code.downloads',
-      'code.document',
-      'code.services',
-      'code.chat',
-      'code.video',
-      'code.mainHeaderDirective',
+      'codeFriends.services',
+      'codeFriends.projects',
+      'codeFriends.userBox',
+      'codeFriends.project',
+      'codeFriends.toolbar',
+      'codeFriends.uploads',
+      'codeFriends.document',
+      'codeFriends.chat', //not yet refactored
+      'codeFriends.video', // not yet refactored
+      'codeFriends.mainHeader',
       'ngSocket'
     ])
     .config(function ($stateProvider, $urlRouterProvider) {
       $urlRouterProvider.otherwise('/');
-      var authenticated = ['$q', 'Auth', function ($q, Auth) {
+      var authenticated = ['$q', 'AuthFactory', function ($q, AuthFactory) {
         var deferred = $q.defer();
-        Auth.isLoggedIn(false)
+        AuthFactory.isLoggedIn(false)
           .then(function (isLoggedIn) {
             if (isLoggedIn) {
               deferred.resolve();
@@ -37,24 +33,21 @@
       $stateProvider
         .state('landing', {
           templateUrl: '/app/landing/landing.html',
-          controller: 'landingController',
           url: '/'
         })
         .state('login', {
           templateUrl: '/app/login/login.html',
-          controller: 'loginController',
           url: '/login',
         })
         .state('home', {
           url: '/home',
           views: {
             '': {
-              templateUrl: '/app/home/home.html',
-              controller: 'homeController',
+              templateUrl: '/app/home/home.html'
             },
             'projects@home': {
               templateUrl: '/app/home/projects/projects.html',
-              controller: 'projectsController'
+              controller: 'ProjectsController'
             }
           },
           resolve: {
@@ -66,11 +59,10 @@
           views: {
             '': {
               templateUrl: '/app/project/project.html',
-              // controller: 'projectController'
             },
             'fileStructure@project': {
               templateUrl: '/app/project/fileStructure/fileStructure.html',
-              controller: 'projectController'
+              controller: 'ProjectController'
             },
             'chat@project': {
               templateUrl: '/app/project/chat/chat.html',
@@ -78,7 +70,7 @@
             },
             'toolbar@project': {
               templateUrl: '/app/project/toolbar/toolbar.html',
-              controller: 'toolbarController'
+              controller: 'ToolbarController'
             },
             'video@project': {
               templateUrl: '/app/project/chat/video/video.html',
@@ -93,7 +85,7 @@
           parent: 'project',
           url: 'document/:documentPath',
           templateUrl: '/app/project/document/document.html',
-          controller: 'documentController',
+          controller: 'DocumentController',
           resolve: {
             authenticated: authenticated
           }

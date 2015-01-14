@@ -1,71 +1,72 @@
-<div id="toolbar" class="navbar navbar-default navbar-static">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" ui-sref="home">
-        <div id="logo-image"></div>
-        <!-- <span id="logo-text">code friends</span> -->
-      </a>
-    </div>
-    <ul class='nav navbar-nav'>
-      <li class='dropdown' dropdown>
-        <a href='#' class='dropdown-toggle' dropdown-toggle>File</a>
-        <ul class='dropdown-menu'>
-          <li ng-click="openAddFileModal()">Add File</li>
-          <li ng-click="openAddFolderModal()">Add Folder</li>
-          <li ng-click='downloadFile()'>Download Current File</li>
-          <li ng-click='downloadProjectZip()'>Download Project</li>
-          <li class='form-container'>
-            <!-- Upload Files -->
-            <div ng-controller="uploadsController">
-              <form class='half-form'>
-                <input type="submit" ng-model="files" ng-file-select="onFileSelect(files)" ng-multiple="true" class="app-prompt-upload" value="Upload Files"/>
-              </form>
-            </div>
-          </li>
-        </ul>
-      </li>
-      <li class='dropdown' dropdown>
-        <a href='#' class='dropdown-toggle' dropdown-toggle>Edit</a>
-        <ul class='dropdown-menu'>
-          <li>Do Nothing</li>
-        </ul>
-      </li>
-      <li class='dropdown' dropdown>
-        <a href='#' class='dropdown-toggle' dropdown-toggle>View</a>
-        <ul class='dropdown-menu'>
-          <!--<li role="presentation" class="divider"></li>-->
-          <li role="presentation" class="dropdown-header">Themes</li>
-          <li ng-repeat="theme in themes" ng-click="changeEditorTheme($event)">{{theme}}</li>
-        </ul>
-      </li>
-      <li class='dropdown' dropdown>
-        <a href='#' class='dropdown-toggle' dropdown-toggle>Git</a>
-        <ul class='dropdown-menu'>
-          <li ng-click="">Pull</li>
-          <li ng-click="">Pull (--rebase)</li>
-          <li ng-click="">Commit</li>
-        </ul>
-      </li>
-      <li class='dropdown' dropdown>
-        <a href='#' class='dropdown-toggle' dropdown-toggle>Collaborators</a>
-        <ul class='dropdown-menu'>
-          <li ng-click="openAddUserModal()">Invite To Project</li>
-        </ul>
-      </li>
-       <li class='dropdown' dropdown>
-        <a href='#' ng-click="emitCompile()" class='dropdown-toggle' dropdown-toggle>Run</a>
-      </li>
-    </ul>
-    <ul class='nav navbar-nav navbar-right' ng-controller='userBox'>
-      <li class='dropdown' dropdown>
-        <a href='#' class='dropdown-toggle' dropdown-toggle>
-          <img class='avatar-72 profile-image' ng-src="{{ githubAvatarUrl }}&s=72&id=userBoxToolbar">
-          <span>{{ username }}</span>
+<div ng-controller="ToolbarController as toolbar">
+  <div id="toolbar" class="navbar navbar-default navbar-static">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" ui-sref="home">
+          <div id="logo-image"></div>
         </a>
-        <ul class='dropdown-menu'>
-          <a href="/auth/logout"><li>Logout</li></a>
-        </ul>
-      </li>
-    </ul>
+      </div>
+      <ul class='nav navbar-nav'>
+        <li class='dropdown' dropdown>
+          <a href='#' class='dropdown-toggle' dropdown-toggle>File</a>
+          <ul class='dropdown-menu'>
+            <li ng-click="toolbar.openAddFileModal()">Add File</li>
+            <li ng-click="toolbar.openAddFolderModal()">Add Folder</li>
+            <li ng-click='toolbar.downloadFile()'>Download Current File</li>
+            <li ng-click='toolbar.downloadProjectZip()'>Download Project</li>
+            <li class='form-container'>
+              <!-- Upload Files -->
+              <div ng-controller="UploadsController">
+                <form class='half-form'>
+                  <input type="submit" ng-model="files" ng-file-select="onFileSelect(files)" ng-multiple="true" class="app-prompt-upload" value="Upload Files"/>
+                </form>
+              </div>
+            </li>
+          </ul>
+        </li>
+        <li class='dropdown' dropdown>
+          <a href='#' class='dropdown-toggle' dropdown-toggle>Edit</a>
+          <ul class='dropdown-menu'>
+            <li>Do Nothing</li>
+          </ul>
+        </li>
+        <li class='dropdown' dropdown>
+          <a href='#' class='dropdown-toggle' dropdown-toggle>View</a>
+          <ul class='dropdown-menu'>
+            <!--<li role="presentation" class="divider"></li>-->
+            <li role="presentation" class="dropdown-header">Themes</li>
+            <li ng-repeat="theme in toolbar.themes" ng-click="toolbar.changeEditorTheme($event)">{{theme}}</li>
+          </ul>
+        </li>
+        <li class='dropdown' dropdown>
+          <a href='#' class='dropdown-toggle' dropdown-toggle>Git</a>
+          <ul class='dropdown-menu'>
+            <li ng-click="">Pull</li>
+            <li ng-click="">Pull (--rebase)</li>
+            <li ng-click="">Commit</li>
+          </ul>
+        </li>
+        <li class='dropdown' dropdown>
+          <a href='#' class='dropdown-toggle' dropdown-toggle>Collaborators</a>
+          <ul class='dropdown-menu'>
+            <li ng-click="toolbar.openAddUserModal()">Invite To Project</li>
+          </ul>
+        </li>
+         <li class='dropdown' dropdown>
+          <a href='#' ng-click="toolbar.emitCompile()" class='dropdown-toggle' dropdown-toggle>Run</a>
+        </li>
+      </ul>
+      <ul class='nav navbar-nav navbar-right' ng-controller='UserBoxController'>
+        <li class='dropdown' dropdown>
+          <a href='#' class='dropdown-toggle' dropdown-toggle>
+            <img class='avatar-72 profile-image' ng-src="{{ toolbar.githubAvatarUrl }}&s=72">
+            <span>{{ toolbar.username }}</span>
+          </a>
+          <ul class='dropdown-menu'>
+            <a href="/auth/logout"><li>Logout</li></a>
+          </ul>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>

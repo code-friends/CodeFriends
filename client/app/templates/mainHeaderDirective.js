@@ -1,10 +1,10 @@
 /*global angular:true */
 'use strict';
 
-angular.module('code.mainHeaderDirective', [])
-  .directive('cfMainHeader', function (Auth) {
+angular.module('codeFriends.mainHeader', [])
+  .directive('cfMainHeader', function (AuthFactory) {
     var $scope = {
-      'hello': [1,2,3,4,]
+      'hello': [1, 2, 3, 4, ]
     };
     return {
       restrict: 'E',

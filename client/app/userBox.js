@@ -1,9 +1,17 @@
 /*global angular:true */
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('code.userBox', ['ui.router'])
-  .controller('userBox', function ($scope, Auth) {
-    $scope.userLoggedIn = (Auth.userId !== null);
-    $scope.userName = Auth.userName;
-    $scope.githubAvatarUrl = Auth.githubAvatarUrl;
-  });
+  angular.module('codeFriends.userBox', [])
+    .controller('UserBoxController', UserBox);
+
+  UserBox.$inject = ['AuthFactory'];
+
+  function UserBox(AuthFactory) {
+    var vm = this;
+    vm.userLoggedIn = (AuthFactory.userId !== null);
+    vm.userName = AuthFactory.userName;
+    vm.githubAvatarUrl = AuthFactory.githubAvatarUrl;
+  }
+
+})();

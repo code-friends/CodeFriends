@@ -1,31 +1,36 @@
-<div class="row projects-header">
-  <div class="col-md-8">
-    <h2>Projects</h2>
-  </div>
-  <div class="col-md-4">
-    <div class="add-icon" ng-click="openCreateProjectModal()">
-      <span class="mouseover-text">Add a new project</span>
+<div ng-controller="ProjectsController as projects">
+  <div class="row projects-header" >
+    <div class="col-md-8">
+      <h2>Projects</h2>
+    </div>
+    <div class="col-md-4">
+      <div class="add-icon" ng-click="projects.openCreateProjectModal()">
+        <span class="mouseover-text">Add a new project</span>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="row">
-  <div class="col-md-12 single-project-head">
-    <div class="col-sm-6 nopadding">Project Name</div>
-    <div class="col-sm-2 ">Collaborators</span></div>
-    <div class="col-sm-2 ">Created On</div>
-    <div class="col-sm-2 ">Last Updated</div>
-  </div>
-  <a ui-sref="project({projectName: project.projectName, projectId: project.id })" ng-repeat="project in projects">
-  <div class="col-md-12 single-project">
-    <div class="col-sm-6">{{ project.projectName }}</div>
-    <div class="col-sm-2">
-      <span ng-repeat="user in project.user">
-        <img class='avatar-48' ng-src='{{ user.githubAvatarUrl }}&s=48&id=projects'/>
-      </span>
+  <div class="row">
+    <div class="col-md-12 single-project-head">
+      <div class="col-sm-6 nopadding">Project Name</div>
+      <div class="col-sm-2 ">Collaborators</span></div>
+      <div class="col-sm-2 ">Created On</div>
+      <div class="col-sm-2 ">Last Updated</div>
     </div>
-    <div class="col-sm-2">{{ project.createString }}</div>
-    <div class="col-sm-2">{{project.updateString}} <span class="timeAgo">{{project.timeAgoString}}</span> </div>
+    <a ui-sref="project({projectName: project.projectName, projectId: project.id })" ng-repeat="project in projects.projects">
+      <div class="col-md-12 single-project">
+        <div class="col-sm-6">{{ project.projectName }}</div>
+        <div class="col-sm-2">
+          <span ng-repeat="user in project.user">
+            <img class='avatar-48' ng-src='{{ user.githubAvatarUrl }}&s=48&id=projects'/>
+          </span>
+        </div>
+        <div class="col-sm-2">{{ project.createString }}</div>
+        <div class="col-sm-2">{{ project.updateString }}
+          <span class="timeAgo">{{ project.timeAgoString }}</span>
+          <span class="glyphicon glyphicon-remove delete-project-glyphicon"></span>
+        </div>
+      </div>
+    </a>
   </div>
-  </a>
 </div>

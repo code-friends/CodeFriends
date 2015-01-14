@@ -6,12 +6,12 @@
         <span id="logo-text">code friends</span>
       </a>
     </div>
-    <ul class='user-box-region nav navbar-nav navbar-right' ng-controller='userBox'>
-      <a ng-show='!userLoggedIn' class='userName navbar-brand dropdown-toggle' href='/#/login'>Login</a>
-      <li ng-show='userLoggedIn' class='dropdown' dropdown>
+    <ul class='user-box-region nav navbar-nav navbar-right' ng-controller='UserBoxController as user'>
+      <a ng-show='!user.userLoggedIn' class='userName navbar-brand dropdown-toggle' href='/#/login'>Login</a>
+      <li ng-show='user.userLoggedIn' class='dropdown' dropdown>
         <a class='userName navbar-brand dropdown-toggle' dropdown-toggle>
-          <img ng-show='userLoggedIn' class='avatar-72 profile-image' ng-src="{{ githubAvatarUrl }}&s=72&id=userBoxHeader">
-          <span class=''>{{userName}}</span>
+          <img ng-show='user.userLoggedIn' class='avatar-72 profile-image' ng-src="{{ user.githubAvatarUrl }}&s=72">
+          <span class=''>{{user.userName}}</span>
         </a>
         <ul class="dropdown-menu ">
           <a href='/auth/logout'>
