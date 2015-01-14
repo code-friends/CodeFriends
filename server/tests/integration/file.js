@@ -325,8 +325,6 @@ describe('File', function () {
         var newPath = newPathTemp.replace('.', '').split('/');
         var objAtOldPath = fileStructure[oldPath[1]][oldPath[2]];
         var objAtNewPath = fileStructure[newPath[1]];
-        console.log('objAtOldPath: ', objAtOldPath);
-        console.log('objAtNewPath: ', objAtNewPath);
         expect(objAtOldPath).to.not.equal(true);
         expect(objAtNewPath.name).to.equal('dummyForTest4.js');
         expect(objAtNewPath.type).to.equal('file');
@@ -340,10 +338,8 @@ describe('File', function () {
           .expect(200)
           .then(function (res) {
             var textAtNewPath = res.text;
-            var textInOriginalFile = fs.readFileSync('./server/tests/test-files/dummyForTest.js');
-            console.log('textAtNewPath: ', textAtNewPath);
-            console.log('textInOriginalFile: ', textInOriginalFile);
-            // expect(textAtNewPath).to.equal(textInOriginalFile);
+            var textInOriginalFile = fs.readFileSync('./server/tests/test-files/dummyForTest.js').toString();
+            expect(textAtNewPath).to.equal(textInOriginalFile);
             done();
           })
           .catch(function (err) {
