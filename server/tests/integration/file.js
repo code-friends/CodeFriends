@@ -383,49 +383,51 @@ describe('File', function () {
         .expect(201)
         .then(function (res) {
           var fileStructure = res.body.files;
-          // console.log('fileStructure to move file to folder: ', fileStructure);
-          // var oldPathTemp = '/example/dummyForTest4.js';
-          // var newPathTemp = '/dummyForTest4.js';
-          // var oldPath = oldPathTemp.replace('.', '').split('/');
-          // var newPath = newPathTemp.replace('.', '').split('/');
-          // var objAtOldPath = fileStructure[oldPath[1]][oldPath[2]];
-          // var objAtNewPath = fileStructure[newPath[1]];
-          // expect(objAtOldPath).to.not.equal(true);
-          // expect(objAtNewPath.name).to.equal('dummyForTest4.js');
-          // expect(objAtNewPath.type).to.equal('file');
+          console.log('fileStructure: ', fileStructure);
+          var oldPathTemp = '/dummyForTest2.js';
+          var newPathTemp = '/example/dummyForTest2.js';
+          var oldPath = oldPathTemp.replace('.', '').split('/');
+          var newPath = newPathTemp.replace('.', '').split('/');
+          var objAtOldPath = fileStructure[oldPath[1]];
+          var index1 = newPath[1];
+          var objAtNewPath = fileStructure[index1].files;
+          console.log('objAtOldPath: ', objAtOldPath);
+          console.log('objAtNewPath: ', objAtNewPath);
+          expect(objAtOldPath).to.not.equal(true);
+          expect(objAtNewPath.name).to.equal('dummyForTest2.js');
+          expect(objAtNewPath.type).to.equal('file');
         })
-        //     .then(function (res) {
-        //       return agent
-        //         .get('/api/file/download/projectName/' + projectName + '/fileName/dummyForTest4.js')
-        //         .send({
-        //           projectName: projectName,
-        //         })
-        //         .expect(200)
-        //         .then(function (res) {
-        //           var textAtNewPath = res.text;
-        //           var textInOriginalFile = fs.readFileSync('./server/tests/test-files/dummyForTest.js').toString();
-        //           expect(textAtNewPath).to.equal(textInOriginalFile);
-        //         })
-        //         .catch(function (err) {
-        //           console.log('Error getting file for test: ', err);
-        //           done();
-        //         });
-        //     })
-        //     .then(function (res) {
-        //       return agent
-        //         .get('/api/file/download/projectName/' + projectName + '/fileName/example/dummyForTest4.js')
-        //         .expect(200)
-        //         .expect('Content-disposition', 'attachment; filename=dummyForTest4.js')
-        //         .then(function (res) {
-        //           // console.log('res.text: ', res.text);
-        //           expect(res.text).to.equal('');
-        //           done();
-        //         })
-        //         .catch(function (err) {
-        //           console.log('File content should have been deleted at old path but was not: ', err);
-        //           done();
-        //         });
-        //     })
+        .then(function (res) {
+          return agent
+            .get('/api/file/download/projectName/' + projectName + '/fileName/example/dummyForTest2.js')
+            .expect(200)
+            .expect('Content-disposition', 'attachment; filename=dummyForTest2.js')
+            .then(function (res) {
+              var textAtNewPath = res.text;
+              var textInOriginalFile = fs.readFileSync('./server/tests/test-files/dummyForTest.js').toString();
+              expect(textAtNewPath).to.equal(textInOriginalFile);
+            })
+            .catch(function (err) {
+              console.log('File content should have been deleted at old path but was not: ', err);
+              done();
+            });
+        })
+        .then(function (res) {
+          return agent
+            .get('/api/file/download/projectName/' + projectName + '/fileName/dummyForTest2.js')
+            .send({
+              projectName: projectName,
+            })
+            .expect(200)
+            .then(function (res) {
+              expect(res.text).to.equal('');
+              done();
+            })
+            .catch(function (err) {
+              console.log('Error getting file for test: ', err);
+              done();
+            });
+        })
         .catch(function (err) {
           throw new Error(err);
           done();
