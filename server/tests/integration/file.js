@@ -165,7 +165,6 @@ describe('File', function () {
       .expect(201)
       .then(function (res) {
         var fileStructure = res.body;
-        // console.log('find the path in the fileStructure for jorge.js: fileStructure', fileStructure.files.example.files.child);
         var folderKey = 'example'.replace('.', '');
         var folderKey2 = 'child'.replace('.', '');
         var fileKey = 'jorge.js'.replace('.', '');
@@ -321,7 +320,6 @@ describe('File', function () {
         .expect(201)
         .then(function (res) {
           var fileStructure = res.body.files;
-          // console.log('first fileStructure: ', fileStructure);
           var oldPathTemp = '/example/dummyForTest4.js';
           var newPathTemp = '/dummyForTest4.js';
           var oldPath = oldPathTemp.replace('.', '').split('/');
@@ -355,7 +353,6 @@ describe('File', function () {
             .expect(200)
             .expect('Content-disposition', 'attachment; filename=dummyForTest4.js')
             .then(function (res) {
-              // console.log('res.text: ', res.text);
               expect(res.text).to.equal('');
               done();
             })
@@ -383,7 +380,6 @@ describe('File', function () {
         .expect(201)
         .then(function (res) {
           var fileStructure = res.body.files;
-          console.log('fileStructure: ', fileStructure);
           var oldPathTemp = '/dummyForTest2.js';
           var newPathTemp = '/example/dummyForTest2.js';
           var oldPath = oldPathTemp.replace('.', '').split('/');
@@ -391,8 +387,6 @@ describe('File', function () {
           var objAtOldPath = fileStructure[oldPath[1]];
           var index1 = newPath[1];
           var objAtNewPath = fileStructure[index1].files;
-          console.log('objAtOldPath: ', objAtOldPath);
-          console.log('objAtNewPath: ', objAtNewPath);
           expect(objAtOldPath).to.not.equal(true);
           expect(objAtNewPath.name).to.equal('dummyForTest2.js');
           expect(objAtNewPath.type).to.equal('file');
@@ -408,7 +402,7 @@ describe('File', function () {
               expect(textAtNewPath).to.equal(textInOriginalFile);
             })
             .catch(function (err) {
-              console.log('File content should have been deleted at old path but was not: ', err);
+          console.log('File content should have been deleted at old path but was not: ', err);
               done();
             });
         })

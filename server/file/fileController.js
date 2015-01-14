@@ -374,8 +374,6 @@ var fileController = {
     };
     deleteProperty(1, oldPathArray, firstBaseObject, 1);
 
-    console.log('object after removing file from root: ', object);
-
     var addProperty = function (round, urlArray, obj, index) {
 
       var totalRounds = urlArray.length - 1 || 1;
@@ -387,11 +385,7 @@ var fileController = {
       }
 
       if (round === totalRounds) {
-
         var objKey = urlArray[index].replace('.', '');
-        console.log('obj: ', obj);
-        console.log('obj[objKey]: ', obj.files[objKey]);
-        console.log('objKey: ', objKey);
         obj.files[objKey].files = storageForFileToMove;
         return;
       }
@@ -409,8 +403,6 @@ var fileController = {
       addProperty(round + 1, urlArray, objToPass, index + 1);
     };
     addProperty(1, newPathArray, object, 0);
-
-    console.log('object after adding a file in example: ', object.files);
 
     object.paths.push(newPath);
     for (var i = 0; i < object.paths.length; i++) {
