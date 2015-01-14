@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('code.toolbar', ['ui.bootstrap'])
-  .controller('toolbarController', function (SocketFactory, $scope, $state, $stateParams, $http, ToolbarDocument, $modal, Auth) {
+  .controller('toolbarController', function ($rootScope, SocketFactory, $scope, $state, $stateParams, $http, ToolbarDocument, $modal, Auth) {
     $scope.themes = [
       'Default',
       'Ambiance',
@@ -40,6 +40,10 @@ angular.module('code.toolbar', ['ui.bootstrap'])
       theme = theme.toLowerCase();
       if (theme.split(' ')[0] === 'solarized') return theme;
       return theme.replace(' ', '-');
+    };
+
+    $scope.emitCompile = function () {
+      $rootScope.$broadcast('compile code');
     };
 
     $scope.downloadFile = function () {
