@@ -62,7 +62,7 @@
         // this might take a while. Git cloning can take a couple of seconds.
         ProjectListFactory.createProject(vm.newProjectName, projectInfoObj)
           .then(function () {
-          //  $modalInstance.close();
+            //  $modalInstance.close();
           });
       }
     }
