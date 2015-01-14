@@ -24,33 +24,17 @@
     });
 
     $rootScope.$on('compile code', function () {
-      var fileExtension = $scope.documentPath.split('.');
-      fileExtension = fileExtension[fileExtension.length - 1];
-      var fileExtensionCode;
-      for (var i in DocumentFactory.languageList) {
-        if (DocumentFactory.hasOwnProperty(i)) {
-          angular.forEach(DocumentFactory.languageList[i].extensions, function (extensions) {
-            if (extensions === fileExtension) {
-              fileExtensionCode = DocumentFactory.languageList[i].code;
-              $scope.language = i;
-            }
-          });
-        }
-      }
       var postObj = {
-        'language': fileExtensionCode,
+        'language': DocumentFactory.getFileCode($scope.documentPath),
         'code': $scope.cm.getValue()
       };
 
-      $http.post('https://compile.remoteinterview.io/compile/', postObj).
-      success(function (data, status, headers, config) {
+      $http.post('https://compile.remoteinterview.io/compile/', postObj).success(function (data, status, headers, config) {
         var output = data.output.split(/\n/g);
-        // This shoul only happend if the language is JavaScript
-        output.forEach(function (eachConsoleLog) {
-          console.log('Output:', eachConsoleLog);
-        });
-      }).
-      error(function (data, status, headers, config) {
+        for (var i = 0; i < output.length - 1; i++) {
+          console.log("output: ", output[i]);
+        }
+      }).error(function (data, status, headers, config) {
         console.log(data);
         // called asynchronously if an error occurs
         // or server returns response with an error status.

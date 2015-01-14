@@ -8,6 +8,12 @@
   DocumentFactory.$inject = ['$state', '$stateParams'];
 
   function DocumentFactory($state, $stateParams) {
+
+    var factory = {
+      languageList: languageList,
+      goToDocument: goToDocument,
+      getFileCode: getFileCode,
+    };
     var languageList = {
       'C#': {
         code: 10,
@@ -63,16 +69,6 @@
       }
     };
 
-    var factory = {
-      languageList: languageList,
-      goToDocument: goToDocument,
-      getFileLanguage: getFileLanguage,
-    };
-
-    return factory;
-
-
-
     function goToDocument(projectName, filePath, codeMirror) {
       var ws = new WebSocket('ws://' + window.location.hostname + ':' + window.config.ports.editor);
       var sjs = new window.sharejs.Connection(ws);
@@ -96,26 +92,22 @@
       });
     }
 
-    function getFileLanguage(fileName, languageList) {
+    function getFileCode(fileName) {
       var fileExtension = fileName.split('.');
       fileExtension = fileExtension[fileExtension.length - 1];
-      console.log('WE GOT HERE FELLAS');
-      var language = '';
+      var theCode = '';
       for (var i in languageList) {
         if (languageList.hasOwnProperty(i)) {
           angular.forEach(languageList[i].extensions, function (extensions) {
             if (extensions === fileExtension) {
-              language = i;
+              theCode = languageList[i].code;
             }
           });
         }
       }
-      language = language.toString().toLowerCase();
-      console.log(language);
-      return language;
+      return theCode;
     }
-
-
+    return factory;
   }
 
 })();
