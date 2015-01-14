@@ -399,6 +399,7 @@ var fileController = {
 
       if (totalRounds === 1 && newPathArray.length === 1) {
         var objKey = newPathArray[0].replace('.', '');
+        storageForFileToMove.path = newPath;
         obj.files[objKey] = storageForFileToMove;
         return;
       }
