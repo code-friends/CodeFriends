@@ -306,65 +306,132 @@ describe('File', function () {
       });
   });
 
-  it('should move a file on PUT /api/file/move', function (done) {
-    agent
-      .put('/api/file/move')
-      .send({
-        projectName: projectName,
-        type: 'file',
-        filePath: '/example/dummyForTest4.js',
-        newPath: '/dummyForTest4.js',
-        projectIdOrName: projectName
-      })
-      .expect(201)
-      .then(function (res) {
-        var fileStructure = res.body.files;
-        var oldPathTemp = '/example/dummyForTest4.js';
-        var newPathTemp = '/dummyForTest4.js';
-        var oldPath = oldPathTemp.replace('.', '').split('/');
-        var newPath = newPathTemp.replace('.', '').split('/');
-        var objAtOldPath = fileStructure[oldPath[1]][oldPath[2]];
-        var objAtNewPath = fileStructure[newPath[1]];
-        expect(objAtOldPath).to.not.equal(true);
-        expect(objAtNewPath.name).to.equal('dummyForTest4.js');
-        expect(objAtNewPath.type).to.equal('file');
-      })
-      .then(function (res) {
-        agent
-          .get('/api/file/download/projectName/' + projectName + '/fileName/dummyForTest4.js')
-          .send({
-            projectName: projectName,
-          })
-          .expect(200)
-          .then(function (res) {
-            var textAtNewPath = res.text;
-            var textInOriginalFile = fs.readFileSync('./server/tests/test-files/dummyForTest.js').toString();
-            expect(textAtNewPath).to.equal(textInOriginalFile);
-          })
-          .catch(function (err) {
-            console.log('Error getting file for test: ', err);
-            done();
-          });
-      })
-      .then(function (res) {
-        agent
-          .get('/api/file/download/projectName/' + projectName + '/fileName/example/dummyForTest4.js')
-          .expect(200)
-          .expect('Content-disposition', 'attachment; filename=dummyForTest4.js')
-          .then(function (res) {
-            // console.log('res.text: ', res.text);
-            expect(res.text).to.equal('');
-            done();
-          })
-          .catch(function (err) {
-            console.log('File content should have been deleted at old path but was not: ', err);
-            done();
-          });
-      })
-      .catch(function (err) {
-        throw new Error(err);
-        done();
-      });
+  describe('Moving Files', function () {
+
+    it('should move a file from a folder to root on PUT /api/file/move', function (done) {
+      agent
+        .put('/api/file/move')
+        .send({
+          projectName: projectName,
+          type: 'file',
+          filePath: '/example/dummyForTest4.js',
+          newPath: '/dummyForTest4.js',
+          projectIdOrName: projectName
+        })
+        .expect(201)
+        .then(function (res) {
+          var fileStructure = res.body.files;
+          // console.log('first fileStructure: ', fileStructure);
+          var oldPathTemp = '/example/dummyForTest4.js';
+          var newPathTemp = '/dummyForTest4.js';
+          var oldPath = oldPathTemp.replace('.', '').split('/');
+          var newPath = newPathTemp.replace('.', '').split('/');
+          var objAtOldPath = fileStructure[oldPath[1]][oldPath[2]];
+          var objAtNewPath = fileStructure[newPath[1]];
+          expect(objAtOldPath).to.not.equal(true);
+          expect(objAtNewPath.name).to.equal('dummyForTest4.js');
+          expect(objAtNewPath.type).to.equal('file');
+        })
+        .then(function (res) {
+          return agent
+            .get('/api/file/download/projectName/' + projectName + '/fileName/dummyForTest4.js')
+            .send({
+              projectName: projectName,
+            })
+            .expect(200)
+            .then(function (res) {
+              var textAtNewPath = res.text;
+              var textInOriginalFile = fs.readFileSync('./server/tests/test-files/dummyForTest.js').toString();
+              expect(textAtNewPath).to.equal(textInOriginalFile);
+            })
+            .catch(function (err) {
+              console.log('Error getting file for test: ', err);
+              done();
+            });
+        })
+        .then(function (res) {
+          return agent
+            .get('/api/file/download/projectName/' + projectName + '/fileName/example/dummyForTest4.js')
+            .expect(200)
+            .expect('Content-disposition', 'attachment; filename=dummyForTest4.js')
+            .then(function (res) {
+              // console.log('res.text: ', res.text);
+              expect(res.text).to.equal('');
+              done();
+            })
+            .catch(function (err) {
+              console.log('File content should have been deleted at old path but was not: ', err);
+              done();
+            });
+        })
+        .catch(function (err) {
+          throw new Error(err);
+          done();
+        });
+    });
+
+    it('should move a file from root to a folder on PUT /api/file/move', function (done) {
+      agent
+        .put('/api/file/move')
+        .send({
+          projectName: projectName,
+          type: 'file',
+          filePath: '/dummyForTest2.js',
+          newPath: '/example/dummyForTest2.js',
+          projectIdOrName: projectName
+        })
+        .expect(201)
+        .then(function (res) {
+          var fileStructure = res.body.files;
+          // console.log('fileStructure to move file to folder: ', fileStructure);
+          // var oldPathTemp = '/example/dummyForTest4.js';
+          // var newPathTemp = '/dummyForTest4.js';
+          // var oldPath = oldPathTemp.replace('.', '').split('/');
+          // var newPath = newPathTemp.replace('.', '').split('/');
+          // var objAtOldPath = fileStructure[oldPath[1]][oldPath[2]];
+          // var objAtNewPath = fileStructure[newPath[1]];
+          // expect(objAtOldPath).to.not.equal(true);
+          // expect(objAtNewPath.name).to.equal('dummyForTest4.js');
+          // expect(objAtNewPath.type).to.equal('file');
+        })
+        //     .then(function (res) {
+        //       return agent
+        //         .get('/api/file/download/projectName/' + projectName + '/fileName/dummyForTest4.js')
+        //         .send({
+        //           projectName: projectName,
+        //         })
+        //         .expect(200)
+        //         .then(function (res) {
+        //           var textAtNewPath = res.text;
+        //           var textInOriginalFile = fs.readFileSync('./server/tests/test-files/dummyForTest.js').toString();
+        //           expect(textAtNewPath).to.equal(textInOriginalFile);
+        //         })
+        //         .catch(function (err) {
+        //           console.log('Error getting file for test: ', err);
+        //           done();
+        //         });
+        //     })
+        //     .then(function (res) {
+        //       return agent
+        //         .get('/api/file/download/projectName/' + projectName + '/fileName/example/dummyForTest4.js')
+        //         .expect(200)
+        //         .expect('Content-disposition', 'attachment; filename=dummyForTest4.js')
+        //         .then(function (res) {
+        //           // console.log('res.text: ', res.text);
+        //           expect(res.text).to.equal('');
+        //           done();
+        //         })
+        //         .catch(function (err) {
+        //           console.log('File content should have been deleted at old path but was not: ', err);
+        //           done();
+        //         });
+        //     })
+        .catch(function (err) {
+          throw new Error(err);
+          done();
+        });
+    });
+
   });
 
 });

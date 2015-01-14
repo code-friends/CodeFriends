@@ -274,8 +274,6 @@ var fileController = {
        * take the old file structure, update it, and then pass it into 'updateFileStructure' function to be saved
        */
       .then(function (validOrNot) {
-        //this test needs to be stronger eventually. Right now it expexts the above function to send a false, meaning
-        //that something is currently at that path so it is not available to place new files
         if (validOrNot === false) {
           return fileController.moveObjectProperty(oldPath, newPath, fileStructure);
         }
@@ -333,18 +331,30 @@ var fileController = {
 
   },
 
+  saveFileStructureAndCheckIfPathIsValid: function () {
+
+  },
+
   moveObjectProperty: function (oldPath, newPath, object) {
     var oldPathArray = oldPath.split('/').splice(1, oldPath.length);
     var newPathArray = newPath.split('/').splice(1, newPath.length);
-    var firstBaseObject = object.files[oldPathArray[0]];
-    var secondBaseObject = object.files[oldPathArray[0]];
+    var firstBaseObject = object.files[oldPathArray[0].replace('.', '')];
+    var secondBaseObject = object.files[oldPathArray[0].replace('.', '')];
     var storageForFileToMove;
 
     var deleteProperty = function (round, urlArray, obj, index) {
 
-      var totalRounds = oldPathArray.length - 1;
+      var totalRounds = oldPathArray.length - 1 || 1;
+
+      if (totalRounds === 1 && oldPathArray.length === 1) {
+        storageForFileToMove = obj;
+        var tempName = oldPathArray[0].replace('.', '');
+        delete object.files[tempName];
+        return;
+      }
 
       if (round === totalRounds) {
+
         var objKey = oldPathArray[index].replace('.', '');
         storageForFileToMove = obj.files[objKey];
         delete obj.files[objKey];
@@ -364,15 +374,28 @@ var fileController = {
     };
     deleteProperty(1, oldPathArray, firstBaseObject, 1);
 
+    console.log('object after removing file from root: ', object);
+
     var addProperty = function (round, urlArray, obj, index) {
+
       var totalRounds = urlArray.length - 1 || 1;
+
+      if (totalRounds === 1 && newPathArray.length === 1) {
+        var objKey = newPathArray[0].replace('.', '');
+        obj.files[objKey] = storageForFileToMove;
+        return;
+      }
 
       if (round === totalRounds) {
 
         var objKey = urlArray[index].replace('.', '');
-        obj.files[objKey] = storageForFileToMove;
+        console.log('obj: ', obj);
+        console.log('obj[objKey]: ', obj.files[objKey]);
+        console.log('objKey: ', objKey);
+        obj.files[objKey].files = storageForFileToMove;
         return;
       }
+
       var objToPass;
       var objKey = urlArray[index];
       if (obj.type === 'folder') {
@@ -386,9 +409,9 @@ var fileController = {
       addProperty(round + 1, urlArray, objToPass, index + 1);
     };
     addProperty(1, newPathArray, object, 0);
-    // console.log('object.files after adding property: ', object.files);
 
-    //change paths property to reflect new filestructure
+    console.log('object after adding a file in example: ', object.files);
+
     object.paths.push(newPath);
     for (var i = 0; i < object.paths.length; i++) {
       if (object.paths[i] === oldPath) {
