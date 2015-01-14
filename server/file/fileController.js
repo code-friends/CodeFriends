@@ -320,13 +320,6 @@ var fileController = {
       .then(function (oldHash) {
         return backend.submitAsync('documents', oldHash, {
           del: true
-        }, function (err, version, transformedByOps, snapshot) {
-          if (err) {
-            console.log('Error deleting file content: ', err);
-          }
-          console.log('version: ', version);
-          console.log('transformedByOps: ', transformedByOps);
-          console.log('snapshot: ', snapshot);
         });
       })
       .then(function (dbResponse) {
@@ -403,10 +396,10 @@ var fileController = {
         break;
       }
     }
-
     return object;
   }
 
 };
+
 
 module.exports = fileController;

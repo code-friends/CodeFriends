@@ -319,36 +319,37 @@ describe('File', function () {
       .expect(201)
       .then(function (res) {
         console.log('res.body in file.js: ', res.body);
-        //   agent
-        //     .get()
-        //     .send({})
-        //     .expect(201)
-        //     // get request for file at old path should not work
-        // })
-        // .then(function (res) {
-        //   agent
-        //     .get()
-        //     .send({})
-        //     .expect(201)
-        //     // get request for file at new path should work
-        //     // get request for file at new path should return the expected content
-        //     // done();
-        // })
-        // .then(function (res) {
-        //   agent
-        //     .get('/api/file/')
-        //     .send({
-        //       projectName: projectName,
-        //     })
-        //     .expect(200);
-        //   // new file structure should not have anything at old path
-        //   // new file structure should have something at new path
-        //   // done();
-        // })
-        // .catch(function (err) {
-        //   throw new Error(err);
-        //   done();
-      });
+        agent
+          .get()
+          .send({})
+          .expect(201);
+        done();
+        // get request for file at old path should not work
+      })
+      // .then(function (res) {
+      //   agent
+      //     .get()
+      //     .send({})
+      //     .expect(201)
+      // get request for file at new path should work
+      // get request for file at new path should return the expected content
+      // done();
+      // })
+      // .then(function (res) {
+      //   agent
+      //     .get('/api/file/')
+      //     .send({
+      //       projectName: projectName,
+      //     })
+      //     .expect(200);
+      //   // new file structure should not have anything at old path
+      //   // new file structure should have something at new path
+
+    // })
+    .catch(function (err) {
+      throw new Error(err);
+      done();
+    });
   });
 
 });
