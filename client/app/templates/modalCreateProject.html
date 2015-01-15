@@ -2,22 +2,28 @@
   <h1 class="modal-header">Add a new project</h1>
   <div class="modal-body">
     <form ng-submit="closeModal()">
-      <input type="text" ng-model="newProjectName" class="modalTextInput" placeholder="Enter project name">
+      <div class="form-group">
+        <!-- <label for="projectName">Project Name</label> -->
+        <input type="text" ng-model="newProjectName" id="projectName" class="modalTextInput" class="form-control" placeholder="Enter project name">
+      </div>
       <tabset>
+        <tab heading="Clone git repo" select="changeCurrentTab('gitRepoUrl')">
+          <form>
+            <div class="form-group">
+              <label for="gitRepoUrl">URL for Git Repository</label>
+              <input type="text" id="gitRepoUrl" ng-model="gitRepoUrl" ng-change="updateGitRepo(gitRepoUrl)" class="form-control" placeholder="https://github.com/code-friends/CodeFriends.git"/>
+            </div>
+        </tab>
         <tab heading="Upload .zip" select="changeCurrentTab('zipFile')">
           <div>
             <input type="file" ng-model='files' ng-file-select="onFileSelect(files)" ng-multiple="false" class="app-prompt-upload"/>
           </div>
         </tab>
-        <tab heading="Clone git repo" select="changeCurrentTab('gitRepoUrl')">
-          <form>
-            <div class="form-group">
-              <label for="gitRepoUrl">Git Repo</label>
-              <input type="text" id="gitRepoUrl" ng-model="gitRepoUrl" ng-change="updateGitRepo(gitRepoUrl)" class="form-control" placeholder="git@github.com:code-friends/CodeFriends.git"/>
-            </div>
-        </tab>
       </tabset>
-      <button type="submit" class="glyphicon glyphicon-plus"></button>
+      <button type="submit" class="create-project-button">
+        <span class='glyphicon glyphicon-plus'></span>
+        <span class='text'>Create</span>
+      </button>
     </form>
   </div>
 </div>

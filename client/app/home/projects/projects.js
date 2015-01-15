@@ -11,6 +11,7 @@
     var vm = this;
     vm.projects = null;
     vm.createProject = createProject;
+    vm.deleteProject = deleteProject;
     vm.openCreateProjectModal = openCreateProjectModal;
 
     // Close Socket Connection
@@ -24,11 +25,20 @@
         });
     }
 
+    function deleteProject($event, project) {
+      $event.preventDefault();
+      $event.stopPropagation();
+      return ProjectListFactory.deleteProject(project.projectName)
+        .then(function () {
+          init();
+        });
+    }
+
     function createProject(projectName) {
       return ProjectListFactory.createProject(projectName)
         .then(function () {
           init();
-        })
+        });
     }
 
     function openCreateProjectModal() {

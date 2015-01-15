@@ -9,15 +9,19 @@
 }
 
 #projects-body {
-  background-color: $silver-blue;
   color: white;
   min-height: 100vh;
 }
 
 .projects-header {
-  padding: 25px 0px;
+  padding: 15px 0px;
+  h2 {
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    font-size: 1.75em;
+  }
 }
-
 
 .new-project-submission-form {
   float: right;
@@ -29,6 +33,7 @@
   font-weight: 700;
   letter-spacing: 0.05em;
   padding: 10px;
+  font-size: 0.85em;
 }
 
 a:last-child {
@@ -40,18 +45,31 @@ a:last-child {
 .single-project {
   padding: 10px 0px;
   border-top: solid 1px #99B0C2;
+  background-color: rgba($darken-silver-blue, 0);
+  transition-property: background-color;
+  transition-duration: 125ms;
+  .project-header {
+    font-size: 1.15em;
+    padding-top: 0.25em;
+  }
+  .timeAgo {
+    font-size: 10px;
+    color: #677889;
+    display: block;
+    position: relative;
+    top: 1px;
+  }
   &:hover {
-    background: $darken-silver-blue;
+    transition-property: background-color;
+    transition-duration: 50ms;
+    background: rgba($darken-silver-blue, 0.5);
+    .timeAgo {
+      color: #ccc;
+    }
   }
 }
 
-.timeAgo {
-  font-size: 10px;
-  color: #677889;
-  display: block;
-  position: relative;
-  top: 1px;
-}
+
 
 .btn-github-login {
   margin-bottom: 20px;
@@ -59,19 +77,31 @@ a:last-child {
 
 .add-icon {
   background-image: url($add-project-icon-path);
-  width: 38px;
-  height: 38px;
+  width: 42px;
+  height: 42px;
   background-size: contain;
   display: inline-block;
   float: right;
-  .mouseover-text {
-    display: none;
-    width: 100%;
-    top: 114%;
-    left: 81%;
+  cursor: pointer;
+  border-radius: 28px;
+  background-size: 25px;
+  background-position: 9px;
+  background-repeat: no-repeat;
+  background-color: rgba($silver-blue, 0.1);
+  transition-property: width;
+  transition-duration: 375ms;
+  overflow: hidden;
+  &:hover {
+    width: 157px;
+    transition-property: width, background-color;
+    transition-duration: 250ms;
+    background-color: rgba($silver-blue, 0.5);
   }
-  &:hover .mouseover-text{
+  .text {
     display: inline-block;
-    position: absolute;
+    height: 6px;
+    width: 118px;
+    margin-top: 14px;
+    margin-left: 45px;
   }
 }

@@ -44,10 +44,8 @@
           }
           // NOTE: It would be great if we could give the user some feedback that
           // this might take a while. Git cloning can take a couple of seconds.
-          console.log('createProject', projectInfoObj);
           return ProjectListFactory.createProject($scope.newProjectName, projectInfoObj)
             .then(function () {
-              console.log('Close Modal');
               $modalInstance.close();
             });
         }

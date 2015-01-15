@@ -20,9 +20,26 @@ $dark-blue-grey: #4C7284;
 $darkened-blue-grey: darken($blue-grey, 10);
 $silver-blue: rgba(30, 76, 97, 0.5);
 $darken-silver-blue: darken(rgba(30, 76, 97, 0.3), 0.5);
+$light-grey: #aaa;
 
 // UI dimensions
 $toolbar-height: 41px;
 $toolbar-width: 239px;
 $video-height: 150px;
 $video-width: 200px;
+
+// Mixins
+@mixin placeholder-color($color){
+  &::-webkit-input-placeholder {
+    color: $color;
+  }
+  &:-moz-placeholder { /* Firefox 18- */
+    color: $color;
+  }
+  &::-moz-placeholder {  /* Firefox 19+ */
+    color: $color;
+  }
+  &:-ms-input-placeholder {
+    color: $color;
+  }
+}

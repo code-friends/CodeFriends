@@ -69,36 +69,105 @@ $input-height: 30px;
     background-color: $dark-blue-grey;
     border: none;
     outline: none;
-    height: $input-height;
+    height: $input-height + 4;
     border-radius: 4px;
     padding: 9px;
     width: 100%;
     text-align: center;
     color: white;
+    @include placeholder-color(rgba(255, 255, 255, 0.7));
+    font-family: 'Source Code Pro', monaco, monospace;
+    font-size: 1em;
   }
   .addFileForm {
     margin-top: 5%;
   }
-  .glyphicon-plus {
+  .create-project-button {
+    position: relative;
+    display: inline-block;
+    width: 43px;
+    height: 43px;
+    overflow: hidden;
+
     margin-top: 8%;
     margin-bottom: 4%;
-    font-size: 2.3em;
+    padding: 6px 12px;
+
+    border-radius: 28px;
+    background-size: contain;
+    background-size: 25px;
+    background-position: 9px;
+    background-repeat: no-repeat;
+    background-color: rgba(30, 76, 97, 0.1);
+
+    transition-property: width;
+    transition-duration: 375ms;
+
+    cursor: pointer;
     color: white;
+    .glyphicon-plus {
+      float: left;
+      font-size: 1.60em;
+      margin-left: 2px;
+    }
+    .text {
+      font-family: $Proxima-font-stack;
+      display: inline-block;
+      width: 60px;
+      font-size: 1.6em;
+      margin-top: 0;
+      font-size: 1.5em;
+      letter-spacing: 0.05em;
+      position: absolute;
+      left: 41px;
+      margin-left: 2px;
+    }
+    &:hover, &.active {
+      width: 120px;
+      transition-property: width, background-color;
+      transition-duration: 250ms;
+      background-color: rgba($silver-blue, 0.5);
+    }
   }
 }
 
-
-// Tabs
-.tab-content .active {
-  color: #000;
+.modal {
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
-
-
-
-
+// Tabs
+.tab-content {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  label {
+    letter-spacing: 0.075em;
+    font-weight: 400;
+  }
+  input {
+    color: #222;
+    @include placeholder-color(#ccc);
+    &[type="file"] {
+      font-size: 0.9em;
+      width: 248px;
+      letter-spacing: 0.1em;
+      padding: 10px 10px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 5px;
+      color: white;
+      margin: 0 auto;
+    }
+  }
+  .form-group {
+    margin-right: 15px;
+    margin-left: 15px;
+    margin-bottom: 15px;
+  }
+  .active {
+    color: white;
+  }
+}
 // Tabs styling in modals
-.modal-dialog {  
+.modal-dialog {
   .nav-tabs > li.active > a {
     background-color: $dark-blue-grey;
     color: white;
@@ -138,13 +207,9 @@ $input-height: 30px;
     border: 1px solid #466D80;
     border-bottom: 0;
   }
-}  
+}
 
 .createProjectModal {
-  input[type="file"] {
-    width: 162px;
-    margin: 0 auto;
-  }
   .upload-icon {
     background-image: url($upload-icon-path);
     background-size: contain;
@@ -155,17 +220,24 @@ $input-height: 30px;
   }
 }
 
-
 #toolbar .dropdown-menu {
   width: 100%;
 }
 
-
-
-
-.delete-project-glyphicon {  
-  position: relative;
-  left: 86%;
-  top: -19px;
+.delete-project-glyphicon {
+  $dark-red: rgb(179, 25, 25);
+  float: right;
   font-size: 1.2em;
+  padding: 10px 9px 8px;
+  border-radius: 20px;
+  background-color: rgba($dark-red, 0);
+  transition-property: background-color;
+  transition-duration: 150ms;
+  position: relative;
+  z-index: 5;
+  &:hover {
+    background-color: rgba($dark-red, 0.8);
+    transition-property: background-color;
+    transition-duration: 150ms;
+  }
 }

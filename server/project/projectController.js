@@ -190,12 +190,12 @@ projectController.addUser = function (req, res) {
  */
 projectController.delete = function (req, res) {
   //only delete the project if person requesting the deletion has a relation with it
-  return getProject(req.body.id)
+  return getProject(req.params.projectNameOrId)
     .then(function (model) {
       if (model === null) {
         throw new Error('No model found for that id');
       }
-      return db('projectsToUsers')
+      return db('projects_users')
         .where('project_id', '=', model.get('id'))
         .del()
         .then(function () {
@@ -208,7 +208,8 @@ projectController.delete = function (req, res) {
     .then(function () {
       res.status(200).end();
     })
-    .catch(function () {
+    .catch(function (err) {
+      console.log('Error Deleting Project', err);
       res.status(400).end();
     });
 };

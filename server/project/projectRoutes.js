@@ -10,6 +10,8 @@ projectRouter.get('/', projectController.getAllProjects);
 projectRouter.get('/download/:projectNameOrId', projectController.downloadSpecificProject);
 projectRouter.get('/:projectNameOrId', projectController.getSpecificProject);
 projectRouter.put('/addUser', projectController.addUser);
-projectRouter.delete('/', projectController.delete);
+// projectRouter.post('/add', projectController.addToRepository);
+// projectRouter.post('/commit', projectController.commitToRepository);
+projectRouter.delete('/:projectNameOrId', projectController.delete);
 
 module.exports = projectRouter;
