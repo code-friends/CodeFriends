@@ -1,17 +1,24 @@
-<!-- file structure uses vm from projectController -->
-
 <script type="text/ng-template" id="fileStructureTree">
   <div class='{{ file.type }}'>
     <!-- Folder -->
     <div class='folder-container' ng-if="file.type === 'folder'">
-      <span class='glyphicon glyphicon-{{ file.type }} glyphicon-{{ file.type }}-open' aria-hidden='true'></span>
-      <span>{{ file.name }}</span>
+      <div class='inner-container' ng-class="file-level-{{file.level}}">
+        <span class='glyphicon glyphicon-{{ file.type }} glyphicon-{{ file.type }}-open' aria-hidden='true'></span>
+        <span>{{ file.name }}</span>
+      </div>
+      <!-- //<span class="file-options-button"></span> -->
+      <span class="fa fa-cog" id="gear-icon"></span>
     </div>
     <!-- File -->
     <div class='file-container' ng-if="file.type === 'file'">
-      <a ui-sref='document({ documentPath: file.path })'>
-      <span class='glyphicon glyphicon-{{ file.type }} glyphicon-{{ file.type }}-open' aria-hidden='true'></span>
-       <span>{{ file.name }}</span> </a>
+      <div class="inner-container file-level-{{file.level}}">
+        <a ui-sref='document({ documentPath: file.path })'>
+          <span class='glyphicon glyphicon-{{ file.type }} glyphicon-{{ file.type }}-open' aria-hidden='true'></span>
+          <span>{{ file.name }}</span>
+        </a>
+      </div>
+      <!-- // <span class="file-options-button"></span> -->
+      <span class="fa fa-cog" id="gear-icon"></span>
     </div>
     <!-- Recursive File Listing -->
     <ul ng-if="Object.keys(file.files).length !== 0" class="nested-folder">
@@ -21,9 +28,10 @@
   </div>
 </script>
 
-<div ng-controller="ProjectController as project">
-  <h4 class='project-file-structure-header' >Files</h4>
+<!-- file structure uses vm from projectController -->
+<div ng-controller="FileStructureController as fs">
+  <h4 class='project-file-structure-header'>Files</h4>
   <ul class='project-file-structure-list'>
-    <li ng-repeat="file in project.files" ng-include="'fileStructureTree'"></li>
+    <li ng-repeat="file in fs.files" ng-include="'fileStructureTree'"></li>
   </ul>
 </div>

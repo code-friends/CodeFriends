@@ -1,13 +1,14 @@
+// Project view
 .project-view-container {
   height: 100vh;
   overflow: hidden;
+  color: rgb(36, 46, 50);
+  background-color: rgba(137, 158, 168, 0.5);
+  width: 100%;
 }
 
-// Project Container
 .project-container {
   height: calc(100% - #{$toolbar-height});
-  width: 100%;
-  overflow: hidden;
 }
 
 // Editor

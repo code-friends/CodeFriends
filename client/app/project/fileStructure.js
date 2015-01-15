@@ -3,19 +3,19 @@
 
 (function () {
   'use strict';
-  angular.module('codeFriends.project', [])
-    .controller('ProjectController', ProjectController);
+  angular.module('codeFriends.fileStructure', [])
+  .controller('FileStructureController', FileStructureController);
 
-  ProjectController.$inject = ['$state', '$stateParams', 'AuthFactory', 'ProjectFactory', 'DocumentFactory', 'SocketFactory'];
+  FileStructureController.$inject = ['$state', '$stateParams', 'AuthFactory', 'ProjectFactory', 'DocumentFactory', 'SocketFactory'];
 
-  function ProjectController($state, $stateParams, AuthFactory, ProjectFactory, DocumentFactory, SocketFactory) {
+  function FileStructureController($state, $stateParams, AuthFactory, ProjectFactory, DocumentFactory, SocketFactory) {
     var vm = this;
     vm.username = AuthFactory.userName;
     vm.files = [];
+    vm.folderPaths = []; //you might not need this, take out later mabes
     vm.currentProjectId = null;
     vm.currentProjectName = null;
     vm.getProject = getProject;
-    vm.escapeBackSlash = escapeBackSlash;
 
     getProject();
 
@@ -23,13 +23,30 @@
       vm.getProject();
     });
 
-    // saves current project id, current project name and files to $scope
+
+    var addLevelToAllFiles = function (fileStructure, level) {
+      for (var i in fileStructure) {
+        if (fileStructure.hasOwnProperty(i)) {
+          var file = fileStructure[i];
+          file.level = level;
+          if (file.type === 'folder') {
+            addLevelToAllFiles(file.files, level + 1);
+          }
+        }
+      }
+    };
+
+    // saves current project id, current project name, files and folderpaths to vm
     function getProject() {
       return ProjectFactory.getProject($stateParams.projectName)
         .then(function (project) {
           vm.currentProjectId = project.id;
           vm.currentProjectName = project.projectName;
           vm.files = project.files;
+          // Add Level To Project
+          addLevelToAllFiles(vm.files, 0);
+          console.log(vm.files);
+          // Determine First File In Project
           if (typeof $state.params.documentPath === 'undefined') {
             var firstFile;
             angular.forEach(project.files, function (file) {
@@ -48,14 +65,14 @@
           }
           return vm.files;
         })
+        .then(function () { //you might not need this, take out later mabes
+          vm.folderPaths = ProjectFactory.getFolderPaths(vm.files);
+          console.log('folderpathsss in this proyecto', vm.folderPaths);
+        })
         .catch(function (err) {
           console.log('Could Not Get Project', err);
         });
     }
 
-    function escapeBackSlash(str) {
-      str = str.replace(/(\/)/g, '%2F');
-      return str;
-    }
   }
 })();

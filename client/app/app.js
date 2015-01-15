@@ -7,7 +7,7 @@
       'codeFriends.services',
       'codeFriends.projects',
       'codeFriends.userBox',
-      'codeFriends.project',
+      'codeFriends.fileStructure',
       'codeFriends.toolbar',
       'codeFriends.uploads',
       'codeFriends.document',
@@ -47,7 +47,6 @@
             },
             'projects@home': {
               templateUrl: '/app/home/projects/projects.html',
-              controller: 'ProjectsController'
             }
           },
           resolve: {
@@ -62,19 +61,15 @@
             },
             'fileStructure@project': {
               templateUrl: '/app/project/fileStructure/fileStructure.html',
-              controller: 'ProjectController'
             },
             'chat@project': {
               templateUrl: '/app/project/chat/chat.html',
-              controller: 'ChatController'
             },
             'toolbar@project': {
               templateUrl: '/app/project/toolbar/toolbar.html',
-              controller: 'ToolbarController'
             },
             'video@project': {
               templateUrl: '/app/project/chat/video/video.html',
-              controller: 'VideoController'
             }
           },
           resolve: {
