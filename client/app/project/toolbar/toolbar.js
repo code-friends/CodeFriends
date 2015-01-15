@@ -79,7 +79,7 @@
     function openAddFileModal() {
       $modal.open({
         templateUrl: '/app/templates/modalAddFile.html',
-        controller: 'addToProjectModalController',
+        controller: 'modifyProjectModalController',
         size: 'sm'
       });
     }
@@ -87,7 +87,7 @@
     function openAddFolderModal() {
       $modal.open({
         templateUrl: '/app/templates/modalAddFolder.html',
-        controller: 'addToProjectModalController',
+        controller: 'modifyProjectModalController',
         size: 'sm'
       });
     }
@@ -95,7 +95,7 @@
     function openAddUserModal() {
       $modal.open({
         templateUrl: '/app/templates/modalAddUser.html',
-        controller: 'addToProjectModalController',
+        controller: 'modifyProjectModalController',
         size: 'sm'
       });
     }
