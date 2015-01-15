@@ -77,7 +77,7 @@ db.createAllTables = db.schema.hasTable('users').then(function (exists) {
           template.increments('id').primary();
           template.integer('user_id').unsigned().references('id').inTable('users');
           template.string('template_name', 255);
-          template.string('github_repo_url', 255);
+          template.string('git_repo_url', 255);
           template.timestamps();
         })
         .then(function () {
