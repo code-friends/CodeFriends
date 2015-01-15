@@ -52,25 +52,7 @@ db.createAllTables = db.schema.hasTable('users').then(function (exists) {
     }
   });
 }).then(function () {
-  //creates join table for users and projects
-  return db.schema.hasTable('projects_users').then(function (exists) {
-    if (!exists) {
-      return db.schema.createTable('projects_users', function (projectsUsers) {
-          projectsUsers.increments('id').primary();
-          projectsUsers.integer('user_id').unsigned().references('id').inTable('users');
-          projectsUsers.integer('project_id').unsigned().references('id').inTable('projects');
-          projectsUsers.timestamps();
-        })
-        .then(function () {
-          console.log('created table: projects_users');
-        })
-        .catch(function (error) {
-          console.log('error creating projects_users: ', error);
-        });
-    }
-  });
-}).then(function () {
-  //projects schema
+  //templates schema
   return db.schema.hasTable('templates').then(function (exists) {
     if (!exists) {
       return db.schema.createTable('templates', function (template) {
@@ -85,6 +67,24 @@ db.createAllTables = db.schema.hasTable('users').then(function (exists) {
         })
         .catch(function (error) {
           console.log('error creating templates: ', error);
+        });
+    }
+  });
+}).then(function () {
+  //creates join table for users and projects
+  return db.schema.hasTable('projects_users').then(function (exists) {
+    if (!exists) {
+      return db.schema.createTable('projects_users', function (projectsUsers) {
+          projectsUsers.increments('id').primary();
+          projectsUsers.integer('user_id').unsigned().references('id').inTable('users');
+          projectsUsers.integer('project_id').unsigned().references('id').inTable('projects');
+          projectsUsers.timestamps();
+        })
+        .then(function () {
+          console.log('created table: projects_users');
+        })
+        .catch(function (error) {
+          console.log('error creating projects_users: ', error);
         });
     }
   });

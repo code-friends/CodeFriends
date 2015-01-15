@@ -5,6 +5,8 @@ var Q = require('q');
 var _ = require('lodash');
 var path = require('path');
 var models = require('../models.js').models;
+var Promise = require('bluebird');
+var db = require('../db');
 
 
 var templateController = {
@@ -13,9 +15,7 @@ var templateController = {
 		var templateName = req.body.templateName;
 		var gitRepoUrl = req.body.gitRepoUrl;
 		var userId = req.user.id;
-		console.log('templateName: ', templateName);
-		console.log('gitRepoUrl: ', gitRepoUrl);
-		console.log('userId: ', userId);
+		var templateToAttachToUser;
 
 		return new Q()
 			.then(function () {
@@ -28,24 +28,13 @@ var templateController = {
 						user_id: userId
 					})
 					.save()
-					.then(function (model) {
-						console.log('model: ', model);
-						console.log('req.user: ', req.user);
-						return model
-							.related('user')
-							.create(req.user)
-							.yield(model);
+					.then(function (template) {
+						res.status(200).json(template.toJSON());
 					})
 					.catch(function (err) {
-						console.log('Error creating new template in database');
+						console.log('Error creating template: ', err);
+						res.status(400).end();
 					});
-			})
-			.then(function (model) {
-				res.status(201).json(model.toJSON());
-			})
-			.catch(function (err) {
-				console.log('Error Creating Template:', err);
-				res.status(400).end();
 			});
 	},
 

@@ -163,6 +163,8 @@ projectController.addUser = function (req, res) {
     .then(function (queriedUser) {
       return getProject(projectName)
         .then(function (model) {
+      // console.log('model in PROJECT: ', model);
+      // console.log('model.related(user) in PROJECT: ', model.related('user'));
           return model
             .related('user')
             .create({
