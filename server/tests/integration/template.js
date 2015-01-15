@@ -62,4 +62,25 @@ describe('Template', function () {
 			});
 	});
 
+	it('should add a update a gitRepoUrl on PUT api/template/newGitRepoUrl', function (done) {
+		agent
+			.put('/api/template/updateGitRepoUrl')
+			.send({
+				oldGitRepoUrl: gitRepoUrl,
+				//add git url!!!!!!!!!!!!!!!!!
+				newGitRepoUrl: ''
+			})
+			.expect(200)
+			.then(function (res) {
+				console.log('res.body in UPDATE GIT in template.js', res.body);
+				// expect(fileStructure.files).to.be.a('object');
+				done();
+			})
+			.catch(function (err) {
+				throw new Error(err);
+				done();
+			});
+	});
+
+
 });
