@@ -18,6 +18,7 @@
     ])
     .config(function ($stateProvider, $urlRouterProvider) {
       $urlRouterProvider.otherwise('/');
+      // $locationProvider.html5Mode(true);
       var authenticated = ['$q', 'AuthFactory', function ($q, AuthFactory) {
         var deferred = $q.defer();
         AuthFactory.isLoggedIn(false)
