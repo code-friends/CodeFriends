@@ -48,7 +48,7 @@ gulp.task('js', function () {
       './client/app/home/projects/projects.js',
       './client/app/home/home.js',
       './client/app/userBox.js',
-      './client/app/project/project.js',
+      './client/app/project/fileStructure/fileStructure.js',
       './client/app/project/document/document.js',
       './client/app/project/chat/chat.js',
       './client/app/project/chat/video/video.js',

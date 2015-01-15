@@ -10,27 +10,55 @@
 .project-file-structure {
   border-right: solid 1px #f2f2f2;
   height: calc(100vh - #{$toolbar-height});
+  font-size: 0.9em;
   .project-file-structure-list {
-    li {
-      padding: 0.5em;
-      cursor: pointer;
-      color: #444;
-      .glyphicon {
-        width: 20px;
-      }
-      a {
-        text-decoration: none;
-      }
-    }
-    .nested-folder {
-      li {
-        padding-left: calc(#{$toolbar-width} * 0.10);
-      }
-      a > li{        
-        &:first-child {
-          margin-top: 0.4em;
+    overflow: scroll;
+    // padding-left: 6%;
+    .folder-container, .file-container {
+      width: 238px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      .inner-container {
+        padding-left: 6%;
+        .glyphicon {
+          margin-right: 5px;
         }
+      }    
+      // .file-options-button {
+      //   width: 4px;
+      //   height: 4px;
+      //   border: 4px solid #268bd2;
+      //   border-radius: 50%;
+      //   position: relative;
+      //   bottom: 13px;
+      //   right: 5px;
+      //   float: right;
+      //   display: none;
+      //   &:hover {
+      //     cursor: pointer;
+      //   }
+      .fa-cog {
+        display: none;
+        float: right;
+        cursor: pointer;
+        position: relative;
+        bottom: 13px;
+        margin-right: 5px;
+        color: #268bd2;
+      }
+      &:hover #gear-icon {
+        display: inline-block;
+      }
+      &:hover {
+        background-color: $darken-silver-blue;
+        color: #fff;    
+      }
       }
     }
+    @for $depth from 0 through 10 {
+      .file-level-#{$depth} {
+        margin-left: 10px * $depth;
+      }
   }
 }
+
