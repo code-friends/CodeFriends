@@ -12,6 +12,6 @@ projectRouter.get('/:projectNameOrId', projectController.getSpecificProject);
 projectRouter.put('/addUser', projectController.addUser);
 // projectRouter.post('/add', projectController.addToRepository);
 // projectRouter.post('/commit', projectController.commitToRepository);
-projectRouter.delete('/', projectController.delete);
+projectRouter.delete('/:projectNameOrId', projectController.delete);
 
 module.exports = projectRouter;

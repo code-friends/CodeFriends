@@ -16,10 +16,10 @@
       getProjectId: getProjectId,
       createProject: createProject,
       getProjects: getProjects,
-      addUser: addUser
+      addUser: addUser,
+      deleteProject: deleteProject
     };
     return factory;
-
 
     function updateName(name) {
       factory.filename = name;
@@ -38,14 +38,14 @@
 
     function createProject(projectName, fileObj) {
       // .zip
-      if (fileObj.type === 'file' && Array.isArray(fileObj.file) && fileObj.files.length > 0) {
+      if (fileObj.type === 'file' && Array.isArray(fileObj.file) && fileObj.file.length > 0) {
         return $upload.upload({
             method: 'POST',
             url: '/api/project/',
             data: {
               projectName: projectName,
             },
-            file: files[0]
+            file: fileObj.file[0]
           })
           .catch(function (error) {
             console.log('Error Uploading File: ', error);
@@ -56,7 +56,7 @@
         return $http.post('/api/project', {
           projectName: projectName,
           gitRepoUrl: fileObj.gitRepoUrl
-        })
+        });
       }
       // No .zip of gitRepo
       return $http.post('/api/project', {
@@ -101,6 +101,10 @@
         .catch(function (error) {
           console.log('Error Adding User', error);
         });
+    }
+
+    function deleteProject(projectName) {
+      return $http.delete('api/project/' + projectName);
     }
 
   }

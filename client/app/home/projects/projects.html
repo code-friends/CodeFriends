@@ -26,9 +26,13 @@
           </span>
         </div>
         <div class="col-sm-2">{{ project.createString }}</div>
-        <div class="col-sm-2">{{ project.updateString }}
+        <div class="col-sm-2">
+          <span
+            class="glyphicon glyphicon-remove delete-project-glyphicon"
+            ng-click="projects.deleteProject($event, project)"
+          ></span>
+          <span class="updated-string">{{ project.updateString }}</span>
           <span class="timeAgo">{{ project.timeAgoString }}</span>
-          <span class="glyphicon glyphicon-remove delete-project-glyphicon"></span>
         </div>
       </div>
     </a>
