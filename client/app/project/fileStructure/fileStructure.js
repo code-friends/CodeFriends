@@ -4,7 +4,7 @@
 (function () {
   'use strict';
   angular.module('codeFriends.fileStructure', [])
-  .controller('FileStructureController', FileStructureController);
+    .controller('FileStructureController', FileStructureController);
 
   FileStructureController.$inject = ['$state', '$stateParams', 'AuthFactory', 'ProjectFactory', 'DocumentFactory', 'SocketFactory'];
 

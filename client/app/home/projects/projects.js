@@ -5,13 +5,16 @@
   angular.module('codeFriends.projects', ['ui.router'])
     .controller('ProjectsController', ProjectsController);
 
-  ProjectsController.$inject = ['$http', 'ProjectListFactory', '$modal', '$timeout'];
+  ProjectsController.$inject = ['$http', 'ProjectListFactory', '$modal', '$timeout', 'SocketFactory'];
 
-  function ProjectsController($http, ProjectListFactory, $modal, $timeout) {
+  function ProjectsController($http, ProjectListFactory, $modal, $timeout, SocketFactory) {
     var vm = this;
     vm.projects = null;
     vm.createProject = createProject;
     vm.openCreateProjectModal = openCreateProjectModal;
+
+    // Close Socket Connection
+    SocketFactory.leaveRoom();
 
     function init() {
       return ProjectListFactory.getProjects()

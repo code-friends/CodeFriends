@@ -13,18 +13,14 @@
       };
 
       $scope.changeCurrentTab = function (tabName) {
-        console.log('changeCurrentTab', tabName);
         $scope.selectedTab = tabName;
       }
 
       $scope.updateGitRepo = function (gitRepoUrl) {
-        console.log('updateGitRepo', gitRepoUrl);
         $scope.gitRepoUrl = gitRepoUrl;
       }
 
       $scope.closeModal = function () {
-        console.log('selectedTab', $scope.selectedTab);
-        console.log('gitRepoUrl', $scope.gitRepoUrl);
         if ($scope.newProjectName !== undefined) {
           var projectInfoObj = {};
           // Zip

@@ -18,8 +18,6 @@
 
     // when it's ready, join if we got a room from the URL
     VideoFactory.on('readyToCall', function (data) {
-      console.log("readytoCall", roomID, data);
-      // you can name it anything
       if (roomID) {
         VideoFactory.joinRoom(roomID);
       }
