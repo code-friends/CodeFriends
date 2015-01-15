@@ -77,7 +77,6 @@
     }
 
     function openAddFileModal() {
-      console.log('hereeee');
       $modal.open({
         templateUrl: '/app/templates/modalAddFile.html',
         controller: 'addToProjectModalController',

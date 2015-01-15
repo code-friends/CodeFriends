@@ -71,6 +71,23 @@ chatWS.on('connection', function (ws) {
       chatWS.broadcast(JSON.stringify(projectMsg));
     }
 
+    if (parsedMsg.message.type === 'leave room') {
+      for (var i in userConnections) {
+        for (var j = 0; j < userConnections[i].length; j++) {
+          if (userConnections[i][j] !== undefined) {
+            if (userConnections[i][j].username === parsedMsg.message.username) {
+              userConnections[i].splice(j, 1);
+              chatWS.broadcast(JSON.stringify({
+                type: 'refresh users',
+                userConnections: userConnections[i],
+                roomID: i
+              }));
+            }
+          }
+        }
+      }
+    }
+
     if (parsedMsg.message.type === 'user present') {
       userConnections[chatRoomName].push({
         username: parsedMsg.message.username,

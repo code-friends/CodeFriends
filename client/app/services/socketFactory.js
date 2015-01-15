@@ -3,24 +3,13 @@
   'use strict';
 
   angular.module('codeFriends.services')
-    .factory('SocketFactory', ['AuthFactory', 'ngSocket', '$stateParams', function (AuthFactory, ngSocket, $stateParams) {
+    .factory('SocketFactory', ['AuthFactory', 'ngSocket', '$stateParams', '$state', function (AuthFactory, ngSocket, $stateParams, $state) {
       var socketConnection = {};
       var locationName = window.location.hostname;
       var chatPort = window.config.ports.chat;
       var ws = ngSocket('ws://' + locationName + ':' + chatPort);
       var username = AuthFactory.userName;
       var avatar = AuthFactory.githubAvatarUrl;
-
-      // Send joinedRoom message to the server
-      ws.onOpen(function () {
-        var connectionObj = {
-          type: 'joinRoom',
-          roomID: $stateParams.projectName,
-          username: username,
-          githubAvatar: avatar
-        };
-        ws.send(connectionObj);
-      });
 
       ws.onMessage(function (msg) {
         msg = JSON.parse(msg.data);
@@ -36,6 +25,16 @@
           }
         }
       });
+
+      socketConnection.connect = function () {
+        var connectionObj = {
+          type: 'joinRoom',
+          roomID: $state.params.projectName,
+          username: username,
+          githubAvatar: avatar
+        };
+        ws.send(connectionObj);
+      };
 
       socketConnection.usersOnline = function (callback, roomID) {
         ws.onMessage(function (msg) {
@@ -87,9 +86,16 @@
         });
       };
 
-      socketConnection.sendChat = function (chatParams) {
-        ws.send(chatParams);
+      socketConnection.leaveRoom = function () {
+        ws.send({
+          type: 'leave room',
+          username: username
+        });
       };
+      http: //127.0.0.1:8000/#/project/1/newproject/document/fail.js
+        socketConnection.sendChat = function (chatParams) {
+          ws.send(chatParams);
+        };
 
       return socketConnection;
     }]);

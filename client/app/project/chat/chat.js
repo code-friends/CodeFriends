@@ -16,7 +16,7 @@
     $scope.messages = [];
     $scope.usersInRoom = [];
     $scope.emitStartVideo = emitStartVideo;
-
+    SocketFactory.connect();
 
     function emitStartVideo() {
       $rootScope.$broadcast('STARTVIDEO');
@@ -35,7 +35,9 @@
     SocketFactory.usersOnline(function (userObj) {
       $scope.usersInRoom = userObj.userConnections;
       var usersOnlineDiv = document.getElementById('gluedChatContent');
-      usersOnlineDiv.className = 'chatContent' + $scope.usersInRoom.length;
+      if (usersOnlineDiv !== undefined && usersOnlineDiv !== null) {
+        usersOnlineDiv.className = 'chatContent' + $scope.usersInRoom.length;
+      }
     }, roomID);
 
     SocketFactory.onMessageHistory(function (eachMessage) {
