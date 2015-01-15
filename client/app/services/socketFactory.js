@@ -93,10 +93,9 @@
           username: username
         });
       };
-      http: //127.0.0.1:8000/#/project/1/newproject/document/fail.js
-        socketConnection.sendChat = function (chatParams) {
-          ws.send(chatParams);
-        };
+      socketConnection.sendChat = function (chatParams) {
+        ws.send(chatParams);
+      };
 
       return socketConnection;
     }]);

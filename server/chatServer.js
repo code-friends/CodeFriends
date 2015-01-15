@@ -40,12 +40,12 @@ chatWS.on('connection', function (ws) {
 
     if (parsedMsg.message.type === 'joinRoom') {
       if (userConnections[chatRoomName] === undefined) {
-        userConnections[chatRoomName] = [];
+        userConnections[chatRoomName] = {};
       }
-      userConnections[chatRoomName].push({
+      userConnections[chatRoomName][username] = {
         username: parsedMsg.message.username,
         githubAvatar: parsedMsg.message.githubAvatar
-      });
+      };
       mongoClient.connectAsync(config.get('mongo'))
         .then(function (db) {
           var chatCollection = Promise.promisifyAll(db.collection(chatRoomName));
@@ -73,10 +73,11 @@ chatWS.on('connection', function (ws) {
 
     if (parsedMsg.message.type === 'leave room') {
       for (var i in userConnections) {
-        for (var j = 0; j < userConnections[i].length; j++) {
-          if (userConnections[i][j] !== undefined) {
+        for (var j in userConnections[i]) {
+          if (userConnections[i].hasOwnProperty(j)) {
             if (userConnections[i][j].username === parsedMsg.message.username) {
-              userConnections[i].splice(j, 1);
+              console.log("user removed, ", userConnections[i][j]);
+              delete userConnections[i][j];
               chatWS.broadcast(JSON.stringify({
                 type: 'refresh users',
                 userConnections: userConnections[i],
@@ -89,10 +90,10 @@ chatWS.on('connection', function (ws) {
     }
 
     if (parsedMsg.message.type === 'user present') {
-      userConnections[chatRoomName].push({
+      userConnections[chatRoomName][username] = {
         username: parsedMsg.message.username,
         githubAvatar: parsedMsg.message.githubAvatar
-      });
+      };
       chatWS.broadcast(JSON.stringify({
         type: 'refresh users',
         userConnections: userConnections[chatRoomName],
@@ -100,7 +101,7 @@ chatWS.on('connection', function (ws) {
       }));
     }
     ws.on('close', function () {
-      userConnections[chatRoomName] = [];
+      userConnections[chatRoomName] = {};
       console.log('Chat WS: Connection Closed');
       chatWS.broadcast(JSON.stringify({
         type: 'attendence check',
