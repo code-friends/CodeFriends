@@ -52,7 +52,6 @@ db.createAllTables = db.schema.hasTable('users').then(function (exists) {
     }
   });
 }).then(function () {
-  //DO WE NEED THIS?? MODELS SHOULD TAKE CARE OF IT
   //creates join table for users and projects
   return db.schema.hasTable('projects_users').then(function (exists) {
     if (!exists) {
@@ -67,6 +66,25 @@ db.createAllTables = db.schema.hasTable('users').then(function (exists) {
         })
         .catch(function (error) {
           console.log('error creating projects_users: ', error);
+        });
+    }
+  });
+}).then(function () {
+  //projects schema
+  return db.schema.hasTable('templates').then(function (exists) {
+    if (!exists) {
+      return db.schema.createTable('templates', function (template) {
+          template.increments('id').primary();
+          template.integer('user_id').unsigned().references('id').inTable('users');
+          template.string('template_name', 255);
+          template.string('github_repo_url', 255);
+          template.timestamps();
+        })
+        .then(function () {
+          console.log('created table: templates');
+        })
+        .catch(function (error) {
+          console.log('error creating templates: ', error);
         });
     }
   });

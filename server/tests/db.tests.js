@@ -4,6 +4,7 @@
 var Promise = require('bluebird');
 var UserCollection = require('../models.js').collections.UserCollection;
 var ProjectCollection = require('../models.js').collections.ProjectCollection;
+var TemplateCollection = require('../models.js').collections.TemplateCollection;
 var expect = require('chai').expect;
 var should = require('should');
 var _ = require('lodash');
@@ -48,6 +49,31 @@ describe('Database', function () {
         .then(function (coll) {
           var _projectName = _.last(coll.toJSON()).projectName;
           expect(_projectName).to.equal('car');
+          done();
+        })
+        .catch(function (err) {
+          console.log(err);
+          expect(false).to.equal(true);
+          done();
+        });
+    });
+  });
+
+  //tests adding a new template and creating a collection
+  describe('Template', function () {
+    it('should create a new template', function (done) {
+      new TemplateCollection()
+        .create({
+          'templateName': 'crazyTestTemplate'
+        })
+        .then(function () {
+          return TemplateCollection
+            .query('where', 'template_name', '=', 'crazyTestTemplate')
+            .fetch();
+        })
+        .then(function (coll) {
+          var _templateName = _.last(coll.toJSON()).templateName;
+          expect(_templateName).to.equal('crazyTestTemplate');
           done();
         })
         .catch(function (err) {

@@ -6,20 +6,20 @@ var moment = require('moment');
 var bcrypt = require('bcrypt-nodejs');
 var bluebird = require('bluebird');
 var _ = require('lodash');
-    _.str = require('underscore.string');
+_.str = require('underscore.string');
 
 //define models
 var models = {};
 
-models._parse = function(attrs) {
-  return _.reduce(attrs, function(memo, val, key) {
+models._parse = function (attrs) {
+  return _.reduce(attrs, function (memo, val, key) {
     memo[_.str.camelize(key)] = val;
     return memo;
   }, {});
 };
 
-models._format = function(attrs) {
-  return _.reduce(attrs, function(memo, val, key) {
+models._format = function (attrs) {
+  return _.reduce(attrs, function (memo, val, key) {
     memo[_.str.underscored(key)] = val;
     return memo;
   }, {});
@@ -33,6 +33,9 @@ models.User = bookshelf.Model.extend({
   },
   project: function () {
     return this.belongsToMany(models.Project);
+  },
+  template: function () {
+    return this.belongsToMany(models.Template);
   },
   parse: models._parse,
   format: models._format,
@@ -65,6 +68,16 @@ models.Project = bookshelf.Model.extend({
   format: models._format
 });
 
+models.Template = bookshelf.Model.extend({
+  tableName: 'templates',
+  hasTimestamps: true,
+  user: function () {
+    return this.belongsTo(models.User);
+  },
+  parse: models._parse,
+  format: models._format
+});
+
 //define collections
 var collections = {};
 
@@ -73,6 +86,9 @@ collections.UserCollection = bookshelf.Collection.extend({
 });
 collections.ProjectCollection = bookshelf.Collection.extend({
   model: models.Project
+});
+collections.TemplateCollection = bookshelf.Collection.extend({
+  model: models.Template
 });
 
 exports.models = models;
