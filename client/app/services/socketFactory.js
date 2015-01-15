@@ -27,6 +27,7 @@
       });
 
       socketConnection.connect = function () {
+        console.log("connecting");
         var connectionObj = {
           type: 'joinRoom',
           roomID: $state.params.projectName,
