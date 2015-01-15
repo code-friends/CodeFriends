@@ -43,12 +43,6 @@
     // Setup Code Editor
     var documentPathSplit = $scope.documentPath.split('.');
     var fileExtension = documentPathSplit[documentPathSplit.length - 1];
-    $scope.cm = CodeMirror.fromTextArea(document.getElementById('pad'), {
-      mode: CodeMirror.findModeByName(fileExtension).mode,
-      lineNumbers: true,
-      matchBrackets: true,
-      theme: 'solarized dark'
-    });
 
     // listens for theme variable changed in ToolbarDocument factory broadcasted by $rootScope
     DocumentFactory.goToDocument($scope.projectName, $scope.documentPath, $scope.cm);
