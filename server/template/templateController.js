@@ -12,6 +12,8 @@ var db = require('../db');
 var templateController = {
 
 	createNewTemplate: function (req, res) {
+		//write conditional to make sure the name doesn't exist cause if they're global we can't have 
+		//two of the same name
 		var templateName = req.body.templateName;
 		var gitRepoUrl = req.body.gitRepoUrl;
 		var userId = req.user.id;
@@ -39,6 +41,46 @@ var templateController = {
 	},
 
 	updateTemplateName: function (req, res) {
+		//figure out how to search by id instead of template name
+		// var id = req.body.id;
+		var newTemplateName = req.body.newTemplateName;
+		var oldTemplateName = req.body.oldTemplateName;
+		var requestingUserId = req.user.id;
+
+		return new Q()
+			.then(function () {
+				return models.Template
+					.query({
+						where: {
+							template_name: oldTemplateName
+						}
+					})
+					.fetch()
+					.then(function (template) {
+						return template;
+					})
+					.catch(function (err) {
+						console.log('No Model Could Be Found: ', err);
+					});
+			})
+			.then(function (template) {
+				if (template.get('userId') !== requestingUserId) {
+					throw new Error('Wait a second. You are not the creator of this template!');
+				}
+				return template
+					.save({
+						templateName: newTemplateName
+							// template_name: newTemplateName
+							//figure out why it's coming out as templateName in some places instead of template_name!!
+					})
+					.then(function (template) {
+						console.log('template right before res: ', template);
+						res.status(200).json(template.toJSON());
+					})
+					.catch(function (err) {
+						res.status(400).end();
+					});
+			});
 
 	},
 

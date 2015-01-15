@@ -31,7 +31,27 @@ describe('Template', function () {
 			})
 			.expect(200)
 			.then(function (res) {
-				console.log('res in template.js', res);
+				// console.log('res.body in POST template.js', res);
+				// var fileStructure = res.body;
+				// expect(fileStructure.files).to.be.a('object');
+				done();
+			})
+			.catch(function (err) {
+				throw new Error(err);
+				done();
+			});
+	});
+
+	it('should add a update a template name on PUT api/template/newName', function (done) {
+		agent
+			.put('/api/template/newName')
+			.send({
+				oldTemplateName: templateName,
+				newTemplateName: 'evenCrazierTemplate'
+			})
+			.expect(200)
+			.then(function (res) {
+				console.log('res.body in UPDATE NAME in template.js', res.body);
 				// var fileStructure = res.body;
 				// expect(fileStructure.files).to.be.a('object');
 				done();
