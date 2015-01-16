@@ -394,38 +394,35 @@ var fileController = {
     };
     deleteProperty(1, oldPathArray, firstBaseObject, 1);
 
-    console.log('storageForFileToMove after deleting: ', storageForFileToMove);
+    // console.log('storageForFileToMove after deleting: ', storageForFileToMove);
 
     var addProperty = function (round, urlArray, obj, index) {
       var totalRounds = urlArray.length || 1;
-      console.log('newPathArray: ', newPathArray);
-      console.log('totalRounds: ', totalRounds);
-      console.log('round: ', round);
-      console.log('index: ', index);
-      console.log('urlArray: ', urlArray);
-      console.log('obj: ', obj);
-
-
-      if (obj.type === 'folder') {
-
-      }
+      // console.log('newPathArray: ', newPathArray);
+      // console.log('totalRounds: ', totalRounds);
+      // console.log('round: ', round);
+      // console.log('index: ', index);
+      // console.log('urlArray: ', urlArray);
+      // console.log('obj: ', obj);
+      // if (obj.type === 'folder') {
+      // }
 
       if (totalRounds === 1 && newPathArray.length === 1) {
         var objKey = newPathArray[0].replace('.', '');
         storageForFileToMove.path = newPath;
         obj[objKey] = storageForFileToMove;
-        console.log('obj after adding: ', obj);
+        // console.log('obj after adding: ', obj);
         return;
       }
 
       if (round === totalRounds) {
         var objKey = urlArray[index].replace('.', '');
-        console.log('objKey', objKey);
+        // console.log('objKey', objKey);
         var nameOfFileToAdd = storageForFileToMove.name.replace('.', '');
-        console.log('nameOfFileToAdd', nameOfFileToAdd);
+        // console.log('nameOfFileToAdd', nameOfFileToAdd);
         storageForFileToMove.path = newPath;
         obj[nameOfFileToAdd] = storageForFileToMove;
-        console.log('obj after adding', obj);
+        // console.log('obj after adding', obj);
         return;
       }
 
