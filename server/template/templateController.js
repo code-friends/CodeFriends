@@ -15,14 +15,15 @@ var templateController = {
 		models.Template
 			.fetchAll()
 			.then(function (coll) {
-				console.log('coll.models: ', coll.models);
+				console.log('coll: ', coll);
 				// return coll.toJSON().filter(function (model) {
-				// return _.some(model.user, function (user) {
+				// 	return _.some(model.user, function (user) {
 				// 		return user.id === req.user.get('id');
-				// 	});
+				// });
 				// });
 			})
 			.then(function (templatesArray) {
+				console.log('templatesArray: ', templatesArray);
 				res.json(templatesArray);
 			})
 			.catch(function (err) {

@@ -109,6 +109,7 @@ projectController.getAllProjects = function (req, res) {
       withRelated: ['user']
     })
     .then(function (coll) {
+      // console.log('coll in Project: ', coll);
       return coll.toJSON().filter(function (model) {
         return _.some(model.user, function (user) {
           return user.id === req.user.get('id');
@@ -163,8 +164,8 @@ projectController.addUser = function (req, res) {
     .then(function (queriedUser) {
       return getProject(projectName)
         .then(function (model) {
-      // console.log('model in PROJECT: ', model);
-      // console.log('model.related(user) in PROJECT: ', model.related('user'));
+          // console.log('model in PROJECT: ', model);
+          // console.log('model.related(user) in PROJECT: ', model.related('user'));
           return model
             .related('user')
             .create({
