@@ -3,9 +3,9 @@
     <!-- Folder -->
     <div class='folder-container' ng-if="file.type === 'folder'">
       <div class="fa fa-cog">
-        <ul class="hidden-context-menu">
+        <ul class="hidden-fs-menu">
           <li ng-click="">Rename</li>
-          <li ng-click="fs.openMoveFileModal(file.name, file.path, file.level)">Move File<li>
+          <li ng-click="fs.openMoveFileModal(file.name, file.path, file.type)">Move {{file.type}}<li>
           <li ng-click="">Delete File</li>
         </ul>
       </div>
@@ -17,9 +17,9 @@
     <!-- File -->
     <div class='file-container' ng-if="file.type === 'file'">
       <div class="fa fa-cog">
-        <ul class="hidden-context-menu">
+        <ul class="hidden-fs-menu">
           <li ng-click="">Rename</li>
-          <li ng-click="fs.openMoveFileModal(file.name, file.path, file.level)">Move File<li>
+          <li ng-click="fs.openMoveFileModal(file.name, file.path, file.type)">Move {{file.type}}<li>
           <li ng-click="">Delete File</li>
         </ul>
       </div>

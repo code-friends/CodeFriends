@@ -29,7 +29,13 @@
       for (var i in fileStructure) {
         if (fileStructure.hasOwnProperty(i)) {
           var file = fileStructure[i];
-          file.level = level;
+          try {
+            if (typeof file === 'object') {
+              file.level = level;
+            }
+          } catch (err) {
+            console.log('Error Assigning Level', file, level);
+          }
           if (file.type === 'folder') {
             addLevelToAllFiles(file.files, level + 1);
           }
@@ -71,17 +77,17 @@
           }
           return vm.files;
         })
-        .then(function () { //you might not need this, take out later mabes
-          vm.folderPaths = ProjectFactory.getFolderPaths(vm.files);
-          console.log('folderpathsss in this proyecto', vm.folderPaths);
-        })
+        // .then(function () { //you might not need this, take out later mabes
+        //   vm.folderPaths = ProjectFactory.getFolderPaths(vm.files);
+        //   console.log('folderpathsss in this proyecto', vm.folderPaths);
+        // })
         .catch(function (err) {
           console.log('Could Not Get Project', err);
         });
     }
 
-    function openMoveFileModal(fileName, filePath) {
-      console.log(fileName, filePath);
+    function openMoveFileModal(fileName, filePath, fileType) {
+      console.log(fileName, filePath, fileType);
       $modal.open({
         templateUrl: '/app/templates/modalMoveFile.html',
         controller: 'modifyFileStructureModalController',
@@ -90,7 +96,8 @@
           movedFile: function () {
             return {
               fileName: fileName,
-              filePath: filePath
+              filePath: filePath,
+              fileType: fileType
             };
           }
         }

@@ -37,7 +37,6 @@
       var recursive = function (project) {
         for (var file in project) {
           if (project[file].type === 'folder') {
-            console.log('file path before adding slash', project[file].path);
             paths.push('/' + project[file].path);
           }
           if (typeof project[file].files === 'object' && !Array.isArray(project[file].files)) {

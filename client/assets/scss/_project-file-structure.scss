@@ -32,14 +32,15 @@
         margin-right: 5px;
         margin-top: 2px;
         color: #268bd2;
-        .hidden-context-menu {
+        .hidden-fs-menu {
           display: none;
+          font-size: 1.2em;
           background-color: white;
-          width: 200px;
+          width: 150px;
           height: 100px;
         }
         &:hover {
-          .hidden-context-menu {
+          .hidden-fs-menu {
             display: block;
             position: absolute;
             z-index: 100;
