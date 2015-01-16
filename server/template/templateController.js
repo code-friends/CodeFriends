@@ -11,7 +11,23 @@ var db = require('../db');
 
 var templateController = {
 
-	getTemplate: function (req, res) {
+	getAllTemplates: function (req, res) {
+		models.Template
+			.fetchAll()
+			.then(function (coll) {
+				console.log('coll.models: ', coll.models);
+				// return coll.toJSON().filter(function (model) {
+				// return _.some(model.user, function (user) {
+				// 		return user.id === req.user.get('id');
+				// 	});
+				// });
+			})
+			.then(function (templatesArray) {
+				res.json(templatesArray);
+			})
+			.catch(function (err) {
+				console.log('Error fetching projects : ', err);
+			});
 
 	},
 

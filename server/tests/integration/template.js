@@ -85,5 +85,24 @@ describe('Template', function () {
 			});
 	});
 
+	it('should get all templates on GET api/template/', function (done) {
+		agent
+			.get('/api/template/')
+			.expect(200)
+			.then(function (res) {
+				console.log('res.body: ', res.body);
+				// var allTemplates = res.body;
+				// expect(template).to.be.a('object');
+				// expect(template.templateName).to.equal('evenCrazierTemplate');
+				// expect(template.gitRepoUrl).to.equal('https://github.com/thejsj/SwipeRight.git');
+				done();
+			})
+			.catch(function (err) {
+				throw new Error(err);
+				done();
+			});
+	});
+
+
 
 });
