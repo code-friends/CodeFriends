@@ -18,7 +18,6 @@
     });
 
     VideoFactory.on('leftRoom', function (data) {
-      console.log("HEY I GOT A MESSAGE!");
       VideoFactory.disconnect();
     });
 
