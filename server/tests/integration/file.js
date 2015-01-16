@@ -394,8 +394,8 @@ describe('File', function () {
           var index1 = newPath[1];
           var objAtNewPath = fileStructure[index1].files;
           expect(objAtOldPath).to.not.equal(true);
-          expect(objAtNewPath.name).to.equal('dummyForTest2.js');
-          expect(objAtNewPath.type).to.equal('file');
+          expect(objAtNewPath[newPath[2]].name).to.equal('dummyForTest2.js');
+          expect(objAtNewPath[newPath[2]].type).to.equal('file');
         })
         .then(function (res) {
           return agent

@@ -23,7 +23,7 @@ describe('Code Friends', function () {
         done();
       })
       .catch(function (err) {
-        console.log('Didn\'t delete talbes:', err);
+        console.log('Didn\'t delete tables:', err);
       });
   });
 

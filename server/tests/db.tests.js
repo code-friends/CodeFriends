@@ -64,7 +64,7 @@ describe('Database', function () {
     it('should create a new template', function (done) {
       new TemplateCollection()
         .create({
-          'templateName': 'crazyTestTemplate'
+          'template_name': 'crazyTestTemplate'
         })
         .then(function () {
           return TemplateCollection
