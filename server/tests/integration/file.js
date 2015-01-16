@@ -434,6 +434,69 @@ describe('File', function () {
         });
     });
 
+    it('should move a file from root to a folder that is within a folder on PUT /api/file/move', function (done) {
+
+      agent
+        .put('/api/file/move')
+        .send({
+          projectName: projectName,
+          type: 'file',
+          filePath: '/main.js',
+          newPath: '/example/child/main.js',
+          projectIdOrName: projectName
+        })
+        .expect(201)
+        .then(function (res) {
+          var fileStructure = res.body.files;
+          console.log('fileStructure in file.js: ', fileStructure.example.files);
+          var oldPathTemp = '/main.js';
+          var newPathTemp = '/example/child/main.js';
+          var oldPath = oldPathTemp.replace('.', '').split('/');
+          var newPath = newPathTemp.replace('.', '').split('/');
+          // var objAtOldPath = fileStructure[oldPath[1]];
+          // var index1 = newPath[1];
+          // var objAtNewPath = fileStructure[index1].files;
+          // expect(objAtOldPath).to.not.equal(true);
+          // expect(objAtNewPath[newPath[2]].name).to.equal('dummyForTest2.js');
+          // expect(objAtNewPath[newPath[2]].type).to.equal('file');
+        })
+        // .then(function (res) {
+        //   return agent
+        //     .get('/api/file/download/projectName/' + projectName + '/fileName/example/dummyForTest2.js')
+        //     .expect(200)
+        //     .expect('Content-disposition', 'attachment; filename=dummyForTest2.js')
+        //     .then(function (res) {
+        //       var textAtNewPath = res.text;
+        //       var textInOriginalFile = fs.readFileSync('./server/tests/test-files/dummyForTest.js').toString();
+        //       expect(textAtNewPath).to.equal(textInOriginalFile);
+        //     })
+        //     .catch(function (err) {
+        //       console.log('File content should have been deleted at old path but was not: ', err);
+        //       done();
+        //     });
+        // })
+        // .then(function (res) {
+        //   return agent
+        //     .get('/api/file/download/projectName/' + projectName + '/fileName/dummyForTest2.js')
+        //     .send({
+        //       projectName: projectName,
+        //     })
+        //     .expect(200)
+        //     .then(function (res) {
+        //       expect(res.text).to.equal('');
+        //       done();
+        //     })
+        //     .catch(function (err) {
+        //       console.log('Error getting file for test: ', err);
+        //       done();
+        //     });
+        // })
+        .catch(function (err) {
+          throw new Error(err);
+          done();
+        });
+    });
+
   });
 
 });

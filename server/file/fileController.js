@@ -359,7 +359,7 @@ var fileController = {
     var oldPathArray = oldPath.split('/').splice(1, oldPath.length);
     var newPathArray = newPath.split('/').splice(1, newPath.length);
     var firstBaseObject = object.files[oldPathArray[0].replace('.', '')];
-    var secondBaseObject = object.files[oldPathArray[0].replace('.', '')];
+    var secondBaseObject = object.files[newPathArray[0].replace('.', '')];
     var storageForFileToMove;
 
     var deleteProperty = function (round, urlArray, obj, index) {
@@ -388,45 +388,64 @@ var fileController = {
       } else if (obj.type === 'file') {
         objToPass = obj[objKey];
       } else {
-        console.log('Error traversing file. Check if file path exists.');
+        console.log('Error traversing file in deleteProperty. Check if file path exists.');
       }
       deleteProperty(round + 1, urlArray, objToPass, index + 1);
     };
     deleteProperty(1, oldPathArray, firstBaseObject, 1);
 
-    var addProperty = function (round, urlArray, obj, index) {
+    console.log('storageForFileToMove after deleting: ', storageForFileToMove);
 
-      var totalRounds = urlArray.length - 1 || 1;
+    var addProperty = function (round, urlArray, obj, index) {
+      var totalRounds = urlArray.length || 1;
+      console.log('newPathArray: ', newPathArray);
+      console.log('totalRounds: ', totalRounds);
+      console.log('round: ', round);
+      console.log('index: ', index);
+      console.log('urlArray: ', urlArray);
+      console.log('obj: ', obj);
+
+
+      if (obj.type === 'folder') {
+
+      }
 
       if (totalRounds === 1 && newPathArray.length === 1) {
         var objKey = newPathArray[0].replace('.', '');
         storageForFileToMove.path = newPath;
-        obj.files[objKey] = storageForFileToMove;
+        obj[objKey] = storageForFileToMove;
+        console.log('obj after adding: ', obj);
         return;
       }
 
       if (round === totalRounds) {
         var objKey = urlArray[index].replace('.', '');
+        console.log('objKey', objKey);
         var nameOfFileToAdd = storageForFileToMove.name.replace('.', '');
+        console.log('nameOfFileToAdd', nameOfFileToAdd);
         storageForFileToMove.path = newPath;
-        obj.files[objKey].files[nameOfFileToAdd] = storageForFileToMove;
+        obj[nameOfFileToAdd] = storageForFileToMove;
+        console.log('obj after adding', obj);
         return;
       }
 
       var objToPass;
       var objKey = urlArray[index];
-      if (obj.type === 'folder') {
-        var temp = obj.files;
-        objToPass = temp[objKey];
-      } else if (obj.type === 'file') {
-        objToPass = obj[objKey];
+      // console.log('objKey: ', objKey);
+      // console.log('obj: ', obj);
+      // if (obj.type === 'folder') {
+      //   // var temp = obj.files;
+      //   objToPass = obj.files;
+      //   console.log('objToPass: ', objToPass);
+      // } else if (obj.type === 'file') {
+      objToPass = obj[objKey].files;
 
-      } else {
-        console.log('Error traversing file. Check if file path exists.');
-      }
+      // } else {
+      //   console.log('Error traversing file in addProperty. Check if file path exists.');
+      // }
       addProperty(round + 1, urlArray, objToPass, index + 1);
     };
-    addProperty(1, newPathArray, object, 0);
+    addProperty(1, newPathArray, object.files, 0);
 
     object.paths.push(newPath);
     for (var i = 0; i < object.paths.length; i++) {
