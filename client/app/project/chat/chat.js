@@ -36,7 +36,7 @@
       $scope.usersInRoom = userObj.userConnections;
       var usersOnlineDiv = document.getElementById('gluedChatContent');
       if (usersOnlineDiv !== undefined && usersOnlineDiv !== null) {
-        usersOnlineDiv.className = 'chatContent' + $scope.usersInRoom.length;
+        usersOnlineDiv.className = 'chatContent' + Object.keys($scope.usersInRoom).length;
       }
     }, roomID);
 

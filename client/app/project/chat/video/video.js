@@ -11,16 +11,14 @@
     var roomID = $stateParams.projectName;
 
     $scope.$on('STARTVIDEO', function () {
+      VideoFactory.joinRoom(roomID)
       VideoFactory.startLocalVideo();
       var localVideo = document.getElementById('localVideo');
       localVideo.className = 'localVideoActive';
     });
 
-    // when it's ready, join if we got a room from the URL
-    VideoFactory.on('readyToCall', function (data) {
-      if (roomID) {
-        VideoFactory.joinRoom(roomID);
-      }
+    VideoFactory.on('leftRoom', function (data) {
+      VideoFactory.disconnect();
     });
 
     function showVolume(el, volume) {
