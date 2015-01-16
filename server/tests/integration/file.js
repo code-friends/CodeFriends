@@ -434,6 +434,106 @@ describe('File', function () {
         });
     });
 
+    it('should move a file from root to a folder that is within a folder on PUT /api/file/move', function (done) {
+      // this.timeout(15000);
+      agent
+        .put('/api/file/move')
+        .send({
+          projectName: projectName,
+          type: 'file',
+          filePath: '/main.js',
+          newPath: '/example/child/main.js',
+          projectIdOrName: projectName
+        })
+        .expect(201)
+        .then(function (res) {
+          var fileStructure = res.body.files;
+          var oldPathTemp = '/main.js';
+          var newPathTemp = '/example/child/main.js';
+          var oldPath = oldPathTemp.replace('.', '').split('/');
+          var newPath = newPathTemp.replace('.', '').split('/');
+          var objAtOldPath = fileStructure[oldPath[1]];
+          var nameOfFileInPath = newPath[3];
+          var objAtNewPath = fileStructure.example.files.child.files[nameOfFileInPath];
+          expect(objAtOldPath).to.not.equal(true);
+          expect(objAtNewPath.name).to.equal('main.js');
+          expect(objAtNewPath.type).to.equal('file');
+        })
+        .then(function (res) {
+          return agent
+            .get('/api/project/' + projectName)
+            .expect(200)
+            .then(function (res) {
+              var fileStructure = res.body;
+              var movedFile = fileStructure.files.example.files.child.files['mainjs'];
+              expect(movedFile).to.be.an('object');
+              expect(movedFile.name).to.equal('main.js');
+              expect(movedFile.type).to.equal('file');
+              expect(movedFile.path).to.equal('/example/child/main.js');
+              done();
+            })
+            .catch(function (err) {
+              console.log('File content should have been deleted at old path but was not: ', err);
+              done();
+            });
+        })
+        .catch(function (err) {
+          throw new Error(err);
+          done();
+        });
+    });
+
+    it('should move a file from a folder that is within a folder to the root on PUT /api/file/move', function (done) {
+      // this.timeout(15000);
+      agent
+        .put('/api/file/move')
+        .send({
+          projectName: projectName,
+          type: 'file',
+          filePath: '/example/child/main.js',
+          newPath: '/main.js',
+          projectIdOrName: projectName
+        })
+        .expect(201)
+        .then(function (res) {
+          var fileStructure = res.body.files;
+          var oldPathTemp = '/example/child/main.js';
+          var newPathTemp = '/main.js';
+          var oldPath = oldPathTemp.replace('.', '').split('/');
+          var newPath = newPathTemp.replace('.', '').split('/');
+          var objAtOldPath = fileStructure[oldPath[2]];
+          var nameOfFileInPath = newPath[1];
+          var objAtNewPath = fileStructure[nameOfFileInPath];
+          expect(objAtOldPath).to.not.equal(true);
+          expect(objAtNewPath.name).to.equal('main.js');
+          expect(objAtNewPath.type).to.equal('file');
+          expect(objAtNewPath.path).to.equal('/main.js');
+        })
+        .then(function (res) {
+          return agent
+            .get('/api/project/' + projectName)
+            .expect(200)
+            .then(function (res) {
+              var fileStructure = res.body;
+              var movedFile = fileStructure.files['mainjs'];
+              expect(movedFile).to.be.an('object');
+              expect(movedFile.name).to.equal('main.js');
+              expect(movedFile.type).to.equal('file');
+              expect(movedFile.path).to.equal('/main.js');
+              done();
+            })
+            .catch(function (err) {
+              console.log('File content should have been deleted at old path but was not: ', err);
+              done();
+            });
+        })
+        .catch(function (err) {
+          throw new Error(err);
+          done();
+        });
+    });
+
+
   });
 
 });
