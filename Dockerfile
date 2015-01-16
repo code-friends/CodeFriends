@@ -3,8 +3,6 @@ MAINTAINER thejsj
 
 # Install base packages
 ENV DEBIAN_FRONTEND noninteractive
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
-RUN echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list
 RUN apt-get update
 # ESSENTIALS
 RUN apt-get -yq install curl git software-properties-common wget
