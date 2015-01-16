@@ -98,7 +98,7 @@ $input-height: 30px;
     background-size: 25px;
     background-position: 9px;
     background-repeat: no-repeat;
-    background-color: rgba(30, 76, 97, 0.1);
+    background-color: $opaque-blue;
 
     transition-property: width;
     transition-duration: 375ms;

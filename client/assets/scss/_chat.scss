@@ -16,9 +16,13 @@ $single-friend-height: 36px; // height of gravatar thumbnail
   height: $chat-container-height;
   border-left: solid 1px #f2f2f2;
   font-size: 0.9em;
+  margin-top: 8px;
   .username {
     font-weight: 700;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.7px;
+  }
+  .messageText {
+    color: white;
   }
 }
 
@@ -61,14 +65,38 @@ $single-friend-height: 36px; // height of gravatar thumbnail
 
 .chatInputForm {
   width: 100%;
-  position: relative;
+  height: 33px;
+  position: absolute;
   display: block; 
-  bottom: 0px;
+  bottom: 10px;
   height: $chat-header-height;
+  ::-webkit-input-placeholder {
+    color: #DBDBDB;
+    letter-spacing: 0.5px;
+  }
+  :-moz-placeholder {
+    color: #DBDBDB;
+    letter-spacing: 0.5px;
+  }
+  ::-moz-placeholder {
+    color: #DBDBDB;
+    letter-spacing: 0.5px;
+  }
+  :-ms-input-placeholder {
+    color: #DBDBDB;
+    letter-spacing: 0.5px;
+  }
   input{
+    color: white;
     width: 100%;
     height: $chat-header-height;
     padding: 10px;
+    border: none;
+    background-color: rgba(30, 76, 97, 0.2);
+    border-radius: 41px;
+    &:focus {
+      outline: 0;
+    }
   }
 }
 
@@ -83,7 +111,7 @@ $single-friend-height: 36px; // height of gravatar thumbnail
   &:hover {
     background-color: rgba(29, 74, 95, 0.3);
     .username {
-      color: #fff;
+      color: $accent-blue;
     }  
   }
   // &:hover .timestamp{
@@ -94,7 +122,7 @@ $single-friend-height: 36px; // height of gravatar thumbnail
     text-align: right;
     padding-right: 5px;
     margin-top: 2px;
-    color: $accent-blue;
+    color: #DBDBDB;
   }
 }
 
@@ -114,7 +142,7 @@ $single-friend-height: 36px; // height of gravatar thumbnail
   table {
     width: 100%;
     .camera-button {
-      background-color: rgba(30, 76, 97, 0.1);
+      background-color: $opaque-blue;
       padding: 32%;
       border: none;
     }
