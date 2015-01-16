@@ -109,7 +109,7 @@ projectController.getAllProjects = function (req, res) {
       withRelated: ['user']
     })
     .then(function (coll) {
-      // console.log('coll in Project: ', coll);
+      // console.log('coll in projectController: ', coll);
       return coll.toJSON().filter(function (model) {
         return _.some(model.user, function (user) {
           return user.id === req.user.get('id');

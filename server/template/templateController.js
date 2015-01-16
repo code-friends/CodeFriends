@@ -15,21 +15,13 @@ var templateController = {
 		models.Template
 			.fetchAll()
 			.then(function (coll) {
-				console.log('coll: ', coll);
-				// return coll.toJSON().filter(function (model) {
-				// 	return _.some(model.user, function (user) {
-				// 		return user.id === req.user.get('id');
-				// });
-				// });
-			})
-			.then(function (templatesArray) {
-				console.log('templatesArray: ', templatesArray);
-				res.json(templatesArray);
+				res.status(200).json(coll.toJSON());
 			})
 			.catch(function (err) {
-				console.log('Error fetching projects : ', err);
-			});
+				console.log('Error fetching all templates : ', err);
+				res.status(400).end();
 
+			});
 	},
 
 	createNewTemplate: function (req, res) {

@@ -64,7 +64,8 @@ describe('Database', function () {
     it('should create a new template', function (done) {
       new TemplateCollection()
         .create({
-          'template_name': 'crazyTestTemplate'
+          'template_name': 'crazyTestTemplate',
+          'git_repo_url': 'https://github.com/chaseme3/frozenbiome.git'
         })
         .then(function () {
           return TemplateCollection
