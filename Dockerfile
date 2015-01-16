@@ -3,6 +3,7 @@ MAINTAINER thejsj
 
 # Install base packages
 ENV DEBIAN_FRONTEND noninteractive
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
 RUN apt-get update
 # ESSENTIALS
 RUN apt-get -yq install curl git software-properties-common wget
