@@ -83,7 +83,7 @@ a:last-child {
 
 .single-project {
   padding: 10px 0px;
-  border-top: solid 1px #99B0C2;
+  border-top: solid 1px $light-blue;
   background-color: rgba($darken-silver-blue, 0);
   transition-property: background-color;
   transition-duration: 125ms;
@@ -127,7 +127,7 @@ a:last-child {
   background-size: 25px;
   background-position: 9px;
   background-repeat: no-repeat;
-  background-color: rgba($silver-blue, 0.1);
+  background-color: rgba($dark-hover-blue, 0.1);
   transition-property: width;
   transition-duration: 375ms;
   overflow: hidden;
@@ -135,7 +135,7 @@ a:last-child {
     width: 157px;
     transition-property: width, background-color;
     transition-duration: 250ms;
-    background-color: rgba($silver-blue, 0.5);
+    background-color: rgba($dark-hover-blue, 0.5);
   }
   .text {
     display: inline-block;

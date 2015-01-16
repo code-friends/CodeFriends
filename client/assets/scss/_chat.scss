@@ -15,6 +15,11 @@ $single-friend-height: 36px; // height of gravatar thumbnail
 .chat-container-container {
   height: $chat-container-height;
   border-left: solid 1px #f2f2f2;
+  font-size: 0.9em;
+  .username {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
 }
 
 .chatContent4 {
@@ -72,20 +77,24 @@ $single-friend-height: 36px; // height of gravatar thumbnail
    margin: 0px;
 }
 
-//this is hacky, but there is a margin-top to get line-heights looking okay
-.timestamp {
-  font-size: 10px;
-  text-align: right;
-  padding-right: 5px;
-  margin-top: 2px;
-  color: #386189;
-}
-
 .messageContainer {
   padding: 5px;
-  // border-bottom: 1px solid #f7f7f7;
+  padding-left: 11px;
   &:hover {
-    background: #f7f7f7;
+    background-color: rgba(29, 74, 95, 0.3);
+    .username {
+      color: #fff;
+    }  
+  }
+  // &:hover .timestamp{
+  //   color: ;
+  // }
+  .timestamp {
+    font-size: 10px;
+    text-align: right;
+    padding-right: 5px;
+    margin-top: 2px;
+    color: $accent-blue;
   }
 }
 
@@ -124,9 +133,9 @@ $single-friend-height: 36px; // height of gravatar thumbnail
 }
 
 .chatSubTitle {
-  // border-top: solid 1px #f7f7f7;
-  // border-bottom: solid 1px #f7f7f7;
-  height: $chat-header-height;
+  height: 30px;
+  letter-spacing: 1px;
+  color: $accent-blue;
 }
 
 .videoContainer {
@@ -162,7 +171,7 @@ $single-friend-height: 36px; // height of gravatar thumbnail
 }
 
 .active {
-  color: #2aa198; 
+  color: #86DB78; 
 }
 
 #remotes{

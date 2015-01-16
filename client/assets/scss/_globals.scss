@@ -14,13 +14,18 @@ $Brandon-font-stack: "brandon-grotesque", sans-serif;
 $Proxima-font-stack: "proxima-nova", sans-serif;
 
 // Colors
-// $dark-blue: #1e4c61;
 $blue-grey: #607D8B;
 $dark-blue-grey: #4C7284;
 $darkened-blue-grey: darken($blue-grey, 10);
-$silver-blue: rgba(30, 76, 97, 0.5);
+//bg for views
+$silver-blue: #8FA4AE;
+
+$dark-hover-blue: rgba(30, 76, 97, 0.5);
 $darken-silver-blue: darken(rgba(30, 76, 97, 0.3), 0.5);
 $light-grey: #aaa;
+$light-blue: #9BB4C7;
+
+$accent-blue: #286090;
 
 // UI dimensions
 $toolbar-height: 41px;

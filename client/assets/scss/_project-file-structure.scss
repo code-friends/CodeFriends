@@ -11,6 +11,11 @@
   border-right: solid 1px #f2f2f2;
   height: calc(100vh - #{$toolbar-height});
   font-size: 0.9em;
+  .project-file-structure-header {
+    height: 30px;
+    letter-spacing: 1px;
+    color: $accent-blue;
+  }
   .project-file-structure-list {
     overflow: scroll;
     // padding-left: 6%;
@@ -31,7 +36,9 @@
         bottom: 13px;
         margin-right: 5px;
         margin-top: 2px;
-        color: #54B0D8;
+        color: $accent-blue;
+        padding: 7px;
+        margin: -5px 0;
         .hidden-fs-menu {
           display: none;
           font-size: 1em;
@@ -39,6 +46,7 @@
           background-color: rgba(96, 121, 132, 0.98);
           width: 120px;
           height: 79px;
+          margin-top: 7px;
           li {
             padding-top: 6%;
             padding-bottom: 6%;
