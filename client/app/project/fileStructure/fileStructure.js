@@ -50,6 +50,7 @@
 
     // saves current project id, current project name, files and folderpaths to vm
     function getProject() {
+      console.log('projectname', $stateParams.projectName);
       return ProjectFactory.getProject($stateParams.projectName)
         .then(function (project) {
           vm.currentProjectId = project.id;
