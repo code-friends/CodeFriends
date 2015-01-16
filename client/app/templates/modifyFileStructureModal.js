@@ -13,7 +13,6 @@
         console.log('projectname!', $stateParams.projectName);
         ProjectFactory.getProject($stateParams.projectName)
           .then(function (project) {
-            // $scope.filesInProject = project.files;
             $scope.folderPaths = ProjectFactory.getFolderPaths(project.files);
           });
       };
@@ -44,24 +43,6 @@
           });
       };
 
-      // $scope.addFolder = function () {
-      //   $modalInstance.close();
-      //   if ($scope.folderSelected === '/' || $scope.folderSelected === 'Specify a folder') {
-      //     $scope.folderSelected = undefined;
-      //   }
-      //   FilesFactory.addNewFolder($scope.newFolderName, $stateParams.projectName, $scope.folderSelected)
-      //     .then(function () {
-      //       console.log('New Folder Created');
-      //       SocketFactory.send({
-      //         type: 'project structure changed'
-      //       });
-      //     });
-      // };
-
-      // $scope.addUser = function () {
-      //   $modalInstance.close();
-      //   ProjectListFactory.addUser($scope.addedUserName, $stateParams.projectName);
-      // };
 
       $scope.init();
 

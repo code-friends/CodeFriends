@@ -38,7 +38,11 @@
       var recursive = function (project) {
         for (var file in project) {
           if (project[file].type === 'folder') {
-            paths.push('/' + project[file].path);
+            if (project[file].path[0] !== '/') {
+              paths.push('/' + project[file].path);
+            } else {
+              paths.push(project[file].path);
+            }
           }
           if (typeof project[file].files === 'object' && !Array.isArray(project[file].files)) {
             if (Object.keys(project[file].files).length !== 0) {
