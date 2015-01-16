@@ -11,11 +11,11 @@
                 <img class='avatar-72' ng-src="{{ friend.githubAvatar }}&s=72&id=chat"></img>
               </td>
               <td class='name'>
-                 <span>{{friend.username}}</span>
+                 <span class="username">{{friend.username}}</span>
               </td>
               <td class='buttons'>
                  <div class="chatMediaButtons btn-group btn-group-xs pull-right" role="group" aria-label="...">
-                  <button ng-if="username === friend.username"  ng-click="emitStartVideo()" type="button" class="btn btn-default btn-sm">
+                  <button ng-if="username === friend.username"  ng-click="emitStartVideo()" type="button" class="btn btn-default btn-sm camera-button">
                     <span id="videoButton" class='glyphicon glyphicon-facetime-video'></span>
                   </button>
 <!--                   <button type="button" class="btn btn-default btn-sm">
@@ -35,14 +35,14 @@
     <div id="gluedChatContent" class="chatContent1" scroll-glue="!glued">
       <div class="messageContainer" ng-repeat="message in messages">
         <div id={{message.createdAt}} class="row">
-          <div class="col-sm-5"><strong>{{message.username}}</strong> </div>
+          <div class="col-sm-5"><div class="username">{{message.username}}</div></div>
           <div class="col-sm-7"><div class="timestamp"> {{message.timeAgo}}</div></div>
         </div>
         <span class="messageText" ng-bind-html="message.message| linky: '_blank'">{{message.message}}</span>
       </div>
     </div>
     <div class="chatInputForm">
-        <input placeholder="Say Something!" type="text" ng-model="chatMessage" ng-enter="sendChat()">
+        <input placeholder="Say Hello" type="text" ng-model="chatMessage" ng-enter="sendChat()">
     </div>
   </div>
 </div>

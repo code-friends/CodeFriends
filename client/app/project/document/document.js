@@ -15,14 +15,6 @@
     $scope.language = '';
     $scope.theme = ToolbarFactory.theme;
 
-    // Setup Code Editor
-    $scope.cm = CodeMirror.fromTextArea(document.getElementById('pad'), {
-      mode: 'javascript',
-      lineNumbers: true,
-      matchBrackets: true,
-      theme: 'solarized dark'
-    });
-
     $rootScope.$on('compile code', function () {
       var postObj = {
         'language': DocumentFactory.getFileCode($scope.documentPath),
@@ -43,6 +35,17 @@
     // Setup Code Editor
     var documentPathSplit = $scope.documentPath.split('.');
     var fileExtension = documentPathSplit[documentPathSplit.length - 1];
+    var fileMode = CodeMirror.findModeByName(fileExtension);
+    var mode = null;
+    if (typeof fileMode === 'object' && fileMode.mode !== undefined) {
+      mode = fileMode.mode;
+    }
+    $scope.cm = CodeMirror.fromTextArea(document.getElementById('pad'), {
+      mode: mode,
+      lineNumbers: true,
+      matchBrackets: true,
+      theme: 'solarized dark'
+    });
 
     // listens for theme variable changed in ToolbarDocument factory broadcasted by $rootScope
     DocumentFactory.goToDocument($scope.projectName, $scope.documentPath, $scope.cm);

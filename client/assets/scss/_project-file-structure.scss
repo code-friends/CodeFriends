@@ -11,11 +11,16 @@
   border-right: solid 1px #f2f2f2;
   height: calc(100vh - #{$toolbar-height});
   font-size: 0.9em;
+  .project-file-structure-header {
+    height: 30px;
+    letter-spacing: 1px;
+    color: $accent-blue;
+  }
   .project-file-structure-list {
     overflow: scroll;
     // padding-left: 6%;
     .folder-container, .file-container {
-      width: 238px;
+      width: 100%;
       padding-top: 5px;
       padding-bottom: 5px;
       .inner-container {
@@ -23,30 +28,43 @@
         .glyphicon {
           margin-right: 5px;
         }
-      }    
-      // .file-options-button {
-      //   width: 4px;
-      //   height: 4px;
-      //   border: 4px solid #268bd2;
-      //   border-radius: 50%;
-      //   position: relative;
-      //   bottom: 13px;
-      //   right: 5px;
-      //   float: right;
-      //   display: none;
-      //   &:hover {
-      //     cursor: pointer;
-      //   }
+      }
       .fa-cog {
         display: none;
         float: right;
         cursor: pointer;
-        position: relative;
         bottom: 13px;
         margin-right: 5px;
-        color: #268bd2;
+        margin-top: 2px;
+        color: $accent-blue;
+        padding: 7px;
+        margin: -5px 0;
+        .hidden-fs-menu {
+          display: none;
+          font-size: 1em;
+          color: white;
+          background-color: rgba(96, 121, 132, 0.98);
+          width: 120px;
+          height: 79px;
+          margin-top: 7px;
+          li {
+            padding-top: 6%;
+            padding-bottom: 6%;
+            padding-left: 16%;
+            &:hover {
+              background-color: $darken-silver-blue;
+            }
+          }
+        }
+        &:hover {
+          .hidden-fs-menu {
+            display: block;
+            position: absolute;
+            z-index: 100;
+          }
+        }
       }
-      &:hover #gear-icon {
+      &:hover .fa-cog {
         display: inline-block;
       }
       &:hover {

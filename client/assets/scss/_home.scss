@@ -52,6 +52,8 @@
 
 .projects-header {
   padding: 15px 0px;
+  margin-top: 1%;
+  margin-bottom: 1.3%;
   h2 {
     text-transform: uppercase;
     font-weight: 700;
@@ -81,17 +83,17 @@ a:last-child {
 
 .single-project {
   padding: 10px 0px;
-  border-top: solid 1px #99B0C2;
+  border-top: solid 1px $light-blue;
   background-color: rgba($darken-silver-blue, 0);
   transition-property: background-color;
   transition-duration: 125ms;
   .project-header {
-    font-size: 1.15em;
+    font-size: 1.1em;
     padding-top: 0.25em;
   }
   .timeAgo {
     font-size: 10px;
-    color: #677889;
+    color: #386189;
     display: block;
     position: relative;
     top: 1px;
@@ -116,6 +118,7 @@ a:last-child {
   background-image: url($add-project-icon-path);
   width: 42px;
   height: 42px;
+  margin-top: 2%;
   background-size: contain;
   display: inline-block;
   float: right;
@@ -124,7 +127,7 @@ a:last-child {
   background-size: 25px;
   background-position: 9px;
   background-repeat: no-repeat;
-  background-color: rgba($silver-blue, 0.1);
+  background-color: rgba($dark-hover-blue, 0.1);
   transition-property: width;
   transition-duration: 375ms;
   overflow: hidden;
@@ -132,7 +135,7 @@ a:last-child {
     width: 157px;
     transition-property: width, background-color;
     transition-duration: 250ms;
-    background-color: rgba($silver-blue, 0.5);
+    background-color: rgba($dark-hover-blue, 0.5);
   }
   .text {
     display: inline-block;

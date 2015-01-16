@@ -14,7 +14,8 @@
       getAllFiles: getAllFiles,
       _addNew: _addNew,
       addNewFile: _addNew('file'),
-      addNewFolder: _addNew('folder')
+      addNewFolder: _addNew('folder'),
+      moveFile: moveFile
     };
     return factory;
 
@@ -45,6 +46,28 @@
             console.log('Error POSTing new file', err);
           });
       };
+    }
+
+    function moveFile(projectName, type, filePath, newPath, projectIdOrName) {
+      console.log('- - - - -');
+      console.log('filePath', filePath);
+      console.log('newPath', newPath);
+      console.log('projectIdOrName', projectIdOrName);
+      console.log('projectName', projectName);
+      console.log('type', type);
+      if (filePath[0] !== '/') {
+        filePath = '/' + filePath;
+      }
+      return $http.put('/api/file/move', {
+        projectName: projectName,
+        type: type,
+        filePath: filePath,
+        newPath: newPath,
+        projectIdOrName: projectIdOrName
+      }).then(function (res) {
+        console.log('response from server', res);
+        return res.data.files;
+      });
     }
 
   }

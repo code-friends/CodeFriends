@@ -3,7 +3,7 @@
 (function () {
   'use strict';
   angular.module('codeFriends.toolbar')
-    .controller('addToProjectModalController', ['$scope', '$stateParams', '$modalInstance', 'FilesFactory', 'ProjectListFactory', 'ProjectFactory', 'SocketFactory', function ($scope, $stateParams, $modalInstance, FilesFactory, ProjectListFactory, ProjectFactory, SocketFactory) {
+    .controller('modifyProjectModalController', ['$scope', '$stateParams', '$modalInstance', 'FilesFactory', 'ProjectListFactory', 'ProjectFactory', 'SocketFactory', function ($scope, $stateParams, $modalInstance, FilesFactory, ProjectListFactory, ProjectFactory, SocketFactory) {
       $scope.filesInProject = ProjectFactory.files;
       $scope.folderPaths = ProjectFactory.folderPaths;
       $scope.folderSelected = 'Specify a folder';
