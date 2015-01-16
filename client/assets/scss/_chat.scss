@@ -83,7 +83,7 @@ $single-friend-height: 36px; // height of gravatar thumbnail
 
 .messageContainer {
   padding: 5px;
-  border-bottom: 1px solid #f7f7f7;
+  // border-bottom: 1px solid #f7f7f7;
   &:hover {
     background: #f7f7f7;
   }
@@ -101,8 +101,14 @@ $single-friend-height: 36px; // height of gravatar thumbnail
 .thumbnailAndName {
   padding-right: 0px;
   margin-right: 0px;
+  padding-left: 4%;
   table {
     width: 100%;
+    .camera-button {
+      background-color: rgba(30, 76, 97, 0.1);
+      padding: 32%;
+      border: none;
+    }
     .buttons {
       width: 60px;
     }
@@ -118,8 +124,8 @@ $single-friend-height: 36px; // height of gravatar thumbnail
 }
 
 .chatSubTitle {
-  border-top: solid 1px #f7f7f7;
-  border-bottom: solid 1px #f7f7f7;
+  // border-top: solid 1px #f7f7f7;
+  // border-bottom: solid 1px #f7f7f7;
   height: $chat-header-height;
 }
 
@@ -156,7 +162,7 @@ $single-friend-height: 36px; // height of gravatar thumbnail
 }
 
 .active {
-  color: green; 
+  color: #2aa198; 
 }
 
 #remotes{
