@@ -1,5 +1,5 @@
 .initial-landing-view {
-  background-color: #86CCCC;
+  background-color: #EDFAFA;
 }
 
 .landing-two {
@@ -46,8 +46,20 @@ video#bgvid {
   padding-top: 120px;
   overflow: hidden; /* Clear floats */
 }
- .featurette-image {
+ .featurette-image-right {
   margin-top: −120px; /* Vertically center image with the text */
+  border-radius: 15px; 
+  height: auto; 
+  margin-left: 40px;
+  width: 500px;
+}
+ .featurette-image-left {
+  margin-top: −120px; /* Vertically center image with the text */
+  border-radius: 15px; 
+  height: auto; 
+  width: 500px;
+  margin-right: 40px;
+
 }
  .featurette-heading {
   font-size: 50px;
@@ -55,13 +67,12 @@ video#bgvid {
   line-height: 1;
   letter-spacing: -1px;
 }
- .featurette-image.pull-left {
-  margin-right: 40px;
-}
- .featurette-image.pull-right {
-  margin-left: 40px;
-}
 
 .text-muted {
   color: #777; 
+}
+
+.lead {
+  font-size: 21px; 
+  font-weight: 200; 
 }
