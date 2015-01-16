@@ -14,8 +14,5 @@ DELIMITER
 # SHOW DATABASES;
 # DELIMITER
 
-# Run Mongo (Should be on it's own container)
-mongod --fork --logpath=/mongodb.log
-
 # Run nodemon (should be forever on production)
 cd /app && node server

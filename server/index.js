@@ -14,7 +14,6 @@ var bodyParser = require('body-parser'),
 // Set routes
 var clientConfigParser = require('./clientConfigParser');
 var auth = require('./auth');
-var auth = require('./auth');
 var authRouter = require('./auth/authRouter');
 var apiRouter = require('./api');
 

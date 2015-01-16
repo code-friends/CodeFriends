@@ -13,8 +13,6 @@ RUN add-apt-repository ppa:chris-lea/node.js && apt-get update
 RUN apt-get -yq install nodejs
 # MySQL
 RUN apt-get -yq install mysql-client
-# Mongo
-RUN apt-get -yq install mongodb-org
 # NPM
 RUN npm install -g gulp bower
 # Remove Source Lists
