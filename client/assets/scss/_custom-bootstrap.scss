@@ -77,7 +77,7 @@ $input-height: 30px;
     color: white;
     @include placeholder-color(rgba(255, 255, 255, 0.7));
     font-family: 'Source Code Pro', monaco, monospace;
-    font-size: 1em;
+    font-size: 0.9em;
   }
   .addFileForm {
     margin-top: 5%;
@@ -98,7 +98,7 @@ $input-height: 30px;
     background-size: 25px;
     background-position: 9px;
     background-repeat: no-repeat;
-    background-color: rgba(30, 76, 97, 0.1);
+    background-color: $opaque-blue;
 
     transition-property: width;
     transition-duration: 375ms;
@@ -126,7 +126,7 @@ $input-height: 30px;
       width: 120px;
       transition-property: width, background-color;
       transition-duration: 250ms;
-      background-color: rgba($silver-blue, 0.5);
+      background-color: rgba($dark-hover-blue, 0.5);
     }
   }
 }
@@ -168,11 +168,20 @@ $input-height: 30px;
 }
 // Tabs styling in modals
 .modal-dialog {
+  .nav-tabs > li > a {
+    font-family: $Brandon-font-stack;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 0.75em;
+    letter-spacing: 0.05em;    
+    padding: 9%;
+  }
   .nav-tabs > li.active > a {
     background-color: $dark-blue-grey;
     color: white;
-    font-weight: 300;
+    font-weight: 700;
     &:hover {
+      font-weight: 700;
       background-color: $dark-blue-grey;
     }
     &:focus {
@@ -209,7 +218,19 @@ $input-height: 30px;
   }
 }
 
+
+//changes links in tabs
+body > div.modal.fade.ng-isolate-scope.in > div > div > div > div > form > div.ng-isolate-scope > ul > li > a {
+  font-weight: 700;
+}
+
+
+
+
 .createProjectModal {
+  .tab-content label {
+    font-weight: 100; 
+  }
   .upload-icon {
     background-image: url($upload-icon-path);
     background-size: contain;
