@@ -29,9 +29,9 @@ var templateController = {
 			})
 			.then(function () {
 				return new models.Template({
-						template_name: templateName,
-						git_repo_url: gitRepoUrl,
-						user_id: userId
+						templateName: templateName,
+						gitRepoUrl: gitRepoUrl,
+						userId: userId
 					})
 					.save()
 					.then(function (template) {
@@ -74,11 +74,8 @@ var templateController = {
 				return template
 					.save({
 						templateName: newTemplateName
-							// template_name: newTemplateName
-							//figure out why it's coming out as templateName in some places instead of template_name!!
 					})
 					.then(function (template) {
-						console.log('template right before res: ', template);
 						res.status(200).json(template.toJSON());
 					})
 					.catch(function (err) {
@@ -117,10 +114,9 @@ var templateController = {
 				}
 				return template
 					.save({
-						git_repo_url: newGitRepoUrl
+						gitRepoUrl: newGitRepoUrl
 					})
 					.then(function (template) {
-						console.log('template right before res: ', template);
 						res.status(200).json(template.toJSON());
 					})
 					.catch(function (err) {

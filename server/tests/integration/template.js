@@ -31,9 +31,10 @@ describe('Template', function () {
 			})
 			.expect(200)
 			.then(function (res) {
-				// console.log('res.body in POST template.js', res);
-				// var fileStructure = res.body;
-				// expect(fileStructure.files).to.be.a('object');
+				var template = res.body;
+				expect(template).to.be.a('object');
+				expect(template.templateName).to.equal(templateName);
+				expect(template.gitRepoUrl).to.equal(gitRepoUrl);
 				done();
 			})
 			.catch(function (err) {
@@ -51,9 +52,10 @@ describe('Template', function () {
 			})
 			.expect(200)
 			.then(function (res) {
-				console.log('res.body in UPDATE NAME in template.js', res.body);
-				// var fileStructure = res.body;
-				// expect(fileStructure.files).to.be.a('object');
+				var template = res.body;
+				expect(template).to.be.a('object');
+				expect(template.templateName).to.equal('evenCrazierTemplate');
+				expect(template.gitRepoUrl).to.equal(gitRepoUrl);
 				done();
 			})
 			.catch(function (err) {
@@ -62,18 +64,19 @@ describe('Template', function () {
 			});
 	});
 
-	it('should add a update a gitRepoUrl on PUT api/template/newGitRepoUrl', function (done) {
+	it('should update a gitRepoUrl on PUT api/template/newGitRepoUrl', function (done) {
 		agent
-			.put('/api/template/updateGitRepoUrl')
+			.put('/api/template/newGitRepoUrl')
 			.send({
 				oldGitRepoUrl: gitRepoUrl,
-				//add git url!!!!!!!!!!!!!!!!!
-				newGitRepoUrl: ''
+				newGitRepoUrl: 'https://github.com/thejsj/SwipeRight.git'
 			})
 			.expect(200)
 			.then(function (res) {
-				console.log('res.body in UPDATE GIT in template.js', res.body);
-				// expect(fileStructure.files).to.be.a('object');
+				var template = res.body;
+				expect(template).to.be.a('object');
+				expect(template.templateName).to.equal('evenCrazierTemplate');
+				expect(template.gitRepoUrl).to.equal('https://github.com/thejsj/SwipeRight.git');
 				done();
 			})
 			.catch(function (err) {
