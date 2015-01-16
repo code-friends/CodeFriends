@@ -1,5 +1,24 @@
 .initial-landing-view {
-  background-color: #EDFAFA;
+  background-color: #607D8B; // #EDFAFA;
+}
+
+.box {
+  padding: 50px 0;
+  &.even {
+    box-shadow: inset rgba(0,0,0,0.25) 0 0 30px;
+    .content {
+      padding-right: 50px;
+    }
+  }
+  &.odd {
+    background: $dark-blue-grey;
+    .content {
+      padding-left: 50px;
+    }
+  }
+  &.black {
+    background: #222;
+  }
 }
 
 .landing-two {
@@ -39,15 +58,20 @@ video#bgvid {
   background-size: cover;
 }
 
- .featurette-divider {
+.featurette-divider {
   margin: 80px 0; /* <hr> between each */
 }
  .featurette {
-  padding-top: 120px;
+  padding: 50px 0;
   overflow: hidden; /* Clear floats */
   img {
     width: 100%;
     height: auto;
+    border-radius: 1px;
+    margin-top: −120px; /* Vertically center image with the text */
+    height: auto;
+    width: 100%;
+    box-shadow: rgba(0,0,0,0.5) 0 0 10px;
   }
   p {
     font-size: 1.5em;
@@ -64,30 +88,42 @@ video#bgvid {
       margin-left: 40px;
     }
   }
-   .featurette-heading {
+  .featurette-heading {
     // font-size: 50px;
     // font-weight: 300;
     // line-height: 1;
     // letter-spacing: -1px;
-    font-size: 3em;
+    font-size: 2.8em;
     font-weight: 700;
     line-height: 1.2em;
     letter-spacing: 0.05em;
     color: white;
+    &.real-time {
+      width: 450px;
+    }
+    &.upload {
+      width: 520px;
+    }
+  }
+  .btn-github-login {
+    width: 275px;
+    margin: 0 auto 50px;
+  }
+  &.signup {
+    text-align: center;
+    p {
+      margin-right: auto;
+      margin-left: auto;
+    }
+  }
+  .btn-github-login {
+    margin-top: 40px;
   }
 }
 .featurette-image-right {
-  margin-top: −120px; /* Vertically center image with the text */
-  border-radius: 15px;
-  height: auto;
-  margin-left: 40px;
   width: 500px;
 }
 .featurette-image-left {
-  margin-top: −120px; /* Vertically center image with the text */
-  border-radius: 15px;
-  height: auto;
-  width: 500px;
   margin-right: 40px;
 }
 .featurette-heading {
@@ -100,6 +136,68 @@ video#bgvid {
 .lead {
   font-size: 21px;
   font-weight: 200;
+}
+
+// Team
+.team {
+  h3 {
+    color: white;
+    font-weight: 700;
+    line-height: 1.2em;
+    letter-spacing: 0.05em;
+    font-size: 1.5em;
+    text-align: center;
+    margin: 25px 0 10px;
+  }
+  .title {
+    color: white;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    font-size: 1em;
+    margin: 10px 0;
+    text-align: center;
+  }
+  .image-container {
+    width: 166px;
+    height: 166px;
+    border-radius: 88px;
+    text-align: center;
+    margin: 0 auto;
+    overflow: hidden;
+    img {
+      height: 100%;
+      width: auto;
+      position: relative;
+      background: white;
+      // This CSS sucks, but whatever
+      &.catherine {
+        left: -24%;
+      }
+      &.chase {
+        left: -24%;
+      }
+      &.doug {
+        left: -24%;
+      }
+      &.jorge {
+        left: -24%;
+      }
+    }
+  }
+  .links {
+    text-align: center;
+    margin-top: 25px;
+    a {
+      color: white;
+      font-size: 2em;
+      display: inline-block;
+      margin-right: 7px;
+      margin-left: 7px;
+      &:hover {
+        color: #222;
+      }
+    }
+  }
 }
 
 // .text-muted {
