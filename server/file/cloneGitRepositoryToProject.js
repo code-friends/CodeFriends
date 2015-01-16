@@ -16,7 +16,7 @@ var updateFileStructure = require('./fileController')._updateFileStructure;
 /**
  * Clone git repository and store it in the file system for later user
  *
- * @param <Object>/<Number/<String> Project model, id or name
+ * @param <Object>/<Number>/<String> Project model, id or name
  * @param <String> git repo url
  * @return <Object> return a nativeFileStructure
  */

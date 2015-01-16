@@ -250,6 +250,7 @@ var fileController = {
 
     return filePaths;
   },
+
   moveFileInProject: function (req, res) {
 
     var fileInfo = req.body;
@@ -406,7 +407,9 @@ var fileController = {
 
       if (round === totalRounds) {
         var objKey = urlArray[index].replace('.', '');
-        obj.files[objKey].files = storageForFileToMove;
+        var nameOfFileToAdd = storageForFileToMove.name.replace('.', '');
+        storageForFileToMove.path = newPath;
+        obj.files[objKey].files[nameOfFileToAdd] = storageForFileToMove;
         return;
       }
 
@@ -417,6 +420,7 @@ var fileController = {
         objToPass = temp[objKey];
       } else if (obj.type === 'file') {
         objToPass = obj[objKey];
+
       } else {
         console.log('Error traversing file. Check if file path exists.');
       }
