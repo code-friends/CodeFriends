@@ -16,10 +16,11 @@
     }
     li a:hover {
       background-color: $dark-hover-blue;
-      border: rgba(30, 76, 97, 0.5);
+      border: 1 px solid rgba(30, 76, 97, 0.5);
+      border-bottom: 1px solid rgba(30, 76, 97, 0.5);
     }
     li a:active a {
-      border: rgba(30, 76, 97, 0.5);
+      border: 1px solid rgba(30, 76, 97, 0.5);
       border-bottom: 1px solid rgba(30, 76, 97, 0.5);
     }
   }
@@ -39,12 +40,13 @@
     color: white;
     background-color: rgba(30, 76, 97, 0.4);
     border: rgba(30, 76, 97, 0.7);
+    border-bottom: 1px solid rgba(30, 76, 97, 0.5);
   }
   .btn-github {
     color: #fff;
     background-color: rgb(30, 76, 97);
     border: none;
-    font-size: 1.3em;
+    font-size: 1.2em;
   }
   form {
     margin-top: 4%
