@@ -297,7 +297,10 @@ body > div.modal.fade.ng-isolate-scope.in > div > div > div > div > form > div.n
     }
   }
   .tab-content label {
-    font-weight: 100; 
+    font-weight: 400;
+    font-family: $Brandon-font-stack;
+    text-transform: uppercase;
+    font-size: 0.9em;
   }
   .upload-icon {
     background-image: url($upload-icon-path);

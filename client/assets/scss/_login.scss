@@ -2,21 +2,26 @@
 
 
 .login {  
-  font-family: "Brandon grotesque";
+  font-family: $Brandon-font-stack;
   text-transform: uppercase;
   font-weight: 700;
   letter-spacing: 0.5px;
   .nav-tabs {
     color: white;
+    margin-top: 7%;
     li a {
       border: rgba(30, 76, 97, 0.5);
     }
+    li.active > a {
+      border-bottom: 1px solid rgba(30, 76, 97, 0.5);
+    }
     li a:hover {
       background-color: $dark-hover-blue;
-      border: rgba(30, 76, 97, 0.5);
+      border: 1 px solid rgba(30, 76, 97, 0.5);
+      border-bottom: 1px solid rgba(30, 76, 97, 0.5);
     }
     li a:active a {
-      border: rgba(30, 76, 97, 0.5);
+      border: 1px solid rgba(30, 76, 97, 0.5);
       border-bottom: 1px solid rgba(30, 76, 97, 0.5);
     }
   }
@@ -36,12 +41,13 @@
     color: white;
     background-color: rgba(30, 76, 97, 0.4);
     border: rgba(30, 76, 97, 0.7);
+    border-bottom: 1px solid rgba(30, 76, 97, 0.5);
   }
   .btn-github {
     color: #fff;
     background-color: rgb(30, 76, 97);
     border: none;
-    font-size: 1.3em;
+    font-size: 1.2em;
   }
   form {
     margin-top: 4%
@@ -94,7 +100,7 @@
       background-color: rgba($dark-hover-blue, 0.5);
     }
     .text {
-      font-family: "Brandon Grotesque";
+      font-family: $Brandon-font-stack;
       text-transform: uppercase;
       font-size: 1em;
       letter-spacing: 0.5px;
