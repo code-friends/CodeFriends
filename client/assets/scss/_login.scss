@@ -2,7 +2,7 @@
 
 
 .login {  
-  font-family: "Brandon grotesque";
+  font-family: $Brandon-font-stack;
   text-transform: uppercase;
   font-weight: 700;
   letter-spacing: 0.5px;
@@ -10,6 +10,9 @@
     color: white;
     li a {
       border: rgba(30, 76, 97, 0.5);
+    }
+    li.active > a {
+      border-bottom: 1px solid rgba(30, 76, 97, 0.5);
     }
     li a:hover {
       background-color: $dark-hover-blue;
@@ -94,7 +97,7 @@
       background-color: rgba($dark-hover-blue, 0.5);
     }
     .text {
-      font-family: "Brandon Grotesque";
+      font-family: $Brandon-font-stack;
       text-transform: uppercase;
       font-size: 1em;
       letter-spacing: 0.5px;
