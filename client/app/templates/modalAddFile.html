@@ -13,7 +13,11 @@
     </div>
     <form ng-submit="addFile()" class="addFileForm">
       <input type="text" placeholder="Enter file name" ng-model="newFileName" class="modalTextInput">
-      <button type="submit" class="glyphicon glyphicon-plus"></button>
+      <!-- <button type="submit" class="glyphicon glyphicon-plus"></button> -->
+      <button type="submit" class="add-to-project-button">
+        <span class='glyphicon glyphicon-plus'></span>
+        <span class="text mouseover-text">Add</span>
+      </button>
     </form>
   </div>
 </div>
