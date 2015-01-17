@@ -6,6 +6,7 @@
       'angularFileUpload',
       'codeFriends.services',
       'codeFriends.projects',
+      'codeFriends.landing',
       'codeFriends.userBox',
       'codeFriends.fileStructure',
       'codeFriends.toolbar',

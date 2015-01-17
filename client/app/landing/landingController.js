@@ -2,7 +2,7 @@
 (function () {
   'use strict';
 
-  angular.module('codeFriends.projects', ['ui.router'])
+  angular.module('codeFriends.landing', ['ui.router'])
     .controller('LandingController', LandingController);
 
   LandingController.$inject = ['$window'];
@@ -16,7 +16,9 @@
         autoPlay: true,
         videoFoam: true
       });
-      wistiaEmbed.play();
+      wistiaEmbed.bind('end', function() {
+        wistiaEmbed.play();
+      });
     }
     init();
   }
