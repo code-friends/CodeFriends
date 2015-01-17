@@ -7,17 +7,17 @@
 
   function VideoFactory() {
 
+    console.log('Start SimpleWebRTC');
     var webrtc = new SimpleWebRTC({
       // the id/element dom element that will hold "our" video
       localVideoEl: 'localVideo',
       // the id/element dom element that will hold remote videos
-      remoteVideosEl: '',
+      remoteVideosEl: 'remotes',
       // immediately ask for camera access
-      autoRequestMedia: false,
-      debug: false,
-      detectSpeakingEvents: true,
-      adjustPeerVolume: true,
-      autoAdjustMic: true
+      url: 'http://docker.dev:9003',
+      autoRequestMedia: true,
+      detectSpeakingEvents: false,
+      debug: true,
     });
     window.webrtc = webrtc;
 
