@@ -48,6 +48,8 @@
       $scope.messages.push(chatMessage);
     }, roomID);
 
+    SocketFactory.onRemoveVideo();
+
   }
 
   ngEnter.$inject = ['SocketFactory'];

@@ -75,6 +75,18 @@
         });
       };
 
+      socketConnection.onRemoveVideo = function () {
+        ws.onMessage(function (msg) {
+          var parsedMsg = JSON.parse(msg.data);
+          if (parsedMsg.type === "remove video broadcast") {
+            var theVideoToRemove = document.getElementById(parsedMsg.videoID);
+            if (theVideoToRemove) {
+              document.getElementById(parsedMsg.videoID).parentNode.removeChild(theVideoToRemove);
+            }
+          }
+        });
+      };
+
       socketConnection.onChat = function (callback, roomID) {
         ws.onMessage(function (msg) {
           var parsedMsg = JSON.parse(msg.data);

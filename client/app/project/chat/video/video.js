@@ -13,7 +13,6 @@
     $scope.$on('STARTVIDEO', function () {
       VideoFactory.connect(roomID);
       window.isVideoOn = true;
-      console.log(VideoFactory.getLocalID());
     });
   };
 })();
