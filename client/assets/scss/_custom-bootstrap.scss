@@ -35,13 +35,20 @@ $input-height: 30px;
     padding: 1.5em 0.8em 0.8em;
   }
   .modalDropDownButton {
-    background-color: $blue-grey;
+    font-family: "brandon-grotesque", sans-serif;
+    font-weight: 400;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    background-color: $dark-blue-grey;
+    text-align: center;
     border: none;
     display: block;
     width: 100%;
-    text-align: left;
     height: $input-height;
-    border-radius: 5px;
+    border-radius: 3px;
+    .caret {
+      margin-left: 5px;
+    }
   }
   .dropdown-menu {
     position: absolute;
@@ -53,7 +60,7 @@ $input-height: 30px;
     width: 90%;
     li {
       padding: 7px 24px;
-      font-size: 0.9em;
+      letter-spacing: 0.5px;
       &:first-child {
         padding-top: 10px;
       }
@@ -70,7 +77,7 @@ $input-height: 30px;
     border: none;
     outline: none;
     height: $input-height + 4;
-    border-radius: 4px;
+    border-radius: 3px;
     padding: 9px;
     width: 100%;
     text-align: center;
@@ -82,27 +89,25 @@ $input-height: 30px;
   .addFileForm {
     margin-top: 5%;
   }
-  .create-project-button {
+
+  //Add file or folder to project Modal
+  .add-to-project-button {
     position: relative;
     display: inline-block;
     width: 43px;
-    height: 43px;
+    height: 41px;
     overflow: hidden;
-
-    margin-top: 8%;
-    margin-bottom: 4%;
+    margin: 0 auto;
+    margin-top: 7%;
     padding: 6px 12px;
-
     border-radius: 28px;
     background-size: contain;
     background-size: 25px;
     background-position: 9px;
     background-repeat: no-repeat;
     background-color: $opaque-blue;
-
     transition-property: width;
     transition-duration: 375ms;
-
     cursor: pointer;
     color: white;
     .glyphicon-plus {
@@ -111,12 +116,59 @@ $input-height: 30px;
       margin-left: 2px;
     }
     .text {
-      font-family: $Proxima-font-stack;
+      font-family: $Brandon-font-stack;  
+      text-transform: uppercase;
+      font-size: 1.3em;
       display: inline-block;
       width: 60px;
-      font-size: 1.6em;
       margin-top: 0;
-      font-size: 1.5em;
+      letter-spacing: 0.05em;
+      position: absolute;
+      left: 41px;
+      margin-left: 2px;
+    }
+    &:hover, &.active {
+      width: 116px;
+      transition-property: width, background-color;
+      transition-duration: 250ms;
+      background-color: rgba($dark-hover-blue, 0.5);
+    }
+  }
+
+
+
+  // Create Project Modal
+  .create-project-button {
+    position: relative;
+    display: inline-block;
+    width: 43px;
+    height: 43px;
+    overflow: hidden;
+    margin-top: 8%;
+    margin-bottom: 4%;
+    padding: 6px 12px;
+    border-radius: 28px;
+    background-size: contain;
+    background-size: 25px;
+    background-position: 9px;
+    background-repeat: no-repeat;
+    background-color: $opaque-blue;
+    transition-property: width;
+    transition-duration: 375ms;
+    cursor: pointer;
+    color: white;
+    .glyphicon-plus {
+      float: left;
+      font-size: 1.60em;
+      margin-left: 2px;
+    }
+    .text {
+      font-family: $Brandon-font-stack;  
+      text-transform: uppercase;
+      font-size: 1.3em;
+      display: inline-block;
+      width: 60px;
+      margin-top: 0;
       letter-spacing: 0.05em;
       position: absolute;
       left: 41px;
@@ -147,11 +199,12 @@ $input-height: 30px;
     color: #222;
     @include placeholder-color(#ccc);
     &[type="file"] {
+      font-family: $Proxima-font-stack;
       font-size: 0.9em;
       width: 248px;
       letter-spacing: 0.1em;
-      padding: 10px 10px;
-      background: rgba(0,0,0,0.2);
+      padding: 10px 37px;
+      background: rgba(30, 76, 97, 0.5);
       border-radius: 5px;
       color: white;
       margin: 0 auto;
@@ -228,6 +281,21 @@ body > div.modal.fade.ng-isolate-scope.in > div > div > div > div > form > div.n
 
 
 .createProjectModal {
+  text-align: center;
+  #gitRepoUrl {
+    background-color: $dark-hover-blue;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 0.8em;
+    text-align: center;
+    letter-spacing: 0.5px;
+    &:focus {
+      border: none;
+      outline: none;
+      box-shadow: none;
+    }
+  }
   .tab-content label {
     font-weight: 100; 
   }
