@@ -173,7 +173,6 @@ $single-friend-height: 36px; // height of gravatar thumbnail
     position: absolute;
     bottom: 0px; 
     width: 200px;
-    height: 150px;
     left: -$video-width;
     padding-right: 1px;
     z-index: 999;
@@ -213,11 +212,16 @@ $single-friend-height: 36px; // height of gravatar thumbnail
     width: 200px;
     height: 150px;
     left: 0px;
-    bottom: 0px;
     z-index: -99;
-    position: absolute;
+    float: right;
+    clear: right;
     margin-left: -1px;
     display: block;
     margin-bottom: 5px;
+    // @for $i from 2 through 10 {
+    //       &:nth-child(#{$i}) {
+    //         bottom: (($i - 1) * 150px);
+    //       }
+    //     }
   }
 }
