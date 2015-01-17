@@ -45,7 +45,7 @@ gulp.task('js', function () {
       './client/app/services/projectFactory.js',
       './client/app/services/documentFactory.js',
       './client/app/home/projects/projects.js',
-      './client/app/landing/landingController.js',
+      './client/app/landing/landing.js',
       './client/app/home/home.js',
       './client/app/userBox.js',
       './client/app/project/fileStructure/fileStructure.js',

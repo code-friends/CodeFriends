@@ -86,7 +86,7 @@ $input-height: 30px;
     font-family: 'Source Code Pro', monaco, monospace;
     font-size: 0.9em;
   }
-  .addFileForm {
+  .addFileForm, .moveFileForm {
     margin-top: 5%;
   }
 
@@ -181,7 +181,49 @@ $input-height: 30px;
       background-color: rgba($dark-hover-blue, 0.5);
     }
   }
+
+  //move file modal
+  .move-icon-button {
+    background-image: url($move-icon-path);
+    background-color: $opaque-blue;
+    border: none;
+    width: 40px;
+    border-radius: 28px;
+    height: 40px;
+    background-size: 25px;
+    background-position: 8px;
+    background-repeat: no-repeat;
+    display: block;
+    margin: 0 auto;
+    margin-top: 7%;
+    cursor: pointer;
+    transition-property: width;
+    transition-duration: 375ms;
+    overflow: hidden;
+    position: relative;
+    &:hover {
+      width: 127px;
+      transition-property: width, background-color;
+      transition-duration: 250ms;
+      background-color: rgba($dark-hover-blue, 0.5);
+    }
+    .text {
+      font-family: $Brandon-font-stack;
+      text-transform: uppercase;
+      font-size: 1em;
+      letter-spacing: 0.5px;
+      color: #fff;
+      display: inline-block;
+      height: 6px;
+      width: 90px;
+      margin-left: 20px;
+      float: left;
+      margin-top: -9px;
+    }
+  }
 }
+
+
 
 .modal {
   background-color: rgba(0, 0, 0, 0.5);
