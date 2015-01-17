@@ -111,12 +111,13 @@ $input-height: 30px;
       margin-left: 2px;
     }
     .text {
-      font-family: $Proxima-font-stack;
+      font-family: "Brandon Grotesque";
+      text-transform: uppercase;
+      font-size: 1.3em;
       display: inline-block;
       width: 60px;
       font-size: 1.6em;
       margin-top: 0;
-      font-size: 1.5em;
       letter-spacing: 0.05em;
       position: absolute;
       left: 41px;

@@ -5,6 +5,7 @@
   font-family: "Brandon grotesque";
   text-transform: uppercase;
   font-weight: 700;
+  letter-spacing: 0.5px;
   .nav-tabs {
     color: white;
     li a {
@@ -14,18 +15,22 @@
       background-color: $dark-hover-blue;
       border: rgba(30, 76, 97, 0.5);
     }
-    li a:active {
+    li a:active a {
       border: rgba(30, 76, 97, 0.5);
+      border-bottom: 1px solid rgba(30, 76, 97, 0.5);
     }
   }
   .nav-tabs.nav-justified > .active > a:focus {
     border: rgba(30, 76, 97, 0.5);
+    border-bottom: 1px solid rgba(30, 76, 97, 0.5);
   }
   .nav-tabs.nav-justified > .active > a:hover {
     border: rgba(30, 76, 97, 0.5);
+    border-bottom: 1px solid rgba(30, 76, 97, 0.5);
   }
   .nav-tabs.nav-justified > li > a {
     border-bottom: 1px solid rgba(30, 76, 97, 0.4);
+    border-bottom: 1px solid rgba(30, 76, 97, 0.5);
   }
   .nav-tabs > li.active > a {
     color: white;
@@ -89,13 +94,17 @@
       background-color: rgba($dark-hover-blue, 0.5);
     }
     .text {
+      font-family: "Brandon Grotesque";
+      text-transform: uppercase;
+      font-size: 1em;
+      letter-spacing: 0.5px;
       color: #fff;
       display: inline-block;
       height: 6px;
       width: 90px;
-      margin-left: 25px;
+      margin-left: 26px;
       float: left;
-      margin-top: -10px;
+      margin-top: -9px;
     }
   }
 }  
