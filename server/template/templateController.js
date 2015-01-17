@@ -7,6 +7,7 @@ var path = require('path');
 var models = require('../models.js').models;
 var Promise = require('bluebird');
 var db = require('../db');
+var isGitUrl = require('../file/isGitUrl');
 
 
 var templateController = {
@@ -35,6 +36,20 @@ var templateController = {
 		return new Q()
 			.then(function () {
 				if (!templateName) throw new Error('No Template Name Passed');
+			})
+			.then(function () {
+				if (!isGitUrl(gitRepoUrl)) throw new Error('Invalid Git URL');
+			})
+			.then(function () {
+				models.Template
+					.query('where', 'template_name', '=', templateName)
+					.fetch()
+					.then(function (template) {
+						if (template) throw new Error('Template name already exists. Please choose another name.');
+					})
+					.catch(function (err) {
+						console.log('Error checking if template name exists');
+					});
 			})
 			.then(function () {
 				return new models.Template({
@@ -103,6 +118,9 @@ var templateController = {
 
 		return new Q()
 			.then(function () {
+				if (!isGitUrl(newGitRepoUrl)) throw new Error('Invalid Git URL');
+			})
+			.then(function () {
 				return models.Template
 					.query({
 						where: {
@@ -136,6 +154,31 @@ var templateController = {
 	},
 
 	deleteTemplate: function (req, res) {
+		//only delete the project if person requesting the deletion has a relation with it
+		var templateName = req.body.templateName;
+		var requestingUserId = req.user.id;
+
+		return new Q()
+			.then(function () {
+				return models.Template
+					.query({
+						where: {
+							template_name: templateName
+						}
+					})
+					.fetch()
+					.then(function (template) {
+						// console.log('template: ', template);
+						return template.destroy();
+					})
+					.then(function () {
+						res.status(200).end();
+					})
+					.catch(function (err) {
+						console.log('Error deleting template: ', err);
+						res.status(400).end();
+					});
+			});
 
 	}
 
