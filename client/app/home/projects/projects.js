@@ -16,12 +16,13 @@
     // Close Socket Connection
     SocketFactory.leaveRoom();
 
-    console.log(window.isVideoOn);
     if (window.isVideoOn) {
+      var closeVidObj = {
+        type: 'remove this video',
+        videoID: VideoFactory.getLocalID()
+      };
+      SocketFactory.send(closeVidObj);
       VideoFactory.close();
-      SocketFactory.send({
-        type: 'remove all videos'
-      })
     }
 
     function init() {

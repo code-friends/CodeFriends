@@ -71,12 +71,21 @@ chatWS.on('connection', function (ws) {
       chatWS.broadcast(JSON.stringify(projectMsg));
     }
 
+    if (parsedMsg.message.type === 'remove this video') {
+      var broadcastObj = {
+        type: "remove video broadcast",
+        videoID: parsedMsg.message.videoID
+      };
+
+      chatWS.broadcast(JSON.stringify(broadcastObj));
+    }
+
     if (parsedMsg.message.type === 'leave room') {
       for (var i in userConnections) {
         for (var j in userConnections[i]) {
           if (userConnections[i].hasOwnProperty(j)) {
             if (userConnections[i][j].username === parsedMsg.message.username) {
-              console.log("user removed, ", userConnections[i][j]);
+              console.log("user removed from chatroom, ", userConnections[i][j]);
               delete userConnections[i][j];
               chatWS.broadcast(JSON.stringify({
                 type: 'refresh users',
