@@ -2,18 +2,18 @@
   <h1 class="modal-header">Move File/Folder</h1>
   <div class="modal-body">
     <div class="btn-group" dropdown>
-      <h4>Specify destination:</h4>
       <button type="button" class="btn btn-primary dropdown-toggle modalDropDownButton" dropdown-toggle ng-disabled="disabled">
-        {{folderSelected}}<span ng-if="folderSelected === 'Specify a folder'" class="caret"></span>
+        {{folderSelected}}<span ng-if="folderSelected === 'Specify a destination'" class="caret"></span>
       </button>
       <ul class="dropdown-menu" role="menu">
         <li ng-click="getDestinationPath($event)">/</li>
         <li ng-repeat="folder in folderPaths" ng-click="getDestinationPath($event)">{{ folder }}</li>
       </ul>
     </div>
-    <form ng-submit="moveFile()" class="addFileForm">
-      <!-- <input type="text" placeholder="Enter file name" ng-model="newFileName" class="modalTextInput"> -->
-      <button type="submit" class="glyphicon glyphicon-plus"></button>
+    <form ng-submit="moveFile()" class="moveFileForm">
+      <button type="submit" class="btn btn-default move-icon-button">
+        <div class="text">Move</div>
+      </button>
     </form>
   </div>
 </div>
