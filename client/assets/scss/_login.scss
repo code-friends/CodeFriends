@@ -1,0 +1,98 @@
+// , .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus
+
+
+.login {  
+  font-family: "Brandon grotesque";
+  text-transform: uppercase;
+  font-weight: 700;
+  .nav-tabs {
+    color: white;
+    li a {
+      border: rgba(30, 76, 97, 0.5);
+    }
+    li a:hover {
+      background-color: $dark-hover-blue;
+      border: rgba(30, 76, 97, 0.5);
+    }
+    li a:active {
+      border: rgba(30, 76, 97, 0.5);
+    }
+  }
+  .nav-tabs.nav-justified > .active > a:focus {
+    border: rgba(30, 76, 97, 0.5);
+  }
+  .nav-tabs.nav-justified > .active > a:hover {
+    border: rgba(30, 76, 97, 0.5);
+  }
+  .nav-tabs.nav-justified > li > a {
+    border-bottom: 1px solid rgba(30, 76, 97, 0.4);
+  }
+  .nav-tabs > li.active > a {
+    color: white;
+    background-color: rgba(30, 76, 97, 0.4);
+    border: rgba(30, 76, 97, 0.7);
+  }
+  .btn-github {
+    color: #fff;
+    background-color: rgb(30, 76, 97);
+    border: none;
+    font-size: 1.3em;
+  }
+  .form-group {
+    margin-right: 0;
+    margin-left: 0;
+  }
+  // input
+  .form-control {
+    border: none;
+    font-family: $Proxima-font-stack;
+    letter-spacing: 0.5px;
+    &:focus {
+      outline: 0;
+      border:none;
+      box-shadow: none;
+    }
+  }
+  input {
+    background-color: rgba(30, 76, 97, 0.2);
+    color: white;
+    &:focus {
+      outline: 0;
+      border:none;
+    }
+  }
+  .login-button {
+    background-image: url($login-icon-path);
+    background-color: $opaque-blue;
+    border: none;
+    width: 40px;
+    border-radius: 28px;
+    height: 40px;
+    background-size: 25px;
+    background-position: 8px;
+    background-repeat: no-repeat;
+    display: block;
+    margin: 0 auto;
+    margin-top: 7%;
+    cursor: pointer;
+    transition-property: width;
+    transition-duration: 375ms;
+    overflow: hidden;
+    position: relative;
+    &:hover {
+      width: 157px;
+      transition-property: width, background-color;
+      transition-duration: 250ms;
+      background-color: rgba($dark-hover-blue, 0.5);
+    }
+    .text {
+      color: #fff;
+      display: inline-block;
+      height: 6px;
+      width: 90px;
+      margin-left: 25px;
+      float: left;
+      margin-top: -10px;
+    }
+  }
+}  

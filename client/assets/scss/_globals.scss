@@ -3,12 +3,13 @@ $img-path: '../assets/img/';
 $lib-path: '../../lib/';
 $bootstrap-stylesheets-path: '#{$lib-path}bootstrap-sass-official/assets/stylesheets/bootstrap/';
 $bootrap-icon-path: '#{$lib-path}bootstrap-sass-official/assets/fonts/bootstrap/';
-
+// Icon Paths
 $shapes-friends-path: '#{$img-path}friends.png';
 $add-project-icon-path: '#{$img-path}add-project.png';
 $upload-icon-path: '#{$img-path}upload-icon.png';
+$login-icon-path: '#{$img-path}login.png';
 
-// Type
+//Type
 $Lato-font-stack: 'Lato', Helvetica, sans-serif;
 $Brandon-font-stack: "brandon-grotesque", sans-serif;
 $Proxima-font-stack: "proxima-nova", sans-serif;
@@ -19,10 +20,10 @@ $dark-blue-grey: #4C7284;
 $darkened-blue-grey: darken($blue-grey, 10);
 //bg for views
 $silver-blue: #93AAB5;
-//light blue for buttons
+//buttons
 $opaque-blue: rgba(30, 76, 97, 0.1);
-
 $dark-hover-blue: rgba(30, 76, 97, 0.5);
+
 $darken-silver-blue: darken(rgba(30, 76, 97, 0.3), 0.5);
 $light-grey: #aaa;
 $light-blue: #9BB4C7;
