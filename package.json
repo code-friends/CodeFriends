@@ -89,7 +89,6 @@
     "rimraf": "^2.2.8",
     "share": "^0.7.3",
     "share-codemirror": "^0.1.0",
-    "simplewebrtc": "^1.11.2",
     "supertest-as-promised": "^1.0.0",
     "underscore.string": "^2.4.0",
     "wrench": "^1.5.8",
