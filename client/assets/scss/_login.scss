@@ -25,7 +25,7 @@
     border: rgba(30, 76, 97, 0.5);
   }
   .nav-tabs.nav-justified > li > a {
-    border-bottom: 1px solid rgba(30, 76, 97, 0.4);
+    border-bottom: 1px solid rgba(30, 76, 97, 0.4gi);
   }
   .nav-tabs > li.active > a {
     color: white;
@@ -37,6 +37,9 @@
     background-color: rgb(30, 76, 97);
     border: none;
     font-size: 1.3em;
+  }
+  form {
+    margin-top: 4%
   }
   .form-group {
     margin-right: 0;
