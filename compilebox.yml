@@ -2,3 +2,4 @@ compilebox:
   build: ./compilebox/
   ports:
    - "9002:80"
+  privileged: true
