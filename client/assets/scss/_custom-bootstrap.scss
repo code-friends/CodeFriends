@@ -147,11 +147,12 @@ $input-height: 30px;
     color: #222;
     @include placeholder-color(#ccc);
     &[type="file"] {
+      font-family: $Proxima-font-stack;
       font-size: 0.9em;
       width: 248px;
       letter-spacing: 0.1em;
-      padding: 10px 10px;
-      background: rgba(0,0,0,0.2);
+      padding: 10px 37px;
+      background: rgba(30, 76, 97, 0.5);
       border-radius: 5px;
       color: white;
       margin: 0 auto;
@@ -228,6 +229,21 @@ body > div.modal.fade.ng-isolate-scope.in > div > div > div > div > form > div.n
 
 
 .createProjectModal {
+  text-align: center;
+  #gitRepoUrl {
+    background-color: $dark-hover-blue;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 0.8em;
+    text-align: center;
+    letter-spacing: 0.5px;
+    &:focus {
+      border: none;
+      outline: none;
+      box-shadow: none;
+    }
+  }
   .tab-content label {
     font-weight: 100; 
   }
