@@ -1,7 +1,6 @@
 /*global angular:true */
 (function () {
   'use strict';
-
   angular.module('codeFriends.projects', ['ui.router'])
     .controller('ProjectsController', ProjectsController);
 
