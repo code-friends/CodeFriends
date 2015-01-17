@@ -5,9 +5,9 @@
   angular.module('codeFriends.video', ['ngSanitize'])
     .controller('VideoController', VideoController);
 
-  VideoController.$inject = ['$scope', '$state', '$http', 'ngSocket', '$stateParams', 'AuthFactory', 'VideoFactory'];
+  VideoController.$inject = ['$scope', '$state', '$http', 'ngSocket', '$stateParams', 'AuthFactory'];
 
-  function VideoController($scope, $state, $http, ngSocket, $stateParams, AuthFactory, VideoFactory) {
+  function VideoController($scope, $state, $http, ngSocket, $stateParams, AuthFactory) {
     var roomID = $stateParams.projectName;
 
     var comm = new IceComm('SlMXTAEgn5hs1ITxylVfrhi1wh4StgGLeDHrMxEpsaGRsOa');
