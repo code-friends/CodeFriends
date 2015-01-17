@@ -8,16 +8,18 @@
   letter-spacing: 0.13em;
   font-weight: 400;
   border: 0;
-  background: $blue-grey;
-  color: white;
+  color: #fff;
   font-size: 1.6em;
   cursor: default;
   background-color: $blue-grey;
-  color: white;
+  color: #fff;
   z-index: 95;
   height: $toolbar-height;
   border-radius: 0;
   margin-bottom: 0;
+  .dropdown-menu {
+    background: rgba(96, 121, 132, 0.98);
+  }
   .navbar-brand {
     &:hover, &:focus {
       background: $darkened-blue-grey;
@@ -30,7 +32,7 @@
   nav .open > a,
   .nav .open > a:hover,
   .nav .open > a:focus {
-    color: white;
+    color: #fff;
     background: $darkened-blue-grey;
   }
   .navbar-nav > .open > a,
@@ -42,11 +44,11 @@
   .navbar-nav > a {
     font-size: 11px;
     text-transform: uppercase;
-    color: white;
+    color: #fff;
   }
   .navbar-nav > li > a:hover,
   .navbar-nav > li > a:focus {
-    color: white;
+    color: #fff;
   }
   &.navbar-default {
     .dropdown-menu {
@@ -79,7 +81,7 @@
             text-align: left;
             height: 100%;
             padding: 7px 10px;
-            color: white;
+            color: #fff;
             font-family: $Proxima-font-stack;
             font-size: 1em;
             letter-spacing: 0.06em;
@@ -91,10 +93,10 @@
   }
   &.navbar-default{
     #logo-text {
-      color: white;
+      color: #fff;
     }
     a.navbar-brand.dropdown-toggle {
-      color: white;
+      color: #fff;
     }
     .dropdown-menu {
       background: $blue-grey;
@@ -106,16 +108,16 @@
     }
   }
   .dropdown-menu > li > a {
-    color: white;
+    color: #fff;
     background: none;
     font-weight: 300;
     display: inline-block;
   }
   .userName {
-    color: white;
+    color: #fff;
     cursor: pointer;
     &:hover {
-      color: white;
+      color: #fff;
       background: $darkened-blue-grey;
     }
   }
@@ -130,7 +132,7 @@
 }
 
 .navbar-brand, .navbar-default .navbar-brand {
-  color: white;
+  color: #fff;
   #logo-image {
     background: url($shapes-friends-path) no-repeat center center;
     background-size: contain;
@@ -143,7 +145,7 @@
   #logo-text {
     font-size: 1em;
     font-weight: 700;
-    color: white;
+    color: #fff;
     letter-spacing: 0.1em;
     display: inline-block;
     margin-left: 5px;
@@ -180,4 +182,8 @@
   ul {
     float: right;
   }
+}
+
+#toolbar.navbar-default .dropdown-menu {
+  background: rgba(96, 121, 132, 0.98)
 }

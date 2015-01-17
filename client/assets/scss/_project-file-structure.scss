@@ -42,14 +42,16 @@
         .hidden-fs-menu {
           display: none;
           font-size: 1em;
-          color: white;
+          letter-spacing: 0.06em;
+          font-weight: 300;
+          color: #fff;
           background-color: rgba(96, 121, 132, 0.98);
           width: 120px;
-          height: 79px;
+          height: 86px;
           margin-top: 7px;
           li {
-            padding-top: 6%;
-            padding-bottom: 6%;
+            padding-top: 7%;
+            padding-bottom: 7%;
             padding-left: 16%;
             &:hover {
               background-color: $darken-silver-blue;
