@@ -1,7 +1,6 @@
 'use strict';
 var Promise = require('bluebird');
 var config = require('config');
-
 //MySQL
 var knex = require('knex');
 
