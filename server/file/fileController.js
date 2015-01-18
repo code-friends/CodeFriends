@@ -1,7 +1,7 @@
 'use strict';
 var config = require('config');
 var Promise = require('bluebird');
-var mongoClient = Promise.promisifyAll(require('mongodb').MongoClient);
+var mongoClient = require('../mongoConnection.js');
 var Q = require('q');
 var moment = require('moment');
 var _ = require('lodash');
@@ -100,8 +100,7 @@ var fileController = {
    * @return <Promise>
    */
   _updateFileStructure: function (fileStructure) {
-    return mongoClient.connectAsync(config.get('mongo'))
-      .then(function (db) {
+    return mongoClient.then(function (db) {
         return Promise.promisifyAll(db.collection('project_file_structre'));
       })
       .then(function (projectCollection) {
@@ -201,8 +200,7 @@ var fileController = {
       })
       .then(function (project) {
         // Get project structure form mongo
-        return mongoClient.connectAsync(config.get('mongo'))
-          .then(function (db) {
+        return mongoClient.then(function (db) {
             var projectCollection = Promise.promisifyAll(db.collection('project_file_structre'));
             return projectCollection.findOneAsync({
                 projectId: project.get('id')

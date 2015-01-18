@@ -48,6 +48,7 @@ chatWS.on('connection', function (ws) {
       mongoClient.then(function (db) {
         var chatCollection = Promise.promisifyAll(db.collection(chatRoomName));
         chatCollection.find().toArray(function (err, results) {
+          console.log('err', err, 'results', results);
           ws.send(JSON.stringify({
             roomID: chatRoomName,
             type: 'msgHistory',
