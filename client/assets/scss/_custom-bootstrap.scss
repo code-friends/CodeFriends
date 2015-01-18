@@ -87,11 +87,9 @@ $input-height: 30px;
     font-size: 0.9em;
   }
   .addUserToProjectInput {
-    font-family: $Brandon-font-stack;
-    font-size: 0.9em;
+    font-family: $Proxima-font-stack;
     letter-spacing: 0.5px;
-    font-weight: 400;
-    text-transform: uppercase;
+    font-size: 1em;
   }
   .addFileForm, .moveFileForm {
     margin-top: 5%;
