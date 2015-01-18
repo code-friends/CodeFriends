@@ -3,6 +3,7 @@
   padding-left: $some-number;
 }
 
+
 .folder-container{
   cursor: default; 
 }
@@ -11,6 +12,7 @@
   border-right: solid 1px #f2f2f2;
   height: calc(100vh - #{$toolbar-height});
   font-size: 0.9em;
+  overflow: scroll;
   .project-file-structure-header {
     height: 30px;
     letter-spacing: 1px;

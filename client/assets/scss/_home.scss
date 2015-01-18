@@ -1,8 +1,9 @@
 .viewport {
   width: 100vw;
-  height: 550px;
+  min-height: 550px;
   overflow: hidden;
   position: relative;
+  margin-bottom: 5%;
   .greeting-container {
     position: absolute;
     top: 0;

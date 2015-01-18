@@ -12,7 +12,13 @@
     function VideoFactory() {
       var iceComm;
 
-      iceComm = new IceComm('SlMXTAEgn5hs1ITxylVfrhi1wh4StgGLeDHrMxEpsaGRsOa');
+      try {
+        iceComm = new IceComm('SlMXTAEgn5hs1ITxylVfrhi1wh4StgGLeDHrMxEpsaGRsOa');
+      } catch (err) {
+        console.log('Couln\'t Load IceComm');
+      }
+
+      if (!iceComm) return null;
 
       iceComm.on('connected', function (options) {
         createRemoteVideo(options.stream, options.callerID);
