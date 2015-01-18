@@ -5,7 +5,7 @@ var WebSocketServer = require('ws').Server;
 var http = require('http');
 var connect = require('connect');
 var Promise = require('bluebird');
-var mongoClient = Promise.promisifyAll(require('mongodb').MongoClient);
+var mongoClient = require('./mongoConnection.js');
 
 var chatApp = connect(),
   chatServer = http.createServer(chatApp),
@@ -24,16 +24,15 @@ chatWS.on('connection', function (ws) {
     if (parsedMsg.message.type === 'message') {
       var message = parsedMsg.message.message;
       var createDate = parsedMsg.message.createdAt;
-      mongoClient.connectAsync(config.get('mongo'))
-        .then(function (db) {
-          var chatCollection = Promise.promisifyAll(db.collection(chatRoomName));
-          chatCollection.insertAsync({
-            roomID: chatRoomName,
-            message: message,
-            username: username,
-            createdAt: createDate
-          });
+      mongoClient.then(function (db) {
+        var chatCollection = Promise.promisifyAll(db.collection(chatRoomName));
+        chatCollection.insertAsync({
+          roomID: chatRoomName,
+          message: message,
+          username: username,
+          createdAt: createDate
         });
+      });
       //save message to the database.
       chatWS.broadcast(msg);
     }
@@ -46,22 +45,21 @@ chatWS.on('connection', function (ws) {
         username: parsedMsg.message.username,
         githubAvatar: parsedMsg.message.githubAvatar
       };
-      mongoClient.connectAsync(config.get('mongo'))
-        .then(function (db) {
-          var chatCollection = Promise.promisifyAll(db.collection(chatRoomName));
-          chatCollection.find().toArray(function (err, results) {
-            ws.send(JSON.stringify({
-              roomID: chatRoomName,
-              type: 'msgHistory',
-              messages: results
-            }));
-            chatWS.broadcast(JSON.stringify({
-              type: 'refresh users',
-              userConnections: userConnections[chatRoomName],
-              roomID: chatRoomName
-            }));
-          });
+      mongoClient.then(function (db) {
+        var chatCollection = Promise.promisifyAll(db.collection(chatRoomName));
+        chatCollection.find().toArray(function (err, results) {
+          ws.send(JSON.stringify({
+            roomID: chatRoomName,
+            type: 'msgHistory',
+            messages: results
+          }));
+          chatWS.broadcast(JSON.stringify({
+            type: 'refresh users',
+            userConnections: userConnections[chatRoomName],
+            roomID: chatRoomName
+          }));
         });
+      });
     }
 
     if (parsedMsg.message.type === 'project structure changed') {
