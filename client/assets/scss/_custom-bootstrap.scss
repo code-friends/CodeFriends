@@ -308,7 +308,7 @@ $input-height: 30px;
     margin-top: 10%;
     border-bottom: 1px solid #466D80;
     li {
-      width: 50%;
+      width: 33%;
       a {
         font-weight: 300;
         border: 0;
@@ -352,11 +352,27 @@ body > div.modal.fade.ng-isolate-scope.in > div > div > div > div > form > div.n
       box-shadow: none;
     }
   }
-  .tab-content label {
-    font-weight: 400;
-    font-family: $Brandon-font-stack;
-    text-transform: uppercase;
-    font-size: 0.9em;
+  &.template {
+    .modalDropDownButton {
+      background-color: $dark-hover-blue;
+    }
+    .tab-content {
+      height: 150px;
+      transition-property: height;
+      transition-duration: 200ms;
+    }
+  }
+
+  .tab-content{
+    transition-property: height;
+    transition-duration: 200ms;
+    height: 95px; 
+    label {
+      font-weight: 400;
+      font-family: $Brandon-font-stack;
+      text-transform: uppercase;
+      font-size: 0.9em;
+    }
   }
   .upload-icon {
     background-image: url($upload-icon-path);

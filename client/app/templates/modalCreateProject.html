@@ -1,14 +1,12 @@
-<div class="createProjectModal">
+<div class="createProjectModal {{ selectedTab }}">
   <h1 class="modal-header">Add a new project</h1>
-  <div class="modal-body">
+  <div class="modal-body {{ selectedTab }}">
     <form ng-submit="closeModal()">
       <div class="form-group">
-        <!-- <label for="projectName">Project Name</label> -->
         <input type="text" ng-model="newProjectName" id="projectName" class="modalTextInput" class="form-control" placeholder="Enter project name">
       </div>
       <tabset>
-        <tab heading="Clone git repo" select="changeCurrentTab('gitRepoUrl')">
-          <form class="git-repo-form">
+        <tab heading="Clone repo" select="changeCurrentTab('gitRepoUrl')">
             <div class="form-group">
               <label for="gitRepoUrl">URL for Git Repository</label>
               <input type="text" id="gitRepoUrl" ng-model="gitRepoUrl" ng-change="updateGitRepo(gitRepoUrl)" class="form-control" placeholder="https://github.com/..."/>
@@ -18,6 +16,21 @@
           <div>
             <input type="file" ng-model='files' ng-file-select="onFileSelect(files)" ng-multiple="false" class="app-prompt-upload"/>
           </div>
+        </tab>
+        <tab heading="Template" select="changeCurrentTab('template')">
+            <div class="form-group">
+              <label for="gitRepoUrl">Create Template From Git</label>
+              <input type="text" id="gitRepoUrl" ng-model="gitRepoUrl" ng-change="updateGitRepo(gitRepoUrl)" class="form-control" placeholder="https://github.com/..."/>
+              <h4>or</h4>
+              <div class="btn-group" dropdown>
+                <button type="button" class="btn btn-primary dropdown-toggle modalDropDownButton" dropdown-toggle ng-disabled="disabled">
+                  {{templateSelected}}<span ng-if="templateSelected === 'Choose a template'" class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  <li ng-repeat="template in templateList" data-templateUrl="{{template.gitRepoUrl}}" ng-click="getTemplateSelected($event)">{{template.templateName}}</li>
+                </ul>
+              </div>
+            </div>
         </tab>
       </tabset>
       <button type="submit" class="create-project-button">
