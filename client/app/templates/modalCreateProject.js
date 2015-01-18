@@ -4,6 +4,7 @@
   'use strict';
   angular.module('codeFriends.projects')
     .controller('createProjectModalController', ['$scope', '$modalInstance', '$upload', 'ProjectListFactory', 'TemplatesFactory', function ($scope, $modalInstance, $upload, ProjectListFactory, TemplatesFactory) {
+      $scope.toHide = true;
       $scope.files = null;
       $scope.gitRepoUrl = null;
       $scope.templateList = null;
@@ -53,6 +54,10 @@
               gitRepoUrl: $scope.gitRepoUrl
             };
           }
+
+          // unhides loading icon
+          $scope.toHide = false;
+
           // NOTE: It would be great if we could give the user some feedback that
           // this might take a while. Git cloning can take a couple of seconds.
           return ProjectListFactory.createProject($scope.newProjectName, projectInfoObj)
@@ -64,6 +69,7 @@
                     $modalInstance.close();
                   });
               }
+              $scope.toHide = true;
               $modalInstance.close();
             });
         }

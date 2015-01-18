@@ -1,4 +1,7 @@
 <div class="createProjectModal {{ selectedTab }}">
+  <div class="loading-cover" ng-show="!toHide" class="ng-hide">
+    <img src="assets/img/puff.svg">
+  </div>
   <h1 class="modal-header">Add a new project</h1>
   <div class="modal-body {{ selectedTab }}">
     <form ng-submit="closeModal()">
