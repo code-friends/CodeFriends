@@ -62,7 +62,7 @@
           .hidden-fs-menu {
             display: block;
             position: absolute;
-            z-index:999; 
+            z-index:999;
           }
         }
       }
@@ -71,7 +71,7 @@
       }
       &:hover {
         background-color: $darken-silver-blue;
-        color: #fff;    
+        color: #fff;
       }
       }
     }
