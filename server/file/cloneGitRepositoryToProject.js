@@ -54,6 +54,9 @@ var cloneGitRepositoryToProject = function (project, userId, gitRepoUrl) {
           return updateFileStructure(newFileStructure)
             .then(function (fileStructure) {
               return fileStructure;
+            })
+            .catch(function (err) {
+              console.log('Error Updating File Structure', err);
             });
         });
     })

@@ -28,7 +28,6 @@
         }
         FilesFactory.addNewFile($scope.newFileName, $stateParams.projectName, $scope.folderSelected)
           .then(function () {
-            console.log('New File Created');
             SocketFactory.send({
               type: 'project structure changed'
             });
@@ -42,7 +41,6 @@
         }
         FilesFactory.addNewFolder($scope.newFolderName, $stateParams.projectName, $scope.folderSelected)
           .then(function () {
-            console.log('New Folder Created');
             SocketFactory.send({
               type: 'project structure changed'
             });

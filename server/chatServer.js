@@ -6,7 +6,7 @@ var http = require('http');
 var connect = require('connect');
 var Promise = require('bluebird');
 var mongoClient = Promise.promisifyAll(require('mongodb').MongoClient);
-
+var _mongoClient = mongoClient.connectAsync(config.get('mongo'));
 var chatApp = connect(),
   chatServer = http.createServer(chatApp),
   chatWS = new WebSocketServer({
@@ -24,7 +24,7 @@ chatWS.on('connection', function (ws) {
     if (parsedMsg.message.type === 'message') {
       var message = parsedMsg.message.message;
       var createDate = parsedMsg.message.createdAt;
-      mongoClient.connectAsync(config.get('mongo'))
+      _mongoClient
         .then(function (db) {
           var chatCollection = Promise.promisifyAll(db.collection(chatRoomName));
           chatCollection.insertAsync({
@@ -46,7 +46,7 @@ chatWS.on('connection', function (ws) {
         username: parsedMsg.message.username,
         githubAvatar: parsedMsg.message.githubAvatar
       };
-      mongoClient.connectAsync(config.get('mongo'))
+      _mongoClient
         .then(function (db) {
           var chatCollection = Promise.promisifyAll(db.collection(chatRoomName));
           chatCollection.find().toArray(function (err, results) {

@@ -3,7 +3,7 @@
   'use strict';
 
   angular.module('codeFriends.uploads', [])
-  .controller('UploadsController', ['$scope', '$state', '$stateParams', '$http', '$upload', function ($scope, $state, $stateParams, $http, $upload) {
+    .controller('UploadsController', ['$scope', '$state', '$stateParams', '$http', '$upload', function ($scope, $state, $stateParams, $http, $upload) {
 
       $scope.onFileSelect = function (files) {
         var uploadFile = function (fileIndex) {
@@ -29,7 +29,6 @@
         };
         uploadFile(0)
           .then(function () {
-            console.log('All Files Uploaded');
             // TODO: Add Socket .send
           });
       };

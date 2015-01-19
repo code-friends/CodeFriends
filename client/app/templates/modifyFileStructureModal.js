@@ -10,7 +10,6 @@
       $scope.newPath = null;
 
       $scope.init = function () {
-        console.log('projectname!', $stateParams.projectName);
         ProjectFactory.getProject($stateParams.projectName)
           .then(function (project) {
             $scope.folderPaths = ProjectFactory.getFolderPaths(project.files);
@@ -34,8 +33,6 @@
         $modalInstance.close();
         FilesFactory.moveFile($stateParams.projectName, $scope.movedFile.fileType, $scope.movedFile.filePath, $scope.newPath, $stateParams.projectName)
           .then(function (res) {
-            console.log('Successfully moved file');
-            console.log('res', res);
             SocketFactory.send({
               type: 'project structure changed'
             });

@@ -43,14 +43,8 @@
       }
     };
 
-
-    function logSomething() {
-      console.log('jereeesjkdhflkajsdflj');
-    }
-
     // saves current project id, current project name, files and folderpaths to vm
     function getProject() {
-      console.log('projectname', $stateParams.projectName);
       return ProjectFactory.getProject($stateParams.projectName)
         .then(function (project) {
           vm.currentProjectId = project.id;
@@ -58,7 +52,6 @@
           vm.files = project.files;
           // Add Level To Project
           addLevelToAllFiles(vm.files, 0);
-          console.log('got filessss', vm.files);
           // Determine First File In Project
           if (typeof $state.params.documentPath === 'undefined') {
             var firstFile;
@@ -78,17 +71,12 @@
           }
           return vm.files;
         })
-        // .then(function () { //you might not need this, take out later mabes
-        //   vm.folderPaths = ProjectFactory.getFolderPaths(vm.files);
-        //   console.log('folderpathsss in this proyecto', vm.folderPaths);
-        // })
         .catch(function (err) {
           console.log('Could Not Get Project', err);
         });
     }
 
     function openMoveFileModal(fileName, filePath, fileType) {
-      console.log(fileName, filePath, fileType);
       $modal.open({
         templateUrl: '/app/templates/modalMoveFile.html',
         controller: 'modifyFileStructureModalController',

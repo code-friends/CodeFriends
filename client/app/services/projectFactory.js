@@ -23,7 +23,6 @@
     // returns all project data & caches files, id and name
     // calls folderPaths
     function getProject(projectName) {
-      console.log('project name in project factory', projectName);
       return $http.get('/api/project/' + projectName)
         .then(function (res) {
           factory.files = res.files;

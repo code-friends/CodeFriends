@@ -32,7 +32,6 @@
       };
 
       $scope.closeModal = function () {
-        console.log('in close modal');
         if ($scope.newProjectName !== undefined) {
           var projectInfoObj = {};
           // Zip
@@ -79,7 +78,6 @@
         return TemplatesFactory.getTemplates()
           .then(function (templates) {
             $scope.templateList = templates;
-            console.log(templates);
           });
       };
 
