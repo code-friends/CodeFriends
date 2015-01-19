@@ -11,7 +11,7 @@
 .project-file-structure {
   border-right: solid 1px #f2f2f2;
   height: calc(100vh - #{$toolbar-height});
-  font-size: 0.9em;
+  font-size: 0.9em; 
   .project-file-structure-header {
     height: 30px;
     letter-spacing: 1px;
@@ -19,6 +19,7 @@
   }
   .project-file-structure-list {
     // padding-left: 6%;
+    overflow-y: scroll; 
     .folder-container, .file-container {
       width: 100%;
       padding-top: 5px;
