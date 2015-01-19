@@ -49,12 +49,6 @@
     }
 
     function moveFile(projectName, type, filePath, newPath, projectIdOrName) {
-      console.log('- - - - -');
-      console.log('filePath', filePath);
-      console.log('newPath', newPath);
-      console.log('projectIdOrName', projectIdOrName);
-      console.log('projectName', projectName);
-      console.log('type', type);
       if (filePath[0] !== '/') {
         filePath = '/' + filePath;
       }
@@ -65,7 +59,6 @@
         newPath: newPath,
         projectIdOrName: projectIdOrName
       }).then(function (res) {
-        console.log('response from server', res);
         return res.data.files;
       });
     }

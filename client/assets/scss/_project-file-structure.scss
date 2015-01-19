@@ -12,14 +12,12 @@
   border-right: solid 1px #f2f2f2;
   height: calc(100vh - #{$toolbar-height});
   font-size: 0.9em;
-  overflow: scroll;
   .project-file-structure-header {
     height: 30px;
     letter-spacing: 1px;
     color: $accent-blue;
   }
   .project-file-structure-list {
-    overflow: scroll;
     // padding-left: 6%;
     .folder-container, .file-container {
       width: 100%;
@@ -64,7 +62,7 @@
           .hidden-fs-menu {
             display: block;
             position: absolute;
-            z-index: 100;
+            z-index:999; 
           }
         }
       }

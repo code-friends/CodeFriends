@@ -24,12 +24,10 @@
       $http.post('https://compile.remoteinterview.io/compile/', postObj).success(function (data, status, headers, config) {
         var output = data.output.split(/\n/g);
         for (var i = 0; i < output.length - 1; i++) {
-          console.log("output: ", output[i]);
+          console.log("Output: ", output[i]);
         }
       }).error(function (data, status, headers, config) {
-        console.log(data);
-        // called asynchronously if an error occurs
-        // or server returns response with an error status.
+        console.log('Error Compiling User Code. Please Try Again.')
       });
     });
     // Setup Code Editor

@@ -15,7 +15,7 @@
       try {
         iceComm = new IceComm('SlMXTAEgn5hs1ITxylVfrhi1wh4StgGLeDHrMxEpsaGRsOa');
       } catch (err) {
-        console.log('Couln\'t Load IceComm');
+        console.log('Could not load IceComm');
       }
 
       if (!iceComm) return null;

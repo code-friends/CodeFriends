@@ -28,9 +28,6 @@
           templateName: templateName,
           gitRepoUrl: templateUrl
         })
-        .then(function (res) {
-          console.log('res from postTemplate', res);
-        })
         .catch(function (err) {
           console.log('Error posting template from TemplatesFactory', err);
         });
