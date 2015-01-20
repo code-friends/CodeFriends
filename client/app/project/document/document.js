@@ -7,7 +7,6 @@
 
   DocumentController.$inject = ['$scope', '$rootScope', '$http', '$stateParams', 'ToolbarFactory', 'DocumentFactory'];
 
-
   function DocumentController($scope, $rootScope, $http, $stateParams, ToolbarFactory, DocumentFactory) {
     $scope.projectName = $stateParams.projectName;
     $scope.documentPath = $stateParams.documentPath;
@@ -15,20 +14,21 @@
     $scope.language = '';
     $scope.theme = ToolbarFactory.theme;
 
-    $rootScope.$on('compile code', function () {
+    $rootScope.$on('compile code', function ($event) {
       var postObj = {
         'language': DocumentFactory.getFileCode($scope.documentPath),
         'code': $scope.cm.getValue()
       };
-
-      $http.post('https://compile.remoteinterview.io/compile/', postObj).success(function (data, status, headers, config) {
-        var output = data.output.split(/\n/g);
-        for (var i = 0; i < output.length - 1; i++) {
-          console.log("Output: ", output[i]);
-        }
-      }).error(function (data, status, headers, config) {
-        console.log('Error Compiling User Code. Please Try Again.')
-      });
+      $http
+        .post('https://compile.remoteinterview.io/compile/', postObj).success(function (data) {
+          var output = data.output.split(/\n/g);
+          for (var i = 0; i < output.length - 1; i++) {
+            console.log('Output: ', output[i]);
+          }
+        })
+        .error(function () {
+          // console.log('Error Compiling User Code. Please Try Again.')
+        });
     });
     // Setup Code Editor
     var documentPathSplit = $scope.documentPath.split('.');
