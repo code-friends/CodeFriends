@@ -13,7 +13,7 @@
       var iceComm;
 
       try {
-        iceComm = new IceComm('SlMXTAEgn5hs1ITxylVfrhi1wh4StgGLeDHrMxEpsaGRsOa');
+        iceComm = new Icecomm('SlMXTAEgn5hs1ITxylVfrhi1wh4StgGLeDHrMxEpsaGRsOa');
       } catch (err) {
         console.log('Could not load IceComm');
       }
