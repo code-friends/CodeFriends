@@ -1,12 +1,16 @@
 // global variables for paths, colors, type, and UI dimensions
 @import 'globals';
 
+// bootstrap glyphicons
+// This path is relative to the /dist directory and not to /assets/scss
+$bootstrap-icon-path-dist: "../lib/bootstrap-sass-official/assets/fonts/bootstrap/";
+
 @import '#{$lib-path}normalize.css/normalize.css';
 @import '../../lib/bootstrap-sass-official/assets/stylesheets/bootstrap/variables';
 @import '../../lib/bootstrap-sass-official/assets/stylesheets/bootstrap/mixins';
 @import '../../lib/bootstrap-sass-official/assets/stylesheets/bootstrap/grid';
-@import '../../lib/bootstrap-sass-official/assets/stylesheets/bootstrap/glyphicons';
 @import '../../lib/bootstrap-sass-official/assets/stylesheets/bootstrap/modals';
+@import '../../lib/bootstrap-sass-official/assets/stylesheets/bootstrap/glyphicons';
 @import '../../lib/bootstrap-sass-official/assets/stylesheets/bootstrap/forms';
 @import '../../lib/bootstrap-sass-official/assets/stylesheets/bootstrap/buttons';
 @import '../../lib/bootstrap-sass-official/assets/stylesheets/bootstrap/navs';
@@ -14,15 +18,15 @@
 @import '../../lib/bootstrap-sass-official/assets/stylesheets/bootstrap/dropdowns';
 @import '../../lib/bootstrap-social/bootstrap-social';
 
-// bootstrap glyphicons
 @font-face {
   font-family: 'Glyphicons Halflings';
-  src: url('#{$bootrap-icon-path}#{$icon-font-name}.eot');
-  src: url('#{$bootrap-icon-path}#{$icon-font-name}.eot?#iefix'),
-       url('#{$bootrap-icon-path}#{$icon-font-name}.woff') format('woff'),
-       url('#{$bootrap-icon-path}#{$icon-font-name}.ttf') format('truetype'),
-       url('#{$bootrap-icon-path}#{$icon-font-name}.svg##{$icon-font-svg-id}') format('svg');
+  src: url('#{$bootstrap-icon-path-dist}#{$icon-font-name}.eot');
+  src: url('#{$bootstrap-icon-path-dist}#{$icon-font-name}.eot?#iefix'),
+       url('#{$bootstrap-icon-path-dist}#{$icon-font-name}.woff') format('woff'),
+       url('#{$bootstrap-icon-path-dist}#{$icon-font-name}.ttf') format('truetype'),
+       url('#{$bootstrap-icon-path-dist}#{$icon-font-name}.svg##{$icon-font-svg-id}') format('svg');
 }
+
 
 @import 'codemirror';
 @import 'codemirror-themes/index';
