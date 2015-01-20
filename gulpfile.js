@@ -20,6 +20,7 @@ gulp.task('js', function () {
   gulp.src([
       './client/lib/underscore/underscore.js',
       './client/lib/angular/angular.js',
+      './client/lib/bootstrap-sass-official/assets/javascripts/bootstrap-sprockets.js',
       './client/lib/angular-bootstrap/ui-bootstrap.js',
       './client/lib/angular-bootstrap/ui-bootstrap-tpls.js',
       './client/lib/angular-ui-router/release/angular-ui-router.js',
