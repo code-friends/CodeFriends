@@ -20,11 +20,11 @@ $bootstrap-icon-path-dist: "../lib/bootstrap-sass-official/assets/fonts/bootstra
 
 @font-face {
   font-family: 'Glyphicons Halflings';
-  src: url('#{$bootrap-icon-path-dist}#{$icon-font-name}.eot');
-  src: url('#{$bootrap-icon-path-dist}#{$icon-font-name}.eot?#iefix'),
-       url('#{$bootrap-icon-path-dist}#{$icon-font-name}.woff') format('woff'),
-       url('#{$bootrap-icon-path-dist}#{$icon-font-name}.ttf') format('truetype'),
-       url('#{$bootrap-icon-path-dist}#{$icon-font-name}.svg##{$icon-font-svg-id}') format('svg');
+  src: url('#{$bootstrap-icon-path-dist}#{$icon-font-name}.eot');
+  src: url('#{$bootstrap-icon-path-dist}#{$icon-font-name}.eot?#iefix'),
+       url('#{$bootstrap-icon-path-dist}#{$icon-font-name}.woff') format('woff'),
+       url('#{$bootstrap-icon-path-dist}#{$icon-font-name}.ttf') format('truetype'),
+       url('#{$bootstrap-icon-path-dist}#{$icon-font-name}.svg##{$icon-font-svg-id}') format('svg');
 }
 
 
