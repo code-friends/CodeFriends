@@ -69,7 +69,7 @@ npm test
 
 ## Contributing
 
-See [CONTRIBUTING.md][contributing-url] for contribution guidelines.
+See CONTRIBUTING.md for contribution guidelines.
 
 ## License
 MIT License 2014
