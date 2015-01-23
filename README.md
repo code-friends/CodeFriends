@@ -27,7 +27,7 @@ CodeFriends is a collaborative programming environment in your browser. Work wit
 1. Clone a repo, use a template, or create a project from scratch.
 1. Invite collaborators with their Github username and start collaborating!
 
-![Real time editing with others](http://codefriends.io/assets/img/landingScreenshots/compileScreenShot.png?raw=true "Real time editing")
+![Real time editing with others](http://codefriends.io/assets/img/landingScreenshots/videoScreenShot.png?raw=true "Real time editing")
 
 ## Development
 ### Setup
