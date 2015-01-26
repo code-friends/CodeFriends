@@ -1,7 +1,7 @@
 /*jshint node:true */
 'use strict';
 
-var Promise = require('bludbird')
+var Promise = require('bluebird')
 var fs = Promise.promisifyAll(require('fs'));
 var mkdirp = Promise.promisify(require('mkdirp'));
 var path = require('path');
