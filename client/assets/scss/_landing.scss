@@ -21,6 +21,15 @@
   }
 }
 
+#greeting-text {
+  bottom: 13%;
+  font-size: 1.1em;
+  p {
+    padding: 0 67px;
+    line-height: 1.6em;
+  }
+}
+
 .landing-two {
   color: $dark-blue-grey;
   text-align: center;
@@ -89,10 +98,6 @@ video#bgvid {
     }
   }
   .featurette-heading {
-    // font-size: 50px;
-    // font-weight: 300;
-    // line-height: 1;
-    // letter-spacing: -1px;
     font-size: 2.8em;
     font-weight: 700;
     line-height: 1.2em;
@@ -106,8 +111,11 @@ video#bgvid {
     }
   }
   .btn-github-login {
-    width: 275px;
+    width: 243px;
     margin: 0 auto 50px;
+    font-family: "Brandon Grotesque";
+    text-transform: uppercase;
+    font-size: 1.2em;
   }
   &.signup {
     text-align: center;
@@ -207,7 +215,3 @@ video#bgvid {
     }
   }
 }
-
-// .text-muted {
-//   color: #777;
-// }
