@@ -9,7 +9,7 @@ CodeFriends is a collaborative programming environment in your browser. Work wit
   - __Project Lead and Back End Engineer__: [Jorge Silva](https://github.com/thejsj/)
   - __Back End and Database Engineer__: [Chase Ellsworth](https://github.com/chaseme3/)
   - __Front End Lead and Scrum Master__: [Catherine Bui](https://github.com/gladwearefriends)
-  - __WebRTC and WebSocket Expert__: [Doug Phung](https://github.com/floofydoug/)
+  - __Full Stack Developer__: [Doug Phung](https://github.com/floofydoug/)
 
 
 ## Table of Contents
