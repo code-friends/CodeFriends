@@ -26,7 +26,7 @@ gulp.task('js', function () {
       './client/lib/angular-ui-router/release/angular-ui-router.js',
       './client/lib/angular-scroll-glue/src/scrollglue.js',
       './client/lib/jshashes/hashes.js',
-      './node_modules/share/webclient/share.js',
+      './node_modules/share/dist/share.js',
       './client/lib/codemirror/lib/codemirror.js',
       './client/lib/codemirror/mode/meta.js',
       './client/lib/codemirror/mode/javascript/javascript.js',
