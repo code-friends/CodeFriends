@@ -253,8 +253,6 @@ var fileController = {
   },
 
   moveFileInProject: function (req, res) {
-
-
     var fileInfo = req.body;
     var fileContent;
     var fileStructure;
