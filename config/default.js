@@ -16,6 +16,11 @@ var config = {
     'database': 'code_friends'
   },
   'mongo': 'mongodb://127.0.0.1:27017/codeFriends?auto_reconnect',
+  'rethinkdb': {
+    'host': 'localhost',
+    'port': 28015,
+    'db': 'code_friends',
+  },
   'ports': {
     'http': 8000,
     'editor': 9000,
