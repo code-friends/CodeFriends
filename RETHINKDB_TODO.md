@@ -5,5 +5,3 @@
 1. server/file/uploadController.js
 1. server/sharejs/socketHandler.js
 1. server/chatServer.js
-1. server/deleteAllDatabases.js
-1.server/liveDbClients.js
