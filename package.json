@@ -79,7 +79,7 @@
     "morgan": "^1.5.0",
     "multiparty": "^4.1.0",
     "mysql": "^2.5.4",
-    "nodegit": "0.2.4",
+    "nodegit": "^0.4.1",
     "optimist": "^0.6.1",
     "passport": "^0.2.1",
     "passport-github": "^0.1.5",
