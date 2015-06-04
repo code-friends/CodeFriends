@@ -1,7 +1,8 @@
 'use strict';
 var config = require('config');
 var Promise = require('bluebird');
-var mongoClient = Promise.promisifyAll(require('mongodb').MongoClient);
+//var mongoClient = Promise.promisifyAll(require('mongodb').MongoClient);
+var r = require('rethinkdb');
 var Q = require('q');
 var moment = require('moment');
 var _ = require('lodash');
@@ -104,32 +105,55 @@ var fileController = {
    * @return <Promise>
    */
   _updateFileStructure: function (fileStructure) {
-    return mongoClient.connectAsync(config.get('mongo'))
-      .then(function (db) {
-        return Promise.promisifyAll(db.collection('project_file_structre'));
-      })
-      .then(function (projectCollection) {
-        return projectCollection.updateAsync({
-            _id: fileStructure._id
-          }, {
-            $set: {
-              files: fileStructure.files
-            }
-          }, {
-            w: 1
+    return r.connect(config.get('rethinkdb'))
+      .then(function (conn) {
+        return r.table('project_file_structure')
+         .get(fileStructure.id)
+         .update({
+           files: fileStructure.files
+         })
+         .run(conn)
+         .then(function () {
+           return r.table('project_file_structure')
+             .get(fileStructure.id)
+             .run(conn);
+         })
+         .then(function (fileStructure) {
+           return fileStructure;
+         })
+          .catch(function (err) {
+            console.log('Cannot Find Collection With ID', err);
           })
-          .then(function () {
-            return projectCollection.findOneAsync({
-                _id: fileStructure._id
-              })
-              .then(function (fileStructure) {
-                return fileStructure;
-              })
-              .catch(function (err) {
-                throw new Error('Cannot Find Collection With ID ' + err.message);
-              });
-          });
+         .finally(function () {
+           return conn.close();
+         });
       });
+    //return mongoClient.connectAsync(config.get('mongo'))
+      //.then(function (db) {
+        //return Promise.promisifyAll(db.collection('project_file_structre'));
+      //})
+      //.then(function (projectCollection) {
+        //return projectCollection.updateAsync({
+            //_id: fileStructure._id
+          //}, {
+            //$set: {
+              //files: fileStructure.files
+            //}
+          //}, {
+            //w: 1
+          //})
+          //.then(function () {
+            //return projectCollection.findOneAsync({
+                //_id: fileStructure._id
+              //})
+              //.then(function (fileStructure) {
+                //return fileStructure;
+              //})
+              //.catch(function (err) {
+                //console.log('Cannot Find Collection With ID', err);
+              //});
+          //});
+      //});
   },
   _isValidFileName: function (filePath) {
     var fileName = path.basename(filePath);
@@ -205,27 +229,32 @@ var fileController = {
       })
       .then(function (project) {
         // Get project structure form mongo
-        return mongoClient.connectAsync(config.get('mongo'))
-          .then(function (db) {
-            var projectCollection = Promise.promisifyAll(db.collection('project_file_structre'));
-            return projectCollection.findOneAsync({
-                projectId: project.get('id')
-              })
+        return r.connect(config.get('rethinkdb'))
+          .then(function (conn) {
+            return r.table('project_file_structure')
+              .filter(r.row('projectId').eq(project.get('id')))
+              .run(conn)
               .then(function (projectFileStructure) {
-                // Create empty project if nothing is found
                 if (projectFileStructure === null) {
-                  return projectCollection.insertAsync({
+                  return r.table('project_file_structure')
+                   .insert({
                       projectId: project.get('id'),
                       files: {}
-                    })
-                    .then(function (projectFileStructure) {
-                      return projectFileStructure[0];
-                    });
+                   })
+                   .run(conn)
+                   .then(function (results) {
+                     return r.table('project_file_structure')
+                       .get(results.generated_keys[0])
+                       .run(conn)
+                       .then(function (projectFileStructure) {
+                         return projectFileStructure;
+                       });
+                   });
                 }
                 return projectFileStructure;
               })
               .then(function (projectFileStructure) {
-                db.close();
+                conn.close();
                 projectFileStructure.paths = fileController.getPathsForFileStructure(projectFileStructure);
                 return projectFileStructure;
               });
@@ -233,6 +262,35 @@ var fileController = {
           .catch(function (error) {
             throw new Error('Error Connecting to MongoDB ' + error.message);
           });
+
+        //return mongoClient.connectAsync(config.get('mongo'))
+          //.then(function (db) {
+            //var projectCollection = Promise.promisifyAll(db.collection('project_file_structre'));
+            //return projectCollection.findOneAsync({
+                //projectId: project.get('id')
+              //})
+              //.then(function (projectFileStructure) {
+                //// Create empty project if nothing is found
+                //if (projectFileStructure === null) {
+                  //return projectCollection.insertAsync({
+                      //projectId: project.get('id'),
+                      //files: {}
+                    //})
+                    //.then(function (projectFileStructure) {
+                      //return projectFileStructure[0];
+                    //});
+                //}
+                //return projectFileStructure;
+              //})
+              //.then(function (projectFileStructure) {
+                //db.close();
+                //projectFileStructure.paths = fileController.getPathsForFileStructure(projectFileStructure);
+                //return projectFileStructure;
+              //});
+          //})
+          //.catch(function (error) {
+            //console.log('Error Connecting to MongoDB', error);
+          //});
       });
   },
   getPathsForFileStructure: function (fileStructure, isFilesAttribute) {

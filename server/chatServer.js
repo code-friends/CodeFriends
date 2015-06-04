@@ -5,8 +5,11 @@ var WebSocketServer = require('ws').Server;
 var http = require('http');
 var connect = require('connect');
 var Promise = require('bluebird');
-var mongoClient = Promise.promisifyAll(require('mongodb').MongoClient);
-var _mongoClient = mongoClient.connectAsync(config.get('mongo'));
+//var mongoClient = Promise.promisifyAll(require('mongodb').MongoClient);
+//var _mongoClient = mongoClient.connectAsync(config.get('mongo'));
+var r = require('rethinkdb');
+var rConnect = r.connect(config.get('rethinkdb'));
+
 var chatApp = connect(),
   chatServer = http.createServer(chatApp),
   chatWS = new WebSocketServer({
@@ -24,16 +27,27 @@ chatWS.on('connection', function (ws) {
     if (parsedMsg.message.type === 'message') {
       var message = parsedMsg.message.message;
       var createDate = parsedMsg.message.createdAt;
-      _mongoClient
-        .then(function (db) {
-          var chatCollection = Promise.promisifyAll(db.collection(chatRoomName));
-          chatCollection.insertAsync({
-            roomID: chatRoomName,
-            message: message,
-            username: username,
-            createdAt: createDate
-          });
+      rConnect
+        .then(function (conn) {
+          return r.table(chatRoomName)
+            .insert({
+              roomID: chatRoomName,
+              message: message,
+              username: username,
+              createdAt: createDate
+            })
+            .run(conn);
         });
+      //_mongoClient
+        //.then(function (db) {
+          //var chatCollection = Promise.promisifyAll(db.collection(chatRoomName));
+          //chatCollection.insertAsync({
+            //roomID: chatRoomName,
+            //message: message,
+            //username: username,
+            //createdAt: createDate
+          //});
+        //});
       //save message to the database.
       chatWS.broadcast(msg);
     }
@@ -46,22 +60,40 @@ chatWS.on('connection', function (ws) {
         username: parsedMsg.message.username,
         githubAvatar: parsedMsg.message.githubAvatar
       };
-      _mongoClient
-        .then(function (db) {
-          var chatCollection = Promise.promisifyAll(db.collection(chatRoomName));
-          chatCollection.find().toArray(function (err, results) {
-            ws.send(JSON.stringify({
-              roomID: chatRoomName,
-              type: 'msgHistory',
-              messages: results
-            }));
-            chatWS.broadcast(JSON.stringify({
-              type: 'refresh users',
-              userConnections: userConnections[chatRoomName],
-              roomID: chatRoomName
-            }));
-          });
+      rConnect
+        .then(function (conn) {
+          return r.table(chatRoomName)
+           .coereceTo('array')
+           .run(conn)
+           .then(function (results) {
+              ws.send(JSON.stringify({
+                roomID: chatRoomName,
+                type: 'msgHistory',
+                messages: results
+              }));
+              chatWS.broadcast(JSON.stringify({
+                type: 'refresh users',
+                userConnections: userConnections[chatRoomName],
+                roomID: chatRoomName
+              }));
+           });
         });
+      //_mongoClient
+        //.then(function (db) {
+          //var chatCollection = Promise.promisifyAll(db.collection(chatRoomName));
+          //chatCollection.find().toArray(function (err, results) {
+            //ws.send(JSON.stringify({
+              //roomID: chatRoomName,
+              //type: 'msgHistory',
+              //messages: results
+            //}));
+            //chatWS.broadcast(JSON.stringify({
+              //type: 'refresh users',
+              //userConnections: userConnections[chatRoomName],
+              //roomID: chatRoomName
+            //}));
+          //});
+        //});
     }
 
     if (parsedMsg.message.type === 'project structure changed') {
@@ -73,7 +105,7 @@ chatWS.on('connection', function (ws) {
 
     if (parsedMsg.message.type === 'remove this video') {
       var broadcastObj = {
-        type: "remove video broadcast",
+        type: 'remove video broadcast',
         videoID: parsedMsg.message.videoID
       };
 
@@ -85,7 +117,7 @@ chatWS.on('connection', function (ws) {
         for (var j in userConnections[i]) {
           if (userConnections[i].hasOwnProperty(j)) {
             if (userConnections[i][j].username === parsedMsg.message.username) {
-              console.log("user removed from chatroom, ", userConnections[i][j]);
+              console.log('user removed from chatroom, ', userConnections[i][j]);
               delete userConnections[i][j];
               chatWS.broadcast(JSON.stringify({
                 type: 'refresh users',
