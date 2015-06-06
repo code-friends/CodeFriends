@@ -37,10 +37,7 @@ describe('Template', function () {
 				expect(template.gitRepoUrl).to.equal(gitRepoUrl);
 				done();
 			})
-			.catch(function (err) {
-				throw new Error(err);
-				done();
-			});
+			.catch(done);
 	});
 
 	it('should add a update a template name on PUT api/template/newName', function (done) {
@@ -58,10 +55,7 @@ describe('Template', function () {
 				expect(template.gitRepoUrl).to.equal(gitRepoUrl);
 				done();
 			})
-			.catch(function (err) {
-				throw new Error(err);
-				done();
-			});
+			.catch(done);
 	});
 
 	it('should update a gitRepoUrl on PUT api/template/newGitRepoUrl', function (done) {
@@ -79,10 +73,7 @@ describe('Template', function () {
 				expect(template.gitRepoUrl).to.equal('https://github.com/thejsj/SwipeRight.git');
 				done();
 			})
-			.catch(function (err) {
-				throw new Error(err);
-				done();
-			});
+			.catch(done);
 	});
 
 	it('should get all templates on GET api/template/', function (done) {
@@ -98,10 +89,7 @@ describe('Template', function () {
 				expect(allTemplates[1].gitRepoUrl).to.equal('https://github.com/thejsj/SwipeRight.git');
 				done();
 			})
-			.catch(function (err) {
-				throw new Error(err);
-				done();
-			});
+			.catch(done);
 	});
 
 	it('should delete a template on DELETE api/template/', function (done) {
@@ -123,17 +111,9 @@ describe('Template', function () {
 						expect(allTemplates[0].templateName).to.equal('crazyTestTemplate');
 						expect(allTemplates[0].gitRepoUrl).to.equal('https://github.com/chaseme3/frozenbiome.git');
 						done();
-					})
-					.catch(function (err) {
-						throw new Error(err);
-						done();
 					});
 			})
-			.catch(function (err) {
-				throw new Error(err);
-				done();
-			});
+			.catch(done);
 	});
-
 
 });

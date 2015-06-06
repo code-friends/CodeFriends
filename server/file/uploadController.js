@@ -12,6 +12,7 @@ var getDocumentHash = require('../file/getDocumentHash');
 var backend = require('../liveDbClient');
 var createNewFileOrFolder = require('./fileController')._createNewFileOrFolder;
 var updateFileStructure = require('./fileController')._updateFileStructure;
+var getFileStructure = require('./fileController').getFileStructure;
 
 var uploadController = {
   uploadNewFile: function (req, res) {
@@ -35,7 +36,7 @@ var uploadController = {
           });
       })
       .catch(function (err) {
-        console.log('Error Parsing Form', err);
+        throw new Error('Error Parsing Form', err);
       });
   },
   getFieldProperty: function (fields, propertyName) {
@@ -70,13 +71,13 @@ var uploadController = {
                   projectName, filePath, userId, fileContent, updatedFileSystem
                 )
                 .catch(function (err) {
-                  console.log('Error adding file (with content) to project', err);
+                  throw new Error('Error adding file (with content) to project ' + err.message);
                 });
             });
         }
       })
       .catch(function (err) {
-        console.log('Error reading file from file system', err);
+        throw new Error('Error reading file from file system' + err.message);
       });
   },
   /**
@@ -99,7 +100,7 @@ var uploadController = {
             }
           })
           .catch(function (err) {
-            console.log('LiveDB (_addFileWithContentToProject) Document Already Exists', err);
+            throw new Error('LiveDB (_addFileWithContentToProject) Document Already Exists');
           })
           .then(function () { // err, version, transformedByOps, snapshot
             var fileInfo = {
@@ -108,14 +109,8 @@ var uploadController = {
               type: 'file', ///need to make flexible to take folders too
               userId: userId
             };
-            return createNewFileOrFolder(fileInfo, fileStructureToBeUpdated)
-              .catch(function (err) {
-                console.log('Error creating new file or folder', err);
-              });
+            return createNewFileOrFolder(fileInfo, fileStructureToBeUpdated);
           });
-      })
-      .catch(function (err) {
-        console.log('Error uploading file', err);
       });
   },
   _addAllFilesInZipToProject: function (projectModel, userId, zipFilePathInFileSystem) {
@@ -123,11 +118,13 @@ var uploadController = {
       .then(function (fileContents) {
         var zip = new JSZip(fileContents);
         // Get all files in project using a regular expression
-        var allFiles = uploadController.filterIgnoredFiles(zip.file(/./g));
+        var allFiles = zip.folder(/./g).concat(zip.file(/./g));
+        allFiles = uploadController.filterIgnoredFiles(allFiles);
         var allFilesAreInSameDirectory = uploadController.isEveryFileInSameDirectory(allFiles);
         if (allFilesAreInSameDirectory) {
           allFiles = uploadController.removeFirstDirectory(allFiles);
         }
+        allFiles = allFiles.filter(function (v) { return !!v.name; });
         // Add all files to fileStructrue and add contents to database
         return allFiles.reduce(function (soFar, file) {
             return soFar.then(function (updatedFileStructure) {
@@ -141,7 +138,6 @@ var uploadController = {
                   type: 'folder'
                 }, updatedFileStructure);
               }
-              // projectName, filePath, userId, fileContent
               return uploadController._addFileWithContentToProject(
                 projectModel.get('projectName'),
                 file.name,
@@ -155,14 +151,14 @@ var uploadController = {
             return updateFileStructure(newFileStructure);
           });
       })
-      .catch(function (err) {
-        console.log('Error Creating Files', err);
-      })
       .then(function () {
         return projectModel;
       });
   },
   filterIgnoredFiles: function (files) {
+    if (!Array.isArray(files)) {
+      throw new TypeError('`files` passed to `filterIgnoredFiles` must be an array');
+    }
     return files.filter(function (file) {
       var name;
       if (typeof file === 'string') {
@@ -170,6 +166,7 @@ var uploadController = {
       } else {
         name = file.name;
       }
+      if (name === undefined) return false;
       return !uploadController.fileShouldBeIgnored(name);
     });
   },

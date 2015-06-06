@@ -24,13 +24,23 @@ var cloneGitRepositoryToProject = function (project, userId, gitRepoUrl) {
   if (typeof project !== 'object') throw new Error('project should be a model');
   if (!isGitUrl(gitRepoUrl)) throw new Error('URL provided is not a valid git repository URL');
   var gitRepoPath = path.resolve(__dirname, '../', config.get('gitRepositoriesDirectory'), '' + project.get('id'));
+   var opts = {
+      ignoreCertErrors: 1,
+      remoteCallbacks: {
+        certificateCheck: function() {
+          return 1;
+        }
+      }
+    };
   return rmdirAsync(gitRepoPath)
+
     .then(function () {
-      return nodegit.Clone.clone(gitRepoUrl, gitRepoPath, {
-          ignoreCertErrors: 1
-        })
+      return nodegit.Clone.clone(gitRepoUrl, gitRepoPath, opts)
         .then(function () {
           return wrench.readdirSyncRecursive(gitRepoPath);
+        })
+        .catch(function (err) {
+          throw new Error('!!Error Cloning Repo ' + err.message);
         });
     })
     .then(function (_gitRepoPathContents) {

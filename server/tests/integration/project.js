@@ -10,6 +10,7 @@ var login = require('./login')(agent);
 var _ = require('lodash');
 var fs = Promise.promisifyAll(require('fs'));
 var path = require('path');
+var should = require('should');
 
 describe('Project', function () {
 
@@ -40,9 +41,7 @@ describe('Project', function () {
             'projectName': 'basketball'
           });
       })
-      .then(function () {
-        done();
-      });
+      .nodeify(done);
   });
 
   it('should create a new project on POST /project', function (done) {
@@ -52,12 +51,12 @@ describe('Project', function () {
         projectName: 'tennis'
       })
       .expect(201)
-      .end(function (err, res) {
+      .then(function (res) {
         var _project = res.body;
-        agent
+        return agent
           .get('/api/project/' + _project.projectName)
           .expect(200)
-          .end(function (err, res) {
+          .then(function (res) {
             var project = res.body;
             project.should.have.property('id');
             project.should.have.property('projectName');
@@ -66,13 +65,13 @@ describe('Project', function () {
             project.should.have.property('updatedAt');
             project.should.have.property('user');
             project.user.should.be.instanceof(Array);
-            done();
           });
-      });
+      })
+      .nodeify(done);
   });
 
   describe('Uploading .zips in POST /api/project', function () {
-    it('should add all files in the main folder', function (done) {
+    it('should add all files in the main folder from a .zip with a parent directory', function (done) {
       agent
         .post('/api/project')
         .send({
@@ -95,6 +94,10 @@ describe('Project', function () {
         })
         .then(function (res) {
           var files = res.body.files;
+          //console.log('files');
+          //console.log(files);
+          files.should.have.property('examplemd');
+          files.should.have.property('exampleFolder');
           // example.md
           files.examplemd.should.be.an.instanceOf(Object);
           files.examplemd.name.should.equal('example.md');
@@ -129,11 +132,11 @@ describe('Project', function () {
           var filePath = path.resolve(__dirname, '../test-files/zipExampleProject/exampleFolder/superExample.js');
           var exampleMdFileContents = fs.readFileSync(filePath);
           fileContents.should.equal(exampleMdFileContents.toString());
-          done();
-        });
+        })
+        .nodeify(done);
     });
 
-    it('should add all files in the main folder', function (done) {
+    it('should add all files in the main folder when uploading from .zip with no parent directory', function (done) {
       agent
         .post('/api/project')
         .send({
@@ -171,8 +174,8 @@ describe('Project', function () {
           var filePath = path.resolve(__dirname, '../test-files/zipExampleProject/superExample.js');
           var superExampleJSfileContents = fs.readFileSync(filePath);
           fileContent.should.equal(superExampleJSfileContents.toString());
-          done();
-        });
+        })
+        .nodeify(done);
     });
   });
 
@@ -204,8 +207,8 @@ describe('Project', function () {
           files.indexhtml.type.should.equal('file');
           files.src.files.js.files.appjs.name.should.equal('app.js');
           files.src.files.js.files.appjs.type.should.equal('file');
-          done();
-        });
+        })
+        .nodeify(done);
     });
 
     xit('should add all files into a project when a git (git) url is passed to it', function (done) {
@@ -231,8 +234,8 @@ describe('Project', function () {
           files.SpecRunnerhtml.type.should.equal('file');
           files.src.files.stringifyJSONjs.name.should.equal('stringifyJSON.js');
           files.src.files.stringifyJSONjs.type.should.equal('file');
-          done();
-        });
+        })
+        .nodeify(done);
     });
 
     // This causes our function to break, since it's too large and too many Mongo connection are mde
@@ -260,8 +263,8 @@ describe('Project', function () {
           // files.SpecRunnerhtml.type.should.equal('file');
           // files.src.files.stringifyJSONjs.name.should.equal('stringifyJSON.js');
           // files.src.files.stringifyJSONjs.type.should.equal('file');
-          done();
-        });
+        })
+        .nodeify(done);
     });
 
     this.timeout(_timeout);
@@ -275,7 +278,7 @@ describe('Project', function () {
         projectName: 'basketball'
       })
       .expect(200)
-      .end(function (err, res) {
+      .then(function (res) {
         var project = res.body;
         project.should.be.instanceof(Object);
         project.should.have.property('id');
@@ -285,8 +288,8 @@ describe('Project', function () {
         project.should.have.property('user');
         project.user.should.be.instanceof(Array);
         project.user.length.should.equal(1);
-        done();
-      });
+      })
+      .nodeify(done);
   });
 
   it('should get all of the user\'s projects on GET /project', function (done) {
@@ -314,9 +317,9 @@ describe('Project', function () {
             projects[0].should.have.property('createdAt');
             projects[0].should.have.property('updatedAt');
             projects[0].should.have.property('user');
-            done();
           });
-      });
+      })
+      .nodeify(done);
   });
 
   //SHOULD THIS BE AN OBJECT OR IS THERE A SITUATION WHERE THERE COULD BE MORE THAN ONE????
@@ -324,7 +327,7 @@ describe('Project', function () {
     agent
       .get('/api/project/' + global.project.get('projectName'))
       .expect(200)
-      .end(function (err, res) {
+      .then(function (res) {
         var projectResponse = res.body;
         projectResponse.should.be.instanceof(Object);
         projectResponse.should.have.property('id');
@@ -335,15 +338,15 @@ describe('Project', function () {
         projectResponse.should.have.property('user');
         projectResponse.should.have.property('files');
         projectResponse.user.should.be.instanceof(Array);
-        done();
-      });
+      })
+      .nodeify(done);
   });
 
   it('should get a specific project on GET /project/:id', function (done) {
     agent
       .get('/api/project/' + global.project.get('id'))
       .expect(200)
-      .end(function (err, res) {
+      .then(function (res) {
         var projectResponse = res.body;
         projectResponse.should.be.instanceof(Object);
         projectResponse.should.have.property('id');
@@ -353,8 +356,8 @@ describe('Project', function () {
         projectResponse.should.have.property('updatedAt');
         projectResponse.should.have.property('user');
         projectResponse.user.should.be.instanceof(Array);
-        done();
-      });
+      })
+      .nodeify(done);
   });
 
   it('should delete a project on DELETE /project/projectId', function (done) {
@@ -363,11 +366,11 @@ describe('Project', function () {
       .send({
         id: global.project.get('id')
       })
-      .end(function () {
-        agent
+      .then(function () {
+        return agent
           .get('/api/project')
           .expect(200)
-          .end(function (err, res) {
+          .then(function (res) {
             var projects = res.body;
             var projectWithID1 = projects.filter(function (proj) {
               if (proj.id === 1) {
@@ -376,8 +379,8 @@ describe('Project', function () {
               return false;
             });
             projectWithID1.length.should.equal(0);
-            done();
           });
-      });
+      })
+      .nodeify(done);
   });
 });
