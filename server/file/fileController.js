@@ -2,7 +2,7 @@
 var config = require('config');
 var Promise = require('bluebird');
 //var mongoClient = Promise.promisifyAll(require('mongodb').MongoClient);
-var r = require('rethinkdb');
+var r = require('../rethinkdb');
 var Q = require('q');
 var moment = require('moment');
 var _ = require('lodash');
@@ -105,7 +105,7 @@ var fileController = {
    * @return <Promise>
    */
   _updateFileStructure: function (fileStructure) {
-    return r.connect(config.get('rethinkdb'))
+    return r.ready
       .then(function (conn) {
         return r.table('project_file_structure')
          .get(fileStructure.id)
@@ -121,9 +121,6 @@ var fileController = {
          .then(function (fileStructure) {
            return fileStructure;
          })
-          .catch(function (err) {
-            console.log('Cannot Find Collection With ID', err);
-          })
          .finally(function () {
            return conn.close();
          });
@@ -229,13 +226,15 @@ var fileController = {
       })
       .then(function (project) {
         // Get project structure form mongo
-        return r.connect(config.get('rethinkdb'))
+        return r.ready
           .then(function (conn) {
             return r.table('project_file_structure')
               .filter(r.row('projectId').eq(project.get('id')))
+              .coerceTo('array')
               .run(conn)
-              .then(function (projectFileStructure) {
-                if (projectFileStructure === null) {
+              .then(function (projectFileStructureArray) {
+                var projectFileStructure = projectFileStructureArray[0];
+                if (projectFileStructure === null || projectFileStructure === undefined) {
                   return r.table('project_file_structure')
                    .insert({
                       projectId: project.get('id'),
@@ -245,22 +244,18 @@ var fileController = {
                    .then(function (results) {
                      return r.table('project_file_structure')
                        .get(results.generated_keys[0])
-                       .run(conn)
-                       .then(function (projectFileStructure) {
-                         return projectFileStructure;
-                       });
+                       .run(conn);
                    });
                 }
                 return projectFileStructure;
               })
               .then(function (projectFileStructure) {
-                conn.close();
                 projectFileStructure.paths = fileController.getPathsForFileStructure(projectFileStructure);
                 return projectFileStructure;
               });
           })
           .catch(function (error) {
-            throw new Error('Error Connecting to MongoDB ' + error.message);
+            throw new Error('Error Connecting to RethindDB' + error.message);
           });
 
         //return mongoClient.connectAsync(config.get('mongo'))

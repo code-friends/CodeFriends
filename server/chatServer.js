@@ -7,8 +7,7 @@ var connect = require('connect');
 var Promise = require('bluebird');
 //var mongoClient = Promise.promisifyAll(require('mongodb').MongoClient);
 //var _mongoClient = mongoClient.connectAsync(config.get('mongo'));
-var r = require('rethinkdb');
-var rConnect = r.connect(config.get('rethinkdb'));
+var r = require('./rethinkdb');
 
 var chatApp = connect(),
   chatServer = http.createServer(chatApp),
@@ -27,7 +26,7 @@ chatWS.on('connection', function (ws) {
     if (parsedMsg.message.type === 'message') {
       var message = parsedMsg.message.message;
       var createDate = parsedMsg.message.createdAt;
-      rConnect
+      r.ready
         .then(function (conn) {
           return r.table(chatRoomName)
             .insert({
@@ -60,7 +59,7 @@ chatWS.on('connection', function (ws) {
         username: parsedMsg.message.username,
         githubAvatar: parsedMsg.message.githubAvatar
       };
-      rConnect
+      r.ready
         .then(function (conn) {
           return r.table(chatRoomName)
            .coereceTo('array')

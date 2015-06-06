@@ -6,7 +6,7 @@
 var config = require('config');
 var Promise = require('bluebird');
 // var mongoClient = Promise.promisifyAll(require('mongodb').MongoClient);
-var r = require('rethinkdb');
+var r = require('./rethinkdb');
 var db = require('./db');
 
 process.stdin.resume();
@@ -55,13 +55,13 @@ var deleteAllDatabases = function () {
       return r.connect(config.get('rethinkdb'))
         .then(function (conn) {
           conn.use(config.get('rethinkdb').db);
-          Promise.resolve()
+          return Promise.resolve()
             .then(function () {
-              return r.tableDrop('documents').run(conn);
+              return r.dbDrop(config.get('rethinkdb').db).run(conn);
             })
-            .then(function () {
-              return r.tableDrop('documents_ops').run(conn);
-            });
+            .finally(function () {
+              conn.close();
+            })
         })
         .then(function () {
           console.log('Deleting All RethinkDB Tables');

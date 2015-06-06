@@ -69,6 +69,7 @@
     "knex": "^0.7.3",
     "livedb": "^0.4.11",
     "livedb-mongo": "^0.4.1",
+    "livedb-rethinkdb": "0.0.5",
     "lodash": "^2.4.1",
     "lodash-contrib": "^241.4.14",
     "mkdirp": "^0.5.0",
