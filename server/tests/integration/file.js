@@ -33,10 +33,7 @@ describe('File', function () {
         expect(fileStructure.files).to.be.a('object');
         done();
       })
-      .catch(function (err) {
-        throw new Error(err);
-        done();
-      });
+      .catch(done);
   });
 
   it('should add a new file when POSTed', function (done) {
@@ -56,10 +53,7 @@ describe('File', function () {
         expect(fileStructure.files[fileKey].name).to.equal('main.js');
         done();
       })
-      .catch(function (err) {
-        throw new Error(err);
-        done();
-      });
+      .catch(done);
   });
 
   it('should throw a 400 error when a file has already been created', function (done) {
@@ -74,10 +68,7 @@ describe('File', function () {
       .then(function () {
         done();
       })
-      .catch(function (err) {
-        throw new Error(err);
-        done();
-      });
+      .catch(done);
   });
 
   it('should add a new folder when POSTed', function (done) {
@@ -97,10 +88,7 @@ describe('File', function () {
         expect(fileStructure.files[fileKey].name).to.equal('example');
         done();
       })
-      .catch(function (err) {
-        throw new Error(err);
-        done();
-      });
+      .catch(done);
   });
 
   it('should add a new file to a folder that was already added', function (done) {
@@ -122,10 +110,7 @@ describe('File', function () {
         expect(fileStructure.files[folderKey].files[fileKey].name).to.equal('index.js');
         done();
       })
-      .catch(function (err) {
-        throw new Error(err);
-        done();
-      });
+      .catch(done);
   });
 
   it('should add a new folder to a folder that was already added', function (done) {
@@ -148,10 +133,7 @@ describe('File', function () {
         expect(fileStructure.files[folderKey].files[fileKey].type).to.equal('folder');
         done();
       })
-      .catch(function (err) {
-        throw new Error(err);
-        done();
-      });
+      .catch(done);
   });
 
   it('should add a new file to a second-level folder', function (done) {
@@ -177,10 +159,7 @@ describe('File', function () {
         expect(fileStructure.files[folderKey].files[folderKey2].files[fileKey].type).to.equal('file');
         done();
       })
-      .catch(function (err) {
-        throw new Error(err);
-        done();
-      });
+      .catch(done);
   });
 
   it('should get the file structure when requesting a project through GET', function (done) {
@@ -196,10 +175,7 @@ describe('File', function () {
         project.files[fileKey].name.should.equal('main.js');
         done();
       })
-      .catch(function (err) {
-        throw new Error(err);
-        done();
-      });
+      .catch(done);
   });
 
   //it is grabbing content
@@ -226,10 +202,7 @@ describe('File', function () {
         expect(res.body.files.dummyForTest2js.name).to.equal('dummyForTest2.js');
         done();
       })
-      .catch(function (err) {
-        throw new Error(err);
-        done();
-      });
+      .catch(done);
   });
 
   it('should upload a new file to a folder in the database', function (done) {
@@ -244,7 +217,8 @@ describe('File', function () {
         expect(res.body.files.example.files.dummyForTest4js).to.be.an('object');
         expect(res.body.files.example.files.dummyForTest4js.name).to.equal('dummyForTest4.js');
         done();
-      });
+      })
+      .catch(done);
   });
 
   // This has to do with paths and fileNames not working together correctly
@@ -259,10 +233,7 @@ describe('File', function () {
         expect(res.text).to.equal(fileContents.toString());
         done();
       })
-      .catch(function (err) {
-        throw new Error(err);
-        done();
-      });
+      .catch(done);
   });
 
 
@@ -276,7 +247,8 @@ describe('File', function () {
         var fileContents = fs.readFileSync('./server/tests/test-files/dummyForTest.js');
         expect(res.text).to.equal(fileContents.toString());
         done();
-      });
+      })
+      .catch(done);
   });
 
   /**
@@ -305,10 +277,7 @@ describe('File', function () {
         expect(zipString.substring('main.js')).to.not.equal(-1);
         done();
       })
-      .catch(function (err) {
-        throw new Error(err);
-        done();
-      });
+      .catch(done);
   });
 
   describe('Moving Files', function () {
@@ -367,10 +336,7 @@ describe('File', function () {
               done();
             });
         })
-        .catch(function (err) {
-          throw new Error(err);
-          done();
-        });
+        .catch(done);
     });
 
     it('should move a file from root to a folder on PUT /api/file/move', function (done) {
@@ -428,10 +394,7 @@ describe('File', function () {
               done();
             });
         })
-        .catch(function (err) {
-          throw new Error(err);
-          done();
-        });
+        .catch(done);
     });
 
     it('should move a file from root to a folder that is within a folder on PUT /api/file/move', function (done) {
@@ -477,10 +440,7 @@ describe('File', function () {
               done();
             });
         })
-        .catch(function (err) {
-          throw new Error(err);
-          done();
-        });
+        .catch(done);
     });
 
     it('should move a file from a folder that is within a folder to the root on PUT /api/file/move', function (done) {
@@ -527,12 +487,8 @@ describe('File', function () {
               done();
             });
         })
-        .catch(function (err) {
-          throw new Error(err);
-          done();
-        });
+        .catch(done);
     });
-
 
   });
 
