@@ -16,9 +16,34 @@ var chatApp = connect(),
   });
 
 var userConnections = {};
+var tables = {};
 
 chatWS.on('connection', function (ws) {
-  console.log('Chat WS: New Connection Established');
+
+  // Listen for new Tables as they're being created
+  r.connect(config.get('rethinkdb'))
+   .then(function (conn) {
+      return r.db('rethinkdb').table('table_config')
+       .filter({ db: config.get('rethinkdb').db })
+       .changes()
+       .run(conn)
+       .then(function (cursor) {
+         cursor.each(function (err, res) {
+           tables[res.new_val.name] = res;
+         });
+         // Get all the tables
+         return r.db('rethinkdb').table('table_config')
+          .filter({ db: 'code_friends' })
+          .coerceTo('array')
+          .run(r.conn)
+          .then(function (res) {
+            res.forEach(function (table) {
+              tables[table.name] = table;
+            });
+          });
+       });
+   });
+
   ws.on('message', function (msg) {
     var parsedMsg = JSON.parse(msg);
     var chatRoomName = parsedMsg.message.roomID;
@@ -27,7 +52,13 @@ chatWS.on('connection', function (ws) {
       var message = parsedMsg.message.message;
       var createDate = parsedMsg.message.createdAt;
       r.ready
-        .then(function (conn) {
+        .then(function () {
+          if (tables[chatRoomName] === undefined) {
+            return r.tableCreate(chatRoomName).run(r.conn);
+          }
+          return true;
+        })
+        .then(function () {
           return r.table(chatRoomName)
             .insert({
               roomID: chatRoomName,
@@ -35,7 +66,7 @@ chatWS.on('connection', function (ws) {
               username: username,
               createdAt: createDate
             })
-            .run(conn);
+            .run(r.conn);
         });
       //_mongoClient
         //.then(function (db) {
@@ -62,7 +93,7 @@ chatWS.on('connection', function (ws) {
       r.ready
         .then(function (conn) {
           return r.table(chatRoomName)
-           .coereceTo('array')
+           .coerceTo('array')
            .run(conn)
            .then(function (results) {
               ws.send(JSON.stringify({
@@ -76,6 +107,9 @@ chatWS.on('connection', function (ws) {
                 roomID: chatRoomName
               }));
            });
+        })
+        .catch(function (err) {
+          console.log('Error writing');
         });
       //_mongoClient
         //.then(function (db) {
@@ -116,7 +150,6 @@ chatWS.on('connection', function (ws) {
         for (var j in userConnections[i]) {
           if (userConnections[i].hasOwnProperty(j)) {
             if (userConnections[i][j].username === parsedMsg.message.username) {
-              console.log('user removed from chatroom, ', userConnections[i][j]);
               delete userConnections[i][j];
               chatWS.broadcast(JSON.stringify({
                 type: 'refresh users',
@@ -142,7 +175,6 @@ chatWS.on('connection', function (ws) {
     }
     ws.on('close', function () {
       userConnections[chatRoomName] = {};
-      console.log('Chat WS: Connection Closed');
       chatWS.broadcast(JSON.stringify({
         type: 'attendence check',
         roomID: chatRoomName
