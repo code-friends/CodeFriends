@@ -10,7 +10,6 @@ server:
    - "9001"
   links:
    - "db"
-   - "mongo"
   environment:
     NODE_ENV: staging
     PORT: 80
@@ -20,7 +19,3 @@ db:
    - "3306:3306"
   environment:
     MYSQL_PASS: "6gdP7R3adDYNehj"
-mongo:
-  image: dockerfile/mongodb
-  ports:
-    - "27017:27017"
