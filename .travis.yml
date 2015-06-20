@@ -4,12 +4,15 @@ services:
   - mongodb
 before_install:
   - npm update -g npm
+  - sudo add-apt-repository ppa:rethinkdb/ppa -y
   - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
   - sudo apt-get -qq update
   - sudo apt-get -qq install g++-4.8
+  - sudo apt-get -y install rethinkdb
   - export CXX='g++-4.8'
 before_script:
   - npm install -g gulp
+  - sudo service rethinkdb start
   - mysql -e 'create database code_friends;'
   - mysql -e 'create database code_friends_test;'
 node_js:
