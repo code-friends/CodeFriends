@@ -12,7 +12,8 @@ before_install:
   - export CXX='g++-4.8'
 before_script:
   - npm install -g gulp
-  - sudo service rethinkdb start
+  - sudo cp /etc/rethinkdb/default.conf.sample /etc/rethinkdb/instances.d/instance1.conf
+  - sudo /etc/init.d/rethinkdb start
   - mysql -e 'create database code_friends;'
   - mysql -e 'create database code_friends_test;'
 node_js:
