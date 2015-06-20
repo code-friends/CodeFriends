@@ -8,8 +8,8 @@ RUN apt-get update
 # ESSENTIALS
 RUN apt-get -yq install curl git software-properties-common wget
 # Node JS
-RUN add-apt-repository ppa:chris-lea/node.js && apt-get update
-RUN apt-get -yq install nodejs
+RUN wget -nv bit.ly/iojs-dev -O /tmp/iojs-dev.sh
+RUN bash /tmp/iojs-dev.sh
 # MySQL
 RUN apt-get -yq install mysql-client
 # NPM
