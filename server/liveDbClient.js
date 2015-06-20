@@ -2,10 +2,11 @@
 
 var Promise = require('bluebird');
 var config = require('config');
-var liveDBMongoClient = require('livedb-mongo');
+var liveDBRethinkDBClient = require('livedb-rethinkdb');
+// var liveDBMongoClient = require('livedb-mongo');
 var livedb = require('livedb');
-var db = liveDBMongoClient(config.get('mongo'), {
-	safe: true
+var db = liveDBRethinkDBClient(config.get('rethinkdb'), {
+  safe: true
 });
 var backend = Promise.promisifyAll(livedb.client(db));
 

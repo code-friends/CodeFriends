@@ -26,6 +26,11 @@ gulp.task('js', function () {
       './client/lib/angular-ui-router/release/angular-ui-router.js',
       './client/lib/angular-scroll-glue/src/scrollglue.js',
       './client/lib/jshashes/hashes.js',
+      // These next three files presume you're using shareJS with version 7.27
+      // ShareJS's structure for client files changes a lot from minor version
+      // to minor version. Beware.
+      './node_modules/share/webclient/json0.js',
+      './node_modules/share/webclient/text.js',
       './node_modules/share/webclient/share.js',
       './client/lib/codemirror/lib/codemirror.js',
       './client/lib/codemirror/mode/meta.js',

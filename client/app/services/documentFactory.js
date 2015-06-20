@@ -83,12 +83,14 @@
       var doc = sjs.get('documents', filePathHash);
       doc.subscribe();
       doc.whenReady(function () {
-        if (!doc.type) {
-          doc.create('text');
-        }
-        if (doc.type && doc.type.name === 'text') {
-          doc.attachCodeMirror(codeMirror);
-        }
+        setTimeout(function () {
+          if (!doc.type) {
+            doc.create('text');
+          }
+          if (doc.type && doc.type.name === 'text') {
+            doc.attachCodeMirror(codeMirror);
+          }
+        });
       });
     }
 

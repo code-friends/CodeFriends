@@ -5,8 +5,10 @@ var WebSocketServer = require('ws').Server;
 var http = require('http');
 var connect = require('connect');
 var Promise = require('bluebird');
-var mongoClient = Promise.promisifyAll(require('mongodb').MongoClient);
-var _mongoClient = mongoClient.connectAsync(config.get('mongo'));
+//var mongoClient = Promise.promisifyAll(require('mongodb').MongoClient);
+//var _mongoClient = mongoClient.connectAsync(config.get('mongo'));
+var r = require('./rethinkdb');
+
 var chatApp = connect(),
   chatServer = http.createServer(chatApp),
   chatWS = new WebSocketServer({
@@ -14,9 +16,34 @@ var chatApp = connect(),
   });
 
 var userConnections = {};
+var tables = {};
 
 chatWS.on('connection', function (ws) {
-  console.log('Chat WS: New Connection Established');
+
+  // Listen for new Tables as they're being created
+  r.connect(config.get('rethinkdb'))
+   .then(function (conn) {
+      return r.db('rethinkdb').table('table_config')
+       .filter({ db: config.get('rethinkdb').db })
+       .changes()
+       .run(conn)
+       .then(function (cursor) {
+         cursor.each(function (err, res) {
+           tables[res.new_val.name] = res;
+         });
+         // Get all the tables
+         return r.db('rethinkdb').table('table_config')
+          .filter({ db: 'code_friends' })
+          .coerceTo('array')
+          .run(r.conn)
+          .then(function (res) {
+            res.forEach(function (table) {
+              tables[table.name] = table;
+            });
+          });
+       });
+   });
+
   ws.on('message', function (msg) {
     var parsedMsg = JSON.parse(msg);
     var chatRoomName = parsedMsg.message.roomID;
@@ -24,16 +51,33 @@ chatWS.on('connection', function (ws) {
     if (parsedMsg.message.type === 'message') {
       var message = parsedMsg.message.message;
       var createDate = parsedMsg.message.createdAt;
-      _mongoClient
-        .then(function (db) {
-          var chatCollection = Promise.promisifyAll(db.collection(chatRoomName));
-          chatCollection.insertAsync({
-            roomID: chatRoomName,
-            message: message,
-            username: username,
-            createdAt: createDate
-          });
+      r.ready
+        .then(function () {
+          if (tables[chatRoomName] === undefined) {
+            return r.tableCreate(chatRoomName).run(r.conn);
+          }
+          return true;
+        })
+        .then(function () {
+          return r.table(chatRoomName)
+            .insert({
+              roomID: chatRoomName,
+              message: message,
+              username: username,
+              createdAt: createDate
+            })
+            .run(r.conn);
         });
+      //_mongoClient
+        //.then(function (db) {
+          //var chatCollection = Promise.promisifyAll(db.collection(chatRoomName));
+          //chatCollection.insertAsync({
+            //roomID: chatRoomName,
+            //message: message,
+            //username: username,
+            //createdAt: createDate
+          //});
+        //});
       //save message to the database.
       chatWS.broadcast(msg);
     }
@@ -46,22 +90,43 @@ chatWS.on('connection', function (ws) {
         username: parsedMsg.message.username,
         githubAvatar: parsedMsg.message.githubAvatar
       };
-      _mongoClient
-        .then(function (db) {
-          var chatCollection = Promise.promisifyAll(db.collection(chatRoomName));
-          chatCollection.find().toArray(function (err, results) {
-            ws.send(JSON.stringify({
-              roomID: chatRoomName,
-              type: 'msgHistory',
-              messages: results
-            }));
-            chatWS.broadcast(JSON.stringify({
-              type: 'refresh users',
-              userConnections: userConnections[chatRoomName],
-              roomID: chatRoomName
-            }));
-          });
+      r.ready
+        .then(function (conn) {
+          return r.table(chatRoomName)
+           .coerceTo('array')
+           .run(conn)
+           .then(function (results) {
+              ws.send(JSON.stringify({
+                roomID: chatRoomName,
+                type: 'msgHistory',
+                messages: results
+              }));
+              chatWS.broadcast(JSON.stringify({
+                type: 'refresh users',
+                userConnections: userConnections[chatRoomName],
+                roomID: chatRoomName
+              }));
+           });
+        })
+        .catch(function (err) {
+          console.log('Error writing');
         });
+      //_mongoClient
+        //.then(function (db) {
+          //var chatCollection = Promise.promisifyAll(db.collection(chatRoomName));
+          //chatCollection.find().toArray(function (err, results) {
+            //ws.send(JSON.stringify({
+              //roomID: chatRoomName,
+              //type: 'msgHistory',
+              //messages: results
+            //}));
+            //chatWS.broadcast(JSON.stringify({
+              //type: 'refresh users',
+              //userConnections: userConnections[chatRoomName],
+              //roomID: chatRoomName
+            //}));
+          //});
+        //});
     }
 
     if (parsedMsg.message.type === 'project structure changed') {
@@ -73,7 +138,7 @@ chatWS.on('connection', function (ws) {
 
     if (parsedMsg.message.type === 'remove this video') {
       var broadcastObj = {
-        type: "remove video broadcast",
+        type: 'remove video broadcast',
         videoID: parsedMsg.message.videoID
       };
 
@@ -85,7 +150,6 @@ chatWS.on('connection', function (ws) {
         for (var j in userConnections[i]) {
           if (userConnections[i].hasOwnProperty(j)) {
             if (userConnections[i][j].username === parsedMsg.message.username) {
-              console.log("user removed from chatroom, ", userConnections[i][j]);
               delete userConnections[i][j];
               chatWS.broadcast(JSON.stringify({
                 type: 'refresh users',
@@ -111,7 +175,6 @@ chatWS.on('connection', function (ws) {
     }
     ws.on('close', function () {
       userConnections[chatRoomName] = {};
-      console.log('Chat WS: Connection Closed');
       chatWS.broadcast(JSON.stringify({
         type: 'attendence check',
         roomID: chatRoomName

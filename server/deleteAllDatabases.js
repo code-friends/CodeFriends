@@ -5,7 +5,8 @@
 
 var config = require('config');
 var Promise = require('bluebird');
-var mongoClient = Promise.promisifyAll(require('mongodb').MongoClient);
+// var mongoClient = Promise.promisifyAll(require('mongodb').MongoClient);
+var r = require('./rethinkdb');
 var db = require('./db');
 
 process.stdin.resume();
@@ -51,25 +52,23 @@ var deleteAllDatabases = function () {
       return true;
     })
     .then(function () {
-      return mongoClient.connectAsync(config.get('mongo'))
-        .then(function (db) {
-          var projectCollection = Promise.promisifyAll(db.collection('project_file_structre'));
-          return projectCollection.removeAsync()
+      return r.connect(config.get('rethinkdb'))
+        .then(function (conn) {
+          conn.use(config.get('rethinkdb').db);
+          return Promise.resolve()
             .then(function () {
-              var documentsCollection = Promise.promisifyAll(db.collection('documents'));
-              return documentsCollection.removeAsync();
+              return r.dbDrop(config.get('rethinkdb').db).run(conn);
             })
-            .then(function () {
-              var documentsCollection = Promise.promisifyAll(db.collection('documents_ops'));
-              return documentsCollection.removeAsync();
-            });
+            .finally(function () {
+              conn.close();
+            })
         })
         .then(function () {
-          console.log('Deleting All Mongo Collections');
+          console.log('Deleting All RethinkDB Tables');
           return true;
         })
         .catch(function (err) {
-          console.log('Error Deleting Mongo Collection', err);
+          console.log('Error Deleting RethinkDB Tables', err);
         });
     })
     .then(function () {
