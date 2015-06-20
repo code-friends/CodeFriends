@@ -121,8 +121,8 @@ var fileController = {
          .then(function (fileStructure) {
            return fileStructure;
          })
-         .finally(function () {
-           return conn.close();
+         .catch(function (err) {
+           throw new Error('Cannot Find Collection With ID ' + err.message);
          });
       });
     //return mongoClient.connectAsync(config.get('mongo'))
