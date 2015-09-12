@@ -30,11 +30,13 @@ CodeFriends is a collaborative programming environment in your browser. Work wit
 ![Real time editing with others](http://codefriends.io/assets/img/landingScreenshots/videoScreenShot.png?raw=true "Real time editing")
 
 ## Development
+
 ### Setup
-Install mysql and mongodb
+
+Install mysql and RethinkDB
 
 ```
-brew install mysql mongo
+brew install mysql rethinkdb
 ```
 
 Install mocha and gulp
@@ -50,12 +52,22 @@ npm install
 bower install
 ```
 
+Compile frontend assets
+
+```
+gulp
+```
+
 ### Running
+
+Once you startup MySQL and RethinkDB, you're now ready to start the app. Please
+make sure both databases are running before starting the app.
 
 Running for development (using nodemon):
 ```
 npm run dev
 ```
+
 Running on production (using forever):
 ```
 npm start
